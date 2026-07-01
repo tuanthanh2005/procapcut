@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đơn Hàng Đã Mua | AI CỦA TÔI - Dịch Vụ Số Giá Rẻ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --primary: #0284c7;
+            --primary-hover: #0369a1;
+            --secondary: #0ea5e9;
+            --text-main: #0f172a;
+            --text-dark: #334155;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Navbar / Header */
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .logo-icon {
+            color: var(--primary);
+            font-size: 1.6rem;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .action-icon-btn {
+            background: #f1f5f9;
+            border: none;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .action-icon-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* User Menu Dropdown */
+        .user-menu-wrapper {
+            position: relative;
+        }
+
+        .user-avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            width: 220px;
+            padding: 0.5rem 0;
+            display: none;
+            z-index: 150;
+            animation: slide-up-dropdown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .user-dropdown-menu.show {
+            display: block;
+        }
+
+        @keyframes slide-up-dropdown {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .user-dropdown-header {
+            padding: 0.75rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .user-display-name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-display-email {
+            font-size: 0.75rem;
+            color: var(--text-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 0.15rem;
+        }
+
+        .user-dropdown-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 0.4rem 0;
+        }
+
+        .user-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.6rem 1.25rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: inherit;
+        }
+
+        .user-dropdown-item:hover {
+            background: var(--bg-body);
+            color: var(--primary);
+        }
+
+        .user-dropdown-item.logout-btn-item:hover {
+            background: #fef2f2;
+            color: #ef4444 !important;
+        }
+
+        /* Main Content Layout */
+        main {
+            flex-grow: 1;
+            padding: 3rem 0;
+        }
+
+        .page-title-row {
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .page-title-row h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        /* Order Cards layout */
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .order-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem 2rem;
+            box-shadow: var(--shadow-sm);
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            align-items: center;
+            gap: 2rem;
+            transition: var(--transition);
+        }
+
+        .order-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: #cbd5e1;
+        }
+
+        .order-icon-box {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: var(--radius-md);
+            background: rgba(2, 132, 199, 0.08);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .order-details h3 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 0.4rem;
+        }
+
+        .order-meta-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .key-reveal-box {
+            background: #f8fafc;
+            border: 1px dashed var(--border-color);
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            font-family: monospace;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .copy-btn:hover {
+            color: var(--primary-hover);
+        }
+
+        .order-price {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-align: right;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .status-completed {
+            background: #ecfdf5;
+            color: #10b981;
+            border: 1px solid #d1fae5;
+        }
+
+        .status-pending {
+            background: #fffbeb;
+            color: #d97706;
+            border: 1px solid #fef3c7;
+        }
+
+        .empty-orders {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            padding: 4rem 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .empty-orders i {
+            font-size: 3.5rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-orders h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-orders p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-shop {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-shop:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem 0;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        @media (max-width: 900px) {
+            .order-card {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                text-align: center;
+                justify-items: center;
+            }
+            .order-price {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <a href="/" class="logo">
+                    <i class="fa-solid fa-rocket logo-icon"></i>
+                    <span>AI CỦA TÔI</span>
+                </a>
+
+                <div class="nav-actions">
+                    <a href="/products" class="action-icon-btn" title="Cửa hàng"><i class="fa-solid fa-store"></i></a>
+                    
+                    @auth
+                        <div class="user-menu-wrapper">
+                            <button class="action-icon-btn user-menu-btn" title="Tài khoản: {{ auth()->user()->name }}">
+                                @if(auth()->user()->avatar)
+                                    <img src="{{ auth()->user()->avatar }}" alt="Avatar" class="user-avatar-img">
+                                @else
+                                    <i class="fa-solid fa-circle-user" style="font-size: 1.25rem;"></i>
+                                @endif
+                            </button>
+                            <div class="user-dropdown-menu">
+                                <div class="user-dropdown-header">
+                                    <span class="user-display-name">{{ auth()->user()->name }}</span>
+                                    <span class="user-display-email">{{ auth()->user()->email }}</span>
+                                </div>
+                                <div class="user-dropdown-divider"></div>
+                                @if(auth()->user()->isAdmin())
+                                    <a href="/admin/dashboard" class="user-dropdown-item" style="color: #ef4444; font-weight: 700;"><i class="fa-solid fa-user-shield"></i> Quản trị Admin</a>
+                                    <div class="user-dropdown-divider"></div>
+                                @endif
+                                <a href="/orders" class="user-dropdown-item"><i class="fa-solid fa-clock-rotate-left"></i> Đơn hàng đã mua</a>
+                                <a href="/profile" class="user-dropdown-item"><i class="fa-solid fa-user-gear"></i> Thiết lập tài khoản</a>
+                                <div class="user-dropdown-divider"></div>
+                                <form action="{{ route('logout') }}" method="POST" style="margin: 0; width: 100%;">
+                                    @csrf
+                                    <button type="submit" class="user-dropdown-item logout-btn-item">
+                                        <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @endauth
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="page-title-row">
+            <h1>Lịch Sử Mua Hàng</h1>
+            <span class="status-badge status-completed" style="text-transform: none;"><i class="fa-solid fa-shield-check"></i> Bảo hành tự động</span>
+        </div>
+
+        @if($orders->isEmpty())
+            <div class="empty-orders">
+                <i class="fa-solid fa-basket-shopping"></i>
+                <h3>Bạn chưa mua sản phẩm nào</h3>
+                <p>Khám phá ngay kho dịch vụ số cao cấp giá rẻ của chúng tôi để bắt đầu mua sắm.</p>
+                <a href="/products" class="btn-shop">Mua Sắm Ngay <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        @else
+            <div class="orders-list">
+                @foreach($orders as $order)
+                    <div class="order-card">
+                        <div class="order-icon-box">
+                            <i class="fa-solid {{ $order->product_icon }}"></i>
+                        </div>
+                        <div class="order-details">
+                            <h3>{{ $order->product_name }}</h3>
+                            <div class="order-meta-info">
+                                <span class="info-item"><i class="fa-regular fa-clock"></i> {{ $order->created_at->format('H:i d/m/Y') }}</span>
+                                <span class="info-item"><i class="fa-solid fa-receipt"></i> Mã đơn: #OD{{ 1000 + $order->id }}</span>
+                            </div>
+                        </div>
+                        <div>
+                            @if($order->activation_key)
+                                <div class="key-reveal-box" title="Click để sao chép key bản quyền">
+                                    <span id="key-text-{{ $order->id }}">{{ $order->activation_key }}</span>
+                                    <button class="copy-btn" onclick="copyKey('{{ $order->id }}')"><i class="fa-regular fa-copy"></i></button>
+                                </div>
+                            @else
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">Tài khoản cấp tự động</span>
+                            @endif
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;">
+                            <span class="order-price">{{ number_format($order->price, 0, ',', '.') }}₫</span>
+                            @if($order->status === 'completed')
+                                <span class="status-badge status-completed">Thành công</span>
+                            @elseif($order->status === 'processing')
+                                <span class="status-badge status-pending" style="background: #e0f2fe; color: #0284c7; border-color: #bae6fd;">Chờ duyệt</span>
+                            @elseif($order->status === 'cancelled')
+                                <span class="status-badge status-pending" style="background: #f1f5f9; color: #64748b; border-color: #e2e8f0;">Đã hủy</span>
+                            @else
+                                <span class="status-badge status-pending" style="background: #fff7ed; color: #ea580c; border-color: #ffedd5;">Chờ thanh toán</span>
+                                <a href="{{ route('checkout.thankyou', $order->id) }}" class="btn-pay-now" style="font-size: 0.72rem; color: #ffffff; background: #ea580c; padding: 0.25rem 0.6rem; border-radius: 6px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 0.25rem; transition: background 0.15s ease;"><i class="fa-solid fa-credit-card"></i> Thanh toán ngay</a>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            &copy; {{ date('Y') }} AI CỦA TÔI. Nền tảng phân phối dịch vụ số hàng đầu Việt Nam.
+        </div>
+    </footer>
+
+    <script>
+        // Dropdown toggle
+        const userMenuBtn = document.querySelector('.user-menu-btn');
+        const userDropdownMenu = document.querySelector('.user-dropdown-menu');
+        if (userMenuBtn && userDropdownMenu) {
+            userMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                userDropdownMenu.classList.toggle('show');
+            });
+            document.addEventListener('click', () => {
+                userDropdownMenu.classList.remove('show');
+            });
+        }
+
+        // Copy activation key helper
+        function copyKey(orderId) {
+            const keyText = document.getElementById(`key-text-${orderId}`).innerText;
+            navigator.clipboard.writeText(keyText).then(() => {
+                alert('Đã sao chép mã kích hoạt bản quyền vào bộ nhớ tạm!');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,2224 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI CỦA TÔI | Mua Tài Khoản AI & Premium Tools Giá Rẻ, Uy Tín</title>
+    <meta name="description" content="Chuyên cung cấp, nâng cấp tài khoản CapCut Pro 1 năm, ChatGPT Plus, Canva Pro giá rẻ, uy tín. Hệ thống kích hoạt tự động 30s, bảo hành lỗi 1 đổi 1 trọn vòng đời sử dụng.">
+    <meta name="keywords" content="capcut pro giá rẻ, chatgpt plus giá rẻ, canva pro giá rẻ, tài khoản ai giá rẻ, premium tools giá rẻ, mua capcut pro, mua chatgpt plus">
+    <link rel="canonical" href="{{ request()->url() }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Balanced Elegant Light Gray & White Theme */
+            --bg-body: #f1f5f9; /* Slate 100 - Stronger background contrast */
+            --bg-nav: rgba(255, 255, 255, 0.9);
+            --bg-card: #ffffff; /* Pure White Card */
+            --bg-card-hover: #ffffff;
+            --bg-glass: rgba(15, 23, 42, 0.04);
+            --bg-glass-hover: rgba(15, 23, 42, 0.08);
+            
+            --primary: #0284c7; /* Elegant Deep Sky Blue */
+            --primary-glow: rgba(2, 132, 199, 0.2);
+            --secondary: #0ea5e9; /* Sky Blue */
+            --secondary-glow: rgba(14, 165, 233, 0.2);
+            --accent: #d97706; /* Elegant Amber */
+            --success: #059669; /* Emerald Green */
+            
+            --text-main: #0f172a; /* Slate 900 */
+            --text-muted: #334155; /* Slate 700 - Darker for readability */
+            --text-dark: #64748b; /* Slate 500 */
+            
+            --border-color: #cbd5e1; /* Slate 300 - Highly defined card boundaries */
+            --border-hover: #0284c7; /* Stronger highlight border */
+            
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
+            --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 16px -6px rgba(15, 23, 42, 0.06);
+            --shadow-lg: 0 20px 30px -10px rgba(15, 23, 42, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(2, 132, 199, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(14, 165, 233, 0.05) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Top Sale Ticker */
+        .top-ticker {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 101;
+        }
+
+        .top-ticker i {
+            animation: pulse-icon 1.5s infinite;
+        }
+
+        @keyframes pulse-icon {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Header Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-nav);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.1rem 0;
+            transition: var(--transition);
+            box-shadow: 0 2px 12px rgba(15, 23, 42, 0.03);
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+
+        .logo {
+            font-size: 1.45rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #0f172a, #334155);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.6rem;
+            filter: drop-shadow(0 2px 4px var(--primary-glow));
+        }
+
+        /* Search Bar */
+        .search-wrapper {
+            flex: 1;
+            max-width: 460px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 0.65rem 1.25rem;
+            padding-right: 3rem;
+            border-radius: var(--radius-full);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.02);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 12px rgba(2, 132, 199, 0.15);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .search-btn:hover {
+            color: var(--primary);
+            background: var(--bg-glass-hover);
+        }
+
+        /* Actions */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .action-icon-btn {
+            position: relative;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: var(--text-main);
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(15, 23, 42, 0.02);
+        }
+
+        .action-icon-btn:hover {
+            background: var(--bg-body);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.1);
+        }
+
+        .badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: linear-gradient(135deg, #ef4444, #f43f5e);
+            color: white;
+            font-size: 0.68rem;
+            font-weight: 700;
+            width: 17px;
+            height: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 2px solid var(--bg-card);
+        }
+
+        /* Navigation Categories Strip */
+        .cat-nav-bar {
+            margin-top: 1rem;
+            padding-top: 6px;
+            display: flex;
+            justify-content: center;
+            gap: 1.25rem;
+            overflow-x: auto;
+            padding-bottom: 0.35rem;
+            scrollbar-width: none;
+        }
+
+        .cat-nav-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-pill {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            white-space: nowrap;
+            padding: 0.4rem 0.85rem;
+            border-radius: var(--radius-full);
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
+            cursor: pointer;
+        }
+
+        .cat-pill:hover, .cat-pill.active {
+            color: var(--primary);
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+        }
+
+        .cat-pill i {
+            font-size: 0.8rem;
+        }
+
+        /* Main Section */
+        main {
+            padding-top: 2.5rem !important;
+            padding-bottom: 4rem !important;
+        }
+
+        /* COMPACT HERO BANNER */
+        .hero-banner {
+            background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.08), transparent), #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2.2rem;
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 2rem;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2.5rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            background: var(--primary-glow);
+            filter: blur(100px);
+            top: -20px;
+            left: -20px;
+            pointer-events: none;
+        }
+
+        .hero-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(2, 132, 199, 0.08);
+            border: 1px solid rgba(2, 132, 199, 0.15);
+            color: var(--primary);
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.35rem 0.85rem;
+            border-radius: var(--radius-full);
+            margin-bottom: 1rem;
+        }
+
+        .hero-text h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, #0f172a 30%, #334155 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-text p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 0.85rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(2, 132, 199, 0.3);
+        }
+
+        .btn-outline {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .btn-outline:hover {
+            background: var(--bg-body);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Right: Showcase Card */
+        .hero-showcase {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .showcase-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 15px 35px rgba(15, 23, 42, 0.06);
+            position: relative;
+            overflow: hidden;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .showcase-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-md);
+            padding: 1px;
+            background: linear-gradient(135deg, var(--primary), transparent, var(--secondary));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .showcase-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .showcase-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: white;
+        }
+
+        .showcase-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .showcase-meta {
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .showcase-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 0.85rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .showcase-price {
+            font-weight: 800;
+            color: var(--text-main);
+            font-size: 1.1rem;
+        }
+
+        .showcase-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-sm);
+        }
+
+        /* Trust badges (Features Grid) */
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .trust-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .trust-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-md);
+        }
+
+        .trust-icon {
+            width: 2.8rem;
+            height: 2.8rem;
+            background: rgba(2, 132, 199, 0.08);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--primary);
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .trust-card:hover .trust-icon {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px var(--primary-glow);
+        }
+
+        .trust-info h3 {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.15rem;
+        }
+
+        .trust-info p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* Products list header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: var(--text-main);
+            position: relative;
+            padding-bottom: 0.4rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 2.5rem;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+
+        /* E-COMMERCE PRODUCTS GRID */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .product-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .product-sale-tag {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: white;
+            padding: 0.25rem 0.6rem;
+            font-size: 0.7rem;
+            font-weight: 800;
+            border-radius: var(--radius-full);
+            z-index: 10;
+            box-shadow: 0 2px 6px rgba(239, 68, 68, 0.2);
+        }
+
+        .product-media {
+            height: 150px;
+            background: radial-gradient(circle, rgba(15, 23, 42, 0.02), transparent);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-media i {
+            font-size: 4rem;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-media i {
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        /* Brand Colors */
+        .color-capcut { background: linear-gradient(135deg, #000000, #475569); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .color-gpt { background: linear-gradient(135deg, #10a37f, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .color-claude { background: linear-gradient(135deg, #d97757, #ea580c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .color-gemini { background: linear-gradient(135deg, #1a73e8, #ea4335, #fbbc05, #34a853); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .color-canva { background: linear-gradient(135deg, #00c4cc, #7d2ae8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .color-office { background: linear-gradient(135deg, #ea3e23, #b81d05); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .product-body {
+            padding: 1.25rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-cat {
+            font-size: 0.72rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.4rem;
+        }
+
+        .product-name {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+            min-height: 2.7rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Star Rating & Trust Info */
+        .product-trust {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .stars {
+            display: flex;
+            color: var(--accent);
+            font-size: 0.72rem;
+            gap: 1px;
+        }
+
+        .sold-count {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .product-specs {
+            margin-bottom: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            flex: 1;
+        }
+
+        .product-specs li {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .product-specs li i {
+            color: var(--success);
+            font-size: 0.75rem;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.85rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .price-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-slashed {
+            font-size: 0.72rem;
+            color: var(--text-dark);
+            text-decoration: line-through;
+        }
+
+        .price-active {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .btn-add-cart {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 2.3rem;
+            height: 2.3rem;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+        }
+
+        .product-card:hover .btn-add-cart {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px var(--primary-glow);
+        }
+
+        .btn-add-cart:hover {
+            transform: scale(1.05);
+        }
+
+        /* Accordion FAQs */
+        .faqs-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 4rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.85rem;
+            margin-top: 1.5rem;
+        }
+
+        .faq-item {
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .faq-question {
+            padding: 1rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            transition: var(--transition);
+            color: var(--text-main);
+        }
+
+        .faq-question:hover {
+            background: rgba(15, 23, 42, 0.01);
+            color: var(--primary);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 1rem;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1rem 1rem 1rem;
+            border-top: 1px solid var(--border-color);
+            background: #ffffff;
+        }
+
+        .faq-icon {
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+            color: var(--primary);
+        }
+
+        /* Slide-out Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -360px;
+            width: 340px;
+            height: 100vh;
+            background: #ffffff;
+            border-left: 1px solid var(--border-color);
+            box-shadow: -10px 0 30px rgba(15, 23, 42, 0.08);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.4);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .cart-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .cart-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .cart-close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .cart-close-btn:hover {
+            color: var(--text-main);
+        }
+
+        .cart-items-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            background: var(--bg-body);
+        }
+
+        .cart-item {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 2px 4px rgba(15, 23, 42, 0.01);
+        }
+
+        .cart-item-icon {
+            width: 2.2rem;
+            height: 2.2rem;
+            background: var(--bg-body);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.15rem;
+        }
+
+        .cart-item-price {
+            font-size: 0.78rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 0.35rem;
+        }
+
+        .qty-btn {
+            width: 1.25rem;
+            height: 1.25rem;
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-size: 0.65rem;
+            border-radius: 3px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qty-val {
+            font-size: 0.75rem;
+            font-weight: 600;
+            min-width: 1rem;
+            text-align: center;
+        }
+
+        .remove-item-btn {
+            color: var(--text-dark);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .remove-item-btn:hover {
+            color: #ef4444;
+        }
+
+        .cart-footer {
+            padding: 1.25rem;
+            border-top: 1px solid var(--border-color);
+            background: #ffffff;
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .total-label {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .total-val {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.75rem;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.88rem;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .checkout-btn:hover {
+            box-shadow: 0 4px 12px var(--primary-glow);
+            transform: translateY(-1px);
+        }
+
+        .empty-cart-msg {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        /* Fake Live Sales Notification Popup */
+        .live-sale-popup {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+            z-index: 998;
+            transform: translateY(150px);
+            opacity: 0;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+            max-width: 320px;
+        }
+
+        .live-sale-popup.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .buyer-avatar {
+            width: 2.2rem;
+            height: 2.2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .buyer-info {
+            font-size: 0.75rem;
+            line-height: 1.4;
+            color: var(--text-muted);
+        }
+
+        .buyer-name {
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .bought-item {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .time-ago {
+            display: block;
+            font-size: 0.65rem;
+            color: var(--text-dark);
+            margin-top: 0.15rem;
+        }
+
+        /* Footer design */
+        footer {
+            background: #0f172a; /* Slate 900 for dark professional contrast */
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+            color: #94a3b8;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-col h4 {
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            position: relative;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 1.5rem;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            font-size: 0.82rem;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 0.2rem;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        .social-circle {
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-circle:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #475569;
+            font-size: 0.78rem;
+        }
+
+        /* Toast feedback */
+        .toast-notify {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: #ffffff;
+            border: 1px solid var(--success);
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius-sm);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            transform: translateY(-100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2000;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* User Dropdown Menu */
+        .user-menu-wrapper {
+            position: relative;
+        }
+
+        .user-avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            width: 220px;
+            padding: 0.5rem 0;
+            display: none;
+            z-index: 150;
+            animation: slide-up-dropdown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .user-dropdown-menu.show {
+            display: block;
+        }
+
+        @keyframes slide-up-dropdown {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .user-dropdown-header {
+            padding: 0.75rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .user-display-name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-display-email {
+            font-size: 0.75rem;
+            color: var(--text-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 0.15rem;
+        }
+
+        .user-dropdown-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 0.4rem 0;
+        }
+
+        .user-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.6rem 1.25rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: inherit;
+        }
+
+        .user-dropdown-item:hover {
+            background: var(--bg-body);
+            color: var(--primary);
+        }
+
+        .user-dropdown-item.logout-btn-item:hover {
+            background: #fef2f2;
+            color: #ef4444 !important;
+        }
+
+        /* VS Performance Container */
+        .vs-wrapper {
+            margin-bottom: 4.5rem;
+        }
+
+        .vs-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .vs-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .vs-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .vs-card.negative {
+            border-left: 5px solid #ef4444;
+        }
+
+        .vs-card.positive {
+            border-left: 5px solid var(--success);
+            background: radial-gradient(circle at bottom right, rgba(5, 150, 105, 0.03), transparent), #ffffff;
+        }
+
+        .vs-header {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .vs-card.negative .vs-header { color: #b91c1c; }
+        .vs-card.positive .vs-header { color: var(--success); }
+
+        .vs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .vs-list li {
+            font-size: 0.88rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .vs-list li i {
+            margin-top: 0.2rem;
+            font-size: 0.95rem;
+        }
+
+        .vs-card.negative .vs-list li i { color: #ef4444; }
+        .vs-card.positive .vs-list li i { color: var(--success); }
+
+        /* Comparison Table Styles */
+        .comparison-wrapper {
+            margin-bottom: 4.5rem;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            background: #ffffff;
+            box-shadow: var(--shadow-sm);
+            margin-top: 1.5rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.88rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1.1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .comparison-table th {
+            background: #f8fafc;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comp-feature {
+            font-weight: 700;
+            color: var(--text-main);
+            width: 25%;
+        }
+
+        .comp-ours {
+            font-weight: 600;
+            color: var(--primary);
+            background: rgba(2, 132, 199, 0.02);
+            width: 38%;
+        }
+
+        .comp-others {
+            color: var(--text-dark);
+            width: 37%;
+        }
+
+        .badge-check {
+            color: var(--success);
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .badge-cross {
+            color: #ef4444;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        /* Warranty / Auth Badges section */
+        .warranty-section {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 3rem 2rem;
+            margin-bottom: 4.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .warranty-section::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(2, 132, 199, 0.15);
+            filter: blur(120px);
+            bottom: -50px;
+            right: -50px;
+            pointer-events: none;
+        }
+
+        .warranty-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .warranty-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .warranty-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(2, 132, 199, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .warranty-card i {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .warranty-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .warranty-card p {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        /* Responsive Layouts */
+        @media (max-width: 900px) {
+            .hero-banner {
+                grid-template-columns: 1fr;
+                padding: 1.75rem;
+                gap: 1.5rem;
+            }
+            .hero-showcase {
+                order: -1;
+            }
+            .trust-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .vs-container {
+                grid-template-columns: 1fr;
+            }
+            .warranty-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                flex-wrap: wrap;
+            }
+            .search-wrapper {
+                order: 3;
+                max-width: 100%;
+                margin-top: 0.5rem;
+            }
+            .trust-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-text h1 {
+                font-size: 1.8rem;
+            }
+            .live-sale-popup {
+                left: 1rem;
+                right: 1rem;
+                max-width: none;
+                bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Promotion Bar -->
+    <div class="top-ticker">
+        <i class="fa-solid fa-bolt"></i>
+        <span>Flash Sale: Nhập mã <strong>AI2026</strong> giảm ngay 20% cho tất cả tài khoản!</span>
+    </div>
+
+    <!-- Header Area -->
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <a href="/" class="logo">
+                    <i class="fa-solid fa-rocket logo-icon"></i>
+                    <span>AI CỦA TÔI</span>
+                </a>
+
+                <div class="search-wrapper">
+                    <input type="text" class="search-input" id="search-input" placeholder="Tìm kiếm nhanh sản phẩm...">
+                    <button class="search-btn"><i class="fa-solid fa-search"></i></button>
+                </div>
+
+                <div class="nav-actions">
+                    @auth
+                        <div class="user-menu-wrapper">
+                            <button class="action-icon-btn user-menu-btn" title="Tài khoản: {{ auth()->user()->name }}">
+                                @if(auth()->user()->avatar)
+                                    <img src="{{ auth()->user()->avatar }}" alt="Avatar" class="user-avatar-img">
+                                @else
+                                    <i class="fa-solid fa-circle-user" style="font-size: 1.25rem;"></i>
+                                @endif
+                            </button>
+                            <div class="user-dropdown-menu">
+                                <div class="user-dropdown-header">
+                                    <span class="user-display-name">{{ auth()->user()->name }}</span>
+                                    <span class="user-display-email">{{ auth()->user()->email }}</span>
+                                </div>
+                                <div class="user-dropdown-divider"></div>
+                                @if(auth()->user()->isAdmin())
+                                    <a href="/admin/dashboard" class="user-dropdown-item" style="color: #ef4444; font-weight: 700;"><i class="fa-solid fa-user-shield"></i> Quản trị Admin</a>
+                                    <div class="user-dropdown-divider"></div>
+                                @endif
+                                <a href="/orders" class="user-dropdown-item"><i class="fa-solid fa-clock-rotate-left"></i> Đơn hàng đã mua</a>
+                                <a href="/profile" class="user-dropdown-item"><i class="fa-solid fa-user-gear"></i> Thiết lập tài khoản</a>
+                                <div class="user-dropdown-divider"></div>
+                                <form action="{{ route('logout') }}" method="POST" style="margin: 0; width: 100%;">
+                                    @csrf
+                                    <button type="submit" class="user-dropdown-item logout-btn-item">
+                                        <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @else
+                        <a href="{{ route('login') }}" class="action-icon-btn" title="Đăng nhập tài khoản">
+                            <i class="fa-solid fa-user-lock"></i>
+                        </a>
+                    @endauth
+                    <button class="action-icon-btn" id="open-cart-btn" title="Giỏ hàng">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <span class="badge" id="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Categories pills in Header (Sync with Filter) -->
+            <div class="cat-nav-bar">
+                <a href="/products?category=all" class="cat-pill active"><i class="fa-solid fa-border-all"></i> Tất Cả</a>
+                <a href="/products?category=gpt" class="cat-pill"><i class="fa-solid fa-brain"></i> Chat Gpt</a>
+                <a href="/products?category=gemini" class="cat-pill"><i class="fa-brands fa-google"></i> Gemini</a>
+                <a href="/products?category=capcut" class="cat-pill"><i class="fa-solid fa-video"></i> CapCut Pro</a>
+                <a href="/products?category=canva" class="cat-pill"><i class="fa-solid fa-palette"></i> Canva</a>
+                <a href="/products?category=other" class="cat-pill"><i class="fa-solid fa-cubes"></i> Sản Phẩm Khác</a>
+                <a href="https://zalo.me" target="_blank" class="cat-pill" style="color: var(--primary); font-weight: 600;"><i class="fa-solid fa-phone"></i> Liên Hệ</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container">
+        
+        <!-- COMPACT & MODERN HERO BANNER -->
+        <section class="hero-banner">
+            <div class="hero-text">
+                <div class="hero-badge">
+                    <i class="fa-solid fa-shield-check"></i> Bản quyền tự động - Kích hoạt trong 1 giây
+                </div>
+                <h1>Mở Khóa Toàn Bộ<br>Sức Mạnh Dịch Vụ Số</h1>
+                <p>Nâng cấp ngay tài khoản CapCut Pro, ChatGPT Plus, Claude Pro chính chủ với chi phí tối ưu, bảo hành uy tín suốt vòng đời sử dụng.</p>
+                <div class="hero-buttons">
+                    <a href="/products" class="btn btn-primary">Mua Tài Khoản Ngay <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="https://zalo.me" target="_blank" class="btn btn-outline"><i class="fa-solid fa-headset"></i> Chat Hỗ Trợ Zalo</a>
+                </div>
+            </div>
+            <div class="hero-showcase">
+                <div class="showcase-card">
+                    <div class="showcase-header">
+                        <div class="showcase-icon">
+                            <i class="fa-solid fa-video"></i>
+                        </div>
+                        <div>
+                            <div class="showcase-title">CapCut Pro 1 Năm</div>
+                            <div class="showcase-meta">Gói Hot Nhất Tuần</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.85rem;">Mở khóa 100% hiệu ứng Pro VIP trên cả Máy tính & Điện thoại.</p>
+                    <div class="showcase-price-row">
+                        <span class="showcase-price">250.000₫</span>
+                        <span class="showcase-badge">Bán Chạy 🔥</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trust Badges Section -->
+        <section class="trust-grid">
+            <div class="trust-card">
+                <div class="trust-icon"><i class="fa-solid fa-bolt"></i></div>
+                <div class="trust-info">
+                    <h3>Giao Hàng Tốc Độ</h3>
+                    <p>Tự động gửi tài khoản 24/7 qua Email/SMS.</p>
+                </div>
+            </div>
+            <div class="trust-card">
+                <div class="trust-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="trust-info">
+                    <h3>Bảo Hành Siêu Tốc</h3>
+                    <p>Cam kết 1 đổi 1 ngay lập tức nếu có lỗi phát sinh.</p>
+                </div>
+            </div>
+            <div class="trust-card">
+                <div class="trust-icon"><i class="fa-solid fa-lock"></i></div>
+                <div class="trust-info">
+                    <h3>Bảo Mật Private</h3>
+                    <p>Tài khoản dùng riêng tư, không share, không lộ data.</p>
+                </div>
+            </div>
+            <div class="trust-card">
+                <div class="trust-icon"><i class="fa-solid fa-heart-circle-check"></i></div>
+                <div class="trust-info">
+                    <h3>Hỗ Trợ 24/7/365</h3>
+                    <p>Kỹ thuật viên luôn sẵn sàng giải đáp bất cứ lúc nào.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Grid Header -->
+        <div class="section-header" id="products-list">
+            <h2 class="section-title">Sản Phẩm Độc Quyền</h2>
+            <a href="/products" class="btn btn-outline" style="font-size: 0.8rem; padding: 0.5rem 1rem;">Xem Tất Cả <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <!-- Products List Grid (3 Highlighted Products for Landing Page) -->
+        <section class="products-grid">
+            @foreach($products as $prod)
+                <div class="product-card" data-id="{{ $prod->options[0]['id'] ?? ($prod->slug . '-default') }}" data-name="{{ $prod->name }}" data-price="{{ $prod->default_price }}" data-icon="{{ $prod->icon }}">
+                    @if($prod->tag)
+                        <span class="product-sale-tag">{{ $prod->tag }}</span>
+                    @endif
+                    <a href="/product/{{ $prod->slug }}" style="display: block; width: 100%; text-decoration: none; color: inherit;">
+                        <div class="product-media" style="display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 1.5rem; height: 160px;">
+                            @if($prod->image_path)
+                                <img src="{{ asset($prod->image_path) }}" alt="{{ $prod->name }}" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px;">
+                            @else
+                                <i class="fa-solid {{ strtok($prod->icon, ' ') }}"></i>
+                            @endif
+                        </div>
+                    </a>
+                    <div class="product-body">
+                        <span class="product-cat">{{ $prod->category_label }}</span>
+                        <a href="/product/{{ $prod->slug }}" style="text-decoration: none; color: inherit;">
+                            <h3 class="product-name">{{ $prod->name }}</h3>
+                        </a>
+                        <div class="product-trust">
+                            <div class="stars">
+                                @for ($i = 0; $i < floor($prod->rating); $i++)
+                                    <i class="fa-solid fa-star"></i>
+                                @endfor
+                                @if($prod->rating - floor($prod->rating) >= 0.5)
+                                    <i class="fa-solid fa-star-half-stroke"></i>
+                                @endif
+                            </div>
+                            <span class="sold-count">| Đã bán {{ $prod->sold }}</span>
+                        </div>
+                        <ul class="product-specs">
+                            @if(is_array($prod->features))
+                                @foreach(array_slice($prod->features, 0, 2) as $feat)
+                                    <li><i class="fa-solid fa-circle-check"></i> {{ $feat }}</li>
+                                @endforeach
+                            @endif
+                        </ul>
+                        <div class="product-footer">
+                            <div class="price-group">
+                                <span class="price-slashed">{{ number_format($prod->default_slashed, 0, ',', '.') }}₫</span>
+                                <span class="price-active">{{ number_format($prod->default_price, 0, ',', '.') }}₫</span>
+                            </div>
+                            <button class="btn-add-cart" title="Thêm vào giỏ hàng">
+                                <i class="fa-solid fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </section>
+
+        <!-- 1. Hiệu Năng Công Việc (VS Performance Section) -->
+        <section class="vs-wrapper" style="margin-top: 3.5rem;">
+            <div class="section-header">
+                <h2 class="section-title">Bứt Phá Hiệu Suất Với Công Nghệ AI</h2>
+            </div>
+            <div class="vs-container">
+                <!-- Traditional Card -->
+                <div class="vs-card negative">
+                    <div class="vs-header">
+                        <i class="fa-solid fa-hourglass-half"></i> Làm Việc Thủ Công (Không AI)
+                    </div>
+                    <ul class="vs-list">
+                        <li><i class="fa-solid fa-circle-xmark"></i> <strong>Tốn 4-5 tiếng</strong> để tìm kiếm ý tưởng và biên tập một video ngắn cơ bản.</li>
+                        <li><i class="fa-solid fa-circle-xmark"></i> <strong>Bí ý tưởng thiết kế</strong>, cạn kiệt tài nguyên đồ họa do tài khoản Free bị giới hạn.</li>
+                        <li><i class="fa-solid fa-circle-xmark"></i> <strong>Chi phí mua công cụ lẻ</strong> cực kỳ đắt đỏ (hơn 1 triệu/tháng nếu mua trực tiếp).</li>
+                        <li><i class="fa-solid fa-circle-xmark"></i> Hiệu suất công việc thấp, dễ nản lòng và bị tụt lại so với đối thủ cạnh tranh.</li>
+                    </ul>
+                </div>
+                <!-- AI Card -->
+                <div class="vs-card positive">
+                    <div class="vs-header">
+                        <i class="fa-solid fa-circle-bolt"></i> Sử Dụng Premium AI & Tools
+                    </div>
+                    <ul class="vs-list">
+                        <li><i class="fa-solid fa-circle-check"></i> <strong>Hoàn thành video trong 15 phút</strong> nhờ tính năng tự động và hiệu ứng Pro trên CapCut.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> <strong>Kịch bản & Ý tưởng dồi dào</strong> với trợ lý ChatGPT Plus & Claude Pro 24/7.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> <strong>Tiết kiệm 80% chi phí</strong> khi sở hữu trọn bộ Premium Tools chính chủ tại AI CỦA TÔI.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Nâng cao 200% hiệu suất làm việc, tăng trưởng doanh số vượt bậc.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Bảng So Sánh Chất Lượng (Comparison Table) -->
+        <section class="comparison-wrapper">
+            <div class="section-header">
+                <h2 class="section-title">Tại Sao Nên Chọn AI CỦA TÔI?</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Tiêu Chí So Sánh</th>
+                            <th class="comp-ours" style="background: rgba(2, 132, 199, 0.05); text-align: center;">Dịch vụ tại AI CỦA TÔI</th>
+                            <th>Tài khoản lậu / Trôi nổi thị trường</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="comp-feature">Độ Ổn Định</td>
+                            <td class="comp-ours"><span class="badge-check"><i class="fa-solid fa-circle-check"></i> Ổn định 100%</span> - Nâng cấp chính chủ sử dụng trơn tru.</td>
+                            <td><span class="badge-cross"><i class="fa-solid fa-circle-xmark"></i> Hay bị khóa</span> - Thường xuyên bị lỗi, bị out tài khoản giữa chừng.</td>
+                        </tr>
+                        <tr>
+                            <td class="comp-feature">Bảo Mật Dữ Liệu</td>
+                            <td class="comp-ours"><span class="badge-check"><i class="fa-solid fa-circle-check"></i> Riêng tư tuyệt đối</span> - Dùng mail cá nhân, không share data.</td>
+                            <td><span class="badge-cross"><i class="fa-solid fa-circle-xmark"></i> Dễ lộ thông tin</span> - Dùng chung tài khoản bị người khác xem lén thiết kế.</td>
+                        </tr>
+                        <tr>
+                            <td class="comp-feature">Chính Sách Bảo Hành</td>
+                            <td class="comp-ours"><span class="badge-check"><i class="fa-solid fa-circle-check"></i> Cam kết 1 đổi 1</span> - Hỗ trợ nhanh tức thì suốt vòng đời gói mua.</td>
+                            <td><span class="badge-cross"><i class="fa-solid fa-circle-xmark"></i> Không bảo hành</span> - Trốn tránh hoặc chặn liên lạc khi gặp lỗi.</td>
+                        </tr>
+                        <tr>
+                            <td class="comp-feature">Thời Gian Kích Hoạt</td>
+                            <td class="comp-ours"><span class="badge-check"><i class="fa-solid fa-circle-check"></i> Tự động 30 giây</span> - Nhận tài khoản qua SMS/Email ngay lập tức.</td>
+                            <td><span class="badge-cross"><i class="fa-solid fa-circle-xmark"></i> Thủ công chậm chạp</span> - Phải chờ đợi vài tiếng, thậm chí vài ngày.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 3. Cam Kết Chính Hãng & Bảo Hành Vàng (Warranty Grid) -->
+        <section class="warranty-section">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 1.4rem; font-weight: 800; color: white;">Hệ Thống Bán Hàng Premium Đạt Chuẩn</h2>
+                <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 0.4rem;">Cam kết bảo vệ quyền lợi tối đa cho từng khách hàng giao dịch tại shop</p>
+            </div>
+            <div class="warranty-grid">
+                <div class="warranty-card">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h3>Ủy Quyền Chính Hãng</h3>
+                    <p>Mọi tài khoản cung cấp đều được gia hạn hợp pháp từ nhà phát hành. Cam kết không sử dụng thẻ lậu (refund).</p>
+                </div>
+                <div class="warranty-card">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <h3>Bảo Hành Toàn Chu Kỳ</h3>
+                    <p>Hỗ trợ bảo hành 1 đổi 1 hoặc hoàn tiền theo tỷ lệ thời gian sử dụng nếu phát sinh lỗi không thể khắc phục.</p>
+                </div>
+                <div class="warranty-card">
+                    <i class="fa-solid fa-computer"></i>
+                    <h3>Hỗ Trợ Kỹ Thuật Từ Xa</h3>
+                    <p>Kỹ thuật viên sẵn sàng Ultraview hoặc Anydesk hỗ trợ cấu hình và cài đặt trực tiếp trên máy của bạn 24/7.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQs Accordions -->
+        <section class="faqs-section" style="margin-top: 0;">
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main);">Giải Đáp Thắc Mắc Thường Gặp</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Những câu hỏi khách hàng thường băn khoăn khi giao dịch tại AI CỦA TÔI</p>
+            </div>
+            
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Sau khi thanh toán tôi sẽ nhận tài khoản bằng cách nào?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Hệ thống của AI CỦA TÔI vận hành tự động hoàn toàn. Sau khi bạn chuyển khoản thành công, thông tin tài khoản hoặc link kích hoạt sẽ được gửi tự động trực tiếp qua Email và SMS mà bạn đăng ký trong vòng 30 giây đến 1 phút.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Chính sách bảo hành tài khoản hoạt động như thế nào?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Chúng tôi cam kết bảo hành trọn thời gian sử dụng của gói bạn mua. Nếu tài khoản phát sinh lỗi không đăng nhập được hoặc bị mất bản quyền, bạn chỉ cần liên hệ bộ phận hỗ trợ Zalo/Hotline, kỹ thuật viên sẽ hỗ trợ kiểm tra đổi mới ngay lập tức.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Tôi có thể nâng cấp trên Email chính chủ của tôi không?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Có. Hầu hết các sản phẩm như CapCut Pro, Canva Pro và Google Gemini Advanced đều hỗ trợ kích hoạt trực tiếp trên tài khoản Email cá nhân của bạn, giúp bạn bảo mật thông tin và dữ liệu thiết kế/video của mình tuyệt đối.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Slide-out Cart Sidebar -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3><i class="fa-solid fa-shopping-cart" style="color: var(--primary);"></i> Giỏ Hàng Của Bạn</h3>
+            <button class="cart-close-btn" id="close-cart-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-items-container" id="cart-items-wrapper">
+            <!-- Dynamic Cart Items here -->
+            <div class="empty-cart-msg">Giỏ hàng đang trống. Hãy chọn những dịch vụ số sịn nhất nhé!</div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total-row">
+                <span class="total-label">Tổng tiền tạm tính:</span>
+                <span class="total-val" id="cart-total-price">0₫</span>
+            </div>
+            <button class="checkout-btn" id="checkout-btn">
+                <i class="fa-solid fa-credit-card"></i> Tiến Hành Thanh Toán
+            </button>
+        </div>
+    </div>
+
+    <!-- Live Sale Toast Notification (Fake buyers for trust building) -->
+    <div class="live-sale-popup" id="live-sale-popup">
+        <div class="buyer-avatar" id="buyer-avatar">T</div>
+        <div class="buyer-info">
+            <div><span class="buyer-name" id="buyer-name">Khách hàng</span> vừa mua thành công</div>
+            <div class="bought-item" id="bought-item">CapCut Pro (1 Năm)</div>
+            <span class="time-ago" id="time-ago">2 phút trước</span>
+        </div>
+    </div>
+
+    <!-- Toast Notification (Add to cart feedback) -->
+    <div class="toast-notify" id="toast-notify">
+        <i class="fa-solid fa-circle-check" style="color: var(--success); font-size: 1.1rem;"></i>
+        <span id="toast-message">Đã thêm vào giỏ hàng thành công!</span>
+    </div>
+
+    <!-- Footer Area -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col" style="grid-column: span 1.5;">
+                    <a href="/" class="logo" style="margin-bottom: 1rem; display: inline-flex;">
+                        <i class="fa-solid fa-rocket logo-icon" style="filter: none;"></i>
+                        <span style="color: white;">AI CỦA TÔI</span>
+                    </a>
+                    <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.6; max-width: 280px;">
+                        Hệ thống cung cấp dịch vụ nâng cấp tài khoản số, phần mềm đồ họa, thiết kế và AI hàng đầu Việt Nam. Tự động - Uy tín - Giá rẻ.
+                    </p>
+                    <div class="footer-socials">
+                        <a href="#" class="social-circle"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-circle"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="#" class="social-circle"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Sản Phẩm</h4>
+                    <div class="footer-links">
+                        <a href="#">Tài khoản CapCut Pro</a>
+                        <a href="#">Tài khoản ChatGPT Plus</a>
+                        <a href="#">Tài khoản Claude Pro</a>
+                        <a href="#">Canva Pro Nâng Cấp</a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Dịch Vụ & Hỗ Trợ</h4>
+                    <div class="footer-links">
+                        <a href="#">Chính Sách Bảo Hành</a>
+                        <a href="#">Điều Khoản Sử Dụng</a>
+                        <a href="#">Hướng Dẫn Mua Hàng</a>
+                        <a href="#">Zalo Support 24/7</a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Liên Hệ</h4>
+                    <div class="footer-links" style="gap: 0.8rem;">
+                        <span style="font-size: 0.8rem; color: #94a3b8;"><i class="fa-solid fa-phone" style="color: var(--primary); margin-right: 0.4rem;"></i> Hotline: 0987.654.321</span>
+                        <span style="font-size: 0.8rem; color: #94a3b8;"><i class="fa-solid fa-envelope" style="color: var(--primary); margin-right: 0.4rem;"></i> support@aicuatoi.com</span>
+                        <span style="font-size: 0.8rem; color: #94a3b8;"><i class="fa-solid fa-clock" style="color: var(--primary); margin-right: 0.4rem;"></i> Làm việc: 24/7 kể cả ngày lễ</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                &copy; {{ date('Y') }} AI CỦA TÔI. Nền tảng phân phối dịch vụ số hàng đầu.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Javascript Logic -->
+    <script>
+        // State variables
+        let cart = [];
+
+        // Elements
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const cartOverlay = document.getElementById('cart-overlay');
+        const openCartBtn = document.getElementById('open-cart-btn');
+        const closeCartBtn = document.getElementById('close-cart-btn');
+        const cartItemsWrapper = document.getElementById('cart-items-wrapper');
+        const cartTotalPrice = document.getElementById('cart-total-price');
+        const cartCount = document.getElementById('cart-count');
+        const toastNotify = document.getElementById('toast-notify');
+        const toastMessage = document.getElementById('toast-message');
+
+        // Functions: Format Currency
+        function formatVND(amount) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount).replace('₫', '₫');
+        }
+
+        // Functions: Open/Close Cart
+        function openCart() {
+            cartSidebar.classList.add('open');
+            cartOverlay.classList.add('open');
+        }
+
+        // Functions: Close Cart
+        function closeCart() {
+            cartSidebar.classList.remove('open');
+            cartOverlay.classList.remove('open');
+        }
+
+        // Functions: Render Cart HTML
+        function renderCart() {
+            if (cart.length === 0) {
+                cartItemsWrapper.innerHTML = `<div class="empty-cart-msg">Giỏ hàng đang trống. Hãy chọn những dịch vụ số sịn nhất nhé!</div>`;
+                cartTotalPrice.innerText = '0₫';
+                cartCount.innerText = '0';
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+            let count = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity;
+                count += item.quantity;
+                html += `
+                    <div class="cart-item">
+                        <div class="cart-item-icon">
+                            <i class="fa-solid ${item.icon}"></i>
+                        </div>
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">${formatVND(item.price)}</div>
+                            <div class="cart-item-quantity">
+                                <button class="qty-btn" onclick="updateQty(${index}, -1)"><i class="fa-solid fa-minus"></i></button>
+                                <span class="qty-val">${item.quantity}</span>
+                                <button class="qty-btn" onclick="updateQty(${index}, 1)"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <button class="remove-item-btn" onclick="removeFromCart(${index})">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+            });
+
+            cartItemsWrapper.innerHTML = html;
+            cartTotalPrice.innerText = formatVND(total);
+            cartCount.innerText = count;
+        }
+
+        // Functions: Add item to Cart
+        function addToCart(id, name, price, icon) {
+            const existingIndex = cart.findIndex(item => item.id === id);
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push({ id, name, price, icon, quantity: 1 });
+            }
+            renderCart();
+            showToast(`Đã thêm "${name}" vào giỏ hàng thành công!`);
+            openCart();
+        }
+
+        // Functions: Remove from Cart
+        window.removeFromCart = function(index) {
+            cart.splice(index, 1);
+            renderCart();
+        };
+
+        // Functions: Update Quantity
+        window.updateQty = function(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            renderCart();
+        };
+
+        // Functions: Show Toast
+        function showToast(msg) {
+            toastMessage.innerText = msg;
+            toastNotify.classList.add('show');
+            setTimeout(() => {
+                toastNotify.classList.remove('show');
+            }, 3000);
+        }
+
+        // Event listeners for Cart buttons
+        openCartBtn.addEventListener('click', openCart);
+        closeCartBtn.addEventListener('click', closeCart);
+        cartOverlay.addEventListener('click', closeCart);
+
+        // User Menu Dropdown Toggle
+        const userMenuBtn = document.querySelector('.user-menu-btn');
+        const userDropdownMenu = document.querySelector('.user-dropdown-menu');
+        if (userMenuBtn && userDropdownMenu) {
+            userMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                userDropdownMenu.classList.toggle('show');
+            });
+            document.addEventListener('click', () => {
+                userDropdownMenu.classList.remove('show');
+            });
+        }
+
+        // Bind all Add to Cart buttons in DOM
+        document.querySelectorAll('.btn-add-cart').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const card = this.closest('.product-card');
+                const id = card.getAttribute('data-id');
+                const name = card.getAttribute('data-name');
+                const price = parseInt(card.getAttribute('data-price'));
+                const icon = card.getAttribute('data-icon');
+                addToCart(id, name, price, icon);
+            });
+        });
+
+        // Checkout Button Click
+        document.getElementById('checkout-btn').addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert('Giỏ hàng của bạn đang trống!');
+                return;
+            }
+            window.location.href = '/checkout';
+        });
+
+        // Search redirection to products page
+        document.getElementById('search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                window.location.href = `/products?search=${encodeURIComponent(this.value)}`;
+            }
+        });
+
+        // FAQ Interactive accordion
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', function() {
+                const item = this.closest('.faq-item');
+                const answer = item.querySelector('.faq-answer');
+                const isActive = item.classList.contains('active');
+                
+                // close all other FAQ items
+                document.querySelectorAll('.faq-item').forEach(i => {
+                    i.classList.remove('active');
+                    i.querySelector('.faq-answer').style.maxHeight = null;
+                });
+
+                if (!isActive) {
+                    item.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + "px";
+                }
+            });
+        });
+
+        // Simulated/Fake Live Sales Notification to build trust
+        const buyerNames = ['Nguyễn Hoàng Nam', 'Trần Thị Thuỷ', 'Lê Minh Tuấn', 'Phạm Quốc Bảo', 'Vũ Hồng Hạnh', 'Đỗ Anh Dũng', 'Nguyễn Cẩm Tú', 'Lâm Quang Huy'];
+        const itemsList = [
+            { name: 'CapCut Pro (Gói 1 Năm - Chính Chủ)', val: 'capcut-1y' },
+            { name: 'Tài Khoản ChatGPT Plus (GPT-4) 1 Tháng', val: 'chatgpt-1m' },
+            { name: 'Tài Khoản Claude Pro (Sonnet 3.5) 1 Tháng', val: 'claude-pro-1m' },
+            { name: 'Canva Pro Nâng Cấp Email', val: 'canva-pro' },
+            { name: 'Google Gemini Advanced + 2TB Google One', val: 'gemini-adv' }
+        ];
+        const times = ['Vừa xong', '1 phút trước', '3 phút trước', '5 phút trước', '2 phút trước'];
+
+        function showFakeSale() {
+            const randomName = buyerNames[Math.floor(Math.random() * buyerNames.length)];
+            const randomItem = itemsList[Math.floor(Math.random() * itemsList.length)];
+            const randomTime = times[Math.floor(Math.random() * times.length)];
+            const initial = randomName.split(' ').pop().charAt(0);
+
+            document.getElementById('buyer-avatar').innerText = initial;
+            document.getElementById('buyer-name').innerText = randomName;
+            document.getElementById('bought-item').innerText = randomItem.name;
+            document.getElementById('time-ago').innerText = randomTime;
+
+            const popup = document.getElementById('live-sale-popup');
+            popup.classList.add('show');
+
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 5000);
+        }
+
+        // Trigger fake sales notification every 12 seconds
+        setInterval(showFakeSale, 12000);
+        // Initial delay for the first notification
+        setTimeout(showFakeSale, 4000);
+    </script>
+</body>
+</html>
