@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AI CỦA TÔI | Mua Tài Khoản AI & Premium Tools Giá Rẻ, Uy Tín</title>
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <meta name="description" content="Chuyên cung cấp, nâng cấp tài khoản CapCut Pro 1 năm, ChatGPT Plus, Canva Pro giá rẻ, uy tín. Hệ thống kích hoạt tự động 30s, bảo hành lỗi 1 đổi 1 trọn vòng đời sử dụng.">
     <meta name="keywords" content="capcut pro giá rẻ, chatgpt plus giá rẻ, canva pro giá rẻ, tài khoản ai giá rẻ, premium tools giá rẻ, mua capcut pro, mua chatgpt plus">
     <link rel="canonical" href="{{ request()->url() }}">
