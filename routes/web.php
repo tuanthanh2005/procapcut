@@ -22,9 +22,9 @@ Route::get('/', function () {
         $showcaseProducts = Product::take(4)->get();
     }
 
-    $products = Product::whereIn('slug', ['capcut', 'chatgpt', 'canva'])->get();
+    $products = Product::whereIn('slug', ['capcut', 'chatgpt', 'gemini', 'canva'])->get();
     if ($products->isEmpty()) {
-        $products = Product::take(3)->get();
+        $products = Product::take(4)->get();
     }
 
     return view('welcome', compact('showcaseProducts', 'products'));

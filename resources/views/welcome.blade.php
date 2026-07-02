@@ -2297,7 +2297,7 @@
             <a href="/products" class="btn btn-outline" style="font-size: 0.8rem; padding: 0.5rem 1rem;">Xem Tất Cả <i class="fa-solid fa-arrow-right"></i></a>
         </div>
 
-        <!-- Products List Grid (3 Highlighted Products for Landing Page) -->
+        <!-- Products List Grid (4 Highlighted Products for Landing Page) -->
         <section class="products-grid">
             @foreach($products as $prod)
                 <div class="product-card" data-id="{{ $prod->options[0]['id'] ?? ($prod->slug . '-default') }}" data-name="{{ $prod->name }}" data-price="{{ $prod->default_price }}" data-icon="{{ $prod->icon }}" data-image="{{ $prod->image_path }}">
