@@ -288,6 +288,14 @@
             <!-- Order details summary -->
             <div class="details-list">
                 <div class="detail-row">
+                    <span class="label">Nội dung thanh toán:</span>
+                    <span><strong>OD{{ 1000 + $order->id }}</strong></span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Mã đơn hàng:</span>
+                    <span><strong>#OD{{ 1000 + $order->id }}</strong></span>
+                </div>
+                <div class="detail-row">
                     <span class="label">Sản phẩm:</span>
                     <span><strong>{{ $order->product_name }}</strong></span>
                 </div>
