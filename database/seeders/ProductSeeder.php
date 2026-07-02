@@ -13,7 +13,9 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         // Truncate existing data to prevent duplicates
+        \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
         Product::truncate();
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
 
         Product::create([
             'slug' => 'capcut',
