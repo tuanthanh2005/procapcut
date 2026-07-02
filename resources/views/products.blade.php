@@ -757,6 +757,20 @@ if ($category === 'all' && empty($search)) {
             box-shadow: var(--shadow-md);
         }
 
+        .product-card:hover .product-name {
+            color: var(--primary);
+        }
+
+        .stretched-link::after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+            content: "";
+        }
+
         .product-sale-tag {
             position: absolute;
             top: 0.75rem;
@@ -907,6 +921,8 @@ if ($category === 'all' && empty($search)) {
             cursor: pointer;
             transition: var(--transition);
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+            position: relative;
+            z-index: 2;
         }
 
         .product-card:hover .btn-add-cart {
@@ -1909,7 +1925,7 @@ if ($category === 'all' && empty($search)) {
                             @if($prod->tag)
                                 <span class="product-sale-tag">{{ $prod->tag }}</span>
                             @endif
-                            <a href="/product/{{ $prod->slug }}" style="display: block; width: 100%; text-decoration: none; color: inherit;">
+                            <a href="/product/{{ $prod->slug }}" class="stretched-link" style="display: block; width: 100%; text-decoration: none; color: inherit;">
                                 <div class="product-media" style="display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 1.5rem; height: 160px;">
                                     @if($prod->image_path)
                                         <img src="{{ asset($prod->image_path) }}" alt="{{ $prod->name }}" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px;">
