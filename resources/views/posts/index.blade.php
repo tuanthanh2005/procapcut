@@ -1093,6 +1093,10 @@ $listSchema = [
                 </div>
 
                 <div class="nav-actions">
+                    <button class="action-icon-btn" id="open-cart-btn" title="Giỏ hàng">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <span class="badge" id="cart-count">0</span>
+                    </button>
                     @auth
                         <div class="user-menu-wrapper">
                             <button class="action-icon-btn user-menu-btn" id="user-menu-btn" title="Tài khoản: {{ auth()->user()->name }}">
@@ -1128,10 +1132,6 @@ $listSchema = [
                             <i class="fa-solid fa-user-lock"></i>
                         </a>
                     @endauth
-                    <button class="action-icon-btn" id="open-cart-btn" title="Giỏ hàng">
-                        <i class="fa-solid fa-bag-shopping"></i>
-                        <span class="badge" id="cart-count">0</span>
-                    </button>
                 </div>
             </div>
         </div>
