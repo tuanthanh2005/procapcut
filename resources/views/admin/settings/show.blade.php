@@ -460,6 +460,29 @@
                     </div>
                 </div>
 
+                <!-- Social Links Config -->
+                <div class="settings-card">
+                    <h2><i class="fa-solid fa-share-nodes"></i> Cấu hình Mạng xã hội (Footer)</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="social_facebook">Link Fanpage (Facebook)</label>
+                            <input type="url" name="social_facebook" id="social_facebook" class="form-input" placeholder="https://facebook.com/..." value="{{ old('social_facebook', $settings['social_facebook']) }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="social_telegram">Link Telegram</label>
+                            <input type="url" name="social_telegram" id="social_telegram" class="form-input" placeholder="https://t.me/..." value="{{ old('social_telegram', $settings['social_telegram']) }}">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="social_zalo">Link Zalo hỗ trợ</label>
+                            <input type="url" name="social_zalo" id="social_zalo" class="form-input" placeholder="https://zalo.me/..." value="{{ old('social_zalo', $settings['social_zalo']) }}">
+                        </div>
+                    </div>
+                </div>
+
                 <div style="text-align: right;">
                     <button type="submit" class="btn-save-settings">
                         <i class="fa-solid fa-floppy-disk"></i> Lưu tất cả cấu hình

@@ -1420,10 +1420,10 @@ $blogSchema = [
                     <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.6; max-width: 280px;">
                         Hệ thống cung cấp dịch vụ nâng cấp tài khoản số, phần mềm đồ họa, thiết kế và AI hàng đầu Việt Nam. Tự động - Uy tín - Giá rẻ.
                     </p>
-                    <div class="footer-socials">
-                        <a href="#" class="social-circle"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="https://t.me/specademy" target="_blank" class="social-circle"><i class="fa-brands fa-telegram"></i></a>
-                        <a href="#" class="social-circle"><i class="fa-brands fa-youtube"></i></a>
+                    <div class="social-links">
+                        <a href="{{ App\Models\Setting::getValue('social_facebook', 'https://facebook.com') }}" class="social-circle" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="{{ App\Models\Setting::getValue('social_telegram', 'https://t.me') }}" class="social-circle" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="{{ App\Models\Setting::getValue('social_zalo', 'https://zalo.me') }}" class="social-circle" target="_blank" style="font-weight: 800; font-family: 'Inter', sans-serif; font-size: 0.95rem;">Zalo</a>
                     </div>
                 </div>
 

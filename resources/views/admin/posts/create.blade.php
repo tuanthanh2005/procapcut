@@ -530,7 +530,7 @@
                     <div class="form-group">
                         <label class="form-label" for="image_path">Ảnh đại diện (Thumbnail)</label>
                         <input type="file" name="image_path" id="image_path" class="form-input" accept="image/*">
-                        <div class="form-help">Chấp nhận file định dạng JPG, PNG, WEBP, GIF dung lượng tối đa 2MB.</div>
+                        <div class="form-help">Chấp nhận file định dạng JPG, PNG, WEBP, GIF dung lượng tối đa 2MB.<br>* Kích thước khuyến nghị: <strong>1200 x 630 px</strong> (tỷ lệ chuẩn 16:9 hoặc 1.91:1) giúp tối ưu hiển thị SEO khi share link.</div>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="is_published">Trạng thái bài viết</label>

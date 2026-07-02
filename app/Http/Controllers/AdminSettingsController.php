@@ -17,6 +17,9 @@ class AdminSettingsController extends Controller
             'bank_account_name' => Setting::getValue('bank_account_name', 'TRAN THI THUY TRANG'),
             'sepay_webhook_token' => Setting::getValue('sepay_webhook_token', 'CAPCUTSTORESECURETOKEN2026'),
             'groq_api_key' => Setting::getValue('groq_api_key', env('GROQ_API_KEY')),
+            'social_facebook' => Setting::getValue('social_facebook', 'https://facebook.com/'),
+            'social_telegram' => Setting::getValue('social_telegram', 'https://t.me/'),
+            'social_zalo' => Setting::getValue('social_zalo', 'https://zalo.me/'),
         ];
 
         return view('admin.settings.show', compact('settings'));
@@ -32,6 +35,9 @@ class AdminSettingsController extends Controller
             'bank_account_name' => 'required|string|max:255',
             'sepay_webhook_token' => 'required|string|max:255',
             'groq_api_key' => 'nullable|string|max:255',
+            'social_facebook' => 'nullable|string|max:255',
+            'social_telegram' => 'nullable|string|max:255',
+            'social_zalo' => 'nullable|string|max:255',
             'favicon' => 'nullable|image|mimes:png,ico,jpeg,jpg|max:2048',
             'logo' => 'nullable|image|mimes:png,jpg,jpeg,svg|max:2048',
         ]);
@@ -42,6 +48,9 @@ class AdminSettingsController extends Controller
         Setting::setValue('bank_account_name', strtoupper($request->bank_account_name));
         Setting::setValue('sepay_webhook_token', $request->sepay_webhook_token);
         Setting::setValue('groq_api_key', $request->groq_api_key);
+        Setting::setValue('social_facebook', $request->social_facebook);
+        Setting::setValue('social_telegram', $request->social_telegram);
+        Setting::setValue('social_zalo', $request->social_zalo);
 
         // Upload Favicon
         if ($request->hasFile('favicon')) {
