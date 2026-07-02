@@ -34,7 +34,7 @@ Route::get('/product/{slug}', function ($slug) {
         }
         return redirect()->route('product.show', $product->slug);
     }
-    $related = Product::where('slug', '!=', $product->slug)->take(3)->get();
+    $related = Product::where('slug', '!=', $product->slug)->take(4)->get();
     return view('product-detail', compact('product', 'related', 'slug'));
 })->name('product.show');
 

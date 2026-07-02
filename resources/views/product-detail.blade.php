@@ -699,7 +699,7 @@ $schema = [
 
         .related-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 1.5rem;
         }
 
@@ -732,7 +732,17 @@ $schema = [
 
         .rel-media i {
             font-size: 3rem;
+            transition: var(--transition);
         }
+
+        /* Brand Colors */
+        .color-capcut { background: linear-gradient(135deg, #000000, #475569); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .color-gpt { background: linear-gradient(135deg, #10a37f, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .color-claude { background: linear-gradient(135deg, #d97757, #ea580c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .color-gemini { background: linear-gradient(135deg, #1a73e8, #ea4335, #fbbc05, #34a853); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .color-canva { background: linear-gradient(135deg, #00c4cc, #7d2ae8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .color-office { background: linear-gradient(135deg, #ea3e23, #b81d05); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
 
         .rel-cat {
             font-size: 0.65rem;
@@ -1891,16 +1901,20 @@ $schema = [
             <h2 class="related-title">Sản Phẩm Đề Xuất Liên Quan</h2>
             <div class="related-grid">
                 @foreach ($related as $rel)
-                    <a href="/product/{{ $rel['slug'] }}" class="related-card">
-                        <div class="rel-media">
-                            <i class="fa-solid {{ $rel['icon'] }}"></i>
+                    <a href="/product/{{ $rel->slug }}" class="related-card">
+                        <div class="rel-media" style="display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 1rem; height: 140px; background: var(--bg-body); border-radius: var(--radius-sm);">
+                            @if($rel->image_path && file_exists(public_path($rel->image_path)))
+                                <img src="{{ asset($rel->image_path) }}?v={{ time() }}" alt="{{ $rel->name }}" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px;">
+                            @else
+                                <i class="{{ str_contains($rel->icon, 'fa-brands') ? '' : 'fa-solid ' }}{{ $rel->icon }}" style="font-size: 3rem;"></i>
+                            @endif
                         </div>
                         <div>
-                            <span class="rel-cat">{{ $rel['category_label'] }}</span>
-                            <h4 class="rel-name">{{ $rel['name'] }}</h4>
+                            <span class="rel-cat">{{ $rel->category_label }}</span>
+                            <h4 class="rel-name">{{ $rel->name }}</h4>
                         </div>
                         <div class="rel-price-row">
-                            <span class="rel-price">{{ number_format($rel['default_price'], 0, ',', '.') }}₫</span>
+                            <span class="rel-price">{{ number_format($rel->default_price, 0, ',', '.') }}₫</span>
                             <span class="rel-arrow">Xem chi tiết <i class="fa-solid fa-arrow-right"></i></span>
                         </div>
                     </a>
