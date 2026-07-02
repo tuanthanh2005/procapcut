@@ -6,6 +6,16 @@ use App\Http\Controllers\ForgotPasswordController;
 
 use App\Models\Product;
 
+Route::get('/sitemap.xml', function () {
+    $products = \App\Models\Product::all();
+    $posts = \App\Models\Post::where('is_published', true)->get();
+
+    return response()->view('sitemap', [
+        'products' => $products,
+        'posts' => $posts,
+    ])->header('Content-Type', 'text/xml');
+});
+
 Route::get('/', function () {
     $showcaseProducts = Product::whereIn('slug', ['capcut', 'chatgpt', 'gemini', 'canva'])->get();
     if ($showcaseProducts->isEmpty()) {
@@ -51,7 +61,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Google OAuth
 Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
-Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
+Route::get('/api/auth/callback/google', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
 // Password Reset Routes
 Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
@@ -67,6 +78,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::resource('products', \App\Http\Controllers\AdminProductController::class);
     Route::resource('posts', \App\Http\Controllers\AdminPostController::class);
+    Route::post('/posts/generate-ai', [\App\Http\Controllers\AdminPostController::class, 'generateAI'])->name('posts.generateAI');
     
     // Admin orders management routes
     Route::get('/orders', [\App\Http\Controllers\AdminOrderController::class, 'index'])->name('orders.index');
@@ -259,7 +271,7 @@ Route::post('/webhook/sepay', [\App\Http\Controllers\SePayWebhookController::cla
 
 // Groq AI Integration Helper
 function getGroqResponse($userMessage, $history = []) {
-    $apiKey = env('GROQ_API_KEY');
+    $apiKey = \App\Models\Setting::getValue('groq_api_key', env('GROQ_API_KEY'));
     $url = 'https://api.groq.com/openai/v1/chat/completions';
     // Load products from DB dynamically to ensure prices and options are always up-to-date
     $products = \App\Models\Product::all();

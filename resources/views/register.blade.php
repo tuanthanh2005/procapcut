@@ -192,6 +192,59 @@
             color: var(--primary-hover);
             text-decoration: underline;
         }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.75rem 0;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .divider:not(:empty)::before {
+            margin-right: .75em;
+        }
+
+        .divider:not(:empty)::after {
+            margin-left: .75em;
+        }
+
+        .btn-google {
+            width: 100%;
+            padding: 0.8rem;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.65rem;
+        }
+
+        .btn-google:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
+        }
+
+        .btn-google i {
+            color: #ea4335;
+            font-size: 1.05rem;
+        }
+
     
         /* Prevent auto zoom on iOS & Native app spacing */
         @media (max-width: 768px) {
@@ -317,6 +370,14 @@
                 Đăng Ký Thành Viên <i class="fa-solid fa-user-plus"></i>
             </button>
         </form>
+
+        <div class="divider">Hoặc tiếp tục bằng</div>
+
+        <a href="/auth/google" style="text-decoration: none;">
+            <button class="btn-google">
+                <i class="fa-brands fa-google"></i> Đăng ký qua Google
+            </button>
+        </a>
 
         <p class="auth-footer">
             Bạn đã có tài khoản? <a href="/login">Đăng nhập</a>

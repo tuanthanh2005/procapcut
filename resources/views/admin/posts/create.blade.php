@@ -303,6 +303,132 @@
                 gap: 1.25rem;
             }
         }
+
+        /* AI Button & Modal Styling */
+        .btn-ai {
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            color: white;
+            border: none;
+            padding: 0.65rem 1.25rem;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            outline: none;
+        }
+
+        .btn-ai:hover {
+            background: linear-gradient(135deg, #c084fc, #818cf8);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(168, 85, 247, 0.35);
+        }
+
+        .btn-ai:active {
+            transform: translateY(0);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 500px;
+            border-radius: var(--radius-md);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-close-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: var(--transition);
+            line-height: 1;
+        }
+
+        .modal-close-btn:hover {
+            color: #ef4444;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+            background: #f8fafc;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Spinner style for loading state */
+        .spinner {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 2px solid white;
+            width: 14px;
+            height: 14px;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -345,7 +471,12 @@
     <!-- Main Wrapper Right -->
     <div class="main-wrapper">
         <header class="top-navbar">
-            <h1 class="page-title">Thêm Bài Viết Mới</h1>
+            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                <h1 class="page-title">Thêm Bài Viết Mới</h1>
+                <button type="button" class="btn-ai" onclick="openAiModal()">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Viết Bằng AI
+                </button>
+            </div>
             <div class="user-info-bar">
                 <div class="admin-avatar">
                     {{ substr(auth()->user()->name, 0, 1) }}
@@ -444,7 +575,116 @@
         </main>
     </div>
 
+    <!-- AI Prompt Modal -->
+    <div id="ai-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fa-solid fa-wand-magic-sparkles" style="color: #a855f7;"></i> Tạo Bài Viết Bằng AI Groq</h3>
+                <button type="button" class="modal-close-btn" onclick="closeAiModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label" for="ai-prompt-input">Nhập chủ đề hoặc yêu cầu viết bài:</label>
+                    <textarea id="ai-prompt-input" class="form-input" placeholder="Ví dụ: Hướng dẫn mua tài khoản CapCut Pro giá rẻ trên điện thoại, các tính năng nổi bật..." style="height: 120px; font-family: inherit;"></textarea>
+                    <div class="form-help">Hãy mô tả chi tiết ý tưởng của bạn để AI có thể viết bài viết chất lượng và đúng trọng tâm nhất.</div>
+                </div>
+
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label class="form-label" for="ai-model-select">Chọn mô hình AI (Model):</label>
+                    <select id="ai-model-select" class="form-input">
+                        <option value="llama-3.1-8b-instant" selected>Llama 3.1 8B (Nhanh & Ổn định nhất - Khuyên dùng)</option>
+                        <option value="llama-3.3-70b-specdec">Llama 3.3 70B (Thông minh nhất - Dễ bị giới hạn free)</option>
+                        <option value="mixtral-8x7b-32768">Mixtral 8x7B (Cân bằng & Phù hợp bài dài)</option>
+                    </select>
+                    <div class="form-help">Mẹo: Nếu gặp lỗi **429 - Too Many Requests** từ Groq, hãy chuyển sang mô hình **Llama 3.1 8B** để tránh quá tải.</div>
+                </div>
+                
+                <div id="ai-error-message" class="alert" style="display: none; margin-top: 1rem; margin-bottom: 0;">
+                    <i class="fa-solid fa-circle-exclamation"></i> <span id="ai-error-text">Đã xảy ra lỗi.</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" onclick="closeAiModal()">Hủy Bỏ</button>
+                <button type="button" class="btn-submit" id="btn-ai-submit" onclick="generateArticleWithAi()" style="background: linear-gradient(135deg, #a855f7, #6366f1); border: none; display: flex; align-items: center; gap: 0.5rem;">
+                    <span>Bắt Đầu Tạo</span> <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        function openAiModal() {
+            document.getElementById('ai-modal').style.display = 'flex';
+            document.getElementById('ai-prompt-input').value = '';
+            document.getElementById('ai-error-message').style.display = 'none';
+            document.getElementById('ai-prompt-input').focus();
+        }
+
+        function closeAiModal() {
+            document.getElementById('ai-modal').style.display = 'none';
+        }
+
+        function generateArticleWithAi() {
+            const prompt = document.getElementById('ai-prompt-input').value.trim();
+            if (!prompt) {
+                alert('Vui lòng nhập chủ đề hoặc yêu cầu viết bài.');
+                return;
+            }
+
+            const model = document.getElementById('ai-model-select').value;
+            const btnSubmit = document.getElementById('btn-ai-submit');
+            const btnCancel = btnSubmit.previousElementSibling;
+            const originalContent = btnSubmit.innerHTML;
+            
+            // Set loading state
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<span class="spinner"></span> Đang tạo...';
+            if (btnCancel) btnCancel.style.display = 'none';
+            document.getElementById('ai-error-message').style.display = 'none';
+
+            fetch('{{ route("admin.posts.generateAI") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ prompt: prompt, model: model })
+            })
+            .then(response => response.json().then(data => ({ status: response.status, body: data })))
+            .then(result => {
+                if (result.status !== 200 || !result.body.success) {
+                    throw new Error(result.body.message || 'Lỗi không xác định từ AI.');
+                }
+                
+                const data = result.body.data;
+                
+                // Populate the fields
+                document.getElementById('title').value = data.title || '';
+                document.getElementById('slug').value = data.slug || '';
+                document.getElementById('summary').value = data.summary || '';
+                document.getElementById('content').value = data.content || '';
+                document.getElementById('meta_title').value = data.meta_title || '';
+                document.getElementById('meta_desc').value = data.meta_desc || '';
+                document.getElementById('meta_keywords').value = data.meta_keywords || '';
+                
+                closeAiModal();
+                
+                // scroll to the top of the form
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                alert('AI đã tạo bài viết thành công! Hãy thêm ảnh đại diện và nhấn "Tạo Bài Viết".');
+            })
+            .catch(error => {
+                document.getElementById('ai-error-text').innerText = error.message;
+                document.getElementById('ai-error-message').style.display = 'flex';
+            })
+            .finally(() => {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = originalContent;
+                if (btnCancel) btnCancel.style.display = 'inline-flex';
+            });
+        }
+
         function generateSlug(text) {
             // Chuyển chữ hoa thành chữ thường
             let slug = text.toLowerCase();

@@ -437,6 +437,24 @@
                     </div>
                 </div>
 
+                <!-- Groq AI Config -->
+                <div class="settings-card">
+                    <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Cấu hình AI Groq (Viết bài & Trò chuyện)</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="groq_api_key">Khóa API Groq (GROQ_API_KEY)</label>
+                        <div style="position: relative; display: flex; align-items: center;">
+                            <input type="password" name="groq_api_key" id="groq_api_key" class="form-input" placeholder="Nhập khóa API Groq bắt đầu bằng gsk_..." value="{{ old('groq_api_key', $settings['groq_api_key']) }}" style="padding-right: 2.75rem;">
+                            <button type="button" onclick="toggleGroqKeyVisibility()" style="position: absolute; right: 0.75rem; background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1rem; outline: none; z-index: 10;">
+                                <i id="groq-eye-icon" class="fa-solid fa-eye-slash"></i>
+                            </button>
+                        </div>
+                        <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem;">
+                            * Khóa API dùng để chạy trợ lý ảo tự động trả lời tin nhắn của khách hàng và tự động viết bài viết blog bằng AI. Nếu hết lượt dùng, bạn chỉ cần thay key mới tại đây và nhấn lưu.
+                        </span>
+                    </div>
+                </div>
+
                 <div style="text-align: right;">
                     <button type="submit" class="btn-save-settings">
                         <i class="fa-solid fa-floppy-disk"></i> Lưu tất cả cấu hình
@@ -452,6 +470,20 @@
             navigator.clipboard.writeText(urlVal).then(() => {
                 alert('Đã copy địa chỉ Webhook URL kèm Token bảo mật!');
             });
+        }
+
+        function toggleGroqKeyVisibility() {
+            const keyInput = document.getElementById('groq_api_key');
+            const eyeIcon = document.getElementById('groq-eye-icon');
+            if (keyInput.type === 'password') {
+                keyInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            } else {
+                keyInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            }
         }
     </script>
 </body>
