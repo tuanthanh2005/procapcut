@@ -563,6 +563,37 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Poll constantly in the background every 5 seconds
     setInterval(loadMessages, 5000);
+
+    // Global Cart Sync to Server function
+    window.syncCartToServer = function() {
+        @auth
+        try {
+            const localCart = localStorage.getItem('capcut_store_cart');
+            fetch('/api/cart/sync', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ cart_items: localCart ? JSON.parse(localCart) : [] })
+            }).catch(err => console.error('Cart sync failed:', err));
+        } catch (e) {
+            console.error('Error parsing local cart:', e);
+        }
+        @endauth
+    };
+
+    // Intercept localStorage.setItem to capture cart updates in real-time
+    const originalSetItem = localStorage.setItem;
+    localStorage.setItem = function(key, value) {
+        originalSetItem.apply(this, arguments);
+        if (key === 'capcut_store_cart') {
+            window.syncCartToServer();
+        }
+    };
+
+    // Run initial sync on load
+    window.syncCartToServer();
 });
 </script>
 

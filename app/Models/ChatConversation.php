@@ -10,6 +10,7 @@ class ChatConversation extends Model
         'user_id',
         'session_id',
         'is_ai_enabled',
+        'last_telegram_alert_at',
     ];
 
     public function user()

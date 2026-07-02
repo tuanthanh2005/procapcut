@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Đăng Nhập | AI CỦA TÔI - Dịch Vụ Tài Khoản Giá Rẻ</title>
+    <meta name="description" content="Đăng nhập tài khoản AI CỦA TÔI để quản lý đơn hàng, theo dõi lịch sử giao dịch và nhận hỗ trợ nâng cấp tài khoản VIP nhanh chóng.">
+    <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>

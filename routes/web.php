@@ -70,6 +70,19 @@ Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink
 Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [ForgotPasswordController::class, 'reset'])->name('password.update');
 
+// User authenticated routes
+Route::middleware('auth')->group(function () {
+    Route::post('/api/cart/sync', function (\Illuminate\Http\Request $request) {
+        $request->validate([
+            'cart_items' => 'nullable|array',
+        ]);
+        auth()->user()->update([
+            'cart_items' => $request->cart_items
+        ]);
+        return response()->json(['success' => true]);
+    });
+});
+
 // Admin Protected Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
@@ -84,6 +97,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/orders', [\App\Http\Controllers\AdminOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{id}', [\App\Http\Controllers\AdminOrderController::class, 'show'])->name('orders.show');
     Route::put('/orders/{id}/status', [\App\Http\Controllers\AdminOrderController::class, 'updateStatus'])->name('orders.updateStatus');
+
+    // Admin customers management routes
+    Route::get('/customers', [\App\Http\Controllers\AdminUserController::class, 'index'])->name('customers.index');
+    Route::post('/customers/{id}/toggle-block', [\App\Http\Controllers\AdminUserController::class, 'toggleBlock'])->name('customers.toggleBlock');
+    Route::put('/customers/{id}/role', [\App\Http\Controllers\AdminUserController::class, 'updateRole'])->name('customers.updateRole');
 
     // Admin settings routes
     Route::get('/settings', [\App\Http\Controllers\AdminSettingsController::class, 'show'])->name('settings.show');
@@ -341,6 +359,55 @@ function getGroqResponse($userMessage, $history = []) {
     return "Cảm ơn bạn đã nhắn tin! Hiện tại hỗ trợ viên đang bận, bạn vui lòng liên hệ trực tiếp Zalo: 0569012134 hoặc Telegram: @specademy để Admin hỗ trợ ngay lập tức nhé.";
 }
 
+// Rate-limited Telegram Alert Helper for Chat Messages
+function sendTelegramChatAlert($convo, $latestMessageText, $alertType = 'chat') {
+    $botToken = env('TELEGRAM_BOT_TOKEN');
+    $chatId = env('TELEGRAM_CHAT_ID');
+    if (empty($botToken) || empty($chatId)) {
+        return;
+    }
+
+    // Cooldown check: 5 minutes (300 seconds)
+    $cooldown = 300;
+    if ($convo->last_telegram_alert_at) {
+        $lastAlert = \Carbon\Carbon::parse($convo->last_telegram_alert_at);
+        if ($lastAlert->diffInSeconds(now()) < $cooldown) {
+            return;
+        }
+    }
+
+    $clientName = 'Khách viếng thăm #' . substr($convo->session_id ?? $convo->id, 0, 6);
+    if ($convo->user_id) {
+        $user = \App\Models\User::find($convo->user_id);
+        if ($user) {
+            $clientName = $user->name . " (" . $user->email . ")";
+        }
+    }
+
+    $chatState = $convo->is_ai_enabled ? "Đang trò chuyện với Trợ lý AI" : "Đang chờ hỗ trợ trực tiếp";
+    if ($alertType === 'call_admin') {
+        $chatState = "🔔 Yêu cầu kết nối trực tiếp với Hỗ trợ viên";
+    }
+
+    $text = "💬 <b>TIN NHẮN CHAT MỚI</b> 💬\n\n" .
+            "👤 <b>Khách hàng</b>: " . e($clientName) . "\n" .
+            "💬 <b>Tin nhắn mới nhất</b>: " . e($latestMessageText) . "\n" .
+            "🔄 <b>Trạng thái</b>: " . $chatState . "\n\n" .
+            "🔗 <b>Trả lời chat tại đây</b>: <a href=\"" . url('/admin/chat') . "?session_id=" . ($convo->session_id ?: 'null') . "&user_id=" . ($convo->user_id ?: 'null') . "\">Mở khung chat Admin</a>";
+
+    try {
+        \Illuminate\Support\Facades\Http::post("https://api.telegram.org/bot{$botToken}/sendMessage", [
+            'chat_id' => $chatId,
+            'text' => $text,
+            'parse_mode' => 'HTML',
+        ]);
+        
+        $convo->update(['last_telegram_alert_at' => now()]);
+    } catch (\Exception $e) {
+        \Illuminate\Support\Facades\Log::error('Telegram chat alert failed: ' . $e->getMessage());
+    }
+}
+
 // Client Chat API routes
 Route::get('/api/chat/messages', function (\Illuminate\Http\Request $request) {
     $userId = auth()->id();
@@ -405,6 +472,9 @@ Route::post('/api/chat/messages', function (\Illuminate\Http\Request $request) {
         'message' => $request->message,
         'is_read' => false,
     ]);
+
+    // Send rate-limited Telegram alert
+    sendTelegramChatAlert($convo, $request->message, 'chat');
     
     // If AI is enabled, trigger Groq AI completions and save reply
     if ($convo->is_ai_enabled) {
@@ -464,39 +534,8 @@ Route::post('/api/chat/call-admin', function (\Illuminate\Http\Request $request)
         'is_read' => false,
     ]);
     
-    // Send Telegram Alert
-    $botToken = env('TELEGRAM_BOT_TOKEN');
-    $chatId = env('TELEGRAM_CHAT_ID');
-    
-    $clientName = 'Khách viếng thăm #' . substr($sessionId, 0, 6);
-    if ($userId) {
-        $user = \App\Models\User::find($userId);
-        if ($user) {
-            $clientName = $user->name . " (" . $user->email . ")";
-        }
-    }
-    
-    $text = "🔔 <b>YÊU CẦU NHẮN TIN VỚI ADMIN</b> 🔔\n\n" .
-            "👤 <b>Khách hàng</b>: " . e($clientName) . "\n" .
-            "💬 <b>Trạng thái</b>: Đã ngắt AI tự động, chuyển sang hỗ trợ trực tiếp.\n" .
-            "🔗 <b>Trả lời chat tại đây</b>: <a href=\"" . url('/admin/chat') . "?session_id=" . $sessionId . "&user_id=" . ($userId ?: 'null') . "\">Mở khung chat Admin</a>";
-            
-    $telegramUrl = "https://api.telegram.org/bot" . $botToken . "/sendMessage";
-    
-    $payload = [
-        'chat_id' => $chatId,
-        'text' => $text,
-        'parse_mode' => 'HTML'
-    ];
-    
-    $ch = curl_init($telegramUrl);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($payload));
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-    curl_exec($ch);
-    curl_close($ch);
+    // Send rate-limited Telegram Alert
+    sendTelegramChatAlert($convo, "🔔 Yêu cầu kết nối trực tiếp với Hỗ trợ viên!", 'call_admin');
     
     return response()->json(['success' => true]);
 });
@@ -541,6 +580,11 @@ Route::post('/api/chat/upload', function (\Illuminate\Http\Request $request) {
             'message' => $imagePath,
             'is_read' => false,
         ]);
+
+        if ($sender === 'user') {
+            // Send rate-limited Telegram alert
+            sendTelegramChatAlert($convo, "🖼️ [Khách gửi một hình ảnh]", 'chat');
+        }
         
         // If client uploads and AI is enabled, give a default AI acknowledgement
         if ($sender === 'user' && $convo->is_ai_enabled) {

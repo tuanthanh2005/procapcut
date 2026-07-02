@@ -8,6 +8,78 @@
     <meta name="description" content="Chuyên cung cấp, nâng cấp tài khoản CapCut Pro 1 năm, ChatGPT Plus, Canva Pro giá rẻ, uy tín. Hệ thống kích hoạt tự động 30s, bảo hành lỗi 1 đổi 1 trọn vòng đời sử dụng.">
     <meta name="keywords" content="capcut pro giá rẻ, chatgpt plus giá rẻ, canva pro giá rẻ, tài khoản ai giá rẻ, premium tools giá rẻ, mua capcut pro, mua chatgpt plus">
     <link rel="canonical" href="{{ request()->url() }}">
+    
+    <!-- JSON-LD Structured Data Schema for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": "{{ url('/') }}/#website",
+                "url": "{{ url('/') }}",
+                "name": "AI CỦA TÔI",
+                "description": "Chuyên cung cấp, nâng cấp tài khoản CapCut Pro 1 năm, ChatGPT Plus, Canva Pro giá rẻ, uy tín.",
+                "publisher": {
+                    "@id": "{{ url('/') }}/#organization"
+                }
+            },
+            {
+                "@type": "Organization",
+                "@id": "{{ url('/') }}/#organization",
+                "name": "AI CỦA TÔI",
+                "url": "{{ url('/') }}",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "{{ asset('logo.png') }}",
+                    "caption": "AI CỦA TÔI Logo"
+                },
+                "sameAs": [
+                    "https://zalo.me/0569012134",
+                    "https://t.me/specademy"
+                ]
+            },
+            {
+                "@type": "FAQPage",
+                "@id": "{{ url('/') }}/#faq",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "Làm thế nào để nâng cấp tài khoản CapCut Pro chính chủ giá rẻ?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Để nâng cấp tài khoản CapCut Pro 1 năm chính chủ giá rẻ tại AI CỦA TÔI, bạn chỉ cần chọn gói sản phẩm phù hợp, nhập thông tin email đăng ký CapCut của bạn và hoàn tất thanh toán. Hệ thống sẽ xử lý kích hoạt tự động chỉ sau 30 giây, giúp bạn sử dụng các tính năng VIP song song mượt mà trên cả điện thoại và máy tính."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Nâng cấp Canva Pro bằng email chính chủ có an toàn không?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Hoàn toàn an toàn và bảo mật. AI CỦA TÔI nâng cấp dịch vụ Canva Pro trực tiếp trên chính email cá nhân của bạn mà không cần yêu cầu cung cấp mật khẩu tài khoản. Bạn sẽ được mở khóa toàn bộ tính năng Canva VIP, bộ công cụ AI Magic Studio và chính sách bảo hành 1 đổi 1 uy tín trọn thời gian sử dụng."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Mua tài khoản ChatGPT Plus (GPT-5) tại AI CỦA TÔI có ưu điểm gì?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Mua tài khoản ChatGPT Plus (GPT-5) tại shop giúp bạn tiết kiệm chi phí tối đa mà vẫn sở hữu đầy đủ tính năng cao cấp của OpenAI như mô hình GPT-5 thế hệ mới, vẽ ảnh DALL-E 3 nghệ thuật, tạo trợ lý GPTs tùy chỉnh. Tài khoản được bảo hành đổi mới nhanh chóng nếu gặp lỗi."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Nâng cấp Google Gemini Advanced kèm 5TB Google One như thế nào?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Gói nâng cấp Google Gemini Advanced tại AI CỦA TÔI cho phép kích hoạt trực tiếp trên Gmail của khách hàng. Bạn sẽ nhận được quyền truy cập mô hình AI Ultra thông minh nhất của Google, đi kèm dung lượng lưu trữ khổng lồ 5TB Google One siêu tiết kiệm để sao lưu dữ liệu và hình ảnh."
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -2649,7 +2721,7 @@
         if (!itemsList || itemsList.length === 0) {
             itemsList = [
                 { name: 'CapCut Pro (Gói 1 Năm - Chính Chủ)' },
-                { name: 'Tài Khoản ChatGPT Plus (GPT-4) 1 Tháng' },
+                { name: 'Tài Khoản ChatGPT Plus (GPT-5) 1 Tháng' },
                 { name: 'Canva Pro Nâng Cấp Email' },
                 { name: 'Google Gemini Advanced + 2TB Google One' }
             ];

@@ -36,6 +36,12 @@ class AuthController extends Controller
         $remember = $request->has('remember');
 
         if (Auth::attempt($credentials, $remember)) {
+            if (Auth::user()->is_blocked) {
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'Tài khoản của bạn đã bị khóa bởi quản trị viên.',
+                ])->withInput($request->only('email', 'remember'));
+            }
             $request->session()->regenerate();
             return redirect()->intended('/');
         }
@@ -79,6 +85,8 @@ class AuthController extends Controller
             'role' => $isFirstUser ? 'admin' : 'user',
         ]);
 
+        $this->sendNewUserTelegramAlert($user);
+
         Auth::login($user);
 
         return redirect('/');
@@ -118,6 +126,10 @@ class AuthController extends Controller
             $mockEmail = 'mock-google-user@gmail.com';
             $user = User::where('email', $mockEmail)->first();
 
+            if ($user && $user->is_blocked) {
+                return redirect('/login')->withErrors(['email' => 'Tài khoản của bạn đã bị khóa bởi quản trị viên.']);
+            }
+
             if (!$user) {
                 $isFirstUser = User::count() === 0;
                 $user = User::create([
@@ -128,6 +140,7 @@ class AuthController extends Controller
                     'password' => Hash::make(Str::random(16)),
                     'role' => $isFirstUser ? 'admin' : 'user'
                 ]);
+                $this->sendNewUserTelegramAlert($user);
             } else {
                 if (!$user->google_id) {
                     $user->google_id = '1234567890';
@@ -148,6 +161,10 @@ class AuthController extends Controller
                         ->orWhere('email', $googleUser->getEmail())
                         ->first();
 
+            if ($user && $user->is_blocked) {
+                return redirect('/login')->withErrors(['email' => 'Tài khoản của bạn đã bị khóa bởi quản trị viên.']);
+            }
+
             if ($user) {
                 if (!$user->google_id) {
                     $user->google_id = $googleUser->getId();
@@ -164,6 +181,7 @@ class AuthController extends Controller
                     'password' => Hash::make(Str::random(16)),
                     'role' => $isFirstUser ? 'admin' : 'user'
                 ]);
+                $this->sendNewUserTelegramAlert($user);
             }
 
             Auth::login($user, true);
@@ -171,6 +189,35 @@ class AuthController extends Controller
 
         } catch (\Exception $e) {
             return redirect('/login')->withErrors(['email' => 'Đăng nhập Google thất bại: ' . $e->getMessage()]);
+        }
+    }
+
+    // Send Telegram notification when a new member registers
+    private function sendNewUserTelegramAlert(User $user)
+    {
+        $botToken = env('TELEGRAM_BOT_TOKEN');
+        $chatId = env('TELEGRAM_CHAT_ID');
+        if (empty($botToken) || empty($chatId)) {
+            return;
+        }
+
+        $totalUsers = User::count();
+
+        $text = "👤 <b>THÀNH VIÊN MỚI ĐĂNG KÝ</b> 👤\n\n" .
+                "🏷️ <b>Họ và tên</b>: " . $user->name . "\n" .
+                "✉️ <b>Email</b>: " . $user->email . "\n" .
+                "📅 <b>Thời gian</b>: " . now()->format('H:i d/m/Y') . "\n" .
+                "🔑 <b>Hình thức</b>: " . ($user->google_id ? 'Đăng ký bằng Google' : 'Đăng ký tài khoản mật khẩu') . "\n\n" .
+                "📊 <b>Tổng số thành viên hệ thống</b>: " . $totalUsers . " người dùng";
+
+        try {
+            \Illuminate\Support\Facades\Http::post("https://api.telegram.org/bot{$botToken}/sendMessage", [
+                'chat_id' => $chatId,
+                'text' => $text,
+                'parse_mode' => 'HTML',
+            ]);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Telegram new user alert failed: ' . $e->getMessage());
         }
     }
 }

@@ -7,13 +7,13 @@ $seoConfig = [
         'title' => 'Mua Bản Quyền Tài Khoản AI & Premium Tools Giá Rẻ | AI CỦA TÔI',
         'desc' => 'Chuyên nâng cấp tài khoản CapCut Pro chính chủ, ChatGPT Plus, Canva Pro giá rẻ. Kích hoạt tự động sau 30 giây, bảo hành uy tín trọn vòng đời sử dụng.',
         'h1' => 'Khám Phá Cửa Hàng Số',
-        'keywords' => 'mua tài khoản capcut pro, mua tài khoản chatgpt plus, nâng cấp canva pro, google gemini advanced, claude pro, office 365 giá rẻ',
+        'keywords' => 'mua tài khoản capcut pro, mua tài khoản chatgpt plus, nâng cấp canva pro, google gemini advanced, claude pro, office 365 copilot giá rẻ, microsoft 365 copilot',
     ],
     'gpt' => [
-        'title' => 'Mua Tài Khoản ChatGPT Plus (GPT-4) Giá Rẻ Chính Chủ | AI CỦA TÔI',
-        'desc' => 'Dịch vụ nâng cấp tài khoản ChatGPT Plus chính chủ giá rẻ nhất. Trải nghiệm GPT-4, DALL-E 3 mượt mà ổn định, bảo hành lỗi 1 đổi 1 trong 30 ngày.',
+        'title' => 'Mua Tài Khoản ChatGPT Plus (GPT-5) Giá Rẻ Chính Chủ | AI CỦA TÔI',
+        'desc' => 'Dịch vụ nâng cấp tài khoản ChatGPT Plus chính chủ giá rẻ nhất. Trải nghiệm GPT-5, DALL-E 3 mượt mà ổn định, bảo hành lỗi 1 đổi 1 trong 30 ngày.',
         'h1' => 'Tài Khoản ChatGPT Plus Premium',
-        'keywords' => 'mua tài khoản chatgpt plus, tài khoản chatgpt plus giá rẻ, nâng cấp gpt 4, mua chatgpt plus uy tín',
+        'keywords' => 'mua tài khoản chatgpt plus, tài khoản chatgpt plus giá rẻ, nâng cấp gpt 5, mua chatgpt plus uy tín',
     ],
     'gemini' => [
         'title' => 'Nâng Cấp Google Gemini Advanced + 5TB Google One Giá Rẻ | AI CỦA TÔI',
@@ -35,9 +35,9 @@ $seoConfig = [
     ],
     'other' => [
         'title' => 'Mua Tài Khoản Claude Pro & Premium Tools Giá Rẻ | AI CỦA TÔI',
-        'desc' => 'Nâng cấp tài khoản Claude Pro (Sonnet 3.5), Microsoft Office 365 chính hãng kèm 1TB OneDrive giá rẻ. Hỗ trợ kích hoạt tự động 24/7.',
+        'desc' => 'Nâng cấp tài khoản Claude Pro (Sonnet 4.8), Microsoft 365 Copilot chính hãng kèm 1TB OneDrive giá rẻ. Hỗ trợ kích hoạt tự động 24/7.',
         'h1' => 'Premium Tools & Dịch Vụ AI Khác',
-        'keywords' => 'mua tài khoản claude pro, tài khoản claude sonnet 3.5, mua claude pro uy tín, office 365 giá tốt',
+        'keywords' => 'mua tài khoản claude pro, tài khoản claude sonnet 4.8, mua claude pro uy tín, office 365 copilot, microsoft 365 copilot giá rẻ',
     ],
 ];
 
@@ -96,7 +96,7 @@ if ($category === 'all' && empty($search)) {
                 '@type' => 'ListItem',
                 'position' => 6,
                 'url' => request()->url() . '?category=other',
-                'name' => 'Tài Khoản Office 365 + 1TB OneDrive',
+                'name' => 'Tài Khoản Office 365 + 1TB OneDrive + Copilot',
             ],
         ]
     ];
@@ -112,8 +112,8 @@ if ($category === 'all' && empty($search)) {
             'reviewCount' => '142',
         ],
         'gpt' => [
-            'name' => 'Tài Khoản ChatGPT Plus (GPT-4) 1 Tháng',
-            'description' => 'Truy cập GPT-4 & DALL-E 3 mượt mà. Hỗ trợ tạo Custom GPTs riêng. Tài khoản dùng ổn định, bảo hành 1 đổi 1.',
+            'name' => 'Tài Khoản ChatGPT Plus (GPT-5) 1 Tháng',
+            'description' => 'Truy cập GPT-5 & DALL-E 3 mượt mà. Hỗ trợ tạo Custom GPTs riêng. Tài khoản dùng ổn định, bảo hành 1 đổi 1.',
             'price' => '299000',
             'sku' => 'GPT-PLUS-1M',
             'rating' => '4.8',
@@ -136,7 +136,7 @@ if ($category === 'all' && empty($search)) {
             'reviewCount' => '210',
         ],
         'other' => [
-            'name' => 'Tài Khoản Claude Pro (Sonnet 3.5) 1 Tháng',
+            'name' => 'Tài Khoản Claude Pro (Sonnet 4.8) 1 Tháng',
             'description' => 'Tốc độ phản hồi cực nhanh, không giới hạn. Đỉnh cao viết code & phân tích dữ liệu. Bảo hành lỗi đổi mới trong 30 ngày.',
             'price' => '349000',
             'sku' => 'CLAUDE-PRO-1M',
@@ -2206,7 +2206,7 @@ if ($category === 'all' && empty($search)) {
 
         const seoTitles = {
             all: 'Cửa Hàng Bản Quyền Tài Khoản AI & Premium Tools | AI CỦA TÔI',
-            gpt: 'Mua Tài Khoản ChatGPT Plus (GPT-4) Premium Giá Rẻ | AI CỦA TÔI',
+            gpt: 'Mua Tài Khoản ChatGPT Plus (GPT-5) Premium Giá Rẻ | AI CỦA TÔI',
             gemini: 'Nâng Cấp Google Gemini Advanced Kèm 2TB Google One | AI CỦA TÔI',
             capcut: 'Nâng Cấp Tài Khoản CapCut Pro Gói 1 Năm Chính Chủ | AI CỦA TÔI',
             canva: 'Nâng Cấp Canva Pro Kích Hoạt Email Chính Chủ | AI CỦA TÔI',

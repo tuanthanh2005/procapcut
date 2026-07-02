@@ -71,6 +71,32 @@ class OrderController extends Controller
             'activation_key' => null,
         ]);
 
+        // Send Telegram Alert for new order
+        $botToken = env('TELEGRAM_BOT_TOKEN');
+        $chatId = env('TELEGRAM_CHAT_ID');
+        if (!empty($botToken) && !empty($chatId)) {
+            $text = "🛍️ <b>ĐƠN HÀNG MỚI</b> 🛍️\n\n" .
+                    "🆔 <b>Mã đơn hàng</b>: #" . $order->id . "\n" .
+                    "👤 <b>Khách hàng</b>: " . $order->customer_name . "\n" .
+                    "📞 <b>Số điện thoại</b>: " . $order->customer_phone . "\n" .
+                    "✉️ <b>Email</b>: " . $order->customer_email . "\n" .
+                    "📦 <b>Sản phẩm</b>: " . $order->product_name . "\n" .
+                    "💵 <b>Tổng tiền</b>: " . number_format($order->price) . "đ\n" .
+                    "💳 <b>Phương thức</b>: " . ($order->payment_method === 'qr_bank' ? 'Chuyển khoản QR Bank' : 'Ví MoMo') . "\n" .
+                    "⚙️ <b>Thông tin nâng cấp</b>: " . $order->upgrade_details . "\n\n" .
+                    "🔗 <b>Xem chi tiết đơn hàng</b>: <a href=\"" . url('/admin/orders/' . $order->id) . "\">Quản trị Đơn hàng</a>";
+
+            try {
+                \Illuminate\Support\Facades\Http::post("https://api.telegram.org/bot{$botToken}/sendMessage", [
+                    'chat_id' => $chatId,
+                    'text' => $text,
+                    'parse_mode' => 'HTML',
+                ]);
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error('Telegram order alert failed: ' . $e->getMessage());
+            }
+        }
+
         return redirect()->route('checkout.thankyou', $order->id);
     }
 
