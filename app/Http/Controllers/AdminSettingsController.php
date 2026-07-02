@@ -30,6 +30,8 @@ class AdminSettingsController extends Controller
             'bank_account_no' => 'required|string|max:50',
             'bank_account_name' => 'required|string|max:255',
             'sepay_webhook_token' => 'required|string|max:255',
+            'favicon' => 'nullable|image|mimes:png,ico,jpeg,jpg|max:2048',
+            'logo' => 'nullable|image|mimes:png,jpg,jpeg,svg|max:2048',
         ]);
 
         Setting::setValue('bank_name', $request->bank_name);
@@ -38,6 +40,18 @@ class AdminSettingsController extends Controller
         Setting::setValue('bank_account_name', strtoupper($request->bank_account_name));
         Setting::setValue('sepay_webhook_token', $request->sepay_webhook_token);
 
-        return redirect()->back()->with('success_message', 'Cập nhật cấu hình hệ thống ngân hàng & Webhook SePay thành công!');
+        // Upload Favicon
+        if ($request->hasFile('favicon')) {
+            $file = $request->file('favicon');
+            $file->move(public_path(), 'favicon.png');
+        }
+
+        // Upload Logo
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $file->move(public_path(), 'logo.png');
+        }
+
+        return redirect()->back()->with('success_message', 'Cập nhật cấu hình hệ thống ngân hàng, Webhook SePay & File giao diện thành công!');
     }
 }

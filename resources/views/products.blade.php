@@ -263,27 +263,65 @@ if ($category === 'all' && empty($search)) {
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 0 1.5rem;
+            padding: 0 2rem;
         }
 
         /* Top Sale Ticker */
         .top-ticker {
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             color: white;
-            text-align: center;
-            padding: 0.5rem;
+            padding: 0.5rem 0;
             font-size: 0.85rem;
             font-weight: 600;
             letter-spacing: 0.5px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             position: relative;
             z-index: 101;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            height: 38px;
+        }
+
+        .marquee-wrapper {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+            user-select: none;
+        }
+
+        .marquee-content {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: space-around;
+            min-width: 100%;
+            gap: 3rem;
+            animation: marquee 30s linear infinite;
+            padding-right: 3rem;
+        }
+
+        .marquee-content span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            color: white;
+        }
+
+        .marquee-content span strong {
+            color: #ffe066; /* Bright yellow accent for coupon code */
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
         }
 
         .top-ticker i {
@@ -339,21 +377,21 @@ if ($category === 'all' && empty($search)) {
 
         /* Search Bar */
         .search-wrapper {
-            flex: 1;
-            max-width: 460px;
+            flex: 0 1 240px;
             position: relative;
         }
 
         .search-input {
             width: 100%;
+            height: 2.5rem;
             background: #ffffff;
             border: 1px solid var(--border-color);
-            padding: 0.65rem 1.25rem;
-            padding-right: 3rem;
+            padding: 0 1rem;
+            padding-right: 2.5rem;
             border-radius: var(--radius-full);
             color: var(--text-main);
             font-family: inherit;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: var(--transition);
             box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.02);
         }
@@ -366,14 +404,14 @@ if ($category === 'all' && empty($search)) {
 
         .search-btn {
             position: absolute;
-            right: 0.5rem;
+            right: 0.4rem;
             top: 50%;
             transform: translateY(-50%);
             background: transparent;
             border: none;
             color: var(--text-muted);
-            width: 2.2rem;
-            height: 2.2rem;
+            width: 2rem;
+            height: 2rem;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
@@ -436,14 +474,16 @@ if ($category === 'all' && empty($search)) {
 
         /* Navigation Categories Strip */
         .cat-nav-bar {
-            margin-top: 1rem;
-            padding-top: 6px;
+            margin-top: 0;
+            padding-top: 5px;
             display: flex;
             justify-content: center;
-            gap: 1.25rem;
+            gap: 0.5rem;
             overflow-x: auto;
-            padding-bottom: 0.35rem;
+            padding-bottom: 5px;
             scrollbar-width: none;
+            flex: 1 1 auto;
+            max-width: none;
         }
 
         .cat-nav-bar::-webkit-scrollbar {
@@ -451,18 +491,18 @@ if ($category === 'all' && empty($search)) {
         }
 
         .cat-pill {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 500;
             color: var(--text-muted);
             white-space: nowrap;
-            padding: 0.4rem 0.85rem;
+            padding: 0.35rem 0.65rem;
             border-radius: var(--radius-full);
             background: #ffffff;
             border: 1px solid var(--border-color);
             transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.35rem;
             box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
             cursor: pointer;
         }
@@ -505,10 +545,7 @@ if ($category === 'all' && empty($search)) {
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
             padding: 1.5rem;
-            position: sticky;
-            top: 130px; /* Offset for sticky header */
             box-shadow: var(--shadow-sm);
-            z-index: 10;
         }
 
         .filter-group {
@@ -992,6 +1029,25 @@ if ($category === 'all' && empty($search)) {
             font-size: 1.1rem;
         }
 
+        .cart-item-img-wrapper {
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .cart-item-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .cart-item-details {
             flex: 1;
         }
@@ -1188,12 +1244,9 @@ if ($category === 'all' && empty($search)) {
         }
 
         /* Responsive Layouts */
-        @media (max-width: 900px) {
+        @media (max-width: 768px) {
             .catalog-container {
                 grid-template-columns: 1fr;
-            }
-            .filter-sidebar {
-                position: static;
             }
         }
 
@@ -1302,14 +1355,65 @@ if ($category === 'all' && empty($search)) {
             background: #fef2f2;
             color: #ef4444 !important;
         }
+
+        /* Floating Back to Top Button */
+        .back-to-top-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            transform: translateY(10px);
+        }
+
+        .back-to-top-btn.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        }
     </style>
 </head>
 <body>
 
     <!-- Top Promotion Bar -->
     <div class="top-ticker">
-        <i class="fa-solid fa-bolt"></i>
-        <span>Flash Sale: Nhập mã <strong>AI2026</strong> giảm ngay 20% cho tất cả tài khoản!</span>
+        <div class="marquee-wrapper">
+            <div class="marquee-content">
+                <span><i class="fa-solid fa-bolt"></i> Flash Sale: Nhập mã <strong>AI2026</strong> giảm ngay 20% cho tất cả tài khoản!</span>
+                <span><i class="fa-solid fa-circle-check"></i> Hệ thống tự động kích hoạt tài khoản trong 30 giây!</span>
+                <span><i class="fa-solid fa-shield-halved"></i> Cam kết bảo hành lỗi 1 đổi 1 trọn đời sử dụng!</span>
+                <span><i class="fa-solid fa-heart-circle-check"></i> Hơn 10.000+ khách hàng tin dùng!</span>
+                <span><i class="fa-solid fa-headset"></i> Hỗ trợ kỹ thuật 24/7 qua Zalo & Hotline!</span>
+            </div>
+            <!-- Duplicate the content for seamless infinite scrolling loop -->
+            <div class="marquee-content" aria-hidden="true">
+                <span><i class="fa-solid fa-bolt"></i> Flash Sale: Nhập mã <strong>AI2026</strong> giảm ngay 20% cho tất cả tài khoản!</span>
+                <span><i class="fa-solid fa-circle-check"></i> Hệ thống tự động kích hoạt tài khoản trong 30 giây!</span>
+                <span><i class="fa-solid fa-shield-halved"></i> Cam kết bảo hành lỗi 1 đổi 1 trọn đời sử dụng!</span>
+                <span><i class="fa-solid fa-heart-circle-check"></i> Hơn 10.000+ khách hàng tin dùng!</span>
+                <span><i class="fa-solid fa-headset"></i> Hỗ trợ kỹ thuật 24/7 qua Zalo & Hotline!</span>
+            </div>
+        </div>
     </div>
 
     <!-- Header Area -->
@@ -1317,9 +1421,25 @@ if ($category === 'all' && empty($search)) {
         <div class="container">
             <div class="navbar">
                 <a href="/" class="logo">
-                    <i class="fa-solid fa-rocket logo-icon"></i>
-                    <span>AI CỦA TÔI</span>
+                    @if(file_exists(public_path('logo.png')))
+                        <img src="{{ asset('logo.png') }}?v={{ time() }}" alt="Logo" style="max-height: 2.2rem; object-fit: contain;">
+                    @else
+                        <i class="fa-solid fa-rocket logo-icon"></i>
+                        <span>AI CỦA TÔI</span>
+                    @endif
                 </a>
+
+                <!-- Categories pills in Header (Sync with Filter) -->
+            <div class="cat-nav-bar">
+                <a href="/" class="cat-pill"><i class="fa-solid fa-house"></i> Trang Chủ</a>
+                <button class="cat-pill" data-category="gpt"><i class="fa-solid fa-brain"></i> Chat Gpt</button>
+                <button class="cat-pill" data-category="gemini"><i class="fa-brands fa-google"></i> Gemini</button>
+                <button class="cat-pill" data-category="capcut"><i class="fa-solid fa-video"></i> CapCut Pro</button>
+                <button class="cat-pill" data-category="canva"><i class="fa-solid fa-palette"></i> Canva</button>
+                <button class="cat-pill" data-category="other"><i class="fa-solid fa-cubes"></i> Sản Phẩm Khác</button>
+                <a href="/posts" class="cat-pill"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
+                <a href="https://zalo.me" target="_blank" class="cat-pill" style="color: var(--primary); font-weight: 600;"><i class="fa-solid fa-phone"></i> Liên Hệ</a>
+            </div>
 
                 <div class="search-wrapper">
                     <input type="text" class="search-input" id="search-input" placeholder="Tìm kiếm nhanh sản phẩm...">
@@ -1369,16 +1489,7 @@ if ($category === 'all' && empty($search)) {
                 </div>
             </div>
 
-            <!-- Categories pills in Header (Sync with Filter) -->
-            <div class="cat-nav-bar">
-                <button class="cat-pill active" data-category="all"><i class="fa-solid fa-border-all"></i> Tất Cả</button>
-                <button class="cat-pill" data-category="gpt"><i class="fa-solid fa-brain"></i> Chat Gpt</button>
-                <button class="cat-pill" data-category="gemini"><i class="fa-brands fa-google"></i> Gemini</button>
-                <button class="cat-pill" data-category="capcut"><i class="fa-solid fa-video"></i> CapCut Pro</button>
-                <button class="cat-pill" data-category="canva"><i class="fa-solid fa-palette"></i> Canva</button>
-                <button class="cat-pill" data-category="other"><i class="fa-solid fa-cubes"></i> Sản Phẩm Khác</button>
-                <a href="https://zalo.me" target="_blank" class="cat-pill" style="color: var(--primary); font-weight: 600;"><i class="fa-solid fa-phone"></i> Liên Hệ</a>
-            </div>
+            
         </div>
     </header>
 
@@ -1443,7 +1554,7 @@ if ($category === 'all' && empty($search)) {
                 
                 <div class="products-grid" id="products-container">
                     @foreach($products as $prod)
-                        <div class="product-card" data-cat="{{ $prod->category }}" data-id="{{ $prod->options[0]['id'] ?? ($prod->slug . '-default') }}" data-name="{{ $prod->name }}" data-price="{{ $prod->default_price }}" data-slashed="{{ $prod->default_slashed }}" data-icon="{{ $prod->icon }}">
+                        <div class="product-card" data-cat="{{ $prod->category }}" data-id="{{ $prod->options[0]['id'] ?? ($prod->slug . '-default') }}" data-name="{{ $prod->name }}" data-price="{{ $prod->default_price }}" data-slashed="{{ $prod->default_slashed }}" data-icon="{{ $prod->icon }}" data-image="{{ $prod->image_path }}">
                             @if($prod->tag)
                                 <span class="product-sale-tag">{{ $prod->tag }}</span>
                             @endif
@@ -1536,9 +1647,13 @@ if ($category === 'all' && empty($search)) {
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col" style="grid-column: span 1.5;">
-                    <a href="/" class="logo" style="margin-bottom: 1rem; display: inline-flex;">
-                        <i class="fa-solid fa-rocket logo-icon" style="filter: none;"></i>
-                        <span style="color: white;">AI CỦA TÔI</span>
+                    <a href="/" class="logo" style="margin-bottom: 1rem; display: inline-flex; align-items: center;">
+                        @if(file_exists(public_path('logo.png')))
+                            <img src="{{ asset('logo.png') }}?v={{ time() }}" alt="Logo" style="max-height: 2.2rem; object-fit: contain;">
+                        @else
+                            <i class="fa-solid fa-rocket logo-icon" style="filter: none;"></i>
+                            <span style="color: white;">AI CỦA TÔI</span>
+                        @endif
                     </a>
                     <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.6; max-width: 280px;">
                         Hệ thống cung cấp dịch vụ nâng cấp tài khoản số, phần mềm đồ họa, thiết kế và AI hàng đầu Việt Nam. Tự động - Uy tín - Giá rẻ.
@@ -1563,6 +1678,7 @@ if ($category === 'all' && empty($search)) {
                 <div class="footer-col">
                     <h4>Dịch Vụ & Hỗ Trợ</h4>
                     <div class="footer-links">
+                        <a href="/posts">Tin Tức & Bài Viết</a>
                         <a href="#">Chính Sách Bảo Hành</a>
                         <a href="#">Điều Khoản Sử Dụng</a>
                         <a href="#">Hướng Dẫn Mua Hàng</a>
@@ -1590,6 +1706,14 @@ if ($category === 'all' && empty($search)) {
     <script>
         // State variables
         let cart = [];
+        const savedCart = localStorage.getItem('capcut_store_cart');
+        if (savedCart) {
+            try {
+                cart = JSON.parse(savedCart);
+            } catch(e) {
+                cart = [];
+            }
+        }
         
         // Filter states
         let filterState = {
@@ -1652,11 +1776,25 @@ if ($category === 'all' && empty($search)) {
             cart.forEach((item, index) => {
                 total += item.price * item.quantity;
                 count += item.quantity;
-                html += `
-                    <div class="cart-item">
+
+                let mediaHtml = '';
+                if (item.image) {
+                    mediaHtml = `
+                        <div class="cart-item-img-wrapper">
+                            <img src="/${item.image}" alt="${item.name}" class="cart-item-img">
+                        </div>
+                    `;
+                } else {
+                    mediaHtml = `
                         <div class="cart-item-icon">
                             <i class="fa-solid ${item.icon}"></i>
                         </div>
+                    `;
+                }
+
+                html += `
+                    <div class="cart-item">
+                        ${mediaHtml}
                         <div class="cart-item-details">
                             <div class="cart-item-name">${item.name}</div>
                             <div class="cart-item-price">${formatVND(item.price)}</div>
@@ -1676,15 +1814,18 @@ if ($category === 'all' && empty($search)) {
             cartItemsWrapper.innerHTML = html;
             cartTotalPrice.innerText = formatVND(total);
             cartCount.innerText = count;
+
+            // Persist to localStorage
+            localStorage.setItem('capcut_store_cart', JSON.stringify(cart));
         }
 
         // Functions: Add item to Cart
-        function addToCart(id, name, price, icon) {
+        function addToCart(id, name, price, icon, image) {
             const existingIndex = cart.findIndex(item => item.id === id);
             if (existingIndex > -1) {
                 cart[existingIndex].quantity += 1;
             } else {
-                cart.push({ id, name, price, icon, quantity: 1 });
+                cart.push({ id, name, price, icon, image, quantity: 1 });
             }
             renderCart();
             showToast(`Đã thêm "${name}" vào giỏ hàng thành công!`);
@@ -1911,7 +2052,8 @@ if ($category === 'all' && empty($search)) {
                 const name = card.getAttribute('data-name');
                 const price = parseInt(card.getAttribute('data-price'));
                 const icon = card.getAttribute('data-icon');
-                addToCart(id, name, price, icon);
+                const image = card.getAttribute('data-image');
+                addToCart(id, name, price, icon, image);
             });
         });
 
@@ -1984,6 +2126,27 @@ if ($category === 'all' && empty($search)) {
             // Initial filter run
             applyFilters();
         }
+
+        // Render initial cart from localStorage
+        renderCart();
+
+        // Back to Top Scroll behavior
+        const backToTopBtn = document.getElementById('back-to-top-btn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     </script>
+    
+    <!-- Floating Back to Top Button -->
+    <button id="back-to-top-btn" class="back-to-top-btn" title="Cuộn lên đầu trang">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
 </body>
 </html>

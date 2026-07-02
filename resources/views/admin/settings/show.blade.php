@@ -304,6 +304,9 @@
                 <a href="/admin/products"><i class="fa-solid fa-box-open"></i> Sản phẩm</a>
             </li>
             <li class="menu-item">
+                <a href="/admin/posts"><i class="fa-solid fa-newspaper"></i> Bài viết</a>
+            </li>
+            <li class="menu-item">
                 <a href="/admin/orders"><i class="fa-solid fa-receipt"></i> Đơn hàng</a>
             </li>
             <li class="menu-item active">
@@ -337,9 +340,43 @@
                 </div>
             @endif
 
-            <form action="/admin/settings" method="POST">
+            <form action="/admin/settings" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+
+                <!-- Logo & Favicon Config -->
+                <div class="settings-card">
+                    <h2><i class="fa-solid fa-image"></i> Cấu hình Logo & Favicon</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="favicon">Hình ảnh Favicon (Icon trình duyệt)</label>
+                            <input type="file" name="favicon" id="favicon" class="form-input" accept="image/png, image/x-icon, image/jpeg">
+                            <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem;">
+                                * Định dạng PNG hoặc ICO. Kích thước khuyến nghị: <strong>512 x 512 px</strong> (hoặc 32x32px, 128x128px).
+                            </span>
+                            @if(file_exists(public_path('favicon.png')))
+                                <div style="margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <span style="font-size: 0.75rem; color: var(--text-muted);">Favicon hiện tại:</span>
+                                    <img src="{{ asset('favicon.png') }}?v={{ time() }}" alt="Favicon" style="width: 24px; height: 24px; border-radius: 4px; border: 1px solid var(--border-color);">
+                                </div>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="logo">Hình ảnh Logo website</label>
+                            <input type="file" name="logo" id="logo" class="form-input" accept="image/png, image/jpeg, image/svg+xml">
+                            <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem;">
+                                * Định dạng PNG, JPG hoặc SVG. Kích thước khuyến nghị: <strong>180 x 50 px</strong> (hoặc tỷ lệ ngang tương đương).
+                            </span>
+                            @if(file_exists(public_path('logo.png')))
+                                <div style="margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <span style="font-size: 0.75rem; color: var(--text-muted);">Logo hiện tại:</span>
+                                    <img src="{{ asset('logo.png') }}?v={{ time() }}" alt="Logo" style="max-height: 24px; max-width: 100px; object-fit: contain; border: 1px solid var(--border-color); padding: 2px; background: #f1f5f9;">
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Bank Config -->
                 <div class="settings-card">

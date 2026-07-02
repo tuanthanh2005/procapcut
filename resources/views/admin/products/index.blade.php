@@ -316,6 +316,9 @@
                 <a href="/admin/products"><i class="fa-solid fa-cubes"></i> Quản lý sản phẩm</a>
             </li>
             <li class="menu-item">
+                <a href="/admin/posts"><i class="fa-solid fa-newspaper"></i> Quản lý bài viết</a>
+            </li>
+            <li class="menu-item">
                 <a href="/admin/orders"><i class="fa-solid fa-shopping-cart"></i> Đơn hàng</a>
             </li>
             <li class="menu-item">

@@ -28,4 +28,12 @@ class Product extends Model
             'default_slashed' => 'integer'
         ];
     }
+
+    /**
+     * Get the reviews for this product.
+     */
+    public function reviews(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Review::class)->latest();
+    }
 }

@@ -41,9 +41,9 @@
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 0 1.5rem;
+            padding: 0 2rem;
         }
 
         /* Navbar */
@@ -259,6 +259,25 @@
             font-size: 1.1rem;
         }
 
+        .summary-item-img-wrapper {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .summary-item-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .summary-item-text h4 {
             font-size: 0.85rem;
             font-weight: 800;
@@ -396,8 +415,12 @@
         <div class="container">
             <div class="navbar">
                 <a href="/" class="logo">
-                    <i class="fa-solid fa-rocket"></i>
-                    <span>AI CỦA TÔI</span>
+                    @if(file_exists(public_path('logo.png')))
+                        <img src="{{ asset('logo.png') }}?v={{ time() }}" alt="Logo" style="max-height: 2.2rem; object-fit: contain;">
+                    @else
+                        <i class="fa-solid fa-rocket logo-icon"></i>
+                        <span>AI CỦA TÔI</span>
+                    @endif
                 </a>
 
                 <div class="nav-actions">
@@ -569,13 +592,26 @@
                 const itemTotal = item.price * (item.quantity || 1);
                 subtotal += itemTotal;
 
+                let mediaHtml = '';
+                if (item.image) {
+                    mediaHtml = `
+                        <div class="summary-item-img-wrapper">
+                            <img src="/${item.image}" alt="${item.name}" class="summary-item-img">
+                        </div>
+                    `;
+                } else {
+                    mediaHtml = `
+                        <div class="summary-item-icon">
+                            <i class="fa-solid ${item.icon ? item.icon.split(' ')[0] : 'fa-cube'}"></i>
+                        </div>
+                    `;
+                }
+
                 const row = document.createElement('div');
                 row.className = 'summary-item-row';
                 row.innerHTML = `
                     <div class="summary-item-details">
-                        <div class="summary-item-icon">
-                            <i class="fa-solid ${item.icon ? item.icon.split(' ')[0] : 'fa-cube'}"></i>
-                        </div>
+                        ${mediaHtml}
                         <div class="summary-item-text">
                             <h4>${item.name}</h4>
                             <p>Số lượng: ${item.quantity || 1}</p>

@@ -111,27 +111,65 @@ $schema = [
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 0 1.5rem;
+            padding: 0 2rem;
         }
 
         /* Top Sale Ticker */
         .top-ticker {
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             color: white;
-            text-align: center;
-            padding: 0.5rem;
+            padding: 0.5rem 0;
             font-size: 0.85rem;
             font-weight: 600;
             letter-spacing: 0.5px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             position: relative;
             z-index: 101;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            height: 38px;
+        }
+
+        .marquee-wrapper {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+            user-select: none;
+        }
+
+        .marquee-content {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: space-around;
+            min-width: 100%;
+            gap: 3rem;
+            animation: marquee 30s linear infinite;
+            padding-right: 3rem;
+        }
+
+        .marquee-content span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            color: white;
+        }
+
+        .marquee-content span strong {
+            color: #ffe066; /* Bright yellow accent for coupon code */
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
         }
 
         .top-ticker i {
@@ -236,14 +274,16 @@ $schema = [
 
         /* Navigation Categories Strip */
         .cat-nav-bar {
-            margin-top: 1rem;
-            padding-top: 6px;
+            margin-top: 0;
+            padding-top: 5px;
             display: flex;
             justify-content: center;
-            gap: 1.25rem;
+            gap: 0.5rem;
             overflow-x: auto;
-            padding-bottom: 0.35rem;
+            padding-bottom: 5px;
             scrollbar-width: none;
+            flex: 1 1 auto;
+            max-width: none;
         }
 
         .cat-nav-bar::-webkit-scrollbar {
@@ -251,18 +291,18 @@ $schema = [
         }
 
         .cat-pill {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 500;
             color: var(--text-muted);
             white-space: nowrap;
-            padding: 0.4rem 0.85rem;
+            padding: 0.35rem 0.65rem;
             border-radius: var(--radius-full);
             background: #ffffff;
             border: 1px solid var(--border-color);
             transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.35rem;
             box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
             cursor: pointer;
             text-decoration: none;
@@ -806,54 +846,62 @@ $schema = [
             line-height: 1.8;
         }
 
-        .desc-text h4 {
+        .desc-text h2, .desc-text h3, .desc-text h4, .desc-text h5, .desc-text h6 {
             color: var(--text-main);
-            font-size: 1.15rem;
             font-weight: 800;
-            margin: 1.5rem 0 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            margin: 1.8rem 0 0.85rem;
         }
 
-        .desc-text h4 i {
-            color: var(--primary);
-        }
+        .desc-text h2 { font-size: 1.35rem; }
+        .desc-text h3 { font-size: 1.2rem; }
+        .desc-text h4 { font-size: 1.1rem; }
 
         .desc-text p {
-            margin-bottom: 1rem;
+            margin-bottom: 1.1rem;
+        }
+
+        .desc-text ul, .desc-text ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
         }
 
         .desc-text ul {
-            margin-bottom: 1.25rem;
-            padding-left: 1.25rem;
             list-style-type: disc;
         }
 
-        .desc-text ul li {
-            margin-bottom: 0.5rem;
+        .desc-text ol {
+            list-style-type: decimal;
         }
 
-        .desc-table {
+        .desc-text ul li, .desc-text ol li {
+            margin-bottom: 0.6rem;
+        }
+
+        .desc-text table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1.5rem 0;
+            margin: 1.8rem 0;
             border-radius: var(--radius-sm);
             overflow: hidden;
             border: 1px solid var(--border-color);
         }
 
-        .desc-table td, .desc-table th {
+        .desc-text table td, .desc-text table th {
             border: 1px solid var(--border-color);
             padding: 0.85rem 1.1rem;
             font-size: 0.88rem;
+            line-height: 1.6;
         }
 
-        .desc-table th {
+        .desc-text table th {
             background: #f8fafc;
             font-weight: 700;
             color: var(--text-main);
             text-align: left;
+        }
+
+        .desc-text table tr:nth-child(even) {
+            background-color: #f8fafc;
         }
 
         .reviews-box {
@@ -1019,6 +1067,25 @@ $schema = [
             align-items: center;
             justify-content: center;
             font-size: 1.15rem;
+        }
+
+        .cart-item-img-wrapper {
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .cart-item-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .cart-item-details {
@@ -1414,14 +1481,65 @@ $schema = [
             background: #fef2f2;
             color: #ef4444 !important;
         }
+
+        /* Floating Back to Top Button */
+        .back-to-top-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            transform: translateY(10px);
+        }
+
+        .back-to-top-btn.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        }
     </style>
 </head>
 <body>
 
     <!-- Top Promotion Bar -->
     <div class="top-ticker">
-        <i class="fa-solid fa-bolt"></i>
-        <span>Flash Sale: Nhập mã <strong>AI2026</strong> giảm ngay 20% cho tất cả tài khoản!</span>
+        <div class="marquee-wrapper">
+            <div class="marquee-content">
+                <span><i class="fa-solid fa-bolt"></i> Flash Sale: Nhập mã <strong>AI2026</strong> giảm ngay 20% cho tất cả tài khoản!</span>
+                <span><i class="fa-solid fa-circle-check"></i> Hệ thống tự động kích hoạt tài khoản trong 30 giây!</span>
+                <span><i class="fa-solid fa-shield-halved"></i> Cam kết bảo hành lỗi 1 đổi 1 trọn đời sử dụng!</span>
+                <span><i class="fa-solid fa-heart-circle-check"></i> Hơn 10.000+ khách hàng tin dùng!</span>
+                <span><i class="fa-solid fa-headset"></i> Hỗ trợ kỹ thuật 24/7 qua Zalo & Hotline!</span>
+            </div>
+            <!-- Duplicate the content for seamless infinite scrolling loop -->
+            <div class="marquee-content" aria-hidden="true">
+                <span><i class="fa-solid fa-bolt"></i> Flash Sale: Nhập mã <strong>AI2026</strong> giảm ngay 20% cho tất cả tài khoản!</span>
+                <span><i class="fa-solid fa-circle-check"></i> Hệ thống tự động kích hoạt tài khoản trong 30 giây!</span>
+                <span><i class="fa-solid fa-shield-halved"></i> Cam kết bảo hành lỗi 1 đổi 1 trọn đời sử dụng!</span>
+                <span><i class="fa-solid fa-heart-circle-check"></i> Hơn 10.000+ khách hàng tin dùng!</span>
+                <span><i class="fa-solid fa-headset"></i> Hỗ trợ kỹ thuật 24/7 qua Zalo & Hotline!</span>
+            </div>
+        </div>
     </div>
 
     <!-- Header Area -->
@@ -1429,8 +1547,12 @@ $schema = [
         <div class="container">
             <div class="navbar">
                 <a href="/" class="logo">
-                    <i class="fa-solid fa-rocket logo-icon"></i>
-                    <span>AI CỦA TÔI</span>
+                    @if(file_exists(public_path('logo.png')))
+                        <img src="{{ asset('logo.png') }}?v={{ time() }}" alt="Logo" style="max-height: 2.2rem; object-fit: contain;">
+                    @else
+                        <i class="fa-solid fa-rocket logo-icon"></i>
+                        <span>AI CỦA TÔI</span>
+                    @endif
                 </a>
 
                 <div class="nav-actions">
@@ -1477,16 +1599,7 @@ $schema = [
                 </div>
             </div>
 
-            <!-- Categories pills in Header -->
-            <div class="cat-nav-bar">
-                <a href="/products?category=all" class="cat-pill"><i class="fa-solid fa-border-all"></i> Tất Cả</a>
-                <a href="/products?category=gpt" class="cat-pill"><i class="fa-solid fa-brain"></i> Chat Gpt</a>
-                <a href="/products?category=gemini" class="cat-pill"><i class="fa-brands fa-google"></i> Gemini</a>
-                <a href="/products?category=capcut" class="cat-pill"><i class="fa-solid fa-video"></i> CapCut Pro</a>
-                <a href="/products?category=canva" class="cat-pill"><i class="fa-solid fa-palette"></i> Canva</a>
-                <a href="/products?category=other" class="cat-pill"><i class="fa-solid fa-cubes"></i> Sản Phẩm Khác</a>
-                <a href="https://zalo.me" target="_blank" class="cat-pill" style="color: var(--primary); font-weight: 600;"><i class="fa-solid fa-phone"></i> Liên Hệ</a>
-            </div>
+            
         </div>
     </header>
 
@@ -1639,14 +1752,28 @@ $schema = [
             <!-- Tab 2: Customer Reviews -->
             <div class="tab-content" id="tab-reviews">
                 <div class="reviews-box">
+                    
+                    @if(session('success_review'))
+                        <div style="background: rgba(5, 150, 105, 0.1); border: 1px solid var(--success); color: var(--success); padding: 0.75rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem; font-size: 0.85rem; font-weight: 600;">
+                            <i class="fa-solid fa-circle-check"></i> {{ session('success_review') }}
+                        </div>
+                    @endif
+
                     <div class="reviews-header">
                         <h3>Đánh Giá Của Khách Hàng</h3>
                         <div class="rev-aggregate">
                             <span class="rev-big-num">{{ $product['rating'] }}</span>
                             <div>
                                 <div class="rev-stars">
-                                    @for ($i = 0; $i < 5; $i++)
-                                        <i class="fa-solid fa-star"></i>
+                                    @php $ratingVal = (float)$product['rating']; @endphp
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($i <= $ratingVal)
+                                            <i class="fa-solid fa-star"></i>
+                                        @elseif ($i - 0.5 <= $ratingVal)
+                                            <i class="fa-solid fa-star-half-stroke"></i>
+                                        @else
+                                            <i class="fa-regular fa-star" style="color: var(--border-color);"></i>
+                                        @endif
                                     @endfor
                                 </div>
                                 <span style="font-size: 0.72rem; color: var(--text-dark);">Dựa trên {{ $product['review_count'] }} đánh giá</span>
@@ -1654,39 +1781,107 @@ $schema = [
                         </div>
                     </div>
 
-                    <div class="reviews-list">
-                        @if($product['category'] === 'capcut')
-                            <div class="rev-item">
-                                <div class="rev-meta">
-                                    <span class="rev-author">Nguyễn Hoàng Long</span>
-                                    <span class="rev-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+                    <div class="reviews-list" style="margin-bottom: 2.5rem;">
+                        @php
+                            $dbReviews = $product->reviews;
+                        @endphp
+                        
+                        @if($dbReviews->isEmpty())
+                            @if($product['category'] === 'capcut')
+                                <div class="rev-item">
+                                    <div class="rev-meta">
+                                        <span class="rev-author">Nguyễn Hoàng Long</span>
+                                        <span class="rev-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+                                    </div>
+                                    <p class="rev-text">Đã nâng cấp thành công trên email chính chủ cá nhân. Mọi hiệu ứng Pro và chuyển cảnh VIP chạy mượt mà trên cả máy tính Mac và điện thoại iPhone của mình.</p>
                                 </div>
-                                <p class="rev-text">Đã nâng cấp thành công trên email chính chủ cá nhân. Mọi hiệu ứng Pro và chuyển cảnh VIP chạy mượt mà trên cả máy tính Mac và điện thoại iPhone của mình.</p>
-                            </div>
-                            <div class="rev-item">
-                                <div class="rev-meta">
-                                    <span class="rev-author">Lê Thuỳ Trang (Tiktok Creator)</span>
-                                    <span class="rev-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+                                <div class="rev-item">
+                                    <div class="rev-meta">
+                                        <span class="rev-author">Lê Thuỳ Trang (Tiktok Creator)</span>
+                                        <span class="rev-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+                                    </div>
+                                    <p class="rev-text">Shop bàn giao tài khoản siêu tốc luôn, chưa đầy 1 phút sau thanh toán đã nhận được email báo nâng cấp thành công. Sẽ tiếp tục ủng hộ lâu dài.</p>
                                 </div>
-                                <p class="rev-text">Shop bàn giao tài khoản siêu tốc luôn, chưa đầy 1 phút sau thanh toán đã nhận được email báo nâng cấp thành công. Sẽ tiếp tục ủng hộ lâu dài.</p>
-                            </div>
-                        @elseif($product['category'] === 'gpt')
-                            <div class="rev-item">
-                                <div class="rev-meta">
-                                    <span class="rev-author">Phạm Minh Đức (Developer)</span>
-                                    <span class="rev-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+                            @elseif($product['category'] === 'gpt')
+                                <div class="rev-item">
+                                    <div class="rev-meta">
+                                        <span class="rev-author">Phạm Minh Đức (Developer)</span>
+                                        <span class="rev-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+                                    </div>
+                                    <p class="rev-text">Tài khoản Plus dùng siêu ổn định, viết code và phân tích sơ đồ rất nhanh. Giá rẻ hơn nhiều so với tự mua trực tiếp bằng thẻ visa.</p>
                                 </div>
-                                <p class="rev-text">Tài khoản Plus dùng siêu ổn định, viết code và phân tích sơ đồ rất nhanh. Giá rẻ hơn nhiều so với tự mua trực tiếp bằng thẻ visa.</p>
-                            </div>
+                            @else
+                                <div class="rev-item">
+                                    <div class="rev-meta">
+                                        <span class="rev-author">Trần Anh Tuấn</span>
+                                        <span class="rev-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+                                    </div>
+                                    <p class="rev-text">Giao dịch nhanh chóng, nhân viên hỗ trợ nhiệt tình qua zalo kích hoạt chỉ 30 giây. Rất hài lòng về chất lượng phục vụ.</p>
+                                </div>
+                            @endif
                         @else
-                            <div class="rev-item">
-                                <div class="rev-meta">
-                                    <span class="rev-author">Trần Anh Tuấn</span>
-                                    <span class="rev-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+                            @foreach($dbReviews as $rev)
+                                <div class="rev-item">
+                                    <div class="rev-meta">
+                                        <span class="rev-author">{{ $rev->user->name }}</span>
+                                        <span class="rev-stars">
+                                            @for($i = 1; $i <= 5; $i++)
+                                                @if($i <= $rev->rating)
+                                                    <i class="fa-solid fa-star"></i>
+                                                @else
+                                                    <i class="fa-regular fa-star" style="color: var(--border-color);"></i>
+                                                @endif
+                                            @endfor
+                                        </span>
+                                    </div>
+                                    <p class="rev-text">{{ $rev->comment }}</p>
+                                    <span class="rev-date" style="font-size: 0.72rem; color: var(--text-dark); margin-top: 4px; display: block;">{{ $rev->created_at->format('d/m/Y - H:i') }}</span>
                                 </div>
-                                <p class="rev-text">Giao dịch nhanh chóng, nhân viên hỗ trợ nhiệt tình qua zalo kích hoạt chỉ 30 giây. Rất hài lòng về chất lượng phục vụ.</p>
-                            </div>
+                            @endforeach
                         @endif
+                    </div>
+
+                    <!-- Review form -->
+                    <div class="review-form-wrapper" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+                        <h4 style="font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 1.25rem;"><i class="fa-regular fa-pen-to-square"></i> Viết đánh giá của bạn</h4>
+                        
+                        @auth
+                            <form action="{{ route('product.review.store', $product['id']) }}" method="POST" id="review-form">
+                                @csrf
+                                
+                                <div class="rating-select-group" style="margin-bottom: 1.25rem;">
+                                    <label style="display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem;">Số sao đánh giá của bạn:</label>
+                                    <div class="star-rating-select" style="display: flex; gap: 0.5rem; font-size: 1.6rem; color: var(--border-color); cursor: pointer; user-select: none;">
+                                        <i class="fa-regular fa-star star-select-btn" data-value="1"></i>
+                                        <i class="fa-regular fa-star star-select-btn" data-value="2"></i>
+                                        <i class="fa-regular fa-star star-select-btn" data-value="3"></i>
+                                        <i class="fa-regular fa-star star-select-btn" data-value="4"></i>
+                                        <i class="fa-regular fa-star star-select-btn" data-value="5"></i>
+                                    </div>
+                                    <input type="hidden" name="rating" id="rating-value" value="" required>
+                                    @error('rating')
+                                        <span style="font-size: 0.75rem; color: #ef4444; margin-top: 0.25rem; display: block;">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                
+                                <div class="comment-input-group" style="margin-bottom: 1.5rem;">
+                                    <label for="review-comment" style="display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem;">Nội dung đánh giá:</label>
+                                    <textarea name="comment" id="review-comment" rows="4" placeholder="Nhập cảm nhận của bạn về sản phẩm này (tối thiểu 5 ký tự)..." style="width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-family: inherit; font-size: 0.88rem; resize: vertical; background: #ffffff; color: var(--text-main);" required></textarea>
+                                    @error('comment')
+                                        <span style="font-size: 0.75rem; color: #ef4444; margin-top: 0.25rem; display: block;">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                
+                                <button type="submit" class="checkout-btn" style="width: auto; padding: 0.65rem 1.75rem;">Gửi Đánh Giá Ngay</button>
+                            </form>
+                        @else
+                            <div style="background: var(--bg-body); border: 1px dashed var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; text-align: center;">
+                                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">Bạn cần đăng nhập để gửi đánh giá cho sản phẩm này.</p>
+                                <a href="{{ route('login') }}?redirect={{ urlencode(request()->fullUrl()) }}" class="checkout-btn" style="display: inline-flex; width: auto; padding: 0.65rem 1.5rem; align-items: center; gap: 0.5rem; text-decoration: none;">
+                                    <i class="fa-solid fa-right-to-bracket"></i> Đăng Nhập Ngay
+                                </a>
+                            </div>
+                        @endauth
                     </div>
                 </div>
             </div>
@@ -1757,9 +1952,13 @@ $schema = [
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col" style="grid-column: span 1.5;">
-                    <a href="/" class="logo" style="margin-bottom: 1rem; display: inline-flex;">
-                        <i class="fa-solid fa-rocket logo-icon" style="filter: none;"></i>
-                        <span style="color: white;">AI CỦA TÔI</span>
+                    <a href="/" class="logo" style="margin-bottom: 1rem; display: inline-flex; align-items: center;">
+                        @if(file_exists(public_path('logo.png')))
+                            <img src="{{ asset('logo.png') }}?v={{ time() }}" alt="Logo" style="max-height: 2.2rem; object-fit: contain;">
+                        @else
+                            <i class="fa-solid fa-rocket logo-icon" style="filter: none;"></i>
+                            <span style="color: white;">AI CỦA TÔI</span>
+                        @endif
                     </a>
                     <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.6; max-width: 280px;">
                         Hệ thống cung cấp dịch vụ nâng cấp tài khoản số, phần mềm đồ họa, thiết kế và AI hàng đầu Việt Nam. Tự động - Uy tín - Giá rẻ.
@@ -1819,6 +2018,7 @@ $schema = [
         let cart = [];
         let selectedOption = null;
         const productIcon = "{{ $product['icon'] }}";
+        const productImage = "{{ $product['image_path'] }}";
 
         // DOM elements
         const cartSidebar = document.getElementById('cart-sidebar');
@@ -1853,7 +2053,7 @@ $schema = [
             const desc = el.getAttribute('data-desc');
 
             // Save active package
-            selectedOption = { id, name, price, icon: productIcon };
+            selectedOption = { id, name, price, icon: productIcon, image: productImage };
 
             // Update UI displays
             document.getElementById('display-price').innerText = formatVND(price);
@@ -1905,11 +2105,25 @@ $schema = [
             cart.forEach((item, index) => {
                 total += item.price * item.quantity;
                 count += item.quantity;
-                html += `
-                    <div class="cart-item">
+
+                let mediaHtml = '';
+                if (item.image) {
+                    mediaHtml = `
+                        <div class="cart-item-img-wrapper">
+                            <img src="/${item.image}" alt="${item.name}" class="cart-item-img">
+                        </div>
+                    `;
+                } else {
+                    mediaHtml = `
                         <div class="cart-item-icon">
                             <i class="fa-solid ${item.icon}"></i>
                         </div>
+                    `;
+                }
+
+                html += `
+                    <div class="cart-item">
+                        ${mediaHtml}
                         <div class="cart-item-details">
                             <div class="cart-item-name">${item.name}</div>
                             <div class="cart-item-price">${formatVND(item.price)}</div>
@@ -1932,12 +2146,12 @@ $schema = [
         }
 
         // Add package to Cart
-        function addToCart(id, name, price, icon) {
+        function addToCart(id, name, price, icon, image) {
             const existingIndex = cart.findIndex(item => item.id === id);
             if (existingIndex > -1) {
                 cart[existingIndex].quantity += 1;
             } else {
-                cart.push({ id, name, price, icon, quantity: 1 });
+                cart.push({ id, name, price, icon, image, quantity: 1 });
             }
             saveCart();
             renderCart();
@@ -1951,7 +2165,7 @@ $schema = [
                 showToast("Vui lòng chọn một gói cước nâng cấp!");
                 return;
             }
-            addToCart(selectedOption.id, selectedOption.name, selectedOption.price, selectedOption.icon);
+            addToCart(selectedOption.id, selectedOption.name, selectedOption.price, selectedOption.icon, selectedOption.image);
         }
 
         function handleBuyNow() {
@@ -1959,7 +2173,7 @@ $schema = [
                 showToast("Vui lòng chọn một gói cước nâng cấp!");
                 return;
             }
-            addToCart(selectedOption.id, selectedOption.name, selectedOption.price, selectedOption.icon);
+            addToCart(selectedOption.id, selectedOption.name, selectedOption.price, selectedOption.icon, selectedOption.image);
             // Instant redirection to checkout mock or trigger order process
             setTimeout(() => {
                 alert(`Hệ thống đang chuyển hướng bạn tới cổng thanh toán quét mã QR cho đơn hàng: ${selectedOption.name} - Giá: ${formatVND(selectedOption.price)}.`);
@@ -2053,10 +2267,80 @@ $schema = [
                 });
             }
 
+            // Star Rating Selection interaction
+            const selectStars = document.querySelectorAll('.star-select-btn');
+            const ratingValInput = document.getElementById('rating-value');
+            if (selectStars.length > 0 && ratingValInput) {
+                selectStars.forEach(star => {
+                    star.addEventListener('click', function() {
+                        const val = parseInt(this.getAttribute('data-value'));
+                        ratingValInput.value = val;
+                        updateStarsState(val);
+                    });
+                    
+                    star.addEventListener('mouseover', function() {
+                        const val = parseInt(this.getAttribute('data-value'));
+                        highlightStarsState(val);
+                    });
+                });
+                
+                const selectStarsContainer = document.querySelector('.star-rating-select');
+                if (selectStarsContainer) {
+                    selectStarsContainer.addEventListener('mouseleave', function() {
+                        const val = parseInt(ratingValInput.value) || 0;
+                        updateStarsState(val);
+                    });
+                }
+                
+                function highlightStarsState(val) {
+                    selectStars.forEach(star => {
+                        const starVal = parseInt(star.getAttribute('data-value'));
+                        if (starVal <= val) {
+                            star.className = 'fa-solid fa-star star-select-btn';
+                            star.style.color = '#d97706';
+                        } else {
+                            star.className = 'fa-regular fa-star star-select-btn';
+                            star.style.color = 'var(--border-color)';
+                        }
+                    });
+                }
+                
+                function updateStarsState(val) {
+                    selectStars.forEach(star => {
+                        const starVal = parseInt(star.getAttribute('data-value'));
+                        if (starVal <= val) {
+                            star.className = 'fa-solid fa-star star-select-btn';
+                            star.style.color = '#d97706';
+                        } else {
+                            star.className = 'fa-regular fa-star star-select-btn';
+                            star.style.color = 'var(--border-color)';
+                        }
+                    });
+                }
+            }
+
             // Trigger live sale notification popup loop
             setTimeout(triggerLiveSale, 6000);
             setInterval(triggerLiveSale, 18000);
         });
+
+        // Back to Top Scroll behavior
+        const backToTopBtn = document.getElementById('back-to-top-btn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     </script>
+    
+    <!-- Floating Back to Top Button -->
+    <button id="back-to-top-btn" class="back-to-top-btn" title="Cuộn lên đầu trang">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
 </body>
 </html>

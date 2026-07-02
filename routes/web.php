@@ -7,11 +7,17 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Models\Product;
 
 Route::get('/', function () {
+    $showcaseProducts = Product::whereIn('slug', ['capcut', 'chatgpt', 'gemini', 'canva'])->get();
+    if ($showcaseProducts->isEmpty()) {
+        $showcaseProducts = Product::take(4)->get();
+    }
+
     $products = Product::whereIn('slug', ['capcut', 'chatgpt', 'canva'])->get();
     if ($products->isEmpty()) {
         $products = Product::take(3)->get();
     }
-    return view('welcome', compact('products'));
+
+    return view('welcome', compact('showcaseProducts', 'products'));
 });
 
 Route::get('/products', function () {
@@ -31,6 +37,10 @@ Route::get('/product/{slug}', function ($slug) {
     $related = Product::where('slug', '!=', $product->slug)->take(3)->get();
     return view('product-detail', compact('product', 'related', 'slug'));
 })->name('product.show');
+
+// Posts routes
+Route::get('/posts', [\App\Http\Controllers\PostController::class, 'index'])->name('posts.index');
+Route::get('/post/{slug}', [\App\Http\Controllers\PostController::class, 'show'])->name('posts.show');
 
 // Auth routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -56,6 +66,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     })->name('dashboard');
 
     Route::resource('products', \App\Http\Controllers\AdminProductController::class);
+    Route::resource('posts', \App\Http\Controllers\AdminPostController::class);
     
     // Admin orders management routes
     Route::get('/orders', [\App\Http\Controllers\AdminOrderController::class, 'index'])->name('orders.index');
@@ -80,6 +91,43 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout/success/{id}', [\App\Http\Controllers\OrderController::class, 'success'])->name('checkout.success');
     Route::get('/api/orders/{id}/status', [\App\Http\Controllers\OrderController::class, 'getStatus']);
     Route::post('/api/orders/{id}/cancel', [\App\Http\Controllers\OrderController::class, 'cancel']);
+
+    // Review store route
+    Route::post('/product/{id}/review', function (\Illuminate\Http\Request $request, $id) {
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string|min:5',
+        ]);
+        
+        $product = \App\Models\Product::findOrFail($id);
+        
+        \App\Models\Review::create([
+            'product_id' => $product->id,
+            'user_id' => auth()->id(),
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
+        
+        // Recalculate average rating & review count using a base of 50 reviews of 5.0 stars
+        $reviews = $product->reviews();
+        $dbCount = $reviews->count();
+        $dbSum = $reviews->sum('rating');
+        
+        $baseCount = 50; // base reviews of 5 stars by default
+        $baseSum = 50 * 5.0;
+        
+        $totalCount = $dbCount + $baseCount;
+        $totalSum = $dbSum + $baseSum;
+        
+        $newRating = round($totalSum / $totalCount, 1);
+        
+        $product->update([
+            'rating' => $newRating,
+            'review_count' => $totalCount
+        ]);
+        
+        return redirect()->back()->with('success_review', 'Cảm ơn bạn đã gửi đánh giá sản phẩm!');
+    })->name('product.review.store');
 });
 
 // SePay webhook callback endpoint (public API)

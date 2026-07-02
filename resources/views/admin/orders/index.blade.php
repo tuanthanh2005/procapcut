@@ -359,6 +359,9 @@
             <li class="menu-item">
                 <a href="/admin/products"><i class="fa-solid fa-box-open"></i> Sản phẩm</a>
             </li>
+            <li class="menu-item">
+                <a href="/admin/posts"><i class="fa-solid fa-newspaper"></i> Bài viết</a>
+            </li>
             <li class="menu-item active">
                 <a href="/admin/orders"><i class="fa-solid fa-receipt"></i> Đơn hàng</a>
             </li>

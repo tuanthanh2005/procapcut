@@ -41,9 +41,9 @@
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 0 1.5rem;
+            padding: 0 2rem;
         }
 
         /* Navbar / Header */
@@ -395,8 +395,12 @@
         <div class="container">
             <div class="navbar">
                 <a href="/" class="logo">
-                    <i class="fa-solid fa-rocket logo-icon"></i>
-                    <span>AI CỦA TÔI</span>
+                    @if(file_exists(public_path('logo.png')))
+                        <img src="{{ asset('logo.png') }}?v={{ time() }}" alt="Logo" style="max-height: 2.2rem; object-fit: contain;">
+                    @else
+                        <i class="fa-solid fa-rocket logo-icon"></i>
+                        <span>AI CỦA TÔI</span>
+                    @endif
                 </a>
 
                 <div class="nav-actions">
