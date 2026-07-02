@@ -89,6 +89,12 @@
     #chat-bubble-btn:active {
         transform: scale(0.95);
     }
+
+    @media (max-width: 768px) {
+        #floating-chat-widget {
+            bottom: 5.5rem !important; /* Move higher to clear sticky bottom actions bar */
+        }
+    }
 </style>
 
 <script>

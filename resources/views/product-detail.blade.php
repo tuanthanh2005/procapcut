@@ -39,7 +39,7 @@ $schema = [
 <head>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>{{ $product['seo_title'] }}</title>
     <meta name="description" content="{{ $product['seo_desc'] }}">
     <meta name="keywords" content="{{ $product['seo_keywords'] }}">
@@ -1392,7 +1392,194 @@ $schema = [
                 top: 0;
             }
             .related-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
+
+        /* Prevent auto zoom on iOS & Native app spacing */
+        @media (max-width: 768px) {
+            input, select, textarea, .search-input {
+                font-size: 16px !important;
+            }
+            .container {
+                padding: 0 0.75rem !important;
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+            /* Header adjustments */
+            header {
+                padding: 0.5rem 0 !important;
+                width: 100% !important;
+                overflow: hidden !important;
+            }
+            .navbar {
+                display: grid !important;
+                grid-template-columns: 1fr auto !important;
+                gap: 0.35rem 0.75rem !important;
+                align-items: center !important;
+                width: 100% !important;
+                min-width: 0 !important;
+            }
+            .logo {
+                grid-column: 1 !important;
+                grid-row: 1 !important;
+                font-size: 1.2rem !important;
+            }
+            .nav-actions {
+                grid-column: 2 !important;
+                grid-row: 1 !important;
+                gap: 0.75rem !important;
+            }
+            .action-icon-btn {
+                width: 2.25rem !important;
+                height: 2.25rem !important;
+            }
+            .search-wrapper {
+                grid-column: 1 / span 2 !important;
+                grid-row: 2 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin-top: 0.25rem !important;
+                min-width: 0 !important;
+            }
+            .search-input {
+                height: 2.3rem !important;
+            }
+            .cat-nav-bar {
+                grid-column: 1 / span 2 !important;
+                grid-row: 3 !important;
+                width: 100% !important;
+                min-width: 0 !important; /* Prevent expanding the navbar grid */
+                justify-content: flex-start !important;
+                padding: 0.25rem 0.25rem 0.5rem 0.25rem !important;
+                margin: 0 !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+            .cat-pill {
+                padding: 0.3rem 0.6rem !important;
+                font-size: 0.75rem !important;
+            }
+            /* Product detail page adjustments */
+            .details-grid {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 1.25rem !important;
+                width: 100% !important;
+                min-width: 0 !important;
+            }
+            .left-col {
+                display: contents !important; /* Flatten structure for ordering */
+            }
+            .media-box {
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                height: 240px !important;
+                padding: 1rem !important;
+                order: 1 !important;
+                width: 100% !important;
+            }
+            .media-box img {
+                margin: 0 auto !important;
+                display: block !important;
+                max-width: 100% !important;
+                max-height: 100% !important;
+                object-fit: contain !important;
+            }
+            .media-box i {
+                margin: auto !important;
+            }
+            .right-col {
+                padding: 1.25rem !important;
+                order: 2 !important;
+                width: 100% !important;
+                min-width: 0 !important;
+            }
+            .quick-specs-box {
+                order: 3 !important;
+                margin-top: 0.5rem !important;
+                margin-bottom: 0.5rem !important;
+                width: 100% !important;
+                min-width: 0 !important;
+            }
+            .product-title {
+                font-size: 1.35rem !important;
+            }
+            .active-price {
+                font-size: 1.5rem !important;
+            }
+            /* Options list size optimization */
+            .options-grid {
+                gap: 0.5rem !important;
+                margin-bottom: 1.25rem !important;
+            }
+            .option-item {
+                padding: 0.85rem !important;
+                height: 48px !important;
+                border-radius: var(--radius-sm) !important;
+            }
+            .opt-name {
+                font-size: 0.82rem !important;
+            }
+            .opt-price {
+                font-size: 0.82rem !important;
+            }
+            /* Sticky bottom CTA Bar for purchasing */
+            .purchase-actions {
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                background: #ffffff !important;
+                padding: 0.75rem 1rem !important;
+                box-shadow: 0 -5px 15px rgba(15, 23, 42, 0.08) !important;
+                z-index: 999 !important;
+                border-top: 1px solid var(--border-color) !important;
+                margin-bottom: 0 !important;
+            }
+            body {
+                padding-bottom: 75px !important;
+            }
+            /* Tabs spacing */
+            .detail-tabs-wrapper {
+                padding: 1.25rem !important;
+                margin-top: 2rem !important;
+                width: 100% !important;
+                min-width: 0 !important;
+            }
+            .tab-btn {
+                font-size: 0.95rem !important;
+            }
+            /* Cart sidebar responsiveness */
+            .cart-sidebar {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .related-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.75rem !important;
+            }
+            .related-card {
+                padding: 0.75rem !important;
+                gap: 0.5rem !important;
+            }
+            .rel-media {
+                padding: 1.5rem 0.5rem !important;
+            }
+            .rel-media i {
+                font-size: 2.2rem !important;
+            }
+            .rel-name {
+                font-size: 0.78rem !important;
+                height: 2.2rem !important;
+            }
+            .rel-price {
+                font-size: 0.82rem !important;
             }
         }
 
@@ -1526,7 +1713,83 @@ $schema = [
             box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
             background: linear-gradient(135deg, var(--secondary), var(--primary));
         }
-    </style>
+    
+        .mobile-menu-toggle {
+            display: none !important;
+        }
+        @media (max-width: 768px) {
+            .cat-nav-bar {
+                display: none !important;
+            }
+            .mobile-menu-toggle {
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+            }
+            /* Menu link styles */
+            .menu-side-link {
+                display: flex;
+                align-items: center;
+                gap: 0.85rem;
+                padding: 0.75rem 1rem;
+                border-radius: var(--radius-sm);
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: var(--text-muted);
+                transition: var(--transition);
+                text-decoration: none;
+            }
+            .menu-side-link:hover, .menu-side-link.active {
+                background: #f0f9ff;
+                color: var(--primary);
+            }
+            .menu-side-link i {
+                font-size: 1.05rem;
+                width: 1.25rem;
+                text-align: center;
+            }
+        }
+
+        .mobile-search-toggle {
+            display: none !important;
+        }
+        @media (max-width: 768px) {
+            .mobile-search-toggle {
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+            }
+            .search-wrapper {
+                display: none !important;
+                position: absolute !important;
+                top: 100% !important;
+                left: 0.75rem !important;
+                right: 0.75rem !important;
+                width: calc(100% - 1.5rem) !important;
+                background: #ffffff !important;
+                box-shadow: var(--shadow-md) !important;
+                border: 1px solid var(--border-color) !important;
+                border-radius: var(--radius-md) !important;
+                z-index: 9999 !important;
+                margin-top: 0.25rem !important;
+                padding: 0.25rem !important;
+            }
+            .search-wrapper.show {
+                display: flex !important;
+                animation: slideSearchDown 0.2s ease-out forwards !important;
+            }
+            @keyframes slideSearchDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        }
+</style>
 </head>
 <body>
 
@@ -1565,6 +1828,10 @@ $schema = [
                 </a>
 
                 <div class="nav-actions">
+                    <button class="action-icon-btn mobile-search-toggle" id="mobile-search-toggle" title="Tìm kiếm"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    
+                    <button class="action-icon-btn mobile-menu-toggle" id="mobile-menu-toggle" title="Menu"><i class="fa-solid fa-bars"></i></button>
+                    
                     <a href="/products" class="action-icon-btn" title="Cửa hàng"><i class="fa-solid fa-store"></i></a>
                     <button class="action-icon-btn" id="open-cart-btn" title="Giỏ hàng">
                         <i class="fa-solid fa-bag-shopping"></i>
@@ -1950,14 +2217,24 @@ $schema = [
         <span id="toast-message">Đã thêm vào giỏ hàng thành công!</span>
     </div>
 
-    <!-- Live sale popup notification -->
-    <div class="live-sale-popup" id="live-sale-popup">
-        <div class="buyer-avatar" id="live-avatar">H</div>
-        <div class="buyer-info">
-            <div>Khách hàng <span class="buyer-name" id="live-name">Nguyễn Văn A</span></div>
-            <div>Đã mua <span class="bought-item" id="live-item">CapCut Pro Gói 1 Năm</span></div>
-            <span class="time-ago" id="live-time">30 giây trước</span>
+    
+    <!-- Slide-out Mobile Menu Sidebar -->
+    <div class="menu-overlay" id="menu-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 9999; opacity: 0; transition: opacity 0.3s ease;"></div>
+    <div class="menu-sidebar" id="menu-sidebar" style="position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: #ffffff; box-shadow: 10px 0 30px rgba(15, 23, 42, 0.1); z-index: 10000; display: flex; flex-direction: column; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow-y: auto; padding: 1.5rem 1.25rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.75rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+            <h3 style="margin: 0; font-size: 1rem; font-weight: 800; color: var(--text-main);"><i class="fa-solid fa-bars" style="color: var(--primary); margin-right: 0.5rem;"></i> DANH MỤC</h3>
+            <button id="menu-close-btn" style="background: none; border: none; font-size: 1.3rem; color: var(--text-muted); cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
         </div>
+        <nav style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <a href="/" class="menu-side-link"><i class="fa-solid fa-house"></i> Trang Chủ</a>
+            <a href="/products?category=gpt" class="menu-side-link"><i class="fa-solid fa-brain"></i> Chat Gpt</a>
+            <a href="/products?category=gemini" class="menu-side-link"><i class="fa-brands fa-google"></i> Gemini</a>
+            <a href="/products?category=capcut" class="menu-side-link"><i class="fa-solid fa-video"></i> CapCut Pro</a>
+            <a href="/products?category=canva" class="menu-side-link"><i class="fa-solid fa-palette"></i> Canva</a>
+            <a href="/products?category=other" class="menu-side-link"><i class="fa-solid fa-cubes"></i> Sản Phẩm Khác</a>
+            <a href="/posts" class="menu-side-link"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
+            <a href="https://zalo.me/0569012134" target="_blank" class="menu-side-link" style="color: var(--primary); font-weight: 700;"><i class="fa-solid fa-phone"></i> Liên Hệ Zalo</a>
+        </nav>
     </div>
 
     <!-- Footer Area -->
@@ -2228,44 +2505,7 @@ $schema = [
             }, 3000);
         }
 
-        // Fake Live Sales Popup Logic
-        function generateRandomName() {
-            const familyNames = ['Nguyễn', 'Trần', 'Lê', 'Phạm', 'Hoàng', 'Phan', 'Vũ', 'Võ', 'Đặng', 'Bùi', 'Đỗ', 'Hồ', 'Ngô', 'Dương', 'Lý', 'Lương', 'Đinh', 'Tống', 'Quách'];
-            const middleNames = ['Văn', 'Thị', 'Anh', 'Hoàng', 'Minh', 'Ngọc', 'Duy', 'Hữu', 'Quốc', 'Quang', 'Khánh', 'Xuân', 'Thu', 'Hồng', 'Đức', 'Thanh', 'Như', 'Cát'];
-            const firstNames = ['Nam', 'Hải', 'Sơn', 'Lâm', 'Phong', 'Dương', 'Tiến', 'Huy', 'Hoàng', 'Dũng', 'Tuấn', 'Tú', 'Ngọc', 'Vy', 'Quỳnh', 'Hạnh', 'Trang', 'Linh', 'Thảo', 'Hương', 'Giang', 'Long', 'Quân', 'Khánh', 'Phúc', 'Lộc', 'Thọ', 'Minh', 'Hùng', 'Kiệt'];
-            const family = familyNames[Math.floor(Math.random() * familyNames.length)];
-            const middle = middleNames[Math.floor(Math.random() * middleNames.length)];
-            const first = firstNames[Math.floor(Math.random() * firstNames.length)];
-            return Math.random() < 0.15 ? `${family} ${first}` : `${family} ${middle} ${first}`;
-        }
 
-        let productsBought = {!! json_encode(\App\Models\Product::pluck('name')->map(function($name) { return ['name' => $name]; })->toArray()) !!};
-        if (!productsBought || productsBought.length === 0) {
-            productsBought = [
-                { name: "CapCut Pro 1 Năm" },
-                { name: "ChatGPT Plus 1 Tháng" },
-                { name: "Canva Pro 1 năm" },
-                { name: "Gemini Advanced 5TB" }
-            ];
-        }
-
-        function triggerLiveSale() {
-            const randomCust = generateRandomName();
-            const randomProd = productsBought[Math.floor(Math.random() * productsBought.length)];
-            const randomSeconds = Math.floor(Math.random() * 50) + 10;
-            
-            document.getElementById('live-avatar').innerText = randomCust.split(' ').pop().charAt(0);
-            document.getElementById('live-name').innerText = randomCust;
-            document.getElementById('live-item').innerText = randomProd.name;
-            document.getElementById('live-time').innerText = `${randomSeconds} giây trước`;
-            
-            const popup = document.getElementById('live-sale-popup');
-            popup.classList.add('show');
-            
-            setTimeout(() => {
-                popup.classList.remove('show');
-            }, 5000);
-        }
 
         // Initialize event listeners
         document.addEventListener('DOMContentLoaded', () => {
@@ -2353,25 +2593,81 @@ $schema = [
                     });
                 }
             }
-
-            // Trigger live sale notification popup loop
-            setTimeout(triggerLiveSale, 6000);
-            setInterval(triggerLiveSale, 18000);
+            
         });
 
-        // Back to Top Scroll behavior
+        // Back to Top Scroll behavior (with safety check to prevent JS halt)
         const backToTopBtn = document.getElementById('back-to-top-btn');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopBtn.classList.add('show');
-            } else {
-                backToTopBtn.classList.remove('show');
+        if (backToTopBtn) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('show');
+                } else {
+                    backToTopBtn.classList.remove('show');
+                }
+            });
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    
+        // Mobile Menu Toggle logic (Executed immediately since script is at body end)
+        const menuToggle = document.getElementById('mobile-menu-toggle');
+        const menuSidebar = document.getElementById('menu-sidebar');
+        const menuOverlay = document.getElementById('menu-overlay');
+        const menuClose = document.getElementById('menu-close-btn');
+
+        if (menuToggle && menuSidebar && menuOverlay && menuClose) {
+            menuToggle.addEventListener('click', () => {
+                menuOverlay.style.display = 'block';
+                setTimeout(() => {
+                    menuOverlay.style.opacity = '1';
+                    menuSidebar.style.left = '0';
+                }, 10);
+            });
+
+            const closeMenu = () => {
+                menuOverlay.style.opacity = '0';
+                menuSidebar.style.left = '-280px';
+                setTimeout(() => {
+                    menuOverlay.style.display = 'none';
+                }, 300);
+            };
+
+            menuClose.addEventListener('click', closeMenu);
+            menuOverlay.addEventListener('click', closeMenu);
+        }
+
+        // Highlight active side link
+        const currentPath = window.location.pathname + window.location.search;
+        document.querySelectorAll('.menu-side-link').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentPath || (href === '/' && currentPath === '') || (href !== '/' && currentPath.startsWith(href))) {
+                link.classList.add('active');
             }
         });
-        backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
+
+        // Mobile Search Toggle logic
+        const searchToggle = document.getElementById('mobile-search-toggle');
+        const searchWrapper = document.querySelector('.search-wrapper');
+        const searchInput = document.querySelector('.search-input');
+
+        if (searchToggle && searchWrapper && searchInput) {
+            searchToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                searchWrapper.classList.toggle('show');
+                if (searchWrapper.classList.contains('show')) {
+                    searchInput.focus();
+                }
+            });
+            
+            document.addEventListener('click', (e) => {
+                if (!searchWrapper.contains(e.target) && e.target !== searchToggle) {
+                    searchWrapper.classList.remove('show');
+                }
+            });
+        }
+</script>
     
     <!-- Floating Back to Top Button -->
     <button id="back-to-top-btn" class="back-to-top-btn" title="Cuộn lên đầu trang">

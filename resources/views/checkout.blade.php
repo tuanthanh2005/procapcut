@@ -3,7 +3,7 @@
 <head>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Thanh Toán Đơn Hàng | AI CỦA TÔI</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -397,13 +397,56 @@
             gap: 0.5rem;
         }
 
-        @media (max-width: 900px) {
+        /* Prevent auto zoom on iOS & Native app spacing */
+        @media (max-width: 768px) {
+            input, select, textarea, .form-input {
+                font-size: 16px !important;
+            }
+            .container {
+                padding: 0 0.75rem !important;
+            }
+            /* Header spacing adjustments */
+            header {
+                padding: 0.5rem 0 !important;
+            }
+            .navbar {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                height: 50px !important;
+            }
+            .logo {
+                font-size: 1.2rem !important;
+            }
+            .action-icon-btn {
+                width: 2.25rem !important;
+                height: 2.25rem !important;
+            }
+            /* Checkout content structure */
             .checkout-wrapper {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
+                gap: 1.25rem !important;
+                margin-top: 1.25rem !important;
+                margin-bottom: 2.5rem !important;
+            }
+            .checkout-card {
+                padding: 1.25rem !important;
+                border-radius: var(--radius-md) !important;
             }
             .form-row {
-                grid-template-columns: 1fr;
-                gap: 0;
+                grid-template-columns: 1fr !important;
+                gap: 0 !important;
+            }
+            .form-group {
+                margin-bottom: 1rem !important;
+            }
+            .payment-methods-grid {
+                grid-template-columns: 1fr !important;
+                gap: 0.5rem !important;
+            }
+            .payment-method-card {
+                padding: 0.85rem !important;
+                min-height: 48px !important;
             }
         }
     </style>

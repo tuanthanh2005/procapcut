@@ -3,7 +3,7 @@
 <head>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Quên Mật Khẩu | AI CỦA TÔI - Dịch Vụ Tài Khoản Giá Rẻ</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -228,7 +228,73 @@
         .mock-link:hover {
             background: #bae6fd;
         }
-    </style>
+    
+        /* Prevent auto zoom on iOS & Native app spacing */
+        @media (max-width: 768px) {
+            input, select, textarea, .form-input, .form-control {
+                font-size: 16px !important;
+            }
+            .container {
+                padding: 0 0.75rem !important;
+            }
+            /* Header adjustments */
+            header {
+                padding: 0.5rem 0 !important;
+            }
+            .navbar {
+                display: grid !important;
+                grid-template-columns: 1fr auto !important;
+                gap: 0.35rem 0.75rem !important;
+                align-items: center !important;
+            }
+            .logo {
+                grid-column: 1 !important;
+                grid-row: 1 !important;
+                font-size: 1.2rem !important;
+            }
+            .nav-actions {
+                grid-column: 2 !important;
+                grid-row: 1 !important;
+                gap: 0.75rem !important;
+            }
+            .action-icon-btn {
+                width: 2.25rem !important;
+                height: 2.25rem !important;
+            }
+            .search-wrapper {
+                grid-column: 1 / span 2 !important;
+                grid-row: 2 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin-top: 0.25rem !important;
+            }
+            .search-input {
+                height: 2.3rem !important;
+            }
+            .cat-nav-bar {
+                grid-column: 1 / span 2 !important;
+                grid-row: 3 !important;
+                width: 100% !important;
+                justify-content: flex-start !important;
+                padding: 0.25rem 0.25rem 0.5rem 0.25rem !important;
+                margin: 0 !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+            .cat-pill {
+                padding: 0.3rem 0.6rem !important;
+                font-size: 0.75rem !important;
+            }
+            /* Responsive cart sidebar */
+            .cart-sidebar {
+                width: 100% !important;
+                right: -100%;
+            }
+            .cart-sidebar.open {
+                right: 0 !important;
+            }
+        }
+</style>
 </head>
 <body>
 
