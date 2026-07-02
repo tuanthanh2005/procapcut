@@ -1257,7 +1257,7 @@ if ($category === 'all' && empty($search)) {
             header {
                 padding: 0.5rem 0 !important;
                 width: 100% !important;
-                overflow: hidden !important;
+                overflow: visible !important;
             }
             .navbar {
                 display: grid !important;
@@ -1331,14 +1331,21 @@ if ($category === 'all' && empty($search)) {
                 flex-direction: row !important;
                 overflow-x: auto !important;
                 gap: 0.5rem !important;
-                padding-bottom: 0.35rem !important;
-                scrollbar-width: none !important;
+                padding-bottom: 0.75rem !important;
                 -webkit-overflow-scrolling: touch !important;
                 width: 100% !important;
                 min-width: 0 !important; /* Prevent parent overflow */
             }
             .sidebar-cat-list::-webkit-scrollbar {
-                display: none !important;
+                height: 4px !important;
+            }
+            .sidebar-cat-list::-webkit-scrollbar-track {
+                background: #f1f5f9 !important; 
+                border-radius: 4px !important;
+            }
+            .sidebar-cat-list::-webkit-scrollbar-thumb {
+                background: #94a3b8 !important; 
+                border-radius: 4px !important;
             }
             .sidebar-cat-btn {
                 white-space: nowrap !important;
@@ -1647,6 +1654,75 @@ if ($category === 'all' && empty($search)) {
                 }
             }
         }
+        @media (max-width: 600px) {
+            .footer-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.75rem;
+                text-align: center;
+            }
+            .footer-col {
+                grid-column: span 1 !important;
+            }
+            .footer-col h4::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .footer-links {
+                align-items: center;
+            }
+            .footer-socials {
+                justify-content: center;
+            }
+            .footer-col .logo {
+                width: 100%;
+                justify-content: center;
+            }
+            .footer-col p {
+                margin: 0 auto;
+            }
+        }
+        /* Pagination CSS */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .pagination li a, .pagination li span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 6px;
+            background: #ffffff;
+            border: 1px solid var(--border-color, #e2e8f0);
+            color: var(--text-muted, #64748b);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .pagination li a:hover {
+            border-color: var(--primary, #0284c7);
+            color: var(--primary, #0284c7);
+        }
+        .pagination li.active span {
+            background: linear-gradient(135deg, var(--primary, #0284c7) 0%, var(--secondary, #0ea5e9) 100%);
+            color: white;
+            border-color: transparent;
+        }
+        .pagination li.disabled span {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 </style>
 </head>
 <body>
@@ -1862,6 +1938,11 @@ if ($category === 'all' && empty($search)) {
                             </div>
                         </div>
                     @endforeach
+                </div>
+                
+                <!-- Pagination links -->
+                <div class="pagination-container" style="margin-top: 2rem; display: flex; justify-content: center;">
+                    {{ $products->links() }}
                 </div>
 
                 <!-- Empty State Message -->
@@ -2306,9 +2387,9 @@ if ($category === 'all' && empty($search)) {
         }
 
         // Event listeners for Cart buttons
-        openCartBtn.addEventListener('click', openCart);
-        closeCartBtn.addEventListener('click', closeCart);
-        cartOverlay.addEventListener('click', closeCart);
+        if (openCartBtn) openCartBtn.addEventListener('click', openCart);
+        if (closeCartBtn) closeCartBtn.addEventListener('click', closeCart);
+        if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
 
         // User Menu Dropdown Toggle
         const userMenuBtn = document.querySelector('.user-menu-btn');
@@ -2338,13 +2419,16 @@ if ($category === 'all' && empty($search)) {
         });
 
         // Checkout Button Click
-        document.getElementById('checkout-btn').addEventListener('click', () => {
-            if (cart.length === 0) {
-                alert('Giỏ hàng của bạn đang trống!');
-                return;
-            }
-            window.location.href = '/checkout';
-        });
+        const checkoutBtn = document.getElementById('checkout-btn');
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', () => {
+                if (cart.length === 0) {
+                    alert('Giỏ hàng của bạn đang trống!');
+                    return;
+                }
+                window.location.href = '/checkout';
+            });
+        }
 
         // Bind Category Pill clicks (Header)
         document.querySelectorAll('.cat-pill').forEach(pill => {

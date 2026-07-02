@@ -13,7 +13,7 @@ class PostController extends Controller
     {
         $posts = Post::where('is_published', true)
             ->orderBy('created_at', 'desc')
-            ->paginate(6);
+            ->paginate(10);
 
         return view('posts.index', compact('posts'));
     }

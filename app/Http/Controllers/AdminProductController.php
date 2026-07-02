@@ -11,7 +11,7 @@ class AdminProductController extends Controller
     // List all products in admin panel
     public function index()
     {
-        $products = Product::orderBy('created_at', 'desc')->get();
+        $products = Product::orderBy('created_at', 'desc')->paginate(10);
         return view('admin.products.index', compact('products'));
     }
 

@@ -391,12 +391,19 @@
         @media (max-width: 900px) {
             .order-card {
                 grid-template-columns: 1fr;
-                gap: 1rem;
-                text-align: center;
-                justify-items: center;
+                gap: 0.8rem;
+                text-align: left;
+                justify-items: start;
+            }
+            .order-meta-info {
+                flex-wrap: wrap;
+                gap: 0.75rem;
             }
             .order-price {
-                text-align: center;
+                text-align: left;
+            }
+            .order-card > div:last-child {
+                align-items: flex-start !important;
             }
         }
     
@@ -464,6 +471,48 @@
             .cart-sidebar.open {
                 right: 0 !important;
             }
+        }
+        /* Pagination CSS */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .pagination li a, .pagination li span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 6px;
+            background: #ffffff;
+            border: 1px solid var(--border-color, #e2e8f0);
+            color: var(--text-muted, #64748b);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .pagination li a:hover {
+            border-color: var(--primary, #0284c7);
+            color: var(--primary, #0284c7);
+        }
+        .pagination li.active span {
+            background: linear-gradient(135deg, var(--primary, #0284c7) 0%, var(--secondary, #0ea5e9) 100%);
+            color: white;
+            border-color: transparent;
+        }
+        .pagination li.disabled span {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 </style>
 </head>
@@ -575,6 +624,10 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
+            
+            <div class="pagination-container" style="margin-top: 2rem; display: flex; justify-content: center;">
+                {{ $orders->links() }}
             </div>
         @endif
     </main>

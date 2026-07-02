@@ -1813,15 +1813,73 @@
         }
 
         @media (max-width: 600px) {
+            .hero-banner {
+                margin-top: 1.25rem;
+            }
             .trust-grid {
-                grid-template-columns: 1fr;
-                gap: 0.75rem;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 0.25rem;
+                margin-bottom: 0.5rem;
+            }
+            .trust-card {
+                flex-direction: column;
+                padding: 0.5rem 0.2rem;
+                border: none;
+                background: transparent;
+                box-shadow: none;
+                cursor: pointer;
+            }
+            .trust-card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            .trust-icon {
+                width: 2.8rem;
+                height: 2.8rem;
+                margin: 0 auto;
+            }
+            .trust-card .mobile-trust-arrow {
+                display: block;
+                font-size: 0.7rem;
+                color: var(--text-muted);
+                text-align: center;
+                margin-top: 0.4rem;
+                transition: transform 0.2s;
+            }
+            .trust-card.active .mobile-trust-arrow {
+                transform: rotate(180deg);
+                color: var(--primary);
+            }
+            .trust-card .trust-info {
+                display: none !important;
+            }
+            .section-header {
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+            .section-title {
+                font-size: 1.15rem;
+            }
+            .section-header .btn {
+                padding: 0.4rem 0.75rem !important;
+                font-size: 0.75rem !important;
+                white-space: nowrap;
+                flex-shrink: 0;
             }
             .hero-text h1 {
                 font-size: 1.6rem;
             }
             .hero-text p {
                 font-size: 0.85rem;
+            }
+            .hero-buttons {
+                flex-wrap: nowrap;
+                gap: 0.5rem;
+            }
+            .hero-buttons .btn {
+                flex: 1;
+                padding: 0.6rem 0.2rem;
+                font-size: 0.75rem;
             }
             .live-sale-popup {
                 left: 0.75rem;
@@ -1831,24 +1889,7 @@
                 padding: 0.5rem 0.75rem;
             }
             .hero-showcase {
-                grid-template-columns: 1fr;
-                justify-items: center;
-                gap: 0.75rem;
-            }
-            .showcase-card {
-                max-width: 100%;
-                padding: 0.85rem;
-            }
-            .showcase-header {
-                gap: 0.5rem;
-                margin-bottom: 0.5rem;
-            }
-            .showcase-title {
-                font-size: 0.85rem;
-            }
-            .showcase-price-row {
-                margin-top: 0.5rem;
-                padding-top: 0.5rem;
+                display: none !important;
             }
             /* Shopee-style 2-column mobile products grid */
             .products-grid {
@@ -1918,6 +1959,31 @@
                 width: 2rem !important;
                 height: 2rem !important;
                 border-radius: var(--radius-sm) !important;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.75rem;
+                text-align: center;
+            }
+            .footer-col {
+                grid-column: span 1 !important;
+            }
+            .footer-col h4::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .footer-links {
+                align-items: center;
+            }
+            .footer-socials {
+                justify-content: center;
+            }
+            .footer-col .logo {
+                width: 100%;
+                justify-content: center;
+            }
+            .footer-col p {
+                margin: 0 auto;
             }
         }
     
@@ -2153,36 +2219,77 @@
         </section>
 
         <!-- Trust Badges Section -->
+        <style>
+            .mobile-trust-arrow { display: none; }
+            .mobile-trust-content-box { display: none; }
+            @media (max-width: 600px) {
+                .mobile-trust-content-box.active-box { display: block; }
+            }
+        </style>
         <section class="trust-grid">
-            <div class="trust-card">
+            <div class="trust-card" onclick="toggleTrust(this, 1, 'Giao Hàng Tốc Độ', 'Tự động gửi tài khoản 24/7 qua Email/SMS.')">
                 <div class="trust-icon"><i class="fa-solid fa-bolt"></i></div>
+                <i class="fa-solid fa-chevron-down mobile-trust-arrow"></i>
                 <div class="trust-info">
                     <h3>Giao Hàng Tốc Độ</h3>
                     <p>Tự động gửi tài khoản 24/7 qua Email/SMS.</p>
                 </div>
             </div>
-            <div class="trust-card">
+            <div class="trust-card" onclick="toggleTrust(this, 2, 'Bảo Hành Siêu Tốc', 'Cam kết 1 đổi 1 ngay lập tức nếu có lỗi phát sinh.')">
                 <div class="trust-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <i class="fa-solid fa-chevron-down mobile-trust-arrow"></i>
                 <div class="trust-info">
                     <h3>Bảo Hành Siêu Tốc</h3>
                     <p>Cam kết 1 đổi 1 ngay lập tức nếu có lỗi phát sinh.</p>
                 </div>
             </div>
-            <div class="trust-card">
+            <div class="trust-card" onclick="toggleTrust(this, 3, 'Bảo Mật Private', 'Tài khoản dùng riêng tư, không share, không lộ data.')">
                 <div class="trust-icon"><i class="fa-solid fa-lock"></i></div>
+                <i class="fa-solid fa-chevron-down mobile-trust-arrow"></i>
                 <div class="trust-info">
                     <h3>Bảo Mật Private</h3>
                     <p>Tài khoản dùng riêng tư, không share, không lộ data.</p>
                 </div>
             </div>
-            <div class="trust-card">
+            <div class="trust-card" onclick="toggleTrust(this, 4, 'Hỗ Trợ 24/7/365', 'Kỹ thuật viên luôn sẵn sàng giải đáp bất cứ lúc nào.')">
                 <div class="trust-icon"><i class="fa-solid fa-heart-circle-check"></i></div>
+                <i class="fa-solid fa-chevron-down mobile-trust-arrow"></i>
                 <div class="trust-info">
                     <h3>Hỗ Trợ 24/7/365</h3>
                     <p>Kỹ thuật viên luôn sẵn sàng giải đáp bất cứ lúc nào.</p>
                 </div>
             </div>
         </section>
+        
+        <!-- Mobile Dropdown Content -->
+        <div id="mobile-trust-content" class="mobile-trust-content-box" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 2rem; text-align: center; box-shadow: var(--shadow-sm); animation: fadeIn 0.2s;">
+            <h3 id="mtc-title" style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.3rem;">Title</h3>
+            <p id="mtc-desc" style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Desc</p>
+        </div>
+
+        <script>
+            let activeTrustIndex = -1;
+            function toggleTrust(element, index, title, desc) {
+                if(window.innerWidth > 600) return;
+                
+                const contentBox = document.getElementById('mobile-trust-content');
+                
+                if (activeTrustIndex === index) {
+                    element.classList.remove('active');
+                    contentBox.classList.remove('active-box');
+                    activeTrustIndex = -1;
+                    return;
+                }
+                
+                document.querySelectorAll('.trust-card').forEach(c => c.classList.remove('active'));
+                
+                element.classList.add('active');
+                document.getElementById('mtc-title').innerText = title;
+                document.getElementById('mtc-desc').innerText = desc;
+                contentBox.classList.add('active-box');
+                activeTrustIndex = index;
+            }
+        </script>
 
         <!-- Products Grid Header -->
         <div class="section-header" id="products-list">

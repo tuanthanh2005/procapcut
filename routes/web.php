@@ -31,7 +31,7 @@ Route::get('/', function () {
 });
 
 Route::get('/products', function () {
-    $products = Product::all();
+    $products = Product::paginate(10);
     return view('products', compact('products'));
 })->name('products.index');
 
@@ -292,9 +292,10 @@ Route::middleware(['auth'])->group(function () {
 Route::post('/webhook/sepay', [\App\Http\Controllers\SePayWebhookController::class, 'handle']);
 
 // Groq AI Integration Helper
-function getGroqResponse($userMessage, $history = []) {
+function getGroqResponse($userMessage, $history = [], $userId = null) {
     $apiKey = \App\Models\Setting::getValue('groq_api_key', env('GROQ_API_KEY'));
     $url = 'https://api.groq.com/openai/v1/chat/completions';
+    
     // Load products from DB dynamically to ensure prices and options are always up-to-date
     $products = \App\Models\Product::all();
     $catalogStr = "";
@@ -309,13 +310,51 @@ function getGroqResponse($userMessage, $history = []) {
         $catalogStr .= implode(", ", $optsList) . ".\n";
     }
 
+    // Smart Order Retrieval for AI Context
+    $orderContext = "";
+    $ordersToContext = collect();
+    
+    // 1. Regex to catch order codes like OD1010 or #OD1010
+    if (preg_match('/(?:OD|#OD)\s*(\d{4,})/', strtoupper($userMessage), $matches)) {
+        $orderId = (int)$matches[1] - 1000;
+        $order = \App\Models\Order::find($orderId);
+        if ($order) $ordersToContext->push($order);
+    }
+    
+    // 2. Fetch user's recent orders if logged in
+    if ($userId) {
+        $userOrders = \App\Models\Order::where('user_id', $userId)->orderBy('created_at', 'desc')->take(3)->get();
+        foreach ($userOrders as $uo) {
+            if (!$ordersToContext->contains('id', $uo->id)) {
+                $ordersToContext->push($uo);
+            }
+        }
+    }
+
+    if ($ordersToContext->isNotEmpty()) {
+        $orderContext .= "\n\n--- DỮ LIỆU HỆ THỐNG VỀ ĐƠN HÀNG CỦA KHÁCH ---\n";
+        foreach ($ordersToContext as $order) {
+            $statusText = $order->status === 'completed' ? 'Thành công (Đã hoàn tất)' : ($order->status === 'cancelled' ? 'Đã hủy' : 'Đang chờ xử lý / Chờ thanh toán');
+            $orderContext .= "Mã đơn: OD" . (1000 + $order->id) . "\n";
+            $orderContext .= "- Sản phẩm: " . $order->product_name . " (" . number_format($order->price) . "đ)\n";
+            $orderContext .= "- Trạng thái: " . $statusText . "\n";
+            $orderContext .= "- Email/Tài khoản nâng cấp: " . $order->upgrade_details . "\n";
+            if ($order->activation_key) {
+                $orderContext .= "- Mã kích hoạt (License Key): " . $order->activation_key . "\n";
+            }
+        }
+        $orderContext .= "----------------------------------------------\n";
+        $orderContext .= "LƯU Ý QUAN TRỌNG CHO BẠN (AI): Dựa vào thông tin hệ thống cung cấp ở trên, hãy trả lời chính xác tình trạng đơn hàng nếu khách thắc mắc. (Ví dụ báo khách đã thanh toán thành công hay chưa, cung cấp mã kích hoạt nếu có...). Tuyệt đối không bịa ra thông tin đơn hàng nếu mã không có trong hệ thống.\n";
+    }
+
     $systemPrompt = "Bạn là Trợ lý AI hỗ trợ khách hàng chính thức của website AI CỦA TÔI (aicuatoi.com). " .
                     "Nhiệm vụ của bạn là tư vấn chính xác, lịch sự, ngắn gọn về các sản phẩm/gói dịch vụ sau được lấy trực tiếp từ hệ thống Cửa hàng của chúng tôi:\n" .
                     $catalogStr . "\n" .
                     "Quy tắc trả lời:\n" .
                     "- Chỉ trả lời cực kỳ ngắn gọn, súc tích (khoảng 2-3 câu), đi thẳng vào câu hỏi của khách hàng.\n" .
                     "- Luôn xưng hô lịch sự, thân thiện, xưng 'Tôi' hoặc 'AI CỦA TÔI' và gọi khách là 'bạn'.\n" .
-                    "- Khi khách hỏi về cách mua, thanh toán, bảo hành hoặc muốn gặp hỗ trợ viên thực tế, hãy nhắc họ click nút 'Nhắn Admin' trên màn hình hoặc nhắn tin trực tiếp qua Zalo: 0569012134 hoặc Telegram: @specademy để Admin kích hoạt trong 30 giây.";
+                    "- Khi khách hỏi về cách mua, thanh toán, bảo hành hoặc muốn gặp hỗ trợ viên thực tế, hãy nhắc họ click nút 'Nhắn Admin' trên màn hình hoặc nhắn tin trực tiếp qua Zalo: 0569012134 hoặc Telegram: @specademy để Admin kích hoạt trong 30 giây." .
+                    $orderContext;
                     
     $messages = [
         ['role' => 'system', 'content' => $systemPrompt]
@@ -495,7 +534,7 @@ Route::post('/api/chat/messages', function (\Illuminate\Http\Request $request) {
             ->reverse()
             ->toArray();
             
-        $aiReply = getGroqResponse($request->message, $history);
+        $aiReply = getGroqResponse($request->message, $history, $userId);
         
         \App\Models\ChatMessage::create([
             'user_id' => $userId,

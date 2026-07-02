@@ -336,12 +336,21 @@ $schema = [
             font-size: 0.78rem;
             color: var(--text-dark);
             margin-bottom: 1.5rem;
+            white-space: nowrap;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
-        .breadcrumb a {
+        .breadcrumb::-webkit-scrollbar {
+            display: none;
+        }
+
+        .breadcrumb a, .breadcrumb span {
             color: var(--text-dark);
             text-decoration: none;
             transition: var(--transition);
+            white-space: nowrap;
         }
 
         .breadcrumb a:hover {
@@ -1411,7 +1420,7 @@ $schema = [
             header {
                 padding: 0.5rem 0 !important;
                 width: 100% !important;
-                overflow: hidden !important;
+                overflow: visible !important;
             }
             .navbar {
                 display: grid !important;
@@ -1755,9 +1764,7 @@ $schema = [
         }
         @media (max-width: 768px) {
             .mobile-search-toggle {
-                display: flex !important;
-                align-items: center;
-                justify-content: center;
+                display: none !important;
             }
             .search-wrapper {
                 display: none !important;
@@ -1787,6 +1794,33 @@ $schema = [
                     opacity: 1;
                     transform: translateY(0);
                 }
+            }
+        }
+        @media (max-width: 600px) {
+            .footer-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.75rem;
+                text-align: center;
+            }
+            .footer-col {
+                grid-column: span 1 !important;
+            }
+            .footer-col h4::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .footer-links {
+                align-items: center;
+            }
+            .footer-socials {
+                justify-content: center;
+            }
+            .footer-col .logo {
+                width: 100%;
+                justify-content: center;
+            }
+            .footer-col p {
+                margin: 0 auto;
             }
         }
 </style>

@@ -16,7 +16,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
         
-        $orders = Order::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+        $orders = Order::where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(10);
         
         // Auto cancel any pending orders older than 5 minutes
         foreach ($orders as $order) {

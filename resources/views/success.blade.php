@@ -235,6 +235,60 @@
             display: flex;
             justify-content: space-between;
         }
+
+        /* Support Message Box */
+        .support-msg-box {
+            background: #f0f9ff;
+            border: 1px dashed #bae6fd;
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .support-msg-text-box {
+            flex: 1;
+            min-width: 0;
+        }
+        .support-msg-btn {
+            background: #0284c7;
+            color: white;
+            border: none;
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            white-space: nowrap;
+            margin-left: 1rem;
+            transition: all 0.2s;
+        }
+        .support-msg-btn:hover {
+            background: #0369a1;
+        }
+
+        @media (max-width: 600px) {
+            .btn-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn-action {
+                width: 100%;
+            }
+            .support-msg-box {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .support-msg-btn {
+                margin-left: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -286,12 +340,12 @@
             @endif
 
             <!-- Copy info for Admin -->
-            <div style="background: #f0f9ff; border: 1px dashed #bae6fd; padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; text-align: left; display: flex; justify-content: space-between; align-items: center;">
-                <div>
+            <div class="support-msg-box">
+                <div class="support-msg-text-box">
                     <div style="font-size: 0.78rem; font-weight: 700; color: #0369a1; margin-bottom: 0.4rem;"><i class="fa-solid fa-copy"></i> MẪU TIN NHẮN GỬI HỖ TRỢ:</div>
                     <div id="admin-copy-text" style="font-size: 0.95rem; font-weight: 600; color: #0c4a6e;">OD{{ 1000 + $order->id }} - {{ $order->product_name }} - #OD{{ 1000 + $order->id }}</div>
                 </div>
-                <button type="button" onclick="copyAdminText()" style="background: #0284c7; color: white; border: none; padding: 0.5rem 0.8rem; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; margin-left: 1rem; transition: all 0.2s;">
+                <button type="button" onclick="copyAdminText()" class="support-msg-btn">
                     <i class="fa-regular fa-copy"></i> Copy
                 </button>
             </div>

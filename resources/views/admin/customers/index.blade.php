@@ -506,6 +506,44 @@
             padding: 1.5rem;
             border-top: 1px solid var(--border-color);
         }
+        /* Pagination CSS */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .pagination li a, .pagination li span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 6px;
+            background: #ffffff;
+            border: 1px solid var(--border-color, #e2e8f0);
+            color: var(--text-muted, #64748b);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .pagination li a:hover {
+            border-color: var(--primary, #0284c7);
+            color: var(--primary, #0284c7);
+        }
+        .pagination li.active span {
+            background: linear-gradient(135deg, var(--primary, #0284c7) 0%, var(--secondary, #0ea5e9) 100%);
+            color: white;
+            border-color: transparent;
+        }
+        .pagination li.disabled span {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>

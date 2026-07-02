@@ -27,7 +27,7 @@ class AdminUserController extends Controller
             $q->where('status', 'completed');
         }])->withSum(['orders as total_spent' => function ($q) {
             $q->where('status', 'completed');
-        }], 'price')->orderBy('created_at', 'desc')->paginate(20);
+        }], 'price')->orderBy('created_at', 'desc')->paginate(10);
 
         return view('admin.customers.index', compact('users', 'search'));
     }

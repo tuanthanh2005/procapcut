@@ -36,7 +36,7 @@ class AdminOrderController extends Controller
             $query->where('status', $request->status);
         }
 
-        $orders = $query->paginate(15)->withQueryString();
+        $orders = $query->paginate(10)->withQueryString();
 
         return view('admin.orders.index', compact('orders'));
     }

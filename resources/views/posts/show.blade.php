@@ -1206,6 +1206,33 @@ $blogSchema = [
                 right: 0 !important;
             }
         }
+        @media (max-width: 600px) {
+            .footer-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.75rem;
+                text-align: center;
+            }
+            .footer-col {
+                grid-column: span 1 !important;
+            }
+            .footer-col h4::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .footer-links {
+                align-items: center;
+            }
+            .footer-socials {
+                justify-content: center;
+            }
+            .footer-col .logo {
+                width: 100%;
+                justify-content: center;
+            }
+            .footer-col p {
+                margin: 0 auto;
+            }
+        }
 </style>
 </head>
 <body>

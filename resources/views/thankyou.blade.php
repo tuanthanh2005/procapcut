@@ -323,7 +323,7 @@
 
         @media (max-width: 768px) {
             .thankyou-split-layout {
-                flex-direction: column;
+                flex-direction: column-reverse;
                 gap: 1.5rem;
             }
         }
