@@ -2053,7 +2053,7 @@ $schema = [
                     </div>
                     <div class="badge-item">
                         <i class="fa-solid fa-clock"></i>
-                        <p>Auto Duyệt 30s</p>
+                        <p>Duyệt Nhanh</p>
                     </div>
                 </div>
             </div>
