@@ -2070,7 +2070,7 @@ $schema = [
             <!-- Tab 1: Product Description -->
             <div class="tab-content active" id="tab-desc">
                 <div class="desc-text">
-                    {!! $product->description !!}
+                    {!! htmlspecialchars_decode($product->description) !!}
                 </div>
             </div>
 
