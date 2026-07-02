@@ -60,8 +60,24 @@
             font-weight: 800;
         }
 
+        
         .logo-area i {
-            color: var(--secondary);
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff !important;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(14, 165, 233, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .logo-area:hover i {
+            transform: scale(1.08) rotate(-8deg);
+            box-shadow: 0 6px 15px rgba(14, 165, 233, 0.45);
         }
 
         .sidebar-menu {

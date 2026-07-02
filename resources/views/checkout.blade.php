@@ -451,7 +451,29 @@
                 min-height: 48px !important;
             }
         }
-    </style>
+    
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff !important;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
+            transition: all 0.3s ease;
+            margin-right: 0.55rem;
+            -webkit-text-fill-color: initial !important;
+            background-clip: border-box !important;
+            -webkit-background-clip: border-box !important;
+        }
+        .logo:hover .logo-icon {
+            transform: scale(1.08) rotate(-8deg);
+            box-shadow: 0 6px 15px rgba(2, 132, 199, 0.4);
+        }
+        </style>
 </head>
 <body>
 
