@@ -571,6 +571,7 @@
                                 <span class="status-badge status-pending" style="background: #fff7ed; color: #ea580c; border-color: #ffedd5;">Chờ thanh toán</span>
                                 <a href="{{ route('checkout.thankyou', $order->id) }}" class="btn-pay-now" style="font-size: 0.72rem; color: #ffffff; background: #ea580c; padding: 0.25rem 0.6rem; border-radius: 6px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 0.25rem; transition: background 0.15s ease;"><i class="fa-solid fa-credit-card"></i> Thanh toán ngay</a>
                             @endif
+                            <a href="{{ route('checkout.success', $order->id) }}" style="font-size: 0.75rem; color: var(--primary); text-decoration: underline; font-weight: 600; margin-top: 0.3rem; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0;"><i class="fa-solid fa-circle-info"></i> Xem chi tiết</a>
                         </div>
                     </div>
                 @endforeach
