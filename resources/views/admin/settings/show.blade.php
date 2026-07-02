@@ -309,6 +309,9 @@
             <li class="menu-item">
                 <a href="/admin/orders"><i class="fa-solid fa-receipt"></i> Đơn hàng</a>
             </li>
+            <li class="menu-item">
+                <a href="/admin/chat"><i class="fa-solid fa-comments"></i> Hỗ trợ Chat</a>
+            </li>
             <li class="menu-item active">
                 <a href="/admin/settings"><i class="fa-solid fa-gears"></i> Cấu hình</a>
             </li>

@@ -45,4 +45,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class);
     }
+
+    /**
+     * Get the chat messages sent/received by this user.
+     */
+    public function chatMessages(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ChatMessage::class);
+    }
 }

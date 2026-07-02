@@ -1750,7 +1750,7 @@
                 <a href="/products?category=canva" class="cat-pill"><i class="fa-solid fa-palette"></i> Canva</a>
                 <a href="/products?category=other" class="cat-pill"><i class="fa-solid fa-cubes"></i> Sản Phẩm Khác</a>
                 <a href="/posts" class="cat-pill"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
-                <a href="https://zalo.me" target="_blank" class="cat-pill" style="color: var(--primary); font-weight: 600;"><i class="fa-solid fa-phone"></i> Liên Hệ</a>
+                <a href="https://zalo.me/0569012134" target="_blank" class="cat-pill" style="color: var(--primary); font-weight: 600;"><i class="fa-solid fa-phone"></i> Liên Hệ</a>
             </div>
 
                 <div class="search-wrapper">
@@ -1818,7 +1818,7 @@
                 <p>Nâng cấp ngay tài khoản CapCut Pro, ChatGPT Plus, Claude Pro chính chủ với chi phí tối ưu, bảo hành uy tín suốt vòng đời sử dụng.</p>
                 <div class="hero-buttons">
                     <a href="/products" class="btn btn-primary">Mua Tài Khoản Ngay <i class="fa-solid fa-arrow-right"></i></a>
-                    <a href="https://zalo.me" target="_blank" class="btn btn-outline"><i class="fa-solid fa-headset"></i> Chat Hỗ Trợ Zalo</a>
+                    <a href="https://zalo.me/0569012134" target="_blank" class="btn btn-outline"><i class="fa-solid fa-headset"></i> Chat Hỗ Trợ Zalo</a>
                 </div>
             </div>
             <div class="hero-showcase">
@@ -2142,7 +2142,7 @@
                     </p>
                     <div class="footer-socials">
                         <a href="#" class="social-circle"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" class="social-circle"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="https://t.me/specademy" target="_blank" class="social-circle"><i class="fa-brands fa-telegram"></i></a>
                         <a href="#" class="social-circle"><i class="fa-brands fa-youtube"></i></a>
                     </div>
                 </div>
@@ -2164,15 +2164,15 @@
                         <a href="#">Chính Sách Bảo Hành</a>
                         <a href="#">Điều Khoản Sử Dụng</a>
                         <a href="#">Hướng Dẫn Mua Hàng</a>
-                        <a href="#">Zalo Support 24/7</a>
+                        <a href="https://zalo.me/0569012134" target="_blank">Zalo Support 24/7</a>
                     </div>
                 </div>
 
                 <div class="footer-col">
                     <h4>Liên Hệ</h4>
                     <div class="footer-links" style="gap: 0.8rem;">
-                        <span style="font-size: 0.8rem; color: #94a3b8;"><i class="fa-solid fa-phone" style="color: var(--primary); margin-right: 0.4rem;"></i> Hotline: 0987.654.321</span>
-                        <span style="font-size: 0.8rem; color: #94a3b8;"><i class="fa-solid fa-envelope" style="color: var(--primary); margin-right: 0.4rem;"></i> support@aicuatoi.com</span>
+                        <a href="https://zalo.me/0569012134" target="_blank" style="font-size: 0.8rem; color: #94a3b8; text-decoration: none; display: flex; align-items: center;"><i class="fa-solid fa-phone" style="color: var(--primary); margin-right: 0.4rem;"></i> Zalo: 0569012134</a>
+                        <a href="https://t.me/specademy" target="_blank" style="font-size: 0.8rem; color: #94a3b8; text-decoration: none; display: flex; align-items: center;"><i class="fa-brands fa-telegram" style="color: var(--primary); margin-right: 0.4rem;"></i> Telegram: @specademy</a>
                         <span style="font-size: 0.8rem; color: #94a3b8;"><i class="fa-solid fa-clock" style="color: var(--primary); margin-right: 0.4rem;"></i> Làm việc: 24/7 kể cả ngày lễ</span>
                     </div>
                 </div>
@@ -2445,5 +2445,7 @@
     <button id="back-to-top-btn" class="back-to-top-btn" title="Cuộn lên đầu trang">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
+
+    @include('partials.chat-bubble')
 </body>
 </html>

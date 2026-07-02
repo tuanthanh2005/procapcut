@@ -17,6 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->validateCsrfTokens(except: [
             'webhook/sepay',
+            'api/chat/messages',
+            'api/chat/call-admin',
+            'api/chat/upload',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

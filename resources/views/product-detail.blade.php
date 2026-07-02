@@ -359,8 +359,7 @@ $schema = [
 
         /* Left Column: Media & Spec highlights */
         .left-col {
-            position: sticky;
-            top: 6.5rem;
+            /* Scroll normally with the page */
         }
 
         .media-box {
@@ -1952,7 +1951,7 @@ $schema = [
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col" style="grid-column: span 1.5;">
-                    <a href="/" class="logo" style="margin-bottom: 1rem; display: inline-flex; align-items: center;">
+                    <a href="/" class="logo" style="margin-bottom: 1rem; display: inline-flex; align-items: center; text-decoration: none;">
                         @if(file_exists(public_path('logo.png')))
                             <img src="{{ asset('logo.png') }}?v={{ time() }}" alt="Logo" style="max-height: 2.2rem; object-fit: contain;">
                         @else
@@ -1965,7 +1964,7 @@ $schema = [
                     </p>
                     <div class="footer-socials">
                         <a href="#" class="social-circle"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" class="social-circle"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="https://t.me/specademy" target="_blank" class="social-circle"><i class="fa-brands fa-telegram"></i></a>
                         <a href="#" class="social-circle"><i class="fa-brands fa-youtube"></i></a>
                     </div>
                 </div>
@@ -1983,9 +1982,20 @@ $schema = [
                 <div class="footer-col">
                     <h4>Dịch Vụ & Hỗ Trợ</h4>
                     <div class="footer-links">
-                        <a href="#">Chính sách bảo hành</a>
-                        <a href="#">Hướng dẫn thanh toán</a>
-                        <a href="#">Liên hệ hỗ trợ Zalo</a>
+                        <a href="/posts">Tin Tức & Bài Viết</a>
+                        <a href="#">Chính Sách Bảo Hành</a>
+                        <a href="#">Điều Khoản Sử Dụng</a>
+                        <a href="#">Hướng Dẫn Mua Hàng</a>
+                        <a href="https://zalo.me/0569012134" target="_blank">Zalo Support 24/7</a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Liên Hệ</h4>
+                    <div class="footer-links" style="gap: 0.8rem;">
+                        <a href="https://zalo.me/0569012134" target="_blank" style="font-size: 0.8rem; color: #94a3b8; text-decoration: none; display: flex; align-items: center;"><i class="fa-solid fa-phone" style="color: var(--primary); margin-right: 0.4rem;"></i> Zalo: 0569012134</a>
+                        <a href="https://t.me/specademy" target="_blank" style="font-size: 0.8rem; color: #94a3b8; text-decoration: none; display: flex; align-items: center;"><i class="fa-brands fa-telegram" style="color: var(--primary); margin-right: 0.4rem;"></i> Telegram: @specademy</a>
+                        <span style="font-size: 0.8rem; color: #94a3b8;"><i class="fa-solid fa-clock" style="color: var(--primary); margin-right: 0.4rem;"></i> Làm việc: 24/7 kể cả ngày lễ</span>
                     </div>
                 </div>
             </div>
@@ -2342,5 +2352,7 @@ $schema = [
     <button id="back-to-top-btn" class="back-to-top-btn" title="Cuộn lên đầu trang">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
+
+    @include('partials.chat-bubble')
 </body>
 </html>

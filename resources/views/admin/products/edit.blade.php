@@ -278,6 +278,9 @@
                 <a href="/admin/orders"><i class="fa-solid fa-shopping-cart"></i> Đơn hàng</a>
             </li>
             <li class="menu-item">
+                <a href="/admin/chat"><i class="fa-solid fa-comments"></i> Hỗ trợ Chat</a>
+            </li>
+            <li class="menu-item">
                 <a href="/profile"><i class="fa-solid fa-users"></i> Khách hàng</a>
             </li>
             <li class="menu-item">

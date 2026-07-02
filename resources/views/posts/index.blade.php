@@ -1084,7 +1084,7 @@ $listSchema = [
                     <a href="/products?category=canva" class="cat-pill"><i class="fa-solid fa-palette"></i> Canva</a>
                     <a href="/products?category=other" class="cat-pill"><i class="fa-solid fa-cubes"></i> Sản Phẩm Khác</a>
                     <a href="/posts" class="cat-pill active"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
-                    <a href="https://zalo.me" target="_blank" class="cat-pill" style="color: var(--primary); font-weight: 600;"><i class="fa-solid fa-phone"></i> Liên Hệ</a>
+                    <a href="https://zalo.me/0569012134" target="_blank" class="cat-pill" style="color: var(--primary); font-weight: 600;"><i class="fa-solid fa-phone"></i> Liên Hệ</a>
                 </div>
 
                 <div class="search-wrapper">
@@ -1230,7 +1230,7 @@ $listSchema = [
                     </p>
                     <div class="footer-socials">
                         <a href="#" class="social-circle"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" class="social-circle"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="https://t.me/specademy" target="_blank" class="social-circle"><i class="fa-brands fa-telegram"></i></a>
                         <a href="#" class="social-circle"><i class="fa-brands fa-youtube"></i></a>
                     </div>
                 </div>
@@ -1252,15 +1252,15 @@ $listSchema = [
                         <a href="#">Chính Sách Bảo Hành</a>
                         <a href="#">Điều Khoản Sử Dụng</a>
                         <a href="#">Hướng Dẫn Mua Hàng</a>
-                        <a href="#">Zalo Support 24/7</a>
+                        <a href="https://zalo.me/0569012134" target="_blank">Zalo Support 24/7</a>
                     </div>
                 </div>
 
                 <div class="footer-col">
                     <h4>Liên Hệ</h4>
                     <div class="footer-links" style="gap: 0.8rem;">
-                        <span style="font-size: 0.8rem; color: #94a3b8;"><i class="fa-solid fa-phone" style="color: var(--primary); margin-right: 0.4rem;"></i> Hotline: 0987.654.321</span>
-                        <span style="font-size: 0.8rem; color: #94a3b8;"><i class="fa-solid fa-envelope" style="color: var(--primary); margin-right: 0.4rem;"></i> support@aicuatoi.com</span>
+                        <a href="https://zalo.me/0569012134" target="_blank" style="font-size: 0.8rem; color: #94a3b8; text-decoration: none; display: flex; align-items: center;"><i class="fa-solid fa-phone" style="color: var(--primary); margin-right: 0.4rem;"></i> Zalo: 0569012134</a>
+                        <a href="https://t.me/specademy" target="_blank" style="font-size: 0.8rem; color: #94a3b8; text-decoration: none; display: flex; align-items: center;"><i class="fa-brands fa-telegram" style="color: var(--primary); margin-right: 0.4rem;"></i> Telegram: @specademy</a>
                         <span style="font-size: 0.8rem; color: #94a3b8;"><i class="fa-solid fa-clock" style="color: var(--primary); margin-right: 0.4rem;"></i> Làm việc: 24/7 kể cả ngày lễ</span>
                     </div>
                 </div>
@@ -1428,5 +1428,7 @@ $listSchema = [
         // Initial rendering
         renderCart();
     </script>
+
+    @include('partials.chat-bubble')
 </body>
 </html>
