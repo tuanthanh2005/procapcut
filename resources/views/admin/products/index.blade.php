@@ -235,9 +235,23 @@
         }
 
         .product-icon-cell {
-            font-size: 1.25rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #f8fafc;
             color: var(--primary);
-            width: 40px;
+            font-size: 1.25rem;
+        }
+        .product-icon-cell img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            padding: 2px;
         }
 
         .p-name {
@@ -412,7 +426,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Icon</th>
+                            <th>Ảnh</th>
                             <th>Tên sản phẩm</th>
                             <th>Danh mục</th>
                             <th>Giá bán</th>
@@ -425,7 +439,11 @@
                             <tr>
                                 <td>
                                     <div class="product-icon-cell">
-                                        <i class="fa-solid {{ strtok($prod->icon, ' ') }}"></i>
+                                        @if($prod->image_path)
+                                            <img src="{{ asset($prod->image_path) }}" alt="{{ $prod->name }}">
+                                        @else
+                                            <i class="fa-solid {{ strtok($prod->icon, ' ') }}"></i>
+                                        @endif
                                     </div>
                                 </td>
                                 <td>
