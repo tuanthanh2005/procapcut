@@ -43,9 +43,9 @@
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 0 1.5rem;
+            padding: 0 2rem;
         }
 
         /* Navbar / Header */
@@ -204,7 +204,7 @@
         /* Main Content Layout */
         main.container {
             flex-grow: 1;
-            padding: 3rem 1.5rem;
+            padding: 3rem 2rem;
         }
 
         .page-title-row {
