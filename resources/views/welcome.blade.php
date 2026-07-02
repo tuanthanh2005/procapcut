@@ -2129,7 +2129,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col" style="grid-column: span 1.5;">
-                    <a href="/" class="logo" style="margin-bottom: 1rem; display: inline-flex; align-items: center;">
+                    <a href="/" class="logo" style="margin-bottom: 1rem; display: inline-flex; align-items: center; background: none; -webkit-text-fill-color: white; text-decoration: none;">
                         @if(file_exists(public_path('logo.png')))
                             <img src="{{ asset('logo.png') }}?v={{ time() }}" alt="Logo" style="max-height: 2.2rem; object-fit: contain;">
                         @else
@@ -2390,18 +2390,29 @@
         });
 
         // Simulated/Fake Live Sales Notification to build trust
-        const buyerNames = ['Nguyễn Hoàng Nam', 'Trần Thị Thuỷ', 'Lê Minh Tuấn', 'Phạm Quốc Bảo', 'Vũ Hồng Hạnh', 'Đỗ Anh Dũng', 'Nguyễn Cẩm Tú', 'Lâm Quang Huy'];
-        const itemsList = [
-            { name: 'CapCut Pro (Gói 1 Năm - Chính Chủ)', val: 'capcut-1y' },
-            { name: 'Tài Khoản ChatGPT Plus (GPT-4) 1 Tháng', val: 'chatgpt-1m' },
-            { name: 'Tài Khoản Antigravity', val: 'antigravity' },
-            { name: 'Canva Pro Nâng Cấp Email', val: 'canva-pro' },
-            { name: 'Google Gemini Advanced + 2TB Google One', val: 'gemini-adv' }
-        ];
-        const times = ['Vừa xong', '2 giờ trước', '3 giờ trước', '5 giờ trước', '2 giờ trước'];
+        function generateRandomName() {
+            const familyNames = ['Nguyễn', 'Trần', 'Lê', 'Phạm', 'Hoàng', 'Phan', 'Vũ', 'Võ', 'Đặng', 'Bùi', 'Đỗ', 'Hồ', 'Ngô', 'Dương', 'Lý', 'Lương', 'Đinh', 'Tống', 'Quách'];
+            const middleNames = ['Văn', 'Thị', 'Anh', 'Hoàng', 'Minh', 'Ngọc', 'Duy', 'Hữu', 'Quốc', 'Quang', 'Khánh', 'Xuân', 'Thu', 'Hồng', 'Đức', 'Thanh', 'Như', 'Cát'];
+            const firstNames = ['Nam', 'Hải', 'Sơn', 'Lâm', 'Phong', 'Dương', 'Tiến', 'Huy', 'Hoàng', 'Dũng', 'Tuấn', 'Tú', 'Ngọc', 'Vy', 'Quỳnh', 'Hạnh', 'Trang', 'Linh', 'Thảo', 'Hương', 'Giang', 'Long', 'Quân', 'Khánh', 'Phúc', 'Lộc', 'Thọ', 'Minh', 'Hùng', 'Kiệt'];
+            const family = familyNames[Math.floor(Math.random() * familyNames.length)];
+            const middle = middleNames[Math.floor(Math.random() * middleNames.length)];
+            const first = firstNames[Math.floor(Math.random() * firstNames.length)];
+            return Math.random() < 0.15 ? `${family} ${first}` : `${family} ${middle} ${first}`;
+        }
+
+        let itemsList = {!! json_encode(\App\Models\Product::pluck('name')->map(function($name) { return ['name' => $name]; })->toArray()) !!};
+        if (!itemsList || itemsList.length === 0) {
+            itemsList = [
+                { name: 'CapCut Pro (Gói 1 Năm - Chính Chủ)' },
+                { name: 'Tài Khoản ChatGPT Plus (GPT-4) 1 Tháng' },
+                { name: 'Canva Pro Nâng Cấp Email' },
+                { name: 'Google Gemini Advanced + 2TB Google One' }
+            ];
+        }
+        const times = ['Vừa xong', '1 phút trước', '3 phút trước', '5 phút trước', '10 phút trước', '15 phút trước'];
 
         function showFakeSale() {
-            const randomName = buyerNames[Math.floor(Math.random() * buyerNames.length)];
+            const randomName = generateRandomName();
             const randomItem = itemsList[Math.floor(Math.random() * itemsList.length)];
             const randomTime = times[Math.floor(Math.random() * times.length)];
             const initial = randomName.split(' ').pop().charAt(0);

@@ -1217,7 +1217,7 @@ $listSchema = [
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col" style="grid-column: span 1.5;">
-                    <a href="/" class="logo" style="margin-bottom: 1rem; display: inline-flex; align-items: center; text-decoration: none;">
+                    <a href="/" class="logo" style="margin-bottom: 1rem; display: inline-flex; align-items: center; background: none; -webkit-text-fill-color: white; text-decoration: none;">
                         @if(file_exists(public_path('logo.png')))
                             <img src="{{ asset('logo.png') }}?v={{ time() }}" alt="Logo" style="max-height: 2.2rem; object-fit: contain;">
                         @else

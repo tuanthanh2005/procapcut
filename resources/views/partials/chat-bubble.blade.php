@@ -404,6 +404,154 @@ document.addEventListener('DOMContentLoaded', function() {
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // simple bold parser
     }
     
+    // Dynamic binding for Footer Modals
+    const modalOverlay = document.getElementById('footer-modal-overlay');
+    const modalTitle = document.getElementById('footer-modal-title');
+    const modalBody = document.getElementById('footer-modal-body');
+    const modalClose = document.getElementById('footer-modal-close');
+
+    const modalContents = {
+        warranty: `
+            <h4 style="color: var(--primary, #0284c7); font-weight: 700; margin-bottom: 0.75rem; font-size: 0.95rem;"><i class="fa-solid fa-shield-halved"></i> 1. Thời Gian Bảo Hành</h4>
+            <p style="margin-bottom: 1.25rem;">Tất cả các tài khoản số (CapCut Pro, ChatGPT Plus, Canva Pro, Gemini Advanced, Claude Pro, Microsoft Office 365) đều được cam kết bảo hành trọn vẹn trong suốt thời gian của gói dịch vụ bạn đăng ký mua (1 tháng, 6 tháng, 1 năm, hoặc vĩnh viễn).</p>
+
+            <h4 style="color: var(--primary, #0284c7); font-weight: 700; margin-bottom: 0.75rem; font-size: 0.95rem;"><i class="fa-solid fa-circle-check"></i> 2. Chính Sách 1 Đổi 1</h4>
+            <p style="margin-bottom: 1.25rem;">Nếu tài khoản gặp sự cố mất tính năng VIP/Pro hoặc lỗi đăng nhập do nhà sản xuất, chúng tôi hỗ trợ khắc phục hoặc đổi tài khoản mới siêu tốc từ 30 giây đến tối đa 12 giờ làm việc.</p>
+
+            <h4 style="color: var(--primary, #0284c7); font-weight: 700; margin-bottom: 0.75rem; font-size: 0.95rem;"><i class="fa-solid fa-triangle-exclamation"></i> 3. Trường Hợp Từ Chối Bảo Hành</h4>
+            <ul style="padding-left: 1.25rem; margin-bottom: 1.25rem; list-style-type: disc; display: flex; flex-direction: column; gap: 0.35rem;">
+                <li>Khách hàng tự ý thay đổi thông tin email, mật khẩu gốc đối với tài khoản dùng chung.</li>
+                <li>Chia sẻ tài khoản cá nhân cho quá nhiều thiết bị cùng lúc làm khóa tài khoản.</li>
+                <li>Sử dụng dịch vụ cho mục đích gian lận hoặc vi phạm chính sách pháp luật Việt Nam.</li>
+            </ul>
+
+            <h4 style="color: var(--primary, #0284c7); font-weight: 700; margin-bottom: 0.75rem; font-size: 0.95rem;"><i class="fa-solid fa-headset"></i> 4. Cách thức bảo hành</h4>
+            <p style="margin: 0;">Quý khách vui lòng nhắn tin trực tiếp qua nút <strong>Nhắn Admin</strong> ở góc màn hình hoặc liên hệ Zalo: <strong>0569012134</strong> để được xử lý nhanh nhất.</p>
+        `,
+        terms: `
+            <h4 style="color: var(--primary, #0284c7); font-weight: 700; margin-bottom: 0.75rem; font-size: 0.95rem;"><i class="fa-solid fa-file-contract"></i> 1. Chấp Thuận Điều Khoản</h4>
+            <p style="margin-bottom: 1.25rem;">Khi sử dụng dịch vụ và thực hiện giao dịch trên website <strong>AI CỦA TÔI</strong>, quý khách mặc nhiên đồng ý tuân thủ toàn bộ các quy định sử dụng và cam kết dịch vụ của chúng tôi.</p>
+
+            <h4 style="color: var(--primary, #0284c7); font-weight: 700; margin-bottom: 0.75rem; font-size: 0.95rem;"><i class="fa-solid fa-user-lock"></i> 2. Bảo Mật & Sử Dụng Tài Khoản</h4>
+            <ul style="padding-left: 1.25rem; margin-bottom: 1.25rem; list-style-type: disc; display: flex; flex-direction: column; gap: 0.35rem;">
+                <li><strong>Gói Email Chính Chủ:</strong> Nâng cấp trực tiếp trên Email của khách hàng. Khách có nghĩa vụ tự bảo vệ tài khoản cá nhân của mình.</li>
+                <li><strong>Gói Dùng Chung (Shared):</strong> Khách hàng tuyệt đối không được đổi mật khẩu, chia sẻ hoặc bán lại thông tin đăng nhập cho bên thứ ba.</li>
+            </ul>
+
+            <h4 style="color: var(--primary, #0284c7); font-weight: 700; margin-bottom: 0.75rem; font-size: 0.95rem;"><i class="fa-solid fa-credit-card"></i> 3. Quy Định Thanh Toán</h4>
+            <p style="margin-bottom: 1.25rem;">Quý khách thực hiện chuyển khoản ngân hàng qua mã QR. Đơn hàng sẽ được kích hoạt tự động qua cổng SePay ngay khi hệ thống nhận được giao dịch thành công.</p>
+
+            <h4 style="color: var(--primary, #0284c7); font-weight: 700; margin-bottom: 0.75rem; font-size: 0.95rem;"><i class="fa-solid fa-ban"></i> 4. Thay Đổi Điều Khoản</h4>
+            <p style="margin: 0;">AI CỦA TÔI có quyền cập nhật, bổ sung các điều khoản sử dụng này bất cứ lúc nào để phù hợp với quy định của các hãng cung cấp (như OpenAI, Canva, Google, CapCut).</p>
+        `,
+        guide: `
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                    <div style="background: var(--primary, #0284c7); color: white; width: 1.8rem; height: 1.8rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 0.85rem;">1</div>
+                    <div>
+                        <h5 style="margin: 0 0 0.25rem; font-weight: 700; font-size: 0.9rem; color: #1e293b;">Bước 1: Chọn gói sản phẩm</h5>
+                        <p style="margin: 0; color: #64748b; font-size: 0.82rem;">Lựa chọn sản phẩm (ví dụ: CapCut Pro), chọn gói thời hạn phù hợp (1 tháng, 6 tháng, 1 năm,...) rồi bấm <strong>Thêm vào giỏ hàng</strong>.</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                    <div style="background: var(--primary, #0284c7); color: white; width: 1.8rem; height: 1.8rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 0.85rem;">2</div>
+                    <div>
+                        <h5 style="margin: 0 0 0.25rem; font-weight: 700; font-size: 0.9rem; color: #1e293b;">Bước 2: Điền thông tin giao hàng</h5>
+                        <p style="margin: 0; color: #64748b; font-size: 0.82rem;">Mở giỏ hàng, điền đầy đủ Email (để nâng cấp chính chủ) và Số điện thoại nhận tài khoản.</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                    <div style="background: var(--primary, #0284c7); color: white; width: 1.8rem; height: 1.8rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 0.85rem;">3</div>
+                    <div>
+                        <h5 style="margin: 0 0 0.25rem; font-weight: 700; font-size: 0.9rem; color: #1e293b;">Bước 3: Quét mã QR thanh toán</h5>
+                        <p style="margin: 0; color: #64748b; font-size: 0.82rem;">Quét mã QR hiển thị trên màn hình thanh toán để chuyển khoản đúng số tiền và nội dung chuyển khoản tự động.</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                    <div style="background: var(--primary, #0284c7); color: white; width: 1.8rem; height: 1.8rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 0.85rem;">4</div>
+                    <div>
+                        <h5 style="margin: 0 0 0.25rem; font-weight: 700; font-size: 0.9rem; color: #1e293b;">Bước 4: Nhận tài khoản & Sử dụng</h5>
+                        <p style="margin: 0; color: #64748b; font-size: 0.82rem;">Hệ thống SePay quét giao dịch thành công sẽ kích hoạt gói VIP hoặc gửi thông tin tài khoản qua Email và Zalo của bạn trong 30 giây.</p>
+                    </div>
+                </div>
+            </div>
+        `
+    };
+
+    function openFooterModal(type) {
+        if (!modalOverlay || !modalContents[type]) return;
+        
+        let title = '';
+        if (type === 'warranty') title = 'CHÍNH SÁCH BẢO HÀNH';
+        if (type === 'terms') title = 'ĐIỀU KHOẢN SỬ DỤNG';
+        if (type === 'guide') title = 'HƯỚNG DẪN MUA HÀNG';
+
+        modalTitle.innerText = title;
+        modalBody.innerHTML = modalContents[type];
+        
+        modalOverlay.style.display = 'flex';
+        setTimeout(() => {
+            modalOverlay.style.opacity = '1';
+            const card = document.getElementById('footer-modal-card');
+            if (card) card.style.transform = 'scale(1)';
+        }, 10);
+    }
+
+    function closeFooterModal() {
+        if (!modalOverlay) return;
+        modalOverlay.style.opacity = '0';
+        const card = document.getElementById('footer-modal-card');
+        if (card) card.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            modalOverlay.style.display = 'none';
+        }, 300);
+    }
+
+    if (modalClose) {
+        modalClose.addEventListener('click', closeFooterModal);
+    }
+    if (modalOverlay) {
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === modalOverlay) {
+                closeFooterModal();
+            }
+        });
+    }
+
+    // Scan the page for links with matching text dynamically
+    function bindDynamicModalLinks() {
+        document.querySelectorAll('a').forEach(a => {
+            const text = a.textContent.trim().toLowerCase();
+            if (text === 'chính sách bảo hành') {
+                a.removeAttribute('href');
+                a.style.cursor = 'pointer';
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openFooterModal('warranty');
+                });
+            } else if (text === 'điều khoản sử dụng') {
+                a.removeAttribute('href');
+                a.style.cursor = 'pointer';
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openFooterModal('terms');
+                });
+            } else if (text === 'hướng dẫn mua hàng') {
+                a.removeAttribute('href');
+                a.style.cursor = 'pointer';
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openFooterModal('guide');
+                });
+            }
+        });
+    }
+
+    bindDynamicModalLinks();
+
     // Check initial unread messages count on load
     loadMessages();
     
@@ -411,3 +559,18 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(loadMessages, 5000);
 });
 </script>
+
+<!-- Footer Policies Modals Container -->
+<div id="footer-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 10000; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;">
+    <div id="footer-modal-card" style="background: #ffffff; width: 90%; max-width: 550px; max-height: 80vh; border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); display: flex; flex-direction: column; overflow: hidden; transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
+        <!-- Header -->
+        <div style="padding: 1rem 1.25rem; background: linear-gradient(135deg, var(--secondary, #0284c7), var(--primary, #0369a1)); color: white; display: flex; align-items: center; justify-content: space-between;">
+            <h3 id="footer-modal-title" style="margin: 0; font-size: 0.95rem; font-weight: 800; letter-spacing: 0.5px;">TIÊU ĐỀ</h3>
+            <button id="footer-modal-close" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; opacity: 0.9; transition: opacity 0.2s; outline: none; display: flex; align-items: center; justify-content: center; width: 1.8rem; height: 1.8rem; border-radius: 50%;"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <!-- Body -->
+        <div id="footer-modal-body" style="padding: 1.5rem; overflow-y: auto; font-size: 0.85rem; line-height: 1.55; color: #334155; font-family: inherit;">
+            <!-- Injected Content -->
+        </div>
+    </div>
+</div>

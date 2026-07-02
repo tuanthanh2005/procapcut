@@ -1951,7 +1951,7 @@ $schema = [
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col" style="grid-column: span 1.5;">
-                    <a href="/" class="logo" style="margin-bottom: 1rem; display: inline-flex; align-items: center; text-decoration: none;">
+                    <a href="/" class="logo" style="margin-bottom: 1rem; display: inline-flex; align-items: center; background: none; -webkit-text-fill-color: white; text-decoration: none;">
                         @if(file_exists(public_path('logo.png')))
                             <img src="{{ asset('logo.png') }}?v={{ time() }}" alt="Logo" style="max-height: 2.2rem; object-fit: contain;">
                         @else
@@ -2215,21 +2215,32 @@ $schema = [
         }
 
         // Fake Live Sales Popup Logic
-        const customers = ["Nguyễn Hữu Minh", "Trần Khánh Vy", "Đặng Hoàng Giang", "Lê Gia Bảo", "Phạm Quỳnh Anh", "Vũ Huy Hoàng", "Đỗ Mai Chi"];
-        const productsBought = [
-            { name: "CapCut Pro 1 Năm", option: "capcut-1y" },
-            { name: "ChatGPT Plus 1 Tháng", option: "chatgpt-1m" },
-            { name: "Canva Pro Trọn Đời", option: "canva-life" },
-            { name: "Gemini Advanced 5TB", option: "gemini-1m" },
-            { name: "CapCut Pro Trọn Đời", option: "capcut-life" }
-        ];
+        function generateRandomName() {
+            const familyNames = ['Nguyễn', 'Trần', 'Lê', 'Phạm', 'Hoàng', 'Phan', 'Vũ', 'Võ', 'Đặng', 'Bùi', 'Đỗ', 'Hồ', 'Ngô', 'Dương', 'Lý', 'Lương', 'Đinh', 'Tống', 'Quách'];
+            const middleNames = ['Văn', 'Thị', 'Anh', 'Hoàng', 'Minh', 'Ngọc', 'Duy', 'Hữu', 'Quốc', 'Quang', 'Khánh', 'Xuân', 'Thu', 'Hồng', 'Đức', 'Thanh', 'Như', 'Cát'];
+            const firstNames = ['Nam', 'Hải', 'Sơn', 'Lâm', 'Phong', 'Dương', 'Tiến', 'Huy', 'Hoàng', 'Dũng', 'Tuấn', 'Tú', 'Ngọc', 'Vy', 'Quỳnh', 'Hạnh', 'Trang', 'Linh', 'Thảo', 'Hương', 'Giang', 'Long', 'Quân', 'Khánh', 'Phúc', 'Lộc', 'Thọ', 'Minh', 'Hùng', 'Kiệt'];
+            const family = familyNames[Math.floor(Math.random() * familyNames.length)];
+            const middle = middleNames[Math.floor(Math.random() * middleNames.length)];
+            const first = firstNames[Math.floor(Math.random() * firstNames.length)];
+            return Math.random() < 0.15 ? `${family} ${first}` : `${family} ${middle} ${first}`;
+        }
+
+        let productsBought = {!! json_encode(\App\Models\Product::pluck('name')->map(function($name) { return ['name' => $name]; })->toArray()) !!};
+        if (!productsBought || productsBought.length === 0) {
+            productsBought = [
+                { name: "CapCut Pro 1 Năm" },
+                { name: "ChatGPT Plus 1 Tháng" },
+                { name: "Canva Pro 1 năm" },
+                { name: "Gemini Advanced 5TB" }
+            ];
+        }
 
         function triggerLiveSale() {
-            const randomCust = customers[Math.floor(Math.random() * customers.length)];
+            const randomCust = generateRandomName();
             const randomProd = productsBought[Math.floor(Math.random() * productsBought.length)];
             const randomSeconds = Math.floor(Math.random() * 50) + 10;
             
-            document.getElementById('live-avatar').innerText = randomCust.charAt(0);
+            document.getElementById('live-avatar').innerText = randomCust.split(' ').pop().charAt(0);
             document.getElementById('live-name').innerText = randomCust;
             document.getElementById('live-item').innerText = randomProd.name;
             document.getElementById('live-time').innerText = `${randomSeconds} giây trước`;
