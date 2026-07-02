@@ -166,7 +166,7 @@ class ProductSeeder extends Seeder
             'icon' => 'fa-brands fa-google color-gemini',
             'rating' => 4.8,
             'review_count' => 60,
-            'sold' => '600',
+            'sold' => '1k',
             'tag' => '-43%',
             'description' => '<p><strong>Google Gemini Advanced</strong> là gói dịch vụ AI cao cấp nhất của Google, mang đến trải nghiệm mô hình AI thế hệ mới nhất cùng không gian lưu trữ đám mây khổng lồ 5TB Google One.</p>
 
