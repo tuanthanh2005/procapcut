@@ -121,7 +121,7 @@ if ($category === 'all' && empty($search)) {
         ],
         'gemini' => [
             'name' => 'Google Gemini Advanced + 5TB Google One',
-            'description' => 'AI tích hợp sâu vào bộ công cụ Google Workspace. Tặng kèm dung lượng lưu trữ 2TB Google One. Nâng cấp trực tiếp trên Gmail chính chủ.',
+            'description' => 'AI tích hợp sâu vào bộ công cụ Google Workspace. Tặng kèm dung lượng lưu trữ 5TB Google One. Nâng cấp trực tiếp trên Gmail chính chủ.',
             'price' => '199000',
             'sku' => 'GEMINI-ADV-1M',
             'rating' => '4.7',
@@ -2279,7 +2279,7 @@ if ($category === 'all' && empty($search)) {
         const categoryTitles = {
             all: 'Khám Phá Cửa Hàng Số',
             gpt: 'Tài Khoản ChatGPT Plus Premium',
-            gemini: 'Google Gemini Advanced + 2TB Google One',
+            gemini: 'Google Gemini Advanced + 5TB Google One',
             capcut: 'Tài Khoản CapCut Pro Chính Chủ',
             canva: 'Nâng Cấp Canva Pro Chính Chủ',
             other: 'Premium Tools & Dịch Vụ AI Khác'
@@ -2288,7 +2288,7 @@ if ($category === 'all' && empty($search)) {
         const seoTitles = {
             all: 'Cửa Hàng Bản Quyền Tài Khoản AI & Premium Tools | AI CỦA TÔI',
             gpt: 'Mua Tài Khoản ChatGPT Plus (GPT-5) Premium Giá Rẻ | AI CỦA TÔI',
-            gemini: 'Nâng Cấp Google Gemini Advanced Kèm 2TB Google One | AI CỦA TÔI',
+            gemini: 'Nâng Cấp Google Gemini Advanced Kèm 5TB Google One | AI CỦA TÔI',
             capcut: 'Nâng Cấp Tài Khoản CapCut Pro Gói 1 Năm Chính Chủ | AI CỦA TÔI',
             canva: 'Nâng Cấp Canva Pro Kích Hoạt Email Chính Chủ | AI CỦA TÔI',
             other: 'Mua Tài Khoản Premium Tools & Dịch Vụ AI Giá Tốt | AI CỦA TÔI'

@@ -2830,7 +2830,7 @@
                 { name: 'CapCut Pro (Gói 1 Năm - Chính Chủ)' },
                 { name: 'Tài Khoản ChatGPT Plus (GPT-5) 1 Tháng' },
                 { name: 'Canva Pro Nâng Cấp Email' },
-                { name: 'Google Gemini Advanced + 2TB Google One' }
+                { name: 'Google Gemini Advanced + 5TB Google One' }
             ];
         }
         const times = ['Vừa xong', '1 phút trước', '3 phút trước', '5 phút trước', '10 phút trước', '15 phút trước'];
