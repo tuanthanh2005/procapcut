@@ -294,7 +294,7 @@
         </a>
 
         <ul class="sidebar-menu">
-            <li class="menu-item active">
+            <li class="menu-item">
                 <a href="/admin/dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
             </li>
             <li class="menu-item">
@@ -312,7 +312,7 @@
             <li class="menu-item">
                 <a href="/admin/customers"><i class="fa-solid fa-users"></i> Khách hàng</a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item active">
                 <a href="/admin/seo"><i class="fa-brands fa-google"></i> Google Index API</a>
             </li>
             <li class="menu-item">
@@ -340,81 +340,113 @@
         </header>
 
         <main class="content-container">
-            <!-- Stats -->
-            <section class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-info">
-                        <h3>Tổng doanh thu</h3>
-                        <p>18.450.000₫</p>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="fa-solid fa-hand-holding-dollar"></i>
-                    </div>
+            <div class="data-section">
+                <div class="section-header" style="margin-bottom: 2rem;">
+                    <h2><i class="fa-brands fa-google" style="color:#ea4335; margin-right: 8px;"></i> Google Indexing API (Tự động Ping)</h2>
+                    <p style="color: var(--text-muted); font-weight:normal; margin-top:0.5rem; font-size:0.9rem;">Chọn các danh mục bên dưới hoặc nhập thêm link thủ công để ép Google thu thập dữ liệu ngay lập tức.</p>
                 </div>
 
-                <div class="stat-card">
-                    <div class="stat-info">
-                        <h3>Đơn hàng hoàn tất</h3>
-                        <p>124</p>
+                @if(session('success'))
+                    <div style="background: #ecfdf5; border: 1px solid #10b981; color: #047857; padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; font-weight: 600;">
+                        <i class="fa-solid fa-circle-check"></i> {{ session('success') }}
                     </div>
-                    <div class="stat-icon" style="background: rgba(16, 185, 129, 0.08); color: #10b981;">
-                        <i class="fa-solid fa-square-check"></i>
+                @endif
+                
+                @if(session('error'))
+                    <div style="background: #fef2f2; border: 1px solid #ef4444; color: #b91c1c; padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; font-weight: 600;">
+                        <i class="fa-solid fa-circle-exclamation"></i> {{ session('error') }}
                     </div>
-                </div>
+                @endif
 
-                <div class="stat-card">
-                    <div class="stat-info">
-                        <h3>Khách hàng mới</h3>
-                        <p>48</p>
+                <form action="{{ route('admin.seo.indexUrls') }}" method="POST">
+                    @csrf
+                    
+                    <h3 style="margin-bottom: 1rem; font-size: 0.95rem; font-weight: 700; color:var(--text-main); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">1. Đẩy nhanh theo nhóm nội dung</h3>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2rem;">
+                        <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer; font-size: 0.9rem;">
+                            <input type="checkbox" name="index_static" value="1" style="width: 18px; height: 18px;">
+                            <span>Trang chủ, Trang Danh mục Sản phẩm & Bài viết</span>
+                        </label>
+                        
+                        <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer; font-size: 0.9rem;">
+                            <input type="checkbox" name="index_products" value="1" style="width: 18px; height: 18px;">
+                            <span>Tất cả các link <strong>Sản phẩm</strong> (Products) hiện có</span>
+                        </label>
+                        
+                        <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer; font-size: 0.9rem;">
+                            <input type="checkbox" name="index_posts" value="1" style="width: 18px; height: 18px;">
+                            <span>Tất cả các link <strong>Bài viết Blog</strong> (Posts) hiện có</span>
+                        </label>
                     </div>
-                    <div class="stat-icon" style="background: rgba(245, 158, 11, 0.08); color: #f59e0b;">
-                        <i class="fa-solid fa-users"></i>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                        <h3 style="font-size: 0.95rem; font-weight: 700; color:var(--text-main); margin:0;">2. Thêm link thủ công (Custom URLs)</h3>
+                        <button type="button" id="add-url-btn" style="background: rgba(2, 132, 199, 0.1); color: var(--primary); border:none; padding: 0.4rem 0.8rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">
+                            <i class="fa-solid fa-plus"></i> Thêm link
+                        </button>
                     </div>
-                </div>
-            </section>
+                    
+                    <div id="manual-urls-container" style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2.5rem;">
+                        <!-- First input row -->
+                        <div class="url-input-row" style="display: flex; gap: 0.5rem;">
+                            <input type="url" name="manual_urls[]" placeholder="https://aicuatoi.com/link-can-index" style="flex: 1; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-family: 'Inter', sans-serif; font-size: 0.9rem; outline: none;">
+                        </div>
+                    </div>
 
-            <!-- Table of Orders -->
-            <section class="data-section">
-                <div class="section-header">
-                    <h2>Đơn hàng mới nhất</h2>
-                    <button class="btn-action"><i class="fa-solid fa-filter"></i> Bộ lọc</button>
-                </div>
+                    <div style="text-align: right;">
+                        <button type="submit" class="btn-action" style="padding: 0.75rem 2rem; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);">
+                            <i class="fa-solid fa-paper-plane"></i> Gửi Yêu Cầu Index Ngay
+                        </button>
+                    </div>
+                </form>
+            </div>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Mã đơn</th>
-                            <th>Khách hàng</th>
-                            <th>Sản phẩm</th>
-                            <th>Số tiền</th>
-                            <th>Trạng thái</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>#DH202601</strong></td>
-                            <td>Nguyễn Văn Hùng</td>
-                            <td>CapCut Pro (1 Năm)</td>
-                            <td>399.000₫</td>
-                            <td><span class="status-badge status-success">Hoàn tất</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>#DH202602</strong></td>
-                            <td>Trần Thị Thuỳ</td>
-                            <td>ChatGPT Plus (1 Tháng)</td>
-                            <td>199.000₫</td>
-                            <td><span class="status-badge status-success">Hoàn tất</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>#DH202603</strong></td>
-                            <td>Phạm Quốc Bảo</td>
-                            <td>Canva Pro (Trọn đời)</td>
-                            <td>249.000₫</td>
-                            <td><span class="status-badge status-pending">Đang xử lý</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+            <script>
+                document.getElementById('add-url-btn').addEventListener('click', function() {
+                    const container = document.getElementById('manual-urls-container');
+                    
+                    const row = document.createElement('div');
+                    row.className = 'url-input-row';
+                    row.style.display = 'flex';
+                    row.style.gap = '0.5rem';
+                    row.style.alignItems = 'center';
+                    
+                    const input = document.createElement('input');
+                    input.type = 'url';
+                    input.name = 'manual_urls[]';
+                    input.placeholder = 'https://aicuatoi.com/link-can-index';
+                    input.style.flex = '1';
+                    input.style.padding = '0.75rem 1rem';
+                    input.style.border = '1px solid var(--border-color)';
+                    input.style.borderRadius = '10px';
+                    input.style.fontFamily = "'Inter', sans-serif";
+                    input.style.fontSize = '0.9rem';
+                    input.style.outline = 'none';
+                    
+                    const removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    removeBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+                    removeBtn.style.background = '#fef2f2';
+                    removeBtn.style.color = '#ef4444';
+                    removeBtn.style.border = 'none';
+                    removeBtn.style.padding = '0.75rem';
+                    removeBtn.style.borderRadius = '8px';
+                    removeBtn.style.cursor = 'pointer';
+                    removeBtn.style.display = 'flex';
+                    removeBtn.style.alignItems = 'center';
+                    removeBtn.style.justifyContent = 'center';
+                    
+                    removeBtn.onclick = function() {
+                        row.remove();
+                    };
+                    
+                    row.appendChild(input);
+                    row.appendChild(removeBtn);
+                    
+                    container.appendChild(row);
+                });
+            </script>
         </main>
     </div>
 

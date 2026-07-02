@@ -107,6 +107,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/settings', [\App\Http\Controllers\AdminSettingsController::class, 'show'])->name('settings.show');
     Route::put('/settings', [\App\Http\Controllers\AdminSettingsController::class, 'update'])->name('settings.update');
 
+    // Admin SEO routes
+    Route::get('/seo', [\App\Http\Controllers\AdminSeoController::class, 'index'])->name('seo.index');
+    Route::post('/seo/index-urls', [\App\Http\Controllers\AdminSeoController::class, 'indexUrls'])->name('seo.indexUrls');
+
     // Admin Chat routes
     Route::get('/chat', function () {
         return view('admin.chat');
