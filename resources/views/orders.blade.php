@@ -359,10 +359,11 @@
             box-shadow: var(--shadow-sm);
         }
 
-        .empty-orders i {
+        .empty-orders > i {
             font-size: 3.5rem;
             color: var(--text-muted);
             margin-bottom: 1.5rem;
+            display: inline-block;
         }
 
         .empty-orders h3 {
