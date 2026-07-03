@@ -1086,6 +1086,9 @@ $listSchema = [
                 width: 2.25rem !important;
                 height: 2.25rem !important;
             }
+            .header-contact-btn {
+                display: none !important;
+            }
             .search-wrapper {
                 grid-column: 1 / span 2 !important;
                 grid-row: 2 !important;
@@ -1200,7 +1203,7 @@ $listSchema = [
                 </div>
 
                 <div class="nav-actions">
-                    <a href="https://zalo.me/0569012134" target="_blank" class="action-icon-btn" title="Liên hệ Zalo" style="color: var(--primary);">
+                    <a href="https://zalo.me/0569012134" target="_blank" class="action-icon-btn header-contact-btn" title="Liên hệ Zalo" style="color: var(--primary);">
                         <i class="fa-solid fa-phone"></i>
                     </a>
                     <button class="action-icon-btn" id="open-cart-btn" title="Giỏ hàng">
