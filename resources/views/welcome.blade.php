@@ -2137,11 +2137,11 @@
                 <!-- Categories pills in Header (Sync with Filter) -->
             <div class="cat-nav-bar">
                 <a href="/" class="cat-pill active"><i class="fa-solid fa-house"></i> Trang Chủ</a>
+                <a href="/products" class="cat-pill"><i class="fa-solid fa-cubes"></i> Sản Phẩm</a>
                 <a href="/products?category=gpt" class="cat-pill"><i class="fa-solid fa-brain"></i> Chat Gpt</a>
                 <a href="/products?category=gemini" class="cat-pill"><i class="fa-brands fa-google"></i> Gemini</a>
                 <a href="/products?category=capcut" class="cat-pill"><i class="fa-solid fa-video"></i> CapCut Pro</a>
                 <a href="/products?category=canva" class="cat-pill"><i class="fa-solid fa-palette"></i> Canva</a>
-                <a href="/products?category=other" class="cat-pill"><i class="fa-solid fa-cubes"></i> Sản Phẩm Khác</a>
                 <a href="/posts" class="cat-pill"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
             </div>
 
@@ -2578,7 +2578,7 @@
             <a href="/products?category=gemini" class="menu-side-link"><i class="fa-brands fa-google"></i> Gemini</a>
             <a href="/products?category=capcut" class="menu-side-link"><i class="fa-solid fa-video"></i> CapCut Pro</a>
             <a href="/products?category=canva" class="menu-side-link"><i class="fa-solid fa-palette"></i> Canva</a>
-            <a href="/products?category=other" class="menu-side-link"><i class="fa-solid fa-cubes"></i> Sản Phẩm Khác</a>
+            <a href="/products" class="menu-side-link"><i class="fa-solid fa-cubes"></i> Sản Phẩm</a>
             <a href="/posts" class="menu-side-link"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
             <a href="https://zalo.me/0569012134" target="_blank" class="menu-side-link" style="color: var(--primary); font-weight: 700;"><i class="fa-solid fa-phone"></i> Liên Hệ Zalo</a>
         </nav>

@@ -1291,11 +1291,11 @@ $blogSchema = [
                 <!-- Categories pills in Header -->
                 <div class="cat-nav-bar">
                     <a href="/" class="cat-pill"><i class="fa-solid fa-house"></i> Trang Chủ</a>
+                    <a href="/products" class="cat-pill"><i class="fa-solid fa-cubes"></i> Sản Phẩm</a>
                     <a href="/products?category=gpt" class="cat-pill"><i class="fa-solid fa-brain"></i> Chat Gpt</a>
                     <a href="/products?category=gemini" class="cat-pill"><i class="fa-brands fa-google"></i> Gemini</a>
                     <a href="/products?category=capcut" class="cat-pill"><i class="fa-solid fa-video"></i> CapCut Pro</a>
                     <a href="/products?category=canva" class="cat-pill"><i class="fa-solid fa-palette"></i> Canva</a>
-                    <a href="/products?category=other" class="cat-pill"><i class="fa-solid fa-cubes"></i> Sản Phẩm Khác</a>
                     <a href="/posts" class="cat-pill active"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
                 </div>
 

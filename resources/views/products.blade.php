@@ -1798,11 +1798,11 @@ if ($category === 'all' && empty($search)) {
                 <!-- Categories pills in Header (Sync with Filter) -->
             <div class="cat-nav-bar">
                 <a href="/" class="cat-pill"><i class="fa-solid fa-house"></i> Trang Chủ</a>
+                <button class="cat-pill" data-category="all"><i class="fa-solid fa-cubes"></i> Sản Phẩm</button>
                 <button class="cat-pill" data-category="gpt"><i class="fa-solid fa-brain"></i> Chat Gpt</button>
                 <button class="cat-pill" data-category="gemini"><i class="fa-brands fa-google"></i> Gemini</button>
                 <button class="cat-pill" data-category="capcut"><i class="fa-solid fa-video"></i> CapCut Pro</button>
                 <button class="cat-pill" data-category="canva"><i class="fa-solid fa-palette"></i> Canva</button>
-                <button class="cat-pill" data-category="other"><i class="fa-solid fa-cubes"></i> Sản Phẩm Khác</button>
                 <a href="/posts" class="cat-pill"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
             </div>
 
@@ -2033,7 +2033,7 @@ if ($category === 'all' && empty($search)) {
             <a href="/products?category=gemini" class="menu-side-link"><i class="fa-brands fa-google"></i> Gemini</a>
             <a href="/products?category=capcut" class="menu-side-link"><i class="fa-solid fa-video"></i> CapCut Pro</a>
             <a href="/products?category=canva" class="menu-side-link"><i class="fa-solid fa-palette"></i> Canva</a>
-            <a href="/products?category=other" class="menu-side-link"><i class="fa-solid fa-cubes"></i> Sản Phẩm Khác</a>
+            <a href="/products" class="menu-side-link"><i class="fa-solid fa-cubes"></i> Sản Phẩm</a>
             <a href="/posts" class="menu-side-link"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
             <a href="https://zalo.me/0569012134" target="_blank" class="menu-side-link" style="color: var(--primary); font-weight: 700;"><i class="fa-solid fa-phone"></i> Liên Hệ Zalo</a>
         </nav>
@@ -2516,15 +2516,9 @@ if ($category === 'all' && empty($search)) {
         const catParam = urlParams.get('category');
         const searchParam = urlParams.get('search');
         
-        if (catParam) {
-            updateCategoryUI(catParam);
-        }
+        updateCategoryUI(catParam || 'all');
         if (searchParam) {
             updateSearchState(searchParam);
-        }
-        if (!catParam && !searchParam) {
-            // Initial filter run
-            applyFilters();
         }
 
         // Render initial cart from localStorage
