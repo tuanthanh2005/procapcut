@@ -1801,7 +1801,6 @@ if ($category === 'all' && empty($search)) {
                 <button class="cat-pill" data-category="canva"><i class="fa-solid fa-palette"></i> Canva</button>
                 <button class="cat-pill" data-category="other"><i class="fa-solid fa-cubes"></i> Sản Phẩm Khác</button>
                 <a href="/posts" class="cat-pill"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
-                <a href="https://zalo.me/0569012134" target="_blank" class="cat-pill" style="color: var(--primary); font-weight: 600;"><i class="fa-solid fa-phone"></i> Liên Hệ</a>
             </div>
 
                 <div class="search-wrapper">
@@ -1814,6 +1813,9 @@ if ($category === 'all' && empty($search)) {
                     
                     <button class="action-icon-btn mobile-menu-toggle" id="mobile-menu-toggle" title="Menu"><i class="fa-solid fa-bars"></i></button>
                     
+                    <a href="https://zalo.me/0569012134" target="_blank" class="action-icon-btn" title="Liên hệ Zalo" style="color: var(--primary);">
+                        <i class="fa-solid fa-phone"></i>
+                    </a>
                     <button class="action-icon-btn" id="open-cart-btn" title="Giỏ hàng">
                         <i class="fa-solid fa-bag-shopping"></i>
                         <span class="badge" id="cart-count">0</span>

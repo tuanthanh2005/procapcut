@@ -1294,7 +1294,6 @@ $blogSchema = [
                     <a href="/products?category=canva" class="cat-pill"><i class="fa-solid fa-palette"></i> Canva</a>
                     <a href="/products?category=other" class="cat-pill"><i class="fa-solid fa-cubes"></i> Sản Phẩm Khác</a>
                     <a href="/posts" class="cat-pill active"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
-                    <a href="https://zalo.me/0569012134" target="_blank" class="cat-pill" style="color: var(--primary); font-weight: 600;"><i class="fa-solid fa-phone"></i> Liên Hệ</a>
                 </div>
 
                 <div class="search-wrapper">
@@ -1303,6 +1302,9 @@ $blogSchema = [
                 </div>
 
                 <div class="nav-actions">
+                    <a href="https://zalo.me/0569012134" target="_blank" class="action-icon-btn" title="Liên hệ Zalo" style="color: var(--primary);">
+                        <i class="fa-solid fa-phone"></i>
+                    </a>
                     <button class="action-icon-btn" id="open-cart-btn" title="Giỏ hàng">
                         <i class="fa-solid fa-bag-shopping"></i>
                         <span class="badge" id="cart-count">0</span>

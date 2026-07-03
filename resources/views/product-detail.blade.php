@@ -1882,6 +1882,9 @@ $schema = [
                     <button class="action-icon-btn mobile-menu-toggle" id="mobile-menu-toggle" title="Menu"><i class="fa-solid fa-bars"></i></button>
                     
                     <a href="/products" class="action-icon-btn" title="Cửa hàng"><i class="fa-solid fa-store"></i></a>
+                    <a href="https://zalo.me/0569012134" target="_blank" class="action-icon-btn" title="Liên hệ Zalo" style="color: var(--primary);">
+                        <i class="fa-solid fa-phone"></i>
+                    </a>
                     <button class="action-icon-btn" id="open-cart-btn" title="Giỏ hàng">
                         <i class="fa-solid fa-bag-shopping"></i>
                         <span class="badge" id="cart-count">0</span>
