@@ -610,6 +610,7 @@ $schema = [
             display: inline-block;
             box-sizing: border-box;
             transition: var(--transition);
+            flex-shrink: 0;
         }
 
         .option-item.selected .opt-name::before {
@@ -622,6 +623,8 @@ $schema = [
             font-size: 0.88rem;
             font-weight: 800;
             color: var(--text-main);
+            flex-shrink: 0;
+            margin-left: 1rem;
         }
 
         /* Quantity and Actions */
@@ -1544,14 +1547,26 @@ $schema = [
             }
             .option-item {
                 padding: 0.85rem !important;
-                height: 48px !important;
+                min-height: 48px !important;
+                height: auto !important;
                 border-radius: var(--radius-sm) !important;
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
             }
             .opt-name {
                 font-size: 0.82rem !important;
+                align-items: flex-start !important;
+                text-align: left !important;
+            }
+            .opt-name::before {
+                margin-top: 3px !important;
+                flex-shrink: 0 !important;
             }
             .opt-price {
                 font-size: 0.82rem !important;
+                flex-shrink: 0 !important;
+                margin-left: 0.5rem !important;
             }
             /* Sticky bottom CTA Bar for purchasing */
             .purchase-actions {
