@@ -3005,10 +3005,10 @@
             };
 
             // Particle settings
-            const particleCount = 45; // balanced density
-            const connectionDistance = 100;
-            const particleColor = 'rgba(2, 132, 199, 0.25)'; // primary cyan/sky-blue
-            const lineColor = 'rgba(14, 165, 233, 0.15)'; // secondary sky-blue line color
+            const particleCount = 60; // increased count for higher density
+            const connectionDistance = 125; // wider range for connections
+            const particleColor = 'rgba(2, 132, 199, 0.45)'; // more opaque sky-blue
+            const lineColor = 'rgba(14, 165, 233, 0.25)'; // more opaque line color
 
             // Particle class
             class Particle {
@@ -3019,9 +3019,9 @@
                 reset() {
                     this.x = Math.random() * width;
                     this.y = Math.random() * height;
-                    this.radius = Math.random() * 1.5 + 1; // 1px to 2.5px
-                    this.vx = (Math.random() - 0.5) * 0.4; // slow, smooth drift
-                    this.vy = (Math.random() - 0.5) * 0.4;
+                    this.radius = Math.random() * 2 + 1.5; // larger particles: 1.5px to 3.5px
+                    this.vx = (Math.random() - 0.5) * 0.65; // slightly faster drift
+                    this.vy = (Math.random() - 0.5) * 0.65;
                 }
 
                 update() {
@@ -3079,12 +3079,12 @@
                         const dist = Math.hypot(dx, dy);
 
                         if (dist < connectionDistance) {
-                            const alpha = (1 - dist / connectionDistance) * 0.18;
+                            const alpha = (1 - dist / connectionDistance) * 0.35; // increased line alpha
                             ctx.beginPath();
                             ctx.moveTo(p1.x, p1.y);
                             ctx.lineTo(p2.x, p2.y);
                             ctx.strokeStyle = `rgba(14, 165, 233, ${alpha})`;
-                            ctx.lineWidth = 0.85;
+                            ctx.lineWidth = 1.0;
                             ctx.stroke();
                         }
                     }
@@ -3096,12 +3096,12 @@
                         const dist = Math.hypot(dx, dy);
 
                         if (dist < mouse.radius) {
-                            const alpha = (1 - dist / mouse.radius) * 0.35;
+                            const alpha = (1 - dist / mouse.radius) * 0.55; // increased mouse connection alpha
                             ctx.beginPath();
                             ctx.moveTo(p1.x, p1.y);
                             ctx.lineTo(mouse.x, mouse.y);
                             ctx.strokeStyle = `rgba(2, 132, 199, ${alpha})`;
-                            ctx.lineWidth = 1.0;
+                            ctx.lineWidth = 1.2;
                             ctx.stroke();
                         }
                     }
