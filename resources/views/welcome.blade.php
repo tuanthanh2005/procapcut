@@ -425,7 +425,9 @@
 
         /* COMPACT HERO BANNER */
         .hero-banner {
-            background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.08), transparent), #ffffff;
+            background: radial-gradient(circle at 75% 20%, rgba(2, 132, 199, 0.12), transparent 45%),
+                        radial-gradient(circle at 15% 80%, rgba(14, 165, 233, 0.08), transparent 40%),
+                        #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
             padding: 2.2rem;
@@ -437,6 +439,16 @@
             overflow: hidden;
             margin-bottom: 2.5rem;
             box-shadow: var(--shadow-md);
+        }
+
+        .hero-banner-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
         }
 
         .hero-banner::before {
@@ -2209,6 +2221,7 @@
         
         <!-- COMPACT & MODERN HERO BANNER -->
         <section class="hero-banner">
+            <canvas id="heroCanvas" class="hero-banner-canvas"></canvas>
             <div class="hero-text">
                 <div class="hero-badge">
                     <i class="fa-solid fa-shield-check"></i> Bản quyền tự động - Kích hoạt trong 1 giây
@@ -2969,6 +2982,202 @@
                 }
             });
         }
+
+        // --- HERO BANNER CANVAS PARTICLE SYSTEM ---
+        (function() {
+            const canvas = document.getElementById('heroCanvas');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            const container = canvas.parentElement;
+
+            let particles = [];
+            let animationFrameId = null;
+            let width = 0;
+            let height = 0;
+            let isVisible = false;
+
+            // Mouse interaction state
+            const mouse = {
+                x: null,
+                y: null,
+                radius: 120 // Interaction distance
+            };
+
+            // Particle settings
+            const particleCount = 45; // balanced density
+            const connectionDistance = 100;
+            const particleColor = 'rgba(2, 132, 199, 0.25)'; // primary cyan/sky-blue
+            const lineColor = 'rgba(14, 165, 233, 0.15)'; // secondary sky-blue line color
+
+            // Particle class
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+
+                reset() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.radius = Math.random() * 1.5 + 1; // 1px to 2.5px
+                    this.vx = (Math.random() - 0.5) * 0.4; // slow, smooth drift
+                    this.vy = (Math.random() - 0.5) * 0.4;
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    // Wrap around boundaries
+                    if (this.x < 0) this.x = width;
+                    if (this.x > width) this.x = 0;
+                    if (this.y < 0) this.y = height;
+                    if (this.y > height) this.y = 0;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = particleColor;
+                    ctx.fill();
+                }
+            }
+
+            // Adjust canvas size to parent container
+            function resizeCanvas() {
+                if (!container) return;
+                width = container.offsetWidth;
+                height = container.offsetHeight;
+                
+                // Set high-DPI scaling
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
+                ctx.scale(dpr, dpr);
+
+                // Re-initialize particles to fit the new size
+                initParticles();
+            }
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            // Draw connecting lines between close particles, and lines to mouse cursor
+            function drawConnections() {
+                for (let i = 0; i < particles.length; i++) {
+                    const p1 = particles[i];
+                    
+                    // Connection to other particles
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p2 = particles[j];
+                        const dx = p1.x - p2.x;
+                        const dy = p1.y - p2.y;
+                        const dist = Math.hypot(dx, dy);
+
+                        if (dist < connectionDistance) {
+                            const alpha = (1 - dist / connectionDistance) * 0.18;
+                            ctx.beginPath();
+                            ctx.moveTo(p1.x, p1.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.strokeStyle = `rgba(14, 165, 233, ${alpha})`;
+                            ctx.lineWidth = 0.85;
+                            ctx.stroke();
+                        }
+                    }
+
+                    // Connection to mouse
+                    if (mouse.x !== null && mouse.y !== null) {
+                        const dx = p1.x - mouse.x;
+                        const dy = p1.y - mouse.y;
+                        const dist = Math.hypot(dx, dy);
+
+                        if (dist < mouse.radius) {
+                            const alpha = (1 - dist / mouse.radius) * 0.35;
+                            ctx.beginPath();
+                            ctx.moveTo(p1.x, p1.y);
+                            ctx.lineTo(mouse.x, mouse.y);
+                            ctx.strokeStyle = `rgba(2, 132, 199, ${alpha})`;
+                            ctx.lineWidth = 1.0;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            // Main loop
+            function animate() {
+                if (!isVisible) return;
+
+                ctx.clearRect(0, 0, width, height);
+
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+
+                drawConnections();
+
+                animationFrameId = requestAnimationFrame(animate);
+            }
+
+            // Mouse move tracking on parent container (so mouse cursor coordinates map correctly inside canvas)
+            container.addEventListener('mousemove', (e) => {
+                const rect = container.getBoundingClientRect();
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+            });
+
+            container.addEventListener('mouseleave', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+
+            // Handle touch support
+            container.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 0) {
+                    const rect = container.getBoundingClientRect();
+                    mouse.x = e.touches[0].clientX - rect.left;
+                    mouse.y = e.touches[0].clientY - rect.top;
+                }
+            });
+
+            container.addEventListener('touchend', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+
+            // Debounced resize
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    resizeCanvas();
+                }, 200);
+            });
+
+            // IntersectionObserver: Pause rendering loop when banner is off-screen
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    isVisible = entry.isIntersecting;
+                    if (isVisible) {
+                        // Resume loop
+                        cancelAnimationFrame(animationFrameId);
+                        animate();
+                    } else {
+                        // Pause loop
+                        cancelAnimationFrame(animationFrameId);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            // Initialize
+            resizeCanvas();
+            observer.observe(container);
+        })();
 </script>
     
     <!-- Floating Back to Top Button -->
