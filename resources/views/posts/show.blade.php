@@ -1292,11 +1292,10 @@ $blogSchema = [
                 <div class="cat-nav-bar">
                     <a href="/" class="cat-pill"><i class="fa-solid fa-house"></i> Trang Chủ</a>
                     <a href="/products" class="cat-pill"><i class="fa-solid fa-cubes"></i> Sản Phẩm</a>
-                    <a href="/products?category=gpt" class="cat-pill"><i class="fa-solid fa-brain"></i> Chat Gpt</a>
-                    <a href="/products?category=gemini" class="cat-pill"><i class="fa-brands fa-google"></i> Gemini</a>
-                    <a href="/products?category=capcut" class="cat-pill"><i class="fa-solid fa-video"></i> CapCut Pro</a>
-                    <a href="/products?category=canva" class="cat-pill"><i class="fa-solid fa-palette"></i> Canva</a>
+                    <a href="/products?category=api-token" class="cat-pill"><i class="fa-solid fa-key"></i> API Token AI</a>
                     <a href="/posts" class="cat-pill active"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
+                    <a href="https://zalo.me/0569012134" target="_blank" class="cat-pill"><i class="fa-solid fa-phone"></i> Liên Hệ</a>
+                    <a href="https://zalo.me/g/ifaku0ggmtg4xhxi7k0u" target="_blank" class="cat-pill"><i class="fa-solid fa-users"></i> Group Zalo</a>
                 </div>
 
                 <div class="search-wrapper">
@@ -1467,7 +1466,7 @@ $blogSchema = [
                     <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.6; max-width: 280px;">
                         Hệ thống cung cấp dịch vụ nâng cấp tài khoản số, phần mềm đồ họa, thiết kế và AI hàng đầu Việt Nam. Tự động - Uy tín - Giá rẻ.
                     </p>
-                    <div class="social-links">
+                    <div class="footer-socials">
                         <a href="{{ App\Models\Setting::getValue('social_facebook', 'https://facebook.com') }}" class="social-circle" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
                         <a href="{{ App\Models\Setting::getValue('social_telegram', 'https://t.me') }}" class="social-circle" target="_blank"><i class="fa-brands fa-telegram"></i></a>
                         <a href="{{ App\Models\Setting::getValue('social_zalo', 'https://zalo.me') }}" class="social-circle" target="_blank" style="font-weight: 800; font-family: 'Inter', sans-serif; font-size: 0.95rem;">Zalo</a>
@@ -1477,10 +1476,10 @@ $blogSchema = [
                 <div class="footer-col">
                     <h4>Sản Phẩm</h4>
                     <div class="footer-links">
-                        <a href="#">Tài khoản CapCut Pro</a>
-                        <a href="#">Tài khoản ChatGPT Plus</a>
-                        <a href="#">Tài khoản Claude Pro</a>
-                        <a href="#">Canva Pro Nâng Cấp</a>
+                        <a href="/product/capcut">Tài khoản CapCut Pro</a>
+                        <a href="/product/chatgpt">Tài khoản ChatGPT Plus</a>
+                        <a href="/product/claude">Tài khoản Claude Pro</a>
+                        <a href="/product/canva">Canva Pro Nâng Cấp</a>
                     </div>
                 </div>
 

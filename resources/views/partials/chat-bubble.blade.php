@@ -1,3 +1,12 @@
+<!-- Floating Zalo Chat Bubble -->
+<a href="https://zalo.me/0569012134" target="_blank" class="zalo-bubble-float" title="Chat Zalo ngay">
+    <svg viewBox="0 0 200 200" style="width: 100%; height: 100%; display: block;">
+        <circle cx="100" cy="100" r="100" fill="#0068ff"/>
+        <path d="M100 35C61.3 35 30 61.3 30 95c0 17.5 8.3 33.3 21.7 44l-6.7 20.3c-.5 1.5.8 3 2.3 2.5l23.7-9.7c8.8 2.7 18.5 4.2 29 4.2 38.7 0 70-26.3 70-60S138.7 35 100 35z" fill="#ffffff"/>
+        <text x="100" y="112" fill="#0068ff" font-family="'Inter', 'Arial', sans-serif" font-weight="900" font-size="46" text-anchor="middle">zalo</text>
+    </svg>
+</a>
+
 <!-- Floating Chat Bubble Widget -->
 <div id="floating-chat-widget" style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 1000; font-family: 'Inter', sans-serif;">
     
@@ -90,9 +99,28 @@
         transform: scale(0.95);
     }
 
+    .zalo-bubble-float {
+        position: fixed;
+        bottom: 5.75rem;
+        right: 1.5rem;
+        width: 3.5rem;
+        height: 3.5rem;
+        z-index: 999;
+        transition: all 0.3s ease;
+        border-radius: 50%;
+        box-shadow: 0 10px 25px rgba(0, 104, 255, 0.4);
+    }
+    
+    .zalo-bubble-float:hover {
+        transform: scale(1.08);
+    }
+
     @media (max-width: 768px) {
         #floating-chat-widget {
             bottom: 5.5rem !important; /* Move higher to clear sticky bottom actions bar */
+        }
+        .zalo-bubble-float {
+            bottom: 9.75rem !important; /* Stacked above the AI chat bubble */
         }
     }
 </style>

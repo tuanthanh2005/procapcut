@@ -430,14 +430,14 @@
                         #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
-            padding: 2.2rem;
+            padding: 1.4rem 1.8rem;
             display: grid;
-            grid-template-columns: 1.3fr 1fr;
-            gap: 2rem;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 1.5rem;
             align-items: center;
             position: relative;
             overflow: hidden;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             box-shadow: var(--shadow-md);
         }
 
@@ -475,18 +475,18 @@
             background: rgba(2, 132, 199, 0.08);
             border: 1px solid rgba(2, 132, 199, 0.15);
             color: var(--primary);
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             font-weight: 600;
-            padding: 0.35rem 0.85rem;
+            padding: 0.25rem 0.65rem;
             border-radius: var(--radius-full);
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
 
         .hero-text h1 {
-            font-size: 2.2rem;
+            font-size: 1.95rem;
             font-weight: 800;
             line-height: 1.25;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
             background: linear-gradient(135deg, #0f172a 30%, #334155 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -494,8 +494,8 @@
 
         .hero-text p {
             color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
+            font-size: 0.88rem;
+            margin-bottom: 1.1rem;
             max-width: 500px;
         }
 
@@ -510,10 +510,10 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            padding: 0.7rem 1.5rem;
+            padding: 0.65rem 1.35rem;
             border-radius: var(--radius-full);
             font-weight: 600;
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: var(--transition);
             border: none;
@@ -547,9 +547,9 @@
         .hero-showcase {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
+            gap: 0.75rem;
             width: 100%;
-            max-width: 650px;
+            max-width: 540px;
             position: relative;
             z-index: 2;
         }
@@ -558,7 +558,7 @@
             background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
-            padding: 1.2rem;
+            padding: 0.9rem;
             width: 100%;
             box-shadow: 0 15px 35px rgba(15, 23, 42, 0.06);
             position: relative;
@@ -568,14 +568,14 @@
         }
 
         .showcase-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             box-shadow: 0 20px 40px rgba(2, 132, 199, 0.12);
             border-color: rgba(2, 132, 199, 0.3);
         }
 
         @keyframes float {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
+            50% { transform: translateY(-4px); }
             100% { transform: translateY(0px); }
         }
 
@@ -595,19 +595,19 @@
         .showcase-header {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.85rem;
+            gap: 0.6rem;
+            margin-bottom: 0.6rem;
         }
 
         .showcase-icon {
-            width: 2.5rem;
-            height: 2.5rem;
+            width: 2.1rem;
+            height: 2.1rem;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
+            font-size: 1rem;
             color: #ffffff !important;
             flex-shrink: 0;
         }
@@ -618,8 +618,8 @@
         .showcase-icon.bg-canva { background: linear-gradient(135deg, #7d2ae8, #00c4cc); }
 
         .showcase-img-wrapper {
-            width: 2.5rem;
-            height: 2.5rem;
+            width: 2.1rem;
+            height: 2.1rem;
             border-radius: var(--radius-sm);
             overflow: hidden;
             display: flex;
@@ -638,13 +638,13 @@
         }
 
         .showcase-title {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             font-weight: 700;
             color: var(--text-main);
         }
 
         .showcase-meta {
-            font-size: 0.75rem;
+            font-size: 0.68rem;
             color: var(--primary);
             font-weight: 600;
         }
@@ -653,21 +653,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 1rem;
-            padding-top: 0.85rem;
+            margin-top: 0.75rem;
+            padding-top: 0.6rem;
             border-top: 1px solid var(--border-color);
         }
 
         .showcase-price {
             font-weight: 800;
             color: var(--text-main);
-            font-size: 1.1rem;
+            font-size: 0.95rem;
         }
 
         .showcase-badge {
             background: rgba(16, 185, 129, 0.1);
             color: var(--success);
-            font-size: 0.7rem;
+            font-size: 0.62rem;
             font-weight: 700;
             padding: 0.2rem 0.5rem;
             border-radius: var(--radius-sm);
@@ -1860,7 +1860,26 @@
 
         @media (max-width: 600px) {
             .hero-banner {
-                margin-top: 1.25rem;
+                margin-top: 1rem;
+                padding: 1.25rem 1rem !important;
+                border-radius: var(--radius-md) !important;
+                background: linear-gradient(135deg, rgba(2, 132, 199, 0.06) 0%, rgba(14, 165, 233, 0.03) 100%), #ffffff !important;
+                box-shadow: var(--shadow-sm) !important;
+            }
+            .hero-banner-canvas {
+                display: none !important;
+            }
+            .hero-text {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                width: 100%;
+            }
+            .hero-badge {
+                margin-bottom: 0.6rem;
+                font-size: 0.7rem;
+                padding: 0.2rem 0.55rem;
             }
             .trust-grid {
                 grid-template-columns: repeat(4, 1fr);
@@ -1913,19 +1932,27 @@
                 flex-shrink: 0;
             }
             .hero-text h1 {
-                font-size: 1.6rem;
+                font-size: 1.45rem;
+                line-height: 1.3;
+                margin-bottom: 0.4rem;
             }
             .hero-text p {
-                font-size: 0.85rem;
+                font-size: 0.78rem;
+                margin-bottom: 1rem;
+                line-height: 1.4;
+                color: var(--text-muted);
             }
             .hero-buttons {
-                flex-wrap: nowrap;
+                display: flex;
+                flex-direction: column;
+                width: 100%;
                 gap: 0.5rem;
             }
             .hero-buttons .btn {
-                flex: 1;
-                padding: 0.6rem 0.2rem;
-                font-size: 0.75rem;
+                width: 100%;
+                flex: none;
+                padding: 0.65rem 1rem !important;
+                font-size: 0.82rem !important;
             }
             .live-sale-popup {
                 left: 0.75rem;
@@ -2150,11 +2177,10 @@
             <div class="cat-nav-bar">
                 <a href="/" class="cat-pill active"><i class="fa-solid fa-house"></i> Trang Chủ</a>
                 <a href="/products" class="cat-pill"><i class="fa-solid fa-cubes"></i> Sản Phẩm</a>
-                <a href="/products?category=gpt" class="cat-pill"><i class="fa-solid fa-brain"></i> Chat Gpt</a>
-                <a href="/products?category=gemini" class="cat-pill"><i class="fa-brands fa-google"></i> Gemini</a>
-                <a href="/products?category=capcut" class="cat-pill"><i class="fa-solid fa-video"></i> CapCut Pro</a>
-                <a href="/products?category=canva" class="cat-pill"><i class="fa-solid fa-palette"></i> Canva</a>
+                <a href="/products?category=api-token" class="cat-pill"><i class="fa-solid fa-key"></i> API Token AI</a>
                 <a href="/posts" class="cat-pill"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
+                <a href="https://zalo.me/0569012134" target="_blank" class="cat-pill"><i class="fa-solid fa-phone"></i> Liên Hệ</a>
+                <a href="https://zalo.me/g/ifaku0ggmtg4xhxi7k0u" target="_blank" class="cat-pill"><i class="fa-solid fa-users"></i> Group Zalo</a>
             </div>
 
                 <div class="search-wrapper">
@@ -2251,7 +2277,7 @@
                                 <div class="showcase-meta">{{ $prod->category_label }}</div>
                             </div>
                         </div>
-                        <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.85rem; min-height: 2rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4;">
+                        <p style="font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0.6rem; min-height: 1.8rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4;">
                             {{ $prod->seo_desc }}
                         </p>
                         <div class="showcase-price-row">
@@ -2588,12 +2614,10 @@
         <nav style="display: flex; flex-direction: column; gap: 0.75rem;">
             <a href="/" class="menu-side-link"><i class="fa-solid fa-house"></i> Trang Chủ</a>
             <a href="/products" class="menu-side-link"><i class="fa-solid fa-cubes"></i> Sản Phẩm</a>
-            <a href="/products?category=gpt" class="menu-side-link"><i class="fa-solid fa-brain"></i> Chat Gpt</a>
-            <a href="/products?category=gemini" class="menu-side-link"><i class="fa-brands fa-google"></i> Gemini</a>
-            <a href="/products?category=capcut" class="menu-side-link"><i class="fa-solid fa-video"></i> CapCut Pro</a>
-            <a href="/products?category=canva" class="menu-side-link"><i class="fa-solid fa-palette"></i> Canva</a>
+            <a href="/products?category=api-token" class="menu-side-link"><i class="fa-solid fa-key"></i> API Token AI</a>
             <a href="/posts" class="menu-side-link"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
-            <a href="https://zalo.me/0569012134" target="_blank" class="menu-side-link" style="color: var(--primary); font-weight: 700;"><i class="fa-solid fa-phone"></i> Liên Hệ Zalo</a>
+            <a href="https://zalo.me/0569012134" target="_blank" class="menu-side-link"><i class="fa-solid fa-phone"></i> Liên Hệ</a>
+            <a href="https://zalo.me/g/ifaku0ggmtg4xhxi7k0u" target="_blank" class="menu-side-link" style="color: var(--primary); font-weight: 700;"><i class="fa-solid fa-users"></i> Group Zalo</a>
         </nav>
     </div>
 
@@ -2623,10 +2647,10 @@
                 <div class="footer-col">
                     <h4>Sản Phẩm</h4>
                     <div class="footer-links">
-                        <a href="#">Tài khoản CapCut Pro</a>
-                        <a href="#">Tài khoản ChatGPT Plus</a>
-                        <a href="#">Tài khoản Claude Pro</a>
-                        <a href="#">Canva Pro Nâng Cấp</a>
+                        <a href="/product/capcut">Tài khoản CapCut Pro</a>
+                        <a href="/product/chatgpt">Tài khoản ChatGPT Plus</a>
+                        <a href="/product/claude">Tài khoản Claude Pro</a>
+                        <a href="/product/canva">Canva Pro Nâng Cấp</a>
                     </div>
                 </div>
 

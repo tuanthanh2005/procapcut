@@ -33,6 +33,12 @@ $seoConfig = [
         'h1' => 'Nâng Cấp Canva Pro Chính Chủ',
         'keywords' => 'nâng cấp canva pro chính chủ, mua tài khoản canva pro giá rẻ, canva pro email chính chủ',
     ],
+    'api-token' => [
+        'title' => 'Mua API Token AI Giá Rẻ - OpenAI, Claude API, Cur   sor API Chính Chủ | AI CỦA TÔI',
+        'desc' => 'Dịch vụ cung cấp API Token AI giá rẻ, chính chủ cho OpenAI ChatGPT, Claude, Gemini. Kích hoạt nhanh chóng, hạn mức cao, sử dụng ổn định và bảo hành uy tín.',
+        'h1' => 'API Token AI Premium',
+        'keywords' => 'mua api token ai, api key chatgpt, mua api openai, claude api key, api gemini giá rẻ, api cursor, cursor api key, cursor sdk',
+    ],
     'other' => [
         'title' => 'Mua Tài Khoản Claude Pro & Premium Tools Giá Rẻ | AI CỦA TÔI',
         'desc' => 'Nâng cấp tài khoản Claude Pro (Sonnet 4.8), Microsoft 365 Copilot chính hãng kèm 1TB OneDrive giá rẻ. Hỗ trợ kích hoạt tự động 24/7.',
@@ -134,6 +140,14 @@ if ($category === 'all' && empty($search)) {
             'sku' => 'CANVA-PRO-1M',
             'rating' => '4.9',
             'reviewCount' => '210',
+        ],
+        'api-token' => [
+            'name' => 'API Token AI (Hạn Mức Cao - Chính Chủ)',
+            'description' => 'Cung cấp API Key, API Token cho ChatGPT, Claude, Gemini chính chủ. Tốc độ ổn định, hạn mức cao, tích hợp mượt mà vào ứng dụng của bạn.',
+            'price' => '150000',
+            'sku' => 'API-TOKEN-AI',
+            'rating' => '4.9',
+            'reviewCount' => '65',
         ],
         'other' => [
             'name' => 'Tài Khoản Claude Pro (Sonnet 4.8) 1 Tháng',
@@ -1799,11 +1813,10 @@ if ($category === 'all' && empty($search)) {
             <div class="cat-nav-bar">
                 <a href="/" class="cat-pill"><i class="fa-solid fa-house"></i> Trang Chủ</a>
                 <button class="cat-pill" data-category="all"><i class="fa-solid fa-cubes"></i> Sản Phẩm</button>
-                <button class="cat-pill" data-category="gpt"><i class="fa-solid fa-brain"></i> Chat Gpt</button>
-                <button class="cat-pill" data-category="gemini"><i class="fa-brands fa-google"></i> Gemini</button>
-                <button class="cat-pill" data-category="capcut"><i class="fa-solid fa-video"></i> CapCut Pro</button>
-                <button class="cat-pill" data-category="canva"><i class="fa-solid fa-palette"></i> Canva</button>
+                <button class="cat-pill" data-category="api-token"><i class="fa-solid fa-key"></i> API Token AI</button>
                 <a href="/posts" class="cat-pill"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
+                <a href="https://zalo.me/0569012134" target="_blank" class="cat-pill"><i class="fa-solid fa-phone"></i> Liên Hệ</a>
+                <a href="https://zalo.me/g/ifaku0ggmtg4xhxi7k0u" target="_blank" class="cat-pill"><i class="fa-solid fa-users"></i> Group Zalo</a>
             </div>
 
                 <div class="search-wrapper">
@@ -1887,6 +1900,7 @@ if ($category === 'all' && empty($search)) {
                     <h3 class="filter-title"><i class="fa-solid fa-layer-group"></i> Danh mục</h3>
                     <div class="sidebar-cat-list">
                         <button class="sidebar-cat-btn active" data-category="all">Tất Cả</button>
+                        <button class="sidebar-cat-btn" data-category="api-token">API Token AI</button>
                         <button class="sidebar-cat-btn" data-category="gpt">Chat Gpt</button>
                         <button class="sidebar-cat-btn" data-category="gemini">Gemini</button>
                         <button class="sidebar-cat-btn" data-category="capcut">CapCut Pro</button>
@@ -2030,12 +2044,10 @@ if ($category === 'all' && empty($search)) {
         <nav style="display: flex; flex-direction: column; gap: 0.75rem;">
             <a href="/" class="menu-side-link"><i class="fa-solid fa-house"></i> Trang Chủ</a>
             <a href="/products" class="menu-side-link"><i class="fa-solid fa-cubes"></i> Sản Phẩm</a>
-            <a href="/products?category=gpt" class="menu-side-link"><i class="fa-solid fa-brain"></i> Chat Gpt</a>
-            <a href="/products?category=gemini" class="menu-side-link"><i class="fa-brands fa-google"></i> Gemini</a>
-            <a href="/products?category=capcut" class="menu-side-link"><i class="fa-solid fa-video"></i> CapCut Pro</a>
-            <a href="/products?category=canva" class="menu-side-link"><i class="fa-solid fa-palette"></i> Canva</a>
+            <a href="/products?category=api-token" class="menu-side-link"><i class="fa-solid fa-key"></i> API Token AI</a>
             <a href="/posts" class="menu-side-link"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
-            <a href="https://zalo.me/0569012134" target="_blank" class="menu-side-link" style="color: var(--primary); font-weight: 700;"><i class="fa-solid fa-phone"></i> Liên Hệ Zalo</a>
+            <a href="https://zalo.me/0569012134" target="_blank" class="menu-side-link"><i class="fa-solid fa-phone"></i> Liên Hệ</a>
+            <a href="https://zalo.me/g/ifaku0ggmtg4xhxi7k0u" target="_blank" class="menu-side-link" style="color: var(--primary); font-weight: 700;"><i class="fa-solid fa-users"></i> Group Zalo</a>
         </nav>
     </div>
 
@@ -2065,10 +2077,10 @@ if ($category === 'all' && empty($search)) {
                 <div class="footer-col">
                     <h4>Sản Phẩm</h4>
                     <div class="footer-links">
-                        <a href="#">Tài khoản CapCut Pro</a>
-                        <a href="#">Tài khoản ChatGPT Plus</a>
-                        <a href="#">Tài khoản Claude Pro</a>
-                        <a href="#">Canva Pro Nâng Cấp</a>
+                        <a href="/product/capcut">Tài khoản CapCut Pro</a>
+                        <a href="/product/chatgpt">Tài khoản ChatGPT Plus</a>
+                        <a href="/product/claude">Tài khoản Claude Pro</a>
+                        <a href="/product/canva">Canva Pro Nâng Cấp</a>
                     </div>
                 </div>
 
@@ -2314,6 +2326,7 @@ if ($category === 'all' && empty($search)) {
 
         const categoryTitles = {
             all: 'Khám Phá Cửa Hàng Số',
+            'api-token': 'API Token AI Premium',
             gpt: 'Tài Khoản ChatGPT Plus Premium',
             gemini: 'Google Gemini Advanced + 5TB Google One',
             capcut: 'Tài Khoản CapCut Pro Chính Chủ',
@@ -2323,6 +2336,7 @@ if ($category === 'all' && empty($search)) {
 
         const seoTitles = {
             all: 'Cửa Hàng Bản Quyền Tài Khoản AI & Premium Tools | AI CỦA TÔI',
+            'api-token': 'Mua API Token AI OpenAI, Claude Giá Rẻ Chính Chủ | AI CỦA TÔI',
             gpt: 'Mua Tài Khoản ChatGPT Plus (GPT-5) Premium Giá Rẻ | AI CỦA TÔI',
             gemini: 'Nâng Cấp Google Gemini Advanced Kèm 5TB Google One | AI CỦA TÔI',
             capcut: 'Nâng Cấp Tài Khoản CapCut Pro Gói 1 Năm Chính Chủ | AI CỦA TÔI',

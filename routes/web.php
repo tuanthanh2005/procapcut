@@ -85,6 +85,26 @@ Route::middleware('auth')->group(function () {
 
 // Admin Protected Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/verify-security-code', function () {
+        return view('admin.verify-security-code');
+    })->name('verify_code');
+
+    Route::post('/verify-security-code', function (\Illuminate\Http\Request $request) {
+        $request->validate([
+            'security_code' => 'required',
+        ]);
+
+        if ($request->security_code === '162004') {
+            session([
+                'admin_verified' => true,
+                'admin_verified_at' => time()
+            ]);
+            return redirect()->intended(route('admin.dashboard'));
+        }
+
+        return back()->withErrors(['security_code' => 'Mã bảo mật không chính xác.']);
+    })->name('verify_code.post');
+
     Route::get('/dashboard', function () {
         return view('admin-dashboard');
     })->name('dashboard');

@@ -419,12 +419,12 @@
                     </div>
 
                     <!-- Processing status form -->
-                    <div class="details-card">
-                        <h2><i class="fa-solid fa-sliders"></i> Xử lý & Phê duyệt</h2>
-                        
-                        <form action="/admin/orders/{{ $order->id }}/status" method="POST">
-                            @csrf
-                            @method('PUT')
+                    <form action="/admin/orders/{{ $order->id }}/status" method="POST" id="order-status-form">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="details-card">
+                            <h2><i class="fa-solid fa-sliders"></i> Xử lý & Phê duyệt</h2>
                             
                             <div class="form-group">
                                 <label class="form-label" for="status">Trạng thái đơn hàng</label>
@@ -445,12 +445,85 @@
                             </div>
 
                             <button type="submit" class="btn-submit"><i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi</button>
-                        </form>
-                    </div>
+                        </div>
+
+                        <!-- Handover Email Card -->
+                        <div class="details-card" id="email-card">
+                            <h2><i class="fa-regular fa-envelope"></i> Gửi Email Bàn Giao</h2>
+                            
+                            <div class="form-group">
+                                <label class="form-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; user-select: none; font-weight: bold;">
+                                    <input type="checkbox" name="send_email" id="send_email" value="1" checked style="width: 16px; height: 16px; accent-color: var(--primary);">
+                                    Gửi email bàn giao tài khoản cho khách hàng
+                                </label>
+                            </div>
+
+                            <div class="form-group" id="email_content_group" style="margin-bottom: 0;">
+                                <label class="form-label" for="email_content">Mẫu Email gửi khách hàng (Có thể chỉnh sửa)</label>
+                                <textarea name="email_content" id="email_content" class="form-input" rows="12" style="font-family: inherit; font-size: 0.82rem; line-height: 1.5; resize: vertical; background: #ffffff; font-weight: normal; padding: 0.75rem;" placeholder="Nội dung email...">Chào {{ $order->customer_name ?? ($order->user ? $order->user->name : 'Khách hàng') }},
+
+Đơn hàng #OD{{ 1000 + $order->id }} mua sản phẩm "{{ $order->product_name }}" của bạn tại website AI CỦA TÔI (https://aicuatoi.com) đã hoàn thành và kích hoạt thành công!
+
+Dưới đây là thông tin tài khoản / mã kích hoạt bàn giao của bạn:
+--------------------------------------------------
+[Nội dung tài khoản / key]
+--------------------------------------------------
+
+Hệ thống đã tự động kích hoạt gói dịch vụ. Bạn có thể sử dụng ngay bây giờ.
+Nếu gặp bất kỳ khó khăn nào trong quá trình cài đặt hoặc sử dụng, vui lòng liên hệ Zalo hỗ trợ: 0569012134 để được hỗ trợ 24/7.
+
+Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của AI CỦA TÔI (https://aicuatoi.com)!</textarea>
+                                <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem;">
+                                    * Giữ nguyên dòng <b>[Nội dung tài khoản / key]</b> để hệ thống tự động thay thế bằng thông tin bàn giao thực tế khi gửi.
+                                </span>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </main>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const activationKeyInput = document.getElementById('activation_key');
+            const sendEmailCheckbox = document.getElementById('send_email');
+            const emailContentGroup = document.getElementById('email_content_group');
+            const statusSelect = document.getElementById('status');
+            const form = document.getElementById('order-status-form');
+
+            // Toggle visibility of email content based on checkbox state
+            sendEmailCheckbox.addEventListener('change', function () {
+                if (sendEmailCheckbox.checked) {
+                    emailContentGroup.style.display = 'flex';
+                } else {
+                    emailContentGroup.style.display = 'none';
+                }
+            });
+
+            // Automatically select completed status if activation key is filled and status is pending/processing
+            activationKeyInput.addEventListener('input', function() {
+                if (activationKeyInput.value.trim() !== '' && (statusSelect.value === 'pending' || statusSelect.value === 'processing')) {
+                    statusSelect.value = 'completed';
+                }
+            });
+
+            // Show Yes/No confirmation dialog before submitting
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                
+                let confirmMessage = "Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng?";
+                if (sendEmailCheckbox.checked) {
+                    const emailDestination = {!! json_encode($order->customer_email ?? ($order->user ? $order->user->email : '')) !!};
+                    confirmMessage = `XÁC NHẬN PHÊ DUYỆT ĐƠN HÀNG\n\n- Trạng thái mới: ${statusSelect.options[statusSelect.selectedIndex].text}\n- Bàn giao: ${activationKeyInput.value}\n- Gửi email bàn giao tới: ${emailDestination}\n\nBạn có đồng ý phê duyệt và gửi email này không?`;
+                }
+
+                if (confirm(confirmMessage)) {
+                    form.submit();
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>

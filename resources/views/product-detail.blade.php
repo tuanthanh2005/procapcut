@@ -2298,12 +2298,10 @@ $schema = [
         <nav style="display: flex; flex-direction: column; gap: 0.75rem;">
             <a href="/" class="menu-side-link"><i class="fa-solid fa-house"></i> Trang Chủ</a>
             <a href="/products" class="menu-side-link"><i class="fa-solid fa-cubes"></i> Sản Phẩm</a>
-            <a href="/products?category=gpt" class="menu-side-link"><i class="fa-solid fa-brain"></i> Chat Gpt</a>
-            <a href="/products?category=gemini" class="menu-side-link"><i class="fa-brands fa-google"></i> Gemini</a>
-            <a href="/products?category=capcut" class="menu-side-link"><i class="fa-solid fa-video"></i> CapCut Pro</a>
-            <a href="/products?category=canva" class="menu-side-link"><i class="fa-solid fa-palette"></i> Canva</a>
+            <a href="/products?category=api-token" class="menu-side-link"><i class="fa-solid fa-key"></i> API Token AI</a>
             <a href="/posts" class="menu-side-link"><i class="fa-solid fa-newspaper"></i> Bài Viết</a>
-            <a href="https://zalo.me/0569012134" target="_blank" class="menu-side-link" style="color: var(--primary); font-weight: 700;"><i class="fa-solid fa-phone"></i> Liên Hệ Zalo</a>
+            <a href="https://zalo.me/0569012134" target="_blank" class="menu-side-link"><i class="fa-solid fa-phone"></i> Liên Hệ</a>
+            <a href="https://zalo.me/g/ifaku0ggmtg4xhxi7k0u" target="_blank" class="menu-side-link" style="color: var(--primary); font-weight: 700;"><i class="fa-solid fa-users"></i> Group Zalo</a>
         </nav>
     </div>
 
@@ -2335,7 +2333,7 @@ $schema = [
                     <div class="footer-links">
                         <a href="/product/capcut">Tài khoản CapCut Pro</a>
                         <a href="/product/chatgpt">Tài khoản ChatGPT Plus</a>
-                        <a href="/product/gemini">Tài khoản Google Gemini</a>
+                        <a href="/product/claude">Tài khoản Claude Pro</a>
                         <a href="/product/canva">Canva Pro Nâng Cấp</a>
                     </div>
                 </div>
