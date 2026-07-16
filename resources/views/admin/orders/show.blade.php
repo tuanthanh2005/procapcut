@@ -504,12 +504,7 @@ Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của AI CỦA TÔI (h
                 }
             });
 
-            // Automatically select completed status if activation key is filled and status is pending/processing
-            activationKeyInput.addEventListener('input', function() {
-                if (activationKeyInput.value.trim() !== '' && (statusSelect.value === 'pending' || statusSelect.value === 'processing')) {
-                    statusSelect.value = 'completed';
-                }
-            });
+
 
             // Show Yes/No confirmation dialog before submitting
             form.addEventListener('submit', function (e) {
