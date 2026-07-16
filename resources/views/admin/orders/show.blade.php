@@ -397,7 +397,7 @@
                     </div>
                 </div>
 
-                <!-- Right: Action & Customer Info -->
+                <!-- Right: Customer Info -->
                 <div>
                     <!-- Customer Card -->
                     <div class="details-card">
@@ -417,48 +417,52 @@
                             </li>
                         </ul>
                     </div>
+                </div>
+            </div>
 
-                    <!-- Processing status form -->
-                    <form action="/admin/orders/{{ $order->id }}/status" method="POST" id="order-status-form">
-                        @csrf
-                        @method('PUT')
+            <!-- Processing status form (Full Width Below) -->
+            <form action="/admin/orders/{{ $order->id }}/status" method="POST" id="order-status-form" style="margin-top: 2rem;">
+                @csrf
+                @method('PUT')
 
-                        <div class="details-card">
-                            <h2><i class="fa-solid fa-sliders"></i> Xử lý & Phê duyệt</h2>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="status">Trạng thái đơn hàng</label>
-                                <select name="status" id="status" class="form-input">
-                                    <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Chờ thanh toán</option>
-                                    <option value="processing" {{ $order->status === 'processing' ? 'selected' : '' }}>Chờ duyệt (Đã thanh toán)</option>
-                                    <option value="completed" {{ $order->status === 'completed' ? 'selected' : '' }}>Hoàn thành (Đã cấp key)</option>
-                                    <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Đã hủy</option>
-                                </select>
-                            </div>
+                <div class="details-card">
+                    <h2><i class="fa-solid fa-sliders"></i> Xử lý & Phê duyệt đơn hàng</h2>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1rem;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" for="status" style="font-weight: 700;">Trạng thái đơn hàng</label>
+                            <select name="status" id="status" class="form-input" style="height: 42px;">
+                                <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Chờ thanh toán</option>
+                                <option value="processing" {{ $order->status === 'processing' ? 'selected' : '' }}>Chờ duyệt (Đã thanh toán)</option>
+                                <option value="completed" {{ $order->status === 'completed' ? 'selected' : '' }}>Hoàn thành (Đã cấp key)</option>
+                                <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Đã hủy</option>
+                            </select>
+                        </div>
 
-                            <div class="form-group" style="margin-bottom: 1.5rem;">
-                                <label class="form-label" for="activation_key">Mã kích hoạt / Tài khoản bàn giao</label>
-                                <input type="text" name="activation_key" id="activation_key" class="form-input" placeholder="Gõ Key kích hoạt hoặc tài khoản..." value="{{ old('activation_key', $order->activation_key) }}">
-                                <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem;">
-                                    * Thông tin này sẽ hiện trực tiếp tại trang lịch sử mua hàng của khách hàng sau khi chuyển trạng thái thành "Hoàn thành".
-                                </span>
-                            </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" for="activation_key" style="font-weight: 700;">Mã kích hoạt / Tài khoản bàn giao</label>
+                            <input type="text" name="activation_key" id="activation_key" class="form-input" style="height: 42px;" placeholder="Gõ Key kích hoạt hoặc tài khoản..." value="{{ old('activation_key', $order->activation_key) }}">
+                            <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem; display: block;">
+                                * Thông tin này sẽ hiện trực tiếp tại trang lịch sử mua hàng của khách hàng sau khi chuyển trạng thái thành "Hoàn thành".
+                            </span>
+                        </div>
+                    </div>
 
-                            <div style="border-top: 1px solid var(--border-color); margin: 1.5rem 0; padding-top: 1.5rem;">
-                                <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.4rem;">
-                                    <i class="fa-regular fa-envelope" style="color: var(--primary);"></i> Gửi Email Bàn Giao
-                                </h3>
-                                
-                                <div class="form-group">
-                                    <label class="form-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; user-select: none; font-weight: bold; margin-bottom: 0.75rem;">
-                                        <input type="checkbox" name="send_email" id="send_email" value="1" checked style="width: 16px; height: 16px; accent-color: var(--primary);">
-                                        Gửi email bàn giao tài khoản cho khách hàng
-                                    </label>
-                                </div>
+                    <div style="border-top: 1px solid var(--border-color); margin: 1.5rem 0; padding-top: 1.5rem;">
+                        <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.4rem;">
+                            <i class="fa-regular fa-envelope" style="color: var(--primary);"></i> Gửi Email Bàn Giao
+                        </h3>
+                        
+                        <div class="form-group">
+                            <label class="form-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; user-select: none; font-weight: bold; margin-bottom: 0.75rem;">
+                                <input type="checkbox" name="send_email" id="send_email" value="1" checked style="width: 16px; height: 16px; accent-color: var(--primary);">
+                                Gửi email bàn giao tài khoản cho khách hàng
+                            </label>
+                        </div>
 
-                                <div class="form-group" id="email_content_group" style="margin-bottom: 0;">
-                                    <label class="form-label" for="email_content">Mẫu Email gửi khách hàng (Có thể chỉnh sửa)</label>
-                                    <textarea name="email_content" id="email_content" class="form-input" rows="12" style="font-family: inherit; font-size: 0.82rem; line-height: 1.5; resize: vertical; background: #ffffff; font-weight: normal; padding: 0.75rem;" placeholder="Nội dung email...">Chào {{ $order->customer_name ?? ($order->user ? $order->user->name : 'Khách hàng') }},
+                        <div class="form-group" id="email_content_group" style="margin-bottom: 0;">
+                            <label class="form-label" for="email_content">Mẫu Email gửi khách hàng (Có thể chỉnh sửa)</label>
+                            <textarea name="email_content" id="email_content" class="form-input" rows="10" style="font-family: inherit; font-size: 0.82rem; line-height: 1.5; resize: vertical; background: #ffffff; font-weight: normal; padding: 0.75rem;" placeholder="Nội dung email...">Chào {{ $order->customer_name ?? ($order->user ? $order->user->name : 'Khách hàng') }},
 
 Đơn hàng #OD{{ 1000 + $order->id }} mua sản phẩm "{{ $order->product_name }}" của bạn tại website AI CỦA TÔI (https://aicuatoi.com) đã hoàn thành và kích hoạt thành công!
 
@@ -471,17 +475,15 @@ Hệ thống đã tự động kích hoạt gói dịch vụ. Bạn có thể s�
 Nếu gặp bất kỳ khó khăn nào trong quá trình cài đặt hoặc sử dụng, vui lòng liên hệ Zalo hỗ trợ: 0569012134 để được hỗ trợ 24/7.
 
 Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của AI CỦA TÔI (https://aicuatoi.com)!</textarea>
-                                    <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem;">
-                                        * Giữ nguyên dòng <b>[Nội dung tài khoản / key]</b> để hệ thống tự động thay thế bằng thông tin bàn giao thực tế khi gửi.
-                                    </span>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn-submit" style="margin-top: 1.5rem; width: 100%;"><i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi</button>
+                            <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem; display: block;">
+                                * Giữ nguyên dòng <b>[Nội dung tài khoản / key]</b> để hệ thống tự động thay thế bằng thông tin bàn giao thực tế khi gửi.
+                            </span>
                         </div>
-                    </form>
+                    </div>
+
+                    <button type="submit" class="btn-submit" style="margin-top: 1.5rem; width: 100%; height: 42px; font-size: 0.9rem; font-weight: bold; border-radius: var(--radius-md);"><i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi</button>
                 </div>
-            </div>
+            </form>
         </main>
     </div>
 
