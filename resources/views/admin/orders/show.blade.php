@@ -445,7 +445,7 @@
                         
                         <div class="form-group">
                             <label class="form-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; user-select: none; font-weight: bold; margin-bottom: 0.75rem;">
-                                <input type="checkbox" name="send_email" id="send_email" value="1" checked style="width: 16px; height: 16px; accent-color: var(--primary);">
+                                <input type="checkbox" name="send_email" id="send_email" value="1" style="width: 16px; height: 16px; accent-color: var(--primary);">
                                 Gửi email bàn giao tài khoản cho khách hàng
                             </label>
                         </div>
@@ -484,14 +484,30 @@ Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của AI CỦA TÔI (h
             const statusSelect = document.getElementById('status');
             const form = document.getElementById('order-status-form');
  
-            // Toggle visibility of email content based on checkbox state
-            sendEmailCheckbox.addEventListener('change', function () {
+            function syncEmailVisibility() {
                 if (sendEmailCheckbox.checked) {
                     emailContentGroup.style.display = 'flex';
                 } else {
                     emailContentGroup.style.display = 'none';
                 }
+            }
+ 
+            // Toggle visibility of email content based on checkbox state
+            sendEmailCheckbox.addEventListener('change', syncEmailVisibility);
+ 
+            // Automatically check the checkbox when status is changed to completed, and uncheck otherwise
+            statusSelect.addEventListener('change', function () {
+                if (statusSelect.value === 'completed') {
+                    sendEmailCheckbox.checked = true;
+                } else {
+                    sendEmailCheckbox.checked = false;
+                }
+                syncEmailVisibility();
             });
+ 
+            // Default on page load is unchecked & hidden
+            sendEmailCheckbox.checked = false;
+            syncEmailVisibility();
  
  
  
