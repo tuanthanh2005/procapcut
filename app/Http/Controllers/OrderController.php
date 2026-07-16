@@ -183,7 +183,7 @@ class OrderController extends Controller
                     "🔗 <b>Xem chi tiết đơn hàng</b>: <a href=\"" . url('/admin/orders/' . $order->id) . "\">Quản trị Đơn hàng</a>";
 
             try {
-                \Illuminate\Support\Facades\Http::post("https://api.telegram.org/bot{$botToken}/sendMessage", [
+                \Illuminate\Support\Facades\Http::timeout(3)->post("https://api.telegram.org/bot{$botToken}/sendMessage", [
                     'chat_id' => $chatId,
                     'text' => $text,
                     'parse_mode' => 'HTML',

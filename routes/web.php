@@ -403,6 +403,7 @@ function getGroqResponse($userMessage, $history = [], $userId = null) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 3); // Limit request block to 3 seconds maximum to prevent lag
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Authorization: Bearer ' . $apiKey,
         'Content-Type: application/json'
@@ -458,7 +459,7 @@ function sendTelegramChatAlert($convo, $latestMessageText, $alertType = 'chat') 
             "🔗 <b>Trả lời chat tại đây</b>: <a href=\"" . url('/admin/chat') . "?session_id=" . ($convo->session_id ?: 'null') . "&user_id=" . ($convo->user_id ?: 'null') . "\">Mở khung chat Admin</a>";
 
     try {
-        \Illuminate\Support\Facades\Http::post("https://api.telegram.org/bot{$botToken}/sendMessage", [
+        \Illuminate\Support\Facades\Http::timeout(3)->post("https://api.telegram.org/bot{$botToken}/sendMessage", [
             'chat_id' => $chatId,
             'text' => $text,
             'parse_mode' => 'HTML',

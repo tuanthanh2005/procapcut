@@ -211,7 +211,7 @@ class AuthController extends Controller
                 "📊 <b>Tổng số thành viên hệ thống</b>: " . $totalUsers . " người dùng";
 
         try {
-            \Illuminate\Support\Facades\Http::post("https://api.telegram.org/bot{$botToken}/sendMessage", [
+            \Illuminate\Support\Facades\Http::timeout(3)->post("https://api.telegram.org/bot{$botToken}/sendMessage", [
                 'chat_id' => $chatId,
                 'text' => $text,
                 'parse_mode' => 'HTML',
