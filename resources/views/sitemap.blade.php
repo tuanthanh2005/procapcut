@@ -33,8 +33,8 @@
             @if($product->image_path)
                 <image:image>
                     <image:loc>{{ asset($product->image_path) }}</image:loc>
-                    <image:title>{{ htmlspecialchars($product->seo_title ?: $product->name, ENT_XML1, 'UTF-8') }}</image:title>
-                    <image:caption>{{ htmlspecialchars($product->seo_desc ?: $product->description, ENT_XML1, 'UTF-8') }}</image:caption>
+                    <image:title>{{ htmlspecialchars(strip_tags($product->seo_title ?: $product->name), ENT_XML1, 'UTF-8') }}</image:title>
+                    <image:caption>{{ htmlspecialchars(strip_tags($product->seo_desc ?: $product->description), ENT_XML1, 'UTF-8') }}</image:caption>
                 </image:image>
             @endif
         </url>
@@ -50,8 +50,8 @@
             @if($post->image_path)
                 <image:image>
                     <image:loc>{{ asset($post->image_path) }}</image:loc>
-                    <image:title>{{ htmlspecialchars($post->meta_title ?: $post->title, ENT_XML1, 'UTF-8') }}</image:title>
-                    <image:caption>{{ htmlspecialchars($post->meta_desc ?: $post->summary, ENT_XML1, 'UTF-8') }}</image:caption>
+                    <image:title>{{ htmlspecialchars(strip_tags($post->meta_title ?: $post->title), ENT_XML1, 'UTF-8') }}</image:title>
+                    <image:caption>{{ htmlspecialchars(strip_tags($post->meta_desc ?: $post->summary), ENT_XML1, 'UTF-8') }}</image:caption>
                 </image:image>
             @endif
         </url>
