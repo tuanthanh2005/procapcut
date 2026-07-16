@@ -85,7 +85,7 @@ class OrderController extends Controller
                 return back()->withErrors(['items_json' => "Không tìm thấy gói: " . ($item['name'] ?? 'Không rõ')])->withInput();
             }
 
-            $stock = isset($matchingOpt['stock']) ? (int)$matchingOpt['stock'] : 999;
+            $stock = isset($matchingOpt['stock']) ? (int)$matchingOpt['stock'] : 0;
             $inStock = !isset($matchingOpt['in_stock']) || $matchingOpt['in_stock'] !== false;
 
             if (!$inStock || $stock <= 0) {
@@ -153,7 +153,7 @@ class OrderController extends Controller
                 $options = $product->options;
                 foreach ($options as $idx => $opt) {
                     if (isset($opt['id']) && $opt['id'] === $item['id']) {
-                        $currentStock = isset($opt['stock']) ? (int)$opt['stock'] : 999;
+                        $currentStock = isset($opt['stock']) ? (int)$opt['stock'] : 0;
                         $newStock = max(0, $currentStock - (isset($item['quantity']) ? (int)$item['quantity'] : 1));
                         $options[$idx]['stock'] = $newStock;
                         if ($newStock <= 0) {

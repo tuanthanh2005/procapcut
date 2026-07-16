@@ -2377,7 +2377,7 @@
             @foreach($products as $prod)
                 @php
                     $defaultOpt = $prod->options[0] ?? null;
-                    $defaultStock = isset($defaultOpt['stock']) ? (int)$defaultOpt['stock'] : 999;
+                    $defaultStock = isset($defaultOpt['stock']) ? (int)$defaultOpt['stock'] : 0;
                     $defaultOutOfStock = !$defaultOpt || (isset($defaultOpt['in_stock']) && $defaultOpt['in_stock'] === false) || $defaultStock <= 0;
                 @endphp
                 <div class="product-card" data-id="{{ $prod->options[0]['id'] ?? ($prod->slug . '-default') }}" data-name="{{ $prod->name }}" data-price="{{ $prod->default_price }}" data-icon="{{ $prod->icon }}" data-image="{{ $prod->image_path }}">

@@ -2021,7 +2021,7 @@ $schema = [
                             $defaultSelectedIdx = -1;
                             // Find the first option that is in stock to set as default
                             foreach ($product['options'] as $idx => $opt) {
-                                $stock = isset($opt['stock']) ? (int)$opt['stock'] : 999;
+                                $stock = isset($opt['stock']) ? (int)$opt['stock'] : 0;
                                 $isOutOfStock = (isset($opt['in_stock']) && $opt['in_stock'] === false) || $stock <= 0;
                                 if (!$isOutOfStock) {
                                     $defaultSelectedIdx = $idx;
@@ -2031,7 +2031,7 @@ $schema = [
                         @endphp
                         @foreach ($product['options'] as $idx => $opt)
                             @php
-                                $stock = isset($opt['stock']) ? (int)$opt['stock'] : 999;
+                                $stock = isset($opt['stock']) ? (int)$opt['stock'] : 0;
                                 $isOutOfStock = (isset($opt['in_stock']) && $opt['in_stock'] === false) || $stock <= 0;
                             @endphp
                             <div class="option-item {{ $isOutOfStock ? 'out-of-stock' : '' }} {{ $idx === $defaultSelectedIdx ? 'selected' : '' }}" 
@@ -2061,7 +2061,7 @@ $schema = [
                 @php
                     $isAllOutOfStock = true;
                     foreach ($product['options'] as $opt) {
-                        $stock = isset($opt['stock']) ? (int)$opt['stock'] : 999;
+                        $stock = isset($opt['stock']) ? (int)$opt['stock'] : 0;
                         $isOutOfStock = (isset($opt['in_stock']) && $opt['in_stock'] === false) || $stock <= 0;
                         if (!$isOutOfStock) {
                             $isAllOutOfStock = false;
