@@ -127,6 +127,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/customers', [\App\Http\Controllers\AdminUserController::class, 'index'])->name('customers.index');
     Route::post('/customers/{id}/toggle-block', [\App\Http\Controllers\AdminUserController::class, 'toggleBlock'])->name('customers.toggleBlock');
     Route::put('/customers/{id}/role', [\App\Http\Controllers\AdminUserController::class, 'updateRole'])->name('customers.updateRole');
+    Route::delete('/customers/{id}', [\App\Http\Controllers\AdminUserController::class, 'destroy'])->name('customers.destroy');
 
     // Admin settings routes
     Route::get('/settings', [\App\Http\Controllers\AdminSettingsController::class, 'show'])->name('settings.show');

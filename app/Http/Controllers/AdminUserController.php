@@ -69,4 +69,27 @@ class AdminUserController extends Controller
         $roleText = $user->role === 'admin' ? 'Quản trị viên' : 'Khách hàng';
         return redirect()->back()->with('success_message', "Đã cập nhật quyền của {$user->name} thành {$roleText} thành công!");
     }
+
+    // Delete customer account
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+
+        // Prevent deleting self
+        if (auth()->id() === $user->id) {
+            return redirect()->back()->with('error_message', 'Bạn không thể tự xóa tài khoản của chính mình!');
+        }
+
+        // Dissociate orders so revenue stats are preserved
+        Order::where('user_id', $user->id)->update(['user_id' => null]);
+        
+        // Clean up chat messages and conversations
+        \App\Models\ChatMessage::where('user_id', $user->id)->delete();
+        \App\Models\ChatConversation::where('user_id', $user->id)->delete();
+
+        $name = $user->name;
+        $user->delete();
+
+        return redirect()->back()->with('success_message', "Đã xóa tài khoản khách hàng {$name} thành công!");
+    }
 }

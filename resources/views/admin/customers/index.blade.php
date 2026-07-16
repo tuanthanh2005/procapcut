@@ -713,18 +713,28 @@
                                     @if(auth()->id() === $user->id)
                                         <span style="color: var(--text-muted); font-size: 0.8rem; font-style: italic;">Không khả dụng</span>
                                     @else
-                                        <form action="/admin/customers/{{ $user->id }}/toggle-block" method="POST" style="display: inline-block;" onsubmit="return confirm('Bạn có chắc chắn muốn thực hiện tác vụ này?')">
-                                            @csrf
-                                            @if($user->is_blocked)
-                                                <button type="submit" class="btn-primary" style="background: #22c55e; padding: 0.4rem 0.8rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.25rem;">
-                                                    <i class="fa-solid fa-lock-open"></i> Mở khóa
+                                        <div style="display: inline-flex; gap: 0.5rem; justify-content: center; align-items: center;">
+                                            <form action="/admin/customers/{{ $user->id }}/toggle-block" method="POST" style="display: inline;" onsubmit="return confirm('Bạn có chắc chắn muốn thực hiện tác vụ này?')">
+                                                @csrf
+                                                @if($user->is_blocked)
+                                                    <button type="submit" class="btn-primary" style="background: #22c55e; padding: 0.4rem 0.8rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.25rem; border: none; cursor: pointer; color: white; border-radius: 6px;">
+                                                        <i class="fa-solid fa-lock-open"></i> Mở khóa
+                                                    </button>
+                                                @else
+                                                    <button type="submit" class="btn-primary" style="background: #ea580c; padding: 0.4rem 0.8rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.25rem; border: none; cursor: pointer; color: white; border-radius: 6px;">
+                                                        <i class="fa-solid fa-lock"></i> Khóa
+                                                    </button>
+                                                @endif
+                                            </form>
+
+                                            <form action="/admin/customers/{{ $user->id }}" method="POST" style="display: inline;" onsubmit="return confirm('CẢNH BÁO: Bạn có chắc chắn muốn XÓA VĨNH VIỄN tài khoản khách hàng này? Thao tác này không thể hoàn tác!')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn-primary" style="background: #ef4444; padding: 0.4rem 0.8rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.25rem; border: none; cursor: pointer; color: white; border-radius: 6px;">
+                                                    <i class="fa-solid fa-trash-can"></i> Xóa
                                                 </button>
-                                            @else
-                                                <button type="submit" class="btn-primary" style="background: #ef4444; padding: 0.4rem 0.8rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.25rem;">
-                                                    <i class="fa-solid fa-lock"></i> Khóa
-                                                </button>
-                                            @endif
-                                        </form>
+                                            </form>
+                                        </div>
                                     @endif
                                 </td>
                             </tr>
