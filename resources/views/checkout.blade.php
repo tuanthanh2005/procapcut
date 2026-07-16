@@ -535,8 +535,8 @@
                         <h2><i class="fa-solid fa-circle-info"></i> Thông Tin Nâng Cấp Tài Khoản</h2>
                         
                         <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label" for="upgrade_details">Tài khoản cần nâng cấp (Nhập Email / Tên tài khoản để shop nâng cấp)</label>
-                            <textarea name="upgrade_details" id="upgrade_details" class="form-input" rows="3" style="resize: vertical;" placeholder="Nhập email tài khoản CapCut Pro hoặc ChatGPT cần nâng cấp tại đây..." required>{{ old('upgrade_details') }}</textarea>
+                            <label class="form-label" for="upgrade_details" id="upgrade-details-label">Tài khoản cần nâng cấp (Nhập Email / Tên tài khoản để shop nâng cấp)</label>
+                            <textarea name="upgrade_details" id="upgrade_details" class="form-input" rows="3" style="resize: vertical;" placeholder="Nhập email tài khoản CapCut Pro hoặc ChatGPT cần nâng cấp tại đây...">{{ old('upgrade_details') }}</textarea>
                         </div>
                     </div>
 
@@ -655,9 +655,15 @@
             container.innerHTML = '';
             subtotal = 0;
 
+            let requireEmail = false;
+
             cart.forEach(item => {
                 const itemTotal = item.price * (item.quantity || 1);
                 subtotal += itemTotal;
+
+                if (item.require_email === true || item.require_email === 'true') {
+                    requireEmail = true;
+                }
 
                 let mediaHtml = '';
                 if (item.image) {
@@ -688,6 +694,21 @@
                 `;
                 container.appendChild(row);
             });
+
+            // Conditionally toggle required status and labels for upgrade_details field
+            const upgradeLabel = document.getElementById('upgrade-details-label');
+            const upgradeTextarea = document.getElementById('upgrade_details');
+            if (upgradeLabel && upgradeTextarea) {
+                if (requireEmail) {
+                    upgradeLabel.innerHTML = 'Tài khoản cần nâng cấp <strong style="color: #ef4444;">(Bắt buộc: Nhập Email / Tên tài khoản để shop nâng cấp chính chủ)</strong>';
+                    upgradeTextarea.placeholder = 'Nhập email hoặc tên tài khoản cần nâng cấp chính chủ tại đây...';
+                    upgradeTextarea.required = true;
+                } else {
+                    upgradeLabel.innerHTML = 'Ghi chú cho đơn hàng hoặc thông tin thêm <span style="color: var(--text-muted); font-weight: normal;">(Không bắt buộc)</span>';
+                    upgradeTextarea.placeholder = 'Nhập ghi chú cho đơn hàng hoặc thông tin thêm nếu có...';
+                    upgradeTextarea.required = false;
+                }
+            }
 
             calculateTotal();
         }

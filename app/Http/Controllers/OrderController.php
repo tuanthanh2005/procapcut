@@ -17,22 +17,36 @@ class OrderController extends Controller
     // Process checkout form submission
     public function placeOrder(Request $request)
     {
+        $cart = [];
+        if ($request->filled('items_json')) {
+            $cart = json_decode($request->items_json, true);
+        }
+
+        $requireEmail = false;
+        if (is_array($cart)) {
+            foreach ($cart as $item) {
+                if (isset($item['require_email']) && ($item['require_email'] === true || $item['require_email'] === 'true')) {
+                    $requireEmail = true;
+                    break;
+                }
+            }
+        }
+
         $request->validate([
             'customer_name' => 'required|string|max:255',
             'customer_phone' => 'required|string|max:20',
             'customer_email' => 'required|email|max:255',
-            'upgrade_details' => 'required|string',
+            'upgrade_details' => $requireEmail ? 'required|string' : 'nullable|string',
             'payment_method' => 'required|string|in:qr_bank,momo',
             'items_json' => 'required|string', // JSON serialized cart array
         ], [
             'customer_name.required' => 'Họ tên không được để trống.',
             'customer_phone.required' => 'Số điện thoại không được để trống.',
             'customer_email.required' => 'Email không được để trống.',
-            'upgrade_details.required' => 'Thông tin email/tài khoản nâng cấp không được để trống.',
+            'upgrade_details.required' => 'Bạn cần nhập Email / Tên tài khoản nâng cấp chính chủ cho đơn hàng này.',
             'items_json.required' => 'Giỏ hàng đang trống.',
         ]);
 
-        $cart = json_decode($request->items_json, true);
         if (empty($cart)) {
             return back()->withErrors(['items_json' => 'Giỏ hàng của bạn đang trống. Hãy chọn sản phẩm trước.'])->withInput();
         }

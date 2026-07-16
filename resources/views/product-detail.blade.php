@@ -2032,6 +2032,7 @@ $schema = [
                                  data-price="{{ $opt['price'] }}" 
                                  data-slashed="{{ $opt['slashed'] }}" 
                                  data-desc="{{ $opt['description'] }}"
+                                 data-require-email="{{ (isset($opt['require_email']) && $opt['require_email']) ? 'true' : 'false' }}"
                                  @if(!$isOutOfStock) onclick="selectOption(this)" @endif>
                                 <span class="opt-name">{{ $opt['name'] }} @if($isOutOfStock) <strong style="color: #ef4444; font-size: 0.75rem; margin-left: 0.25rem;">(Hết hàng)</strong> @endif</span>
                                 <span class="opt-price" @if($isOutOfStock) style="text-decoration: line-through; color: var(--text-dark);" @endif>{{ number_format($opt['price'], 0, ',', '.') }}₫</span>
@@ -2422,7 +2423,8 @@ $schema = [
             const desc = el.getAttribute('data-desc');
 
             // Save active package
-            selectedOption = { id, name, price, icon: productIcon, image: productImage };
+            const requireEmail = el.getAttribute('data-require-email') === 'true';
+            selectedOption = { id, name, price, icon: productIcon, image: productImage, require_email: requireEmail };
 
             // Update UI displays
             document.getElementById('display-price').innerText = formatVND(price);
@@ -2517,10 +2519,12 @@ $schema = [
         // Add package to Cart
         function addToCart(id, name, price, icon, image) {
             const existingIndex = cart.findIndex(item => item.id === id);
+            const requireEmail = selectedOption && selectedOption.id === id ? selectedOption.require_email : false;
             if (existingIndex > -1) {
                 cart[existingIndex].quantity += 1;
+                cart[existingIndex].require_email = requireEmail;
             } else {
-                cart.push({ id, name, price, icon, image, quantity: 1 });
+                cart.push({ id, name, price, icon, image, quantity: 1, require_email: requireEmail });
             }
             saveCart();
             renderCart();

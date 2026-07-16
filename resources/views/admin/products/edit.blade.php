@@ -503,6 +503,7 @@
             actionCol.style.alignItems = 'flex-end';
 
             const inStock = data.in_stock !== false; // Default is true if undefined
+            const requireEmail = data.require_email === true; // Default is false
 
             const label = document.createElement('label');
             label.style.display = 'flex';
@@ -523,6 +524,26 @@
 
             label.appendChild(checkbox);
             label.appendChild(document.createTextNode(' Còn hàng'));
+
+            const emailLabel = document.createElement('label');
+            emailLabel.style.display = 'flex';
+            emailLabel.style.alignItems = 'center';
+            emailLabel.style.gap = '0.35rem';
+            emailLabel.style.fontSize = '0.8rem';
+            emailLabel.style.fontWeight = '700';
+            emailLabel.style.cursor = 'pointer';
+            emailLabel.style.userSelect = 'none';
+
+            const emailCheckbox = document.createElement('input');
+            emailCheckbox.type = 'checkbox';
+            emailCheckbox.className = 'opt-require-email';
+            emailCheckbox.checked = requireEmail;
+            emailCheckbox.style.width = '1.15rem';
+            emailCheckbox.style.height = '1.15rem';
+            emailCheckbox.style.accentColor = 'var(--primary)';
+
+            emailLabel.appendChild(emailCheckbox);
+            emailLabel.appendChild(document.createTextNode(' Cần Email'));
 
             const deleteBtn = document.createElement('button');
             deleteBtn.type = 'button';
@@ -589,9 +610,10 @@
                 const slashed = parseFloat(row.querySelector('.opt-slashed').value) || 0;
                 const description = row.querySelector('.opt-desc').value.trim();
                 const in_stock = row.querySelector('.opt-instock').checked;
+                const require_email = row.querySelector('.opt-require-email') ? row.querySelector('.opt-require-email').checked : false;
 
                 if (id) {
-                    options.push({ id, name, price, slashed, description, in_stock });
+                    options.push({ id, name, price, slashed, description, in_stock, require_email });
                 }
             });
             hiddenInput.value = JSON.stringify(options);

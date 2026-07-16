@@ -25,7 +25,8 @@ class AdminProductController extends Controller
                 'name' => 'Gói 1 Tháng',
                 'price' => 99000,
                 'slashed' => 150000,
-                'description' => 'Mô tả ngắn gọn đặc quyền của gói cước này.'
+                'description' => 'Mô tả ngắn gọn đặc quyền của gói cước này.',
+                'require_email' => false
             ]
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
