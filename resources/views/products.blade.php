@@ -1940,6 +1940,11 @@ if ($category === 'all' && empty($search)) {
                 
                 <div class="products-grid" id="products-container">
                     @foreach($products as $prod)
+                        @php
+                            $defaultOpt = $prod->options[0] ?? null;
+                            $defaultStock = isset($defaultOpt['stock']) ? (int)$defaultOpt['stock'] : 999;
+                            $defaultOutOfStock = !$defaultOpt || (isset($defaultOpt['in_stock']) && $defaultOpt['in_stock'] === false) || $defaultStock <= 0;
+                        @endphp
                         <div class="product-card" data-cat="{{ $prod->category }}" data-id="{{ $prod->options[0]['id'] ?? ($prod->slug . '-default') }}" data-name="{{ $prod->name }}" data-price="{{ $prod->default_price }}" data-slashed="{{ $prod->default_slashed }}" data-icon="{{ $prod->icon }}" data-image="{{ $prod->image_path }}">
                             @if($prod->tag)
                                 <span class="product-sale-tag">{{ $prod->tag }}</span>
@@ -1981,9 +1986,15 @@ if ($category === 'all' && empty($search)) {
                                         <span class="price-slashed">{{ number_format($prod->default_slashed, 0, ',', '.') }}₫</span>
                                         <span class="price-active">{{ number_format($prod->default_price, 0, ',', '.') }}₫</span>
                                     </div>
-                                    <button class="btn-add-cart" title="Thêm vào giỏ hàng">
-                                        <i class="fa-solid fa-cart-plus"></i>
-                                    </button>
+                                    @if($defaultOutOfStock)
+                                        <button class="btn-add-cart" title="Tạm hết hàng" style="background: #cbd5e1; border-color: #cbd5e1; cursor: not-allowed; opacity: 0.6;" disabled>
+                                            <i class="fa-solid fa-ban"></i>
+                                        </button>
+                                    @else
+                                        <button class="btn-add-cart" title="Thêm vào giỏ hàng">
+                                            <i class="fa-solid fa-cart-plus"></i>
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         </div>

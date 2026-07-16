@@ -487,6 +487,7 @@
             const nameGroup = createFormGroup('Tên hiển thị gói (ví dụ: Gói 1 Tháng)', 'opt-name', 'text', data.name || '', true);
             const priceGroup = createFormGroup('Giá bán (VNĐ)', 'opt-price', 'number', data.price !== undefined ? data.price : '', true);
             const slashedGroup = createFormGroup('Giá gốc gạch ngang (VNĐ)', 'opt-slashed', 'number', data.slashed !== undefined ? data.slashed : '', true);
+            const stockGroup = createFormGroup('Số lượng hàng trong kho (0 = Hết hàng)', 'opt-stock', 'number', data.stock !== undefined ? data.stock : '0', true);
             const descGroup = createFormGroup('Mô tả ngắn của gói', 'opt-desc', 'text', data.description || '', true);
             descGroup.style.gridColumn = 'span 2';
 
@@ -494,6 +495,7 @@
             fieldsGrid.appendChild(nameGroup);
             fieldsGrid.appendChild(priceGroup);
             fieldsGrid.appendChild(slashedGroup);
+            fieldsGrid.appendChild(stockGroup);
             fieldsGrid.appendChild(descGroup);
 
             const actionCol = document.createElement('div');
@@ -612,9 +614,11 @@
                 const description = row.querySelector('.opt-desc').value.trim();
                 const in_stock = row.querySelector('.opt-instock').checked;
                 const require_email = row.querySelector('.opt-require-email') ? row.querySelector('.opt-require-email').checked : false;
+                const stockVal = parseInt(row.querySelector('.opt-stock').value);
+                const stock = isNaN(stockVal) ? 0 : stockVal;
 
                 if (id) {
-                    options.push({ id, name, price, slashed, description, in_stock, require_email });
+                    options.push({ id, name, price, slashed, description, in_stock, require_email, stock });
                 }
             });
             hiddenInput.value = JSON.stringify(options);

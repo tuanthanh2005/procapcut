@@ -2021,7 +2021,8 @@ $schema = [
                             $defaultSelectedIdx = -1;
                             // Find the first option that is in stock to set as default
                             foreach ($product['options'] as $idx => $opt) {
-                                $isOutOfStock = isset($opt['in_stock']) && $opt['in_stock'] === false;
+                                $stock = isset($opt['stock']) ? (int)$opt['stock'] : 999;
+                                $isOutOfStock = (isset($opt['in_stock']) && $opt['in_stock'] === false) || $stock <= 0;
                                 if (!$isOutOfStock) {
                                     $defaultSelectedIdx = $idx;
                                     break;
@@ -2030,7 +2031,8 @@ $schema = [
                         @endphp
                         @foreach ($product['options'] as $idx => $opt)
                             @php
-                                $isOutOfStock = isset($opt['in_stock']) && $opt['in_stock'] === false;
+                                $stock = isset($opt['stock']) ? (int)$opt['stock'] : 999;
+                                $isOutOfStock = (isset($opt['in_stock']) && $opt['in_stock'] === false) || $stock <= 0;
                             @endphp
                             <div class="option-item {{ $isOutOfStock ? 'out-of-stock' : '' }} {{ $idx === $defaultSelectedIdx ? 'selected' : '' }}" 
                                  data-id="{{ $opt['id'] }}" 
@@ -2040,7 +2042,16 @@ $schema = [
                                  data-desc="{{ $opt['description'] }}"
                                  data-require-email="{{ (isset($opt['require_email']) && $opt['require_email']) ? 'true' : 'false' }}"
                                  @if(!$isOutOfStock) onclick="selectOption(this)" @endif>
-                                <span class="opt-name">{{ $opt['name'] }} @if($isOutOfStock) <strong style="color: #ef4444; font-size: 0.75rem; margin-left: 0.25rem;">(Hết hàng)</strong> @endif</span>
+                                <div style="display: flex; flex-direction: column; gap: 0.2rem; align-items: flex-start;">
+                                    <span class="opt-name" style="font-weight: 700; color: var(--text-main);">{{ $opt['name'] }}</span>
+                                    <span style="font-size: 0.75rem; {{ $isOutOfStock ? 'color: #ef4444;' : 'color: #10b981;' }} font-weight: 600;">
+                                        @if($isOutOfStock)
+                                            <i class="fa-solid fa-triangle-exclamation"></i> Hết hàng
+                                        @else
+                                            <i class="fa-solid fa-boxes-stacked"></i> Còn lại: {{ $stock }}
+                                        @endif
+                                    </span>
+                                </div>
                                 <span class="opt-price" @if($isOutOfStock) style="text-decoration: line-through; color: var(--text-dark);" @endif>{{ number_format($opt['price'], 0, ',', '.') }}₫</span>
                             </div>
                         @endforeach
@@ -2050,7 +2061,9 @@ $schema = [
                 @php
                     $isAllOutOfStock = true;
                     foreach ($product['options'] as $opt) {
-                        if (!isset($opt['in_stock']) || $opt['in_stock'] !== false) {
+                        $stock = isset($opt['stock']) ? (int)$opt['stock'] : 999;
+                        $isOutOfStock = (isset($opt['in_stock']) && $opt['in_stock'] === false) || $stock <= 0;
+                        if (!$isOutOfStock) {
                             $isAllOutOfStock = false;
                             break;
                         }

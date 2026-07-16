@@ -26,7 +26,8 @@ class AdminProductController extends Controller
                 'price' => 99000,
                 'slashed' => 150000,
                 'description' => 'Mô tả ngắn gọn đặc quyền của gói cước này.',
-                'require_email' => false
+                'require_email' => false,
+                'stock' => 0
             ]
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 

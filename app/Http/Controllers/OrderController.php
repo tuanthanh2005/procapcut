@@ -51,6 +51,53 @@ class OrderController extends Controller
             return back()->withErrors(['items_json' => 'Giỏ hàng của bạn đang trống. Hãy chọn sản phẩm trước.'])->withInput();
         }
 
+        // Validate stock for each item in the cart
+        foreach ($cart as $item) {
+            if (!isset($item['id'])) {
+                continue;
+            }
+
+            $product = \App\Models\Product::all()->first(function ($prod) use ($item) {
+                if (is_array($prod->options)) {
+                    foreach ($prod->options as $opt) {
+                        if (isset($opt['id']) && $opt['id'] === $item['id']) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            });
+
+            if (!$product) {
+                return back()->withErrors(['items_json' => "Không tìm thấy sản phẩm tương ứng với gói: " . ($item['name'] ?? 'Không rõ')])->withInput();
+            }
+
+            $options = $product->options;
+            $matchingOpt = null;
+            foreach ($options as $opt) {
+                if (isset($opt['id']) && $opt['id'] === $item['id']) {
+                    $matchingOpt = $opt;
+                    break;
+                }
+            }
+
+            if (!$matchingOpt) {
+                return back()->withErrors(['items_json' => "Không tìm thấy gói: " . ($item['name'] ?? 'Không rõ')])->withInput();
+            }
+
+            $stock = isset($matchingOpt['stock']) ? (int)$matchingOpt['stock'] : 999;
+            $inStock = !isset($matchingOpt['in_stock']) || $matchingOpt['in_stock'] !== false;
+
+            if (!$inStock || $stock <= 0) {
+                return back()->withErrors(['items_json' => "Gói: " . ($item['name'] ?? 'Không rõ') . " đã hết hàng, không thể tiếp tục thanh toán."])->withInput();
+            }
+
+            $reqQty = isset($item['quantity']) ? (int)$item['quantity'] : 1;
+            if ($stock < $reqQty) {
+                return back()->withErrors(['items_json' => "Gói: " . ($item['name'] ?? 'Không rõ') . " chỉ còn lại " . $stock . " sản phẩm trong kho. Bạn đang yêu cầu mua " . $reqQty . " sản phẩm."])->withInput();
+            }
+        }
+
         // Calculate total price and set product fallbacks for legacy compatibility
         $totalPrice = 0;
         $firstItemName = '';
@@ -84,6 +131,41 @@ class OrderController extends Controller
             'status' => 'pending',
             'activation_key' => null,
         ]);
+
+        // Deduct stock after order creation
+        foreach ($cart as $item) {
+            if (!isset($item['id'])) {
+                continue;
+            }
+
+            $product = \App\Models\Product::all()->first(function ($prod) use ($item) {
+                if (is_array($prod->options)) {
+                    foreach ($prod->options as $opt) {
+                        if (isset($opt['id']) && $opt['id'] === $item['id']) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            });
+
+            if ($product) {
+                $options = $product->options;
+                foreach ($options as $idx => $opt) {
+                    if (isset($opt['id']) && $opt['id'] === $item['id']) {
+                        $currentStock = isset($opt['stock']) ? (int)$opt['stock'] : 999;
+                        $newStock = max(0, $currentStock - (isset($item['quantity']) ? (int)$item['quantity'] : 1));
+                        $options[$idx]['stock'] = $newStock;
+                        if ($newStock <= 0) {
+                            $options[$idx]['in_stock'] = false; // set in_stock to false as well if stock hits 0
+                        }
+                        break;
+                    }
+                }
+                $product->options = $options;
+                $product->save();
+            }
+        }
 
         // Send Telegram Alert for new order
         $botToken = env('TELEGRAM_BOT_TOKEN');
