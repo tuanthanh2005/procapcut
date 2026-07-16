@@ -286,22 +286,16 @@ Route::middleware(['auth'])->group(function () {
             'comment' => $request->comment,
         ]);
         
-        // Recalculate average rating & review count using a base of 50 reviews of 5.0 stars
+        // Recalculate average rating & review count based on real reviews
         $reviews = $product->reviews();
         $dbCount = $reviews->count();
         $dbSum = $reviews->sum('rating');
         
-        $baseCount = 50; // base reviews of 5 stars by default
-        $baseSum = 50 * 5.0;
-        
-        $totalCount = $dbCount + $baseCount;
-        $totalSum = $dbSum + $baseSum;
-        
-        $newRating = round($totalSum / $totalCount, 1);
+        $newRating = $dbCount > 0 ? round($dbSum / $dbCount, 1) : 5.0;
         
         $product->update([
             'rating' => $newRating,
-            'review_count' => $totalCount
+            'review_count' => $dbCount
         ]);
         
         return redirect()->back()->with('success_review', 'Cảm ơn bạn đã gửi đánh giá sản phẩm!');

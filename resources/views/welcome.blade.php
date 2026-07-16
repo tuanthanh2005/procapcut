@@ -2395,14 +2395,14 @@
                         </a>
                         <div class="product-trust">
                             <div class="stars">
-                                @for ($i = 0; $i < floor($prod->rating); $i++)
+                                @for ($i = 0; $i < floor($prod->real_rating); $i++)
                                     <i class="fa-solid fa-star"></i>
                                 @endfor
-                                @if($prod->rating - floor($prod->rating) >= 0.5)
+                                @if($prod->real_rating - floor($prod->real_rating) >= 0.5)
                                     <i class="fa-solid fa-star-half-stroke"></i>
                                 @endif
                             </div>
-                            <span class="sold-count">| Đã bán {{ $prod->sold }}</span>
+                            <span class="sold-count">| Đã bán {{ $prod->real_sold }}</span>
                         </div>
                         <ul class="product-specs">
                             @if(is_array($prod->features))

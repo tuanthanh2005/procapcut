@@ -29,8 +29,8 @@ $schema = [
     ],
     'aggregateRating' => [
         '@type' => 'AggregateRating',
-        'ratingValue' => $product['rating'],
-        'reviewCount' => $product['review_count']
+        'ratingValue' => $product->real_rating,
+        'reviewCount' => $product->real_review_count
     ]
 ];
 ?>
@@ -1990,11 +1990,17 @@ $schema = [
                     <h1 class="product-title">{{ $product['name'] }}</h1>
                     <div class="trust-row">
                         <div class="trust-stars">
-                            @for ($i = 0; $i < 5; $i++)
+                            @for ($i = 0; $i < floor($product->real_rating); $i++)
                                 <i class="fa-solid fa-star"></i>
                             @endfor
+                            @if($product->real_rating - floor($product->real_rating) >= 0.5)
+                                <i class="fa-solid fa-star-half-stroke"></i>
+                            @endif
+                            @for ($i = 0; $i < (5 - ceil($product->real_rating)); $i++)
+                                <i class="fa-regular fa-star" style="color: var(--border-color);"></i>
+                            @endfor
                         </div>
-                        <span>| Đã bán {{ $product['sold'] }} sản phẩm</span>
+                        <span>| Đã bán {{ $product->real_sold }} sản phẩm</span>
                     </div>
                 </div>
 
@@ -2109,10 +2115,10 @@ $schema = [
                     <div class="reviews-header">
                         <h3>Đánh Giá Của Khách Hàng</h3>
                         <div class="rev-aggregate">
-                            <span class="rev-big-num">{{ $product['rating'] }}</span>
+                            <span class="rev-big-num">{{ $product->real_rating }}</span>
                             <div>
                                 <div class="rev-stars">
-                                    @php $ratingVal = (float)$product['rating']; @endphp
+                                    @php $ratingVal = (float)$product->real_rating; @endphp
                                     @for ($i = 1; $i <= 5; $i++)
                                         @if ($i <= $ratingVal)
                                             <i class="fa-solid fa-star"></i>
@@ -2123,7 +2129,7 @@ $schema = [
                                         @endif
                                     @endfor
                                 </div>
-                                <span style="font-size: 0.72rem; color: var(--text-dark);">Dựa trên {{ $product['review_count'] }} đánh giá</span>
+                                <span style="font-size: 0.72rem; color: var(--text-dark);">Dựa trên {{ $product->real_review_count }} đánh giá</span>
                             </div>
                         </div>
                     </div>
@@ -2134,38 +2140,10 @@ $schema = [
                         @endphp
                         
                         @if($dbReviews->isEmpty())
-                            @if($product['category'] === 'capcut')
-                                <div class="rev-item">
-                                    <div class="rev-meta">
-                                        <span class="rev-author">Nguyễn Hoàng Long</span>
-                                        <span class="rev-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
-                                    </div>
-                                    <p class="rev-text">Đã nâng cấp thành công trên email chính chủ cá nhân. Mọi hiệu ứng Pro và chuyển cảnh VIP chạy mượt mà trên cả máy tính Mac và điện thoại iPhone của mình.</p>
-                                </div>
-                                <div class="rev-item">
-                                    <div class="rev-meta">
-                                        <span class="rev-author">Lê Thuỳ Trang (Tiktok Creator)</span>
-                                        <span class="rev-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
-                                    </div>
-                                    <p class="rev-text">Shop bàn giao tài khoản siêu tốc luôn, chưa đầy 1 phút sau thanh toán đã nhận được email báo nâng cấp thành công. Sẽ tiếp tục ủng hộ lâu dài.</p>
-                                </div>
-                            @elseif($product['category'] === 'gpt')
-                                <div class="rev-item">
-                                    <div class="rev-meta">
-                                        <span class="rev-author">Phạm Minh Đức (Developer)</span>
-                                        <span class="rev-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
-                                    </div>
-                                    <p class="rev-text">Tài khoản Plus dùng siêu ổn định, viết code và phân tích sơ đồ rất nhanh. Giá rẻ hơn nhiều so với tự mua trực tiếp bằng thẻ visa.</p>
-                                </div>
-                            @else
-                                <div class="rev-item">
-                                    <div class="rev-meta">
-                                        <span class="rev-author">Trần Anh Tuấn</span>
-                                        <span class="rev-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
-                                    </div>
-                                    <p class="rev-text">Giao dịch nhanh chóng, nhân viên hỗ trợ nhiệt tình qua zalo kích hoạt chỉ 30 giây. Rất hài lòng về chất lượng phục vụ.</p>
-                                </div>
-                            @endif
+                            <div style="text-align: center; padding: 2rem; border: 1px dashed var(--border-color); border-radius: var(--radius-md); background: var(--bg-body); color: var(--text-dark); font-size: 0.88rem;">
+                                <i class="fa-regular fa-comment-dots" style="font-size: 1.5rem; margin-bottom: 0.5rem; display: block; color: var(--text-dark);"></i>
+                                Chưa có đánh giá nào cho sản phẩm này. Hãy là người đầu tiên đánh giá nhé!
+                            </div>
                         @else
                             @foreach($dbReviews as $rev)
                                 <div class="rev-item">
