@@ -1259,66 +1259,7 @@
             padding: 3rem 1rem;
         }
 
-        /* Fake Live Sales Notification Popup */
-        .live-sale-popup {
-            position: fixed;
-            bottom: 1.5rem;
-            left: 1.5rem;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 0.75rem 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-            z-index: 998;
-            transform: translateY(150px);
-            opacity: 0;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
-            max-width: 320px;
-        }
 
-        .live-sale-popup.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .buyer-avatar {
-            width: 2.2rem;
-            height: 2.2rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: white;
-        }
-
-        .buyer-info {
-            font-size: 0.75rem;
-            line-height: 1.4;
-            color: var(--text-muted);
-        }
-
-        .buyer-name {
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .bought-item {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .time-ago {
-            display: block;
-            font-size: 0.65rem;
-            color: var(--text-dark);
-            margin-top: 0.15rem;
-        }
 
         /* Footer design */
         footer {
@@ -1954,13 +1895,7 @@
                 padding: 0.65rem 1rem !important;
                 font-size: 0.82rem !important;
             }
-            .live-sale-popup {
-                left: 0.75rem;
-                right: 0.75rem;
-                max-width: none;
-                bottom: 0.75rem;
-                padding: 0.5rem 0.75rem;
-            }
+
             .hero-showcase {
                 display: none !important;
             }
@@ -2598,15 +2533,7 @@
         </div>
     </div>
 
-    <!-- Live Sale Toast Notification (Fake buyers for trust building) -->
-    <div class="live-sale-popup" id="live-sale-popup">
-        <div class="buyer-avatar" id="buyer-avatar">T</div>
-        <div class="buyer-info">
-            <div><span class="buyer-name" id="buyer-name">Khách hàng</span> vừa mua thành công</div>
-            <div class="bought-item" id="bought-item">CapCut Pro (1 Năm)</div>
-            <span class="time-ago" id="time-ago">2 phút trước</span>
-        </div>
-    </div>
+
 
     <!-- Toast Notification (Add to cart feedback) -->
     <div class="toast-notify" id="toast-notify">
@@ -2897,51 +2824,7 @@
             });
         });
 
-        // Simulated/Fake Live Sales Notification to build trust
-        function generateRandomName() {
-            const familyNames = ['Nguyễn', 'Trần', 'Lê', 'Phạm', 'Hoàng', 'Phan', 'Vũ', 'Võ', 'Đặng', 'Bùi', 'Đỗ', 'Hồ', 'Ngô', 'Dương', 'Lý', 'Lương', 'Đinh', 'Tống', 'Quách'];
-            const middleNames = ['Văn', 'Thị', 'Anh', 'Hoàng', 'Minh', 'Ngọc', 'Duy', 'Hữu', 'Quốc', 'Quang', 'Khánh', 'Xuân', 'Thu', 'Hồng', 'Đức', 'Thanh', 'Như', 'Cát'];
-            const firstNames = ['Nam', 'Hải', 'Sơn', 'Lâm', 'Phong', 'Dương', 'Tiến', 'Huy', 'Hoàng', 'Dũng', 'Tuấn', 'Tú', 'Ngọc', 'Vy', 'Quỳnh', 'Hạnh', 'Trang', 'Linh', 'Thảo', 'Hương', 'Giang', 'Long', 'Quân', 'Khánh', 'Phúc', 'Lộc', 'Thọ', 'Minh', 'Hùng', 'Kiệt'];
-            const family = familyNames[Math.floor(Math.random() * familyNames.length)];
-            const middle = middleNames[Math.floor(Math.random() * middleNames.length)];
-            const first = firstNames[Math.floor(Math.random() * firstNames.length)];
-            return Math.random() < 0.15 ? `${family} ${first}` : `${family} ${middle} ${first}`;
-        }
 
-        let itemsList = {!! json_encode(\App\Models\Product::pluck('name')->map(function($name) { return ['name' => $name]; })->toArray()) !!};
-        if (!itemsList || itemsList.length === 0) {
-            itemsList = [
-                { name: 'CapCut Pro (Gói 1 Năm - Chính Chủ)' },
-                { name: 'Tài Khoản ChatGPT Plus (GPT-5) 1 Tháng' },
-                { name: 'Canva Pro Nâng Cấp Email' },
-                { name: 'Google Gemini Advanced + 5TB Google One' }
-            ];
-        }
-        const times = ['Vừa xong', '1 phút trước', '3 phút trước', '5 phút trước', '10 phút trước', '15 phút trước'];
-
-        function showFakeSale() {
-            const randomName = generateRandomName();
-            const randomItem = itemsList[Math.floor(Math.random() * itemsList.length)];
-            const randomTime = times[Math.floor(Math.random() * times.length)];
-            const initial = randomName.split(' ').pop().charAt(0);
-
-            document.getElementById('buyer-avatar').innerText = initial;
-            document.getElementById('buyer-name').innerText = randomName;
-            document.getElementById('bought-item').innerText = randomItem.name;
-            document.getElementById('time-ago').innerText = randomTime;
-
-            const popup = document.getElementById('live-sale-popup');
-            popup.classList.add('show');
-
-            setTimeout(() => {
-                popup.classList.remove('show');
-            }, 5000);
-        }
-
-        // Trigger fake sales notification every 12 seconds
-        setInterval(showFakeSale, 12000);
-        // Initial delay for the first notification
-        setTimeout(showFakeSale, 4000);
 
         // Render initial cart from localStorage
         renderCart();

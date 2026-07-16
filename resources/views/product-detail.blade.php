@@ -1262,66 +1262,7 @@ $schema = [
             opacity: 1;
         }
 
-        /* Fake Live Sales Notification Popup */
-        .live-sale-popup {
-            position: fixed;
-            bottom: 1.5rem;
-            left: 1.5rem;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 0.75rem 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-            z-index: 998;
-            transform: translateY(150px);
-            opacity: 0;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
-            max-width: 320px;
-        }
 
-        .live-sale-popup.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .buyer-avatar {
-            width: 2.2rem;
-            height: 2.2rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: white;
-        }
-
-        .buyer-info {
-            font-size: 0.75rem;
-            line-height: 1.4;
-            color: var(--text-muted);
-        }
-
-        .buyer-name {
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .bought-item {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .time-ago {
-            display: block;
-            font-size: 0.65rem;
-            color: var(--text-dark);
-            margin-top: 0.15rem;
-        }
 
         /* Footer design */
         footer {
