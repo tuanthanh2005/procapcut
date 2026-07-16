@@ -106,7 +106,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     })->name('verify_code.post');
 
     Route::get('/dashboard', function () {
-        return view('admin-dashboard');
+        $totalRevenue = \App\Models\Order::where('status', 'completed')->sum('price');
+        $completedOrdersCount = \App\Models\Order::where('status', 'completed')->count();
+        $newCustomersCount = \App\Models\User::count();
+        $latestOrders = \App\Models\Order::orderBy('created_at', 'desc')->take(10)->get();
+
+        return view('admin-dashboard', compact('totalRevenue', 'completedOrdersCount', 'newCustomersCount', 'latestOrders'));
     })->name('dashboard');
 
     Route::resource('products', \App\Http\Controllers\AdminProductController::class);

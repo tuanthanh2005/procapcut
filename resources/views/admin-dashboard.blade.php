@@ -298,6 +298,18 @@
             color: #d97706;
             border: 1px solid #fef3c7;
         }
+
+        .status-processing {
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #dbeafe;
+        }
+
+        .status-cancelled {
+            background: #fef2f2;
+            color: #ef4444;
+            border: 1px solid #fee2e2;
+        }
     </style>
 </head>
 <body>
@@ -361,7 +373,7 @@
                 <div class="stat-card">
                     <div class="stat-info">
                         <h3>Tổng doanh thu</h3>
-                        <p>18.450.000₫</p>
+                        <p>{{ number_format($totalRevenue, 0, ',', '.') }}₫</p>
                     </div>
                     <div class="stat-icon">
                         <i class="fa-solid fa-hand-holding-dollar"></i>
@@ -371,7 +383,7 @@
                 <div class="stat-card">
                     <div class="stat-info">
                         <h3>Đơn hàng hoàn tất</h3>
-                        <p>124</p>
+                        <p>{{ number_format($completedOrdersCount) }}</p>
                     </div>
                     <div class="stat-icon" style="background: rgba(16, 185, 129, 0.08); color: #10b981;">
                         <i class="fa-solid fa-square-check"></i>
@@ -381,7 +393,7 @@
                 <div class="stat-card">
                     <div class="stat-info">
                         <h3>Khách hàng mới</h3>
-                        <p>48</p>
+                        <p>{{ number_format($newCustomersCount) }}</p>
                     </div>
                     <div class="stat-icon" style="background: rgba(245, 158, 11, 0.08); color: #f59e0b;">
                         <i class="fa-solid fa-users"></i>
@@ -393,7 +405,7 @@
             <section class="data-section">
                 <div class="section-header">
                     <h2>Đơn hàng mới nhất</h2>
-                    <button class="btn-action"><i class="fa-solid fa-filter"></i> Bộ lọc</button>
+                    <a href="{{ route('admin.orders.index') }}" class="btn-action" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;"><i class="fa-solid fa-list"></i> Xem tất cả</a>
                 </div>
 
                 <table>
@@ -407,27 +419,33 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><strong>#DH202601</strong></td>
-                            <td>Nguyễn Văn Hùng</td>
-                            <td>CapCut Pro (1 Năm)</td>
-                            <td>399.000₫</td>
-                            <td><span class="status-badge status-success">Hoàn tất</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>#DH202602</strong></td>
-                            <td>Trần Thị Thuỳ</td>
-                            <td>ChatGPT Plus (1 Tháng)</td>
-                            <td>199.000₫</td>
-                            <td><span class="status-badge status-success">Hoàn tất</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>#DH202603</strong></td>
-                            <td>Phạm Quốc Bảo</td>
-                            <td>Canva Pro (Trọn đời)</td>
-                            <td>249.000₫</td>
-                            <td><span class="status-badge status-pending">Đang xử lý</span></td>
-                        </tr>
+                        @forelse ($latestOrders as $order)
+                            @php
+                                $statusClass = 'status-pending';
+                                $statusText = 'Chờ xử lý';
+                                if ($order->status === 'completed') {
+                                    $statusClass = 'status-success';
+                                    $statusText = 'Hoàn tất';
+                                } elseif ($order->status === 'processing') {
+                                    $statusClass = 'status-processing';
+                                    $statusText = 'Đang xử lý';
+                                } elseif ($order->status === 'cancelled') {
+                                    $statusClass = 'status-cancelled';
+                                    $statusText = 'Đã hủy';
+                                }
+                            @endphp
+                            <tr onclick="window.location.href='{{ route('admin.orders.show', $order->id) }}'" style="cursor: pointer;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='none'">
+                                <td><strong>#OD{{ 1000 + $order->id }}</strong></td>
+                                <td>{{ $order->customer_name }}</td>
+                                <td>{{ $order->product_name }}</td>
+                                <td>{{ number_format($order->price, 0, ',', '.') }}₫</td>
+                                <td><span class="status-badge {{ $statusClass }}">{{ $statusText }}</span></td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2rem;">Chưa có đơn hàng nào.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </section>
