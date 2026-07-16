@@ -560,6 +560,7 @@
             };
 
             actionCol.appendChild(label);
+            actionCol.appendChild(emailLabel);
             actionCol.appendChild(deleteBtn);
 
             row.appendChild(fieldsGrid);
