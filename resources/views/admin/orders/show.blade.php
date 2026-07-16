@@ -428,22 +428,14 @@
                 <div class="details-card">
                     <h2><i class="fa-solid fa-sliders"></i> Xử lý & Phê duyệt đơn hàng</h2>
                     
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1rem;">
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label" for="status" style="font-weight: 700;">Trạng thái đơn hàng</label>
-                            <select name="status" id="status" class="form-input" style="height: 42px;">
-                                <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Chờ thanh toán</option>
-                                <option value="processing" {{ $order->status === 'processing' ? 'selected' : '' }}>Chờ duyệt (Đã thanh toán)</option>
-                                <option value="completed" {{ $order->status === 'completed' ? 'selected' : '' }}>Hoàn thành (Đã cấp key)</option>
-                                <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Đã hủy</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label" for="activation_key" style="font-weight: 700;">Mã kích hoạt / Tài khoản bàn giao</label>
-                            <input type="text" name="activation_key" id="activation_key" class="form-input" style="height: 42px;" placeholder="Gõ Key kích hoạt hoặc tài khoản..." value="{{ old('activation_key', $order->activation_key) }}">
-
-                        </div>
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label class="form-label" for="status" style="font-weight: 700;">Trạng thái đơn hàng</label>
+                        <select name="status" id="status" class="form-input" style="height: 42px;">
+                            <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Chờ thanh toán</option>
+                            <option value="processing" {{ $order->status === 'processing' ? 'selected' : '' }}>Chờ duyệt (Đã thanh toán)</option>
+                            <option value="completed" {{ $order->status === 'completed' ? 'selected' : '' }}>Hoàn thành (Đã cấp key)</option>
+                            <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Đã hủy</option>
+                        </select>
                     </div>
 
                     <div style="border-top: 1px solid var(--border-color); margin: 1.5rem 0; padding-top: 1.5rem;">
@@ -487,12 +479,11 @@ Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của AI CỦA TÔI (h
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const activationKeyInput = document.getElementById('activation_key');
             const sendEmailCheckbox = document.getElementById('send_email');
             const emailContentGroup = document.getElementById('email_content_group');
             const statusSelect = document.getElementById('status');
             const form = document.getElementById('order-status-form');
-
+ 
             // Toggle visibility of email content based on checkbox state
             sendEmailCheckbox.addEventListener('change', function () {
                 if (sendEmailCheckbox.checked) {
@@ -501,9 +492,9 @@ Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của AI CỦA TÔI (h
                     emailContentGroup.style.display = 'none';
                 }
             });
-
-
-
+ 
+ 
+ 
             // Show Yes/No confirmation dialog before submitting
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
@@ -511,7 +502,7 @@ Cảm ơn bạn đã tin tưởng sử dụng dịch vụ của AI CỦA TÔI (h
                 let confirmMessage = "Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng?";
                 if (sendEmailCheckbox.checked) {
                     const emailDestination = {!! json_encode($order->customer_email ?? ($order->user ? $order->user->email : '')) !!};
-                    confirmMessage = `XÁC NHẬN PHÊ DUYỆT ĐƠN HÀNG\n\n- Trạng thái mới: ${statusSelect.options[statusSelect.selectedIndex].text}\n- Bàn giao: ${activationKeyInput.value}\n- Gửi email bàn giao tới: ${emailDestination}\n\nBạn có đồng ý phê duyệt và gửi email này không?`;
+                    confirmMessage = `XÁC NHẬN PHÊ DUYỆT ĐƠN HÀNG\n\n- Trạng thái mới: ${statusSelect.options[statusSelect.selectedIndex].text}\n- Gửi email bàn giao tới: ${emailDestination}\n\nBạn có đồng ý phê duyệt và gửi email này không?`;
                 }
 
                 if (confirm(confirmMessage)) {

@@ -62,10 +62,13 @@ class AdminOrderController extends Controller
             'email_content' => 'nullable|string',
         ]);
 
-        $order->update([
+        $updateData = [
             'status' => $request->status,
-            'activation_key' => $request->activation_key,
-        ]);
+        ];
+        if ($request->has('activation_key')) {
+            $updateData['activation_key'] = $request->activation_key;
+        }
+        $order->update($updateData);
 
         // Gửi email nếu tích chọn gửi
         if ($request->send_email === '1' && $request->filled('email_content')) {
