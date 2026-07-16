@@ -442,9 +442,7 @@
                         <div class="form-group" style="margin-bottom: 0;">
                             <label class="form-label" for="activation_key" style="font-weight: 700;">Mã kích hoạt / Tài khoản bàn giao</label>
                             <input type="text" name="activation_key" id="activation_key" class="form-input" style="height: 42px;" placeholder="Gõ Key kích hoạt hoặc tài khoản..." value="{{ old('activation_key', $order->activation_key) }}">
-                            <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem; display: block;">
-                                * Thông tin này sẽ hiện trực tiếp tại trang lịch sử mua hàng của khách hàng sau khi chuyển trạng thái thành "Hoàn thành".
-                            </span>
+
                         </div>
                     </div>
 
