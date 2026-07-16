@@ -618,13 +618,19 @@
                             </div>
                         </div>
                         <div>
-                            @if($order->activation_key)
-                                <div class="key-reveal-box" title="Click để sao chép key bản quyền">
-                                    <span id="key-text-{{ $order->id }}">{{ $order->activation_key }}</span>
-                                    <button class="copy-btn" onclick="copyKey('{{ $order->id }}')"><i class="fa-regular fa-copy"></i></button>
-                                </div>
+                            @if($order->status === 'completed')
+                                @if($order->activation_key)
+                                    <div class="key-reveal-box" title="Click để sao chép key bản quyền">
+                                        <span id="key-text-{{ $order->id }}">{{ $order->activation_key }}</span>
+                                        <button class="copy-btn" onclick="copyKey('{{ $order->id }}')"><i class="fa-regular fa-copy"></i></button>
+                                    </div>
+                                @else
+                                    <span style="font-size: 0.8rem; color: var(--text-muted);">Tài khoản cấp tự động</span>
+                                @endif
+                            @elseif($order->status === 'cancelled')
+                                <span style="font-size: 0.8rem; color: #ef4444; font-weight: 600;"><i class="fa-solid fa-circle-xmark"></i> Đơn hàng đã hủy</span>
                             @else
-                                <span style="font-size: 0.8rem; color: var(--text-muted);">Tài khoản cấp tự động</span>
+                                <span style="font-size: 0.8rem; color: #0284c7; font-weight: 600;"><i class="fa-solid fa-envelope-open-text"></i> Admin sẽ cấp tài khoản qua email vui lòng chờ!</span>
                             @endif
                         </div>
                         <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;">
