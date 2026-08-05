@@ -2101,7 +2101,7 @@
             <div class="navbar">
                 <a href="/" class="logo">
                     @if(file_exists(public_path('logo.png')))
-                        <img src="{{ asset('logo.png') }}?v={{ time() }}" alt="Logo" style="max-height: 2.2rem; object-fit: contain;">
+                        <img src="{{ asset('logo.png') }}" alt="Logo" width="160" height="36" style="max-height: 2.2rem; width: auto; object-fit: contain;">
                     @else
                         <i class="fa-solid fa-rocket logo-icon"></i>
                         <span>AI CỦA TÔI</span>
@@ -2200,7 +2200,7 @@
                         <div class="showcase-header">
                             @if($prod->image_path && file_exists(public_path($prod->image_path)))
                                 <div class="showcase-img-wrapper">
-                                    <img src="{{ asset($prod->image_path) }}?v={{ time() }}" alt="{{ $prod->name }}" class="showcase-img">
+                                    <img src="{{ asset($prod->image_path) }}" alt="{{ $prod->name }}" class="showcase-img" loading="eager" decoding="async">
                                 </div>
                             @else
                                 <div class="showcase-icon bg-{{ $prod->slug }}">
@@ -2322,7 +2322,7 @@
                     <a href="/product/{{ $prod->slug }}" class="stretched-link" style="display: block; width: 100%; text-decoration: none; color: inherit;">
                         <div class="product-media" style="display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 1.5rem; height: 160px;">
                             @if($prod->image_path)
-                                <img src="{{ asset($prod->image_path) }}" alt="{{ $prod->name }}" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px;">
+                                <img src="{{ asset($prod->image_path) }}" alt="{{ $prod->name }}" loading="lazy" decoding="async" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px;">
                             @else
                                 <i class="fa-solid {{ strtok($prod->icon, ' ') }}"></i>
                             @endif
@@ -2566,7 +2566,7 @@
                 <div class="footer-col" style="grid-column: span 1.5;">
                     <a href="/" class="logo" style="margin-bottom: 1rem; display: inline-flex; align-items: center; background: none; -webkit-text-fill-color: white; text-decoration: none;">
                         @if(file_exists(public_path('logo.png')))
-                            <img src="{{ asset('logo.png') }}?v={{ time() }}" alt="Logo" style="max-height: 2.2rem; object-fit: contain;">
+                            <img src="{{ asset('logo.png') }}" alt="Logo" width="160" height="36" loading="lazy" decoding="async" style="max-height: 2.2rem; width: auto; object-fit: contain;">
                         @else
                             <i class="fa-solid fa-rocket logo-icon" style="filter: none;"></i>
                             <span style="color: white;">AI CỦA TÔI</span>
@@ -2838,7 +2838,7 @@
                 } else {
                     backToTopBtn.classList.remove('show');
                 }
-            });
+            }, { passive: true });
             backToTopBtn.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
@@ -2923,8 +2923,10 @@
             };
 
             // Particle settings
-            const particleCount = 60; // increased count for higher density
-            const connectionDistance = 125; // wider range for connections
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
+            const particleCount = isSmallScreen ? 20 : 36;
+            const connectionDistance = isSmallScreen ? 95 : 115;
             const particleColor = 'rgba(2, 132, 199, 0.45)'; // more opaque sky-blue
             const lineColor = 'rgba(14, 165, 233, 0.25)'; // more opaque line color
 
@@ -2968,7 +2970,7 @@
                 height = container.offsetHeight;
                 
                 // Set high-DPI scaling
-                const dpr = window.devicePixelRatio || 1;
+                const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
                 canvas.width = width * dpr;
                 canvas.height = height * dpr;
                 ctx.scale(dpr, dpr);
@@ -2994,9 +2996,10 @@
                         const p2 = particles[j];
                         const dx = p1.x - p2.x;
                         const dy = p1.y - p2.y;
-                        const dist = Math.hypot(dx, dy);
+                        const distanceSquared = dx * dx + dy * dy;
 
-                        if (dist < connectionDistance) {
+                        if (distanceSquared < connectionDistance * connectionDistance) {
+                            const dist = Math.sqrt(distanceSquared);
                             const alpha = (1 - dist / connectionDistance) * 0.35; // increased line alpha
                             ctx.beginPath();
                             ctx.moveTo(p1.x, p1.y);
@@ -3011,9 +3014,10 @@
                     if (mouse.x !== null && mouse.y !== null) {
                         const dx = p1.x - mouse.x;
                         const dy = p1.y - mouse.y;
-                        const dist = Math.hypot(dx, dy);
+                        const distanceSquared = dx * dx + dy * dy;
 
-                        if (dist < mouse.radius) {
+                        if (distanceSquared < mouse.radius * mouse.radius) {
+                            const dist = Math.sqrt(distanceSquared);
                             const alpha = (1 - dist / mouse.radius) * 0.55; // increased mouse connection alpha
                             ctx.beginPath();
                             ctx.moveTo(p1.x, p1.y);
@@ -3027,8 +3031,14 @@
             }
 
             // Main loop
-            function animate() {
+            let lastFrameTime = 0;
+            const frameInterval = 1000 / 30;
+            function animate(timestamp = 0) {
                 if (!isVisible) return;
+
+                animationFrameId = requestAnimationFrame(animate);
+                if (timestamp - lastFrameTime < frameInterval) return;
+                lastFrameTime = timestamp;
 
                 ctx.clearRect(0, 0, width, height);
 
@@ -3039,7 +3049,6 @@
 
                 drawConnections();
 
-                animationFrameId = requestAnimationFrame(animate);
             }
 
             // Mouse move tracking on parent container (so mouse cursor coordinates map correctly inside canvas)
@@ -3094,7 +3103,12 @@
 
             // Initialize
             resizeCanvas();
-            observer.observe(container);
+            if (prefersReducedMotion) {
+                isVisible = true;
+                particles.forEach(p => p.draw());
+            } else {
+                observer.observe(container);
+            }
         })();
 </script>
     

@@ -147,14 +147,28 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
             ->selectRaw('MAX(created_at) as last_message_at')
             ->groupBy('user_id', 'session_id')
             ->orderBy('last_message_at', 'desc')
+            ->limit(100)
+            ->get();
+
+        $users = \App\Models\User::whereIn('id', $conversations->pluck('user_id')->filter()->unique())
+            ->get(['id', 'name', 'email', 'avatar'])
+            ->keyBy('id');
+        $latestMessageIds = \App\Models\ChatMessage::selectRaw('MAX(id)')
+            ->groupBy('user_id', 'session_id');
+        $latestMessages = \App\Models\ChatMessage::whereIn('id', $latestMessageIds)
             ->get()
-            ->map(function ($convo) {
+            ->keyBy(fn ($message) => $message->user_id ? 'u:' . $message->user_id : 's:' . $message->session_id);
+        $conversationStates = \App\Models\ChatConversation::get()
+            ->keyBy(fn ($conversation) => $conversation->user_id ? 'u:' . $conversation->user_id : 's:' . $conversation->session_id);
+
+        $conversations = $conversations->map(function ($convo) use ($users, $latestMessages, $conversationStates) {
                 $name = 'Khách viếng thăm';
                 $email = 'Chưa đăng nhập';
                 $avatar = null;
+                $key = $convo->user_id ? 'u:' . $convo->user_id : 's:' . $convo->session_id;
                 
                 if ($convo->user_id) {
-                    $user = \App\Models\User::find($convo->user_id);
+                    $user = $users->get($convo->user_id);
                     if ($user) {
                         $name = $user->name;
                         $email = $user->email;
@@ -164,24 +178,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
                     $name = 'Khách hàng #' . substr($convo->session_id, 0, 6);
                 }
                 
-                $latestMsg = \App\Models\ChatMessage::where(function($q) use ($convo) {
-                        if ($convo->user_id) {
-                            $q->where('user_id', $convo->user_id);
-                        } else {
-                            $q->where('session_id', $convo->session_id)->whereNull('user_id');
-                        }
-                    })
-                    ->orderBy('created_at', 'desc')
-                    ->first();
-                
-                // Fetch AI state for this conversation
-                $convoRecord = \App\Models\ChatConversation::where(function($q) use ($convo) {
-                        if ($convo->user_id) {
-                            $q->where('user_id', $convo->user_id);
-                        } else {
-                            $q->where('session_id', $convo->session_id)->whereNull('user_id');
-                        }
-                    })->first();
+                $latestMsg = $latestMessages->get($key);
+                $convoRecord = $conversationStates->get($key);
                 $isAiEnabled = $convoRecord ? (bool)$convoRecord->is_ai_enabled : true;
                 
                 return [
@@ -207,14 +205,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         
         if ($userId && $userId !== 'null') {
             $messages = \App\Models\ChatMessage::where('user_id', $userId)
-                ->orderBy('created_at', 'asc')
-                ->get();
+                ->latest('id')->limit(100)->get()->reverse()->values();
             \App\Models\ChatMessage::where('user_id', $userId)->where('sender', 'user')->update(['is_read' => true]);
         } else {
             $messages = \App\Models\ChatMessage::where('session_id', $sessionId)
                 ->whereNull('user_id')
-                ->orderBy('created_at', 'asc')
-                ->get();
+                ->latest('id')->limit(100)->get()->reverse()->values();
             \App\Models\ChatMessage::where('session_id', $sessionId)->whereNull('user_id')->where('sender', 'user')->update(['is_read' => true]);
         }
         
@@ -491,16 +487,22 @@ Route::get('/api/chat/messages', function (\Illuminate\Http\Request $request) {
     
     if ($userId) {
         $messages = \App\Models\ChatMessage::where('user_id', $userId)
-            ->orderBy('created_at', 'asc')
-            ->get();
+            ->latest('id')
+            ->limit(50)
+            ->get()
+            ->reverse()
+            ->values();
         if ($markRead) {
             \App\Models\ChatMessage::where('user_id', $userId)->where('sender', 'admin')->update(['is_read' => true]);
         }
     } elseif ($sessionId) {
         $messages = \App\Models\ChatMessage::where('session_id', $sessionId)
             ->whereNull('user_id')
-            ->orderBy('created_at', 'asc')
-            ->get();
+            ->latest('id')
+            ->limit(50)
+            ->get()
+            ->reverse()
+            ->values();
         if ($markRead) {
             \App\Models\ChatMessage::where('session_id', $sessionId)->whereNull('user_id')->where('sender', 'admin')->update(['is_read' => true]);
         }
@@ -670,4 +672,3 @@ Route::post('/api/chat/upload', function (\Illuminate\Http\Request $request) {
     
     return response()->json(['success' => false, 'error' => 'No file uploaded'], 400);
 });
-

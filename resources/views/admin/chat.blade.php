@@ -580,12 +580,25 @@
             let messagesPoll = null;
             let currentMessagesCount = 0;
             let conversationsData = [];
+            let conversationsSignature = '';
+            let conversationsRequestInFlight = false;
+            let messagesRequestInFlight = false;
 
             // Fetch conversations on load
             loadConversations();
             
-            // Poll conversations list every 5 seconds to detect new active chats or unread badges
-            setInterval(loadConversations, 5000);
+            // Poll at a moderate rate; background tabs do no work.
+            const conversationsPoll = setInterval(loadConversations, 10000);
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    loadConversations();
+                    loadConversationMessages();
+                }
+            });
+            window.addEventListener('pagehide', () => {
+                clearInterval(conversationsPoll);
+                if (messagesPoll) clearInterval(messagesPoll);
+            }, { once: true });
 
             // Filter search conversations
             searchConvoInput.addEventListener('input', function() {
@@ -640,9 +653,12 @@
             }
 
             function loadConversations() {
+                if (document.hidden || conversationsRequestInFlight) return;
+                conversationsRequestInFlight = true;
                 fetch('/admin/api/chat/conversations')
                     .then(res => res.json())
                     .then(data => {
+                        const nextSignature = JSON.stringify(data.map(convo => [convo.user_id, convo.session_id, convo.last_message_at, convo.is_unread, convo.is_ai_enabled]));
                         conversationsData = data;
                         
                         // Sync current selected conversation AI status if changed externally
@@ -657,9 +673,13 @@
                             }
                         }
                         
-                        renderConversations(searchConvoInput.value.toLowerCase().trim());
+                        if (nextSignature !== conversationsSignature) {
+                            conversationsSignature = nextSignature;
+                            renderConversations(searchConvoInput.value.toLowerCase().trim());
+                        }
                     })
-                    .catch(err => console.error(err));
+                    .catch(err => console.error(err))
+                    .finally(() => { conversationsRequestInFlight = false; });
             }
 
             function renderConversations(searchQuery = '') {
@@ -738,11 +758,12 @@
                 // Clear any existing polling interval
                 if (messagesPoll) clearInterval(messagesPoll);
                 // Start polling messages for active conversation
-                messagesPoll = setInterval(loadConversationMessages, 3000);
+                messagesPoll = setInterval(loadConversationMessages, 5000);
             }
 
             function loadConversationMessages() {
-                if (!selectedConvo) return;
+                if (!selectedConvo || document.hidden || messagesRequestInFlight) return;
+                messagesRequestInFlight = true;
                 
                 const userIdParam = selectedConvo.user_id ? `user_id=${selectedConvo.user_id}` : `user_id=null`;
                 const sessionParam = selectedConvo.session_id ? `session_id=${selectedConvo.session_id}` : '';
@@ -760,7 +781,8 @@
                             activeMessagesContainer.scrollTop = activeMessagesContainer.scrollHeight;
                         }
                     })
-                    .catch(err => console.error(err));
+                    .catch(err => console.error(err))
+                    .finally(() => { messagesRequestInFlight = false; });
             }
 
             function appendMessageUI(sender, text, timeStr) {
@@ -771,7 +793,7 @@
                 
                 let contentHtml = `<div>${escapeHtml(text)}</div>`;
                 if (text.startsWith('uploads/chats/')) {
-                    contentHtml = `<img src="/${text}" style="max-width: 250px; max-height: 250px; border-radius: var(--radius-sm); display: block; cursor: pointer; margin-bottom: 0.25rem;" onclick="window.open('/${text}', '_blank')">`;
+                    contentHtml = `<img src="/${text}" loading="lazy" decoding="async" style="max-width: 250px; max-height: 250px; border-radius: var(--radius-sm); display: block; cursor: pointer; margin-bottom: 0.25rem;" onclick="window.open('/${text}', '_blank')">`;
                 }
                 
                 wrapper.innerHTML = `

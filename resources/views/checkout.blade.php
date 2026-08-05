@@ -483,7 +483,7 @@
             <div class="navbar">
                 <a href="/" class="logo">
                     @if(file_exists(public_path('logo.png')))
-                        <img src="{{ asset('logo.png') }}?v={{ time() }}" alt="Logo" style="max-height: 2.2rem; object-fit: contain;">
+                        <img src="{{ asset('logo.png') }}" alt="Logo" width="160" height="36" style="max-height: 2.2rem; width: auto; object-fit: contain;">
                     @else
                         <i class="fa-solid fa-rocket logo-icon"></i>
                         <span>AI CỦA TÔI</span>

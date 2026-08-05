@@ -1802,7 +1802,7 @@ if ($category === 'all' && empty($search)) {
             <div class="navbar">
                 <a href="/" class="logo">
                     @if(file_exists(public_path('logo.png')))
-                        <img src="{{ asset('logo.png') }}?v={{ time() }}" alt="Logo" style="max-height: 2.2rem; object-fit: contain;">
+                        <img src="{{ asset('logo.png') }}" alt="Logo" width="160" height="36" style="max-height: 2.2rem; width: auto; object-fit: contain;">
                     @else
                         <i class="fa-solid fa-rocket logo-icon"></i>
                         <span>AI CỦA TÔI</span>
@@ -1952,7 +1952,7 @@ if ($category === 'all' && empty($search)) {
                             <a href="/product/{{ $prod->slug }}" class="stretched-link" style="display: block; width: 100%; text-decoration: none; color: inherit;">
                                 <div class="product-media" style="display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 1.5rem; height: 160px;">
                                     @if($prod->image_path)
-                                        <img src="{{ asset($prod->image_path) }}" alt="{{ $prod->name }}" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px;">
+                                        <img src="{{ asset($prod->image_path) }}" alt="{{ $prod->name }}" loading="lazy" decoding="async" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px;">
                                     @else
                                         <i class="fa-solid {{ strtok($prod->icon, ' ') }}"></i>
                                     @endif
@@ -2069,7 +2069,7 @@ if ($category === 'all' && empty($search)) {
                 <div class="footer-col" style="grid-column: span 1.5;">
                     <a href="/" class="logo" style="margin-bottom: 1rem; display: inline-flex; align-items: center; background: none; -webkit-text-fill-color: white; text-decoration: none;">
                         @if(file_exists(public_path('logo.png')))
-                            <img src="{{ asset('logo.png') }}?v={{ time() }}" alt="Logo" style="max-height: 2.2rem; object-fit: contain;">
+                            <img src="{{ asset('logo.png') }}" alt="Logo" width="160" height="36" loading="lazy" decoding="async" style="max-height: 2.2rem; width: auto; object-fit: contain;">
                         @else
                             <i class="fa-solid fa-rocket logo-icon" style="filter: none;"></i>
                             <span style="color: white;">AI CỦA TÔI</span>
@@ -2558,7 +2558,7 @@ if ($category === 'all' && empty($search)) {
                 } else {
                     backToTopBtn.classList.remove('show');
                 }
-            });
+            }, { passive: true });
             backToTopBtn.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });

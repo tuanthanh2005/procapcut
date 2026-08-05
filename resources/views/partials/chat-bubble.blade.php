@@ -123,6 +123,13 @@
             bottom: 9.75rem !important; /* Stacked above the AI chat bubble */
         }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+        .typing-dot, #chat-bubble-btn, .zalo-bubble-float {
+            animation: none !important;
+            transition: none !important;
+        }
+    }
 </style>
 
 <script>
@@ -144,6 +151,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let isChatOpen = false;
     let lastMessageCount = 0;
     let isAiEnabled = true;
+    let lastMessagesSignature = '';
+    let messagesRequestInFlight = false;
     
     // Web Audio Synthesizer for 100% reliable local sound notifications (No CORS / network lag)
     function playNotificationSound() {
@@ -167,6 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             oscillator.start();
             oscillator.stop(audioCtx.currentTime + 0.35);
+            oscillator.addEventListener('ended', () => audioCtx.close(), { once: true });
         } catch (e) {
             console.log('Audio play blocked/failed:', e);
         }
@@ -329,11 +339,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function loadMessages() {
+        if (document.hidden || messagesRequestInFlight) return;
+        messagesRequestInFlight = true;
         fetch(`/api/chat/messages?session_id=${sessionId}&mark_read=${isChatOpen}`)
             .then(res => res.json())
             .then(data => {
                 const messages = data.messages || [];
                 isAiEnabled = data.is_ai_enabled !== undefined ? data.is_ai_enabled : true;
+                const signature = `${isAiEnabled}:${messages.map(msg => `${msg.id}:${msg.is_read}`).join(',')}`;
                 
                 // Update AI status UI state
                 if (isAiEnabled) {
@@ -350,18 +363,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     callAdminBtn.style.display = 'none';
                 }
 
-                // Clear old messages (but keep the default welcome message if empty)
-                const defaultMsg = chatMessagesArea.firstElementChild;
-                chatMessagesArea.innerHTML = '';
-                if (defaultMsg) chatMessagesArea.appendChild(defaultMsg);
-                
                 let unreadCount = 0;
                 messages.forEach(msg => {
-                    appendMessage(msg.sender, msg.message);
-                    if (msg.sender === 'admin' && !msg.is_read) {
-                        unreadCount++;
-                    }
+                    if (msg.sender === 'admin' && !msg.is_read) unreadCount++;
                 });
+
+                // Avoid destroying and rebuilding the chat DOM on every poll.
+                if (signature !== lastMessagesSignature) {
+                    const defaultMsg = chatMessagesArea.firstElementChild;
+                    chatMessagesArea.innerHTML = '';
+                    if (defaultMsg) chatMessagesArea.appendChild(defaultMsg);
+                    messages.forEach(msg => appendMessage(msg.sender, msg.message));
+                    lastMessagesSignature = signature;
+                }
                 
                 // Show unread indicator if closed
                 if (!isChatOpen && unreadCount > 0) {
@@ -386,7 +400,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 lastMessageCount = messages.length;
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error(err))
+            .finally(() => {
+                messagesRequestInFlight = false;
+            });
     }
 
     function appendMessage(sender, text) {
@@ -415,7 +432,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (text.startsWith('uploads/chats/')) {
             bubble.style.padding = '0.25rem';
             bubble.style.background = '#f1f5f9';
-            bubble.innerHTML = `<img src="/${text}" style="max-width: 100%; max-height: 180px; border-radius: var(--radius-md); display: block; cursor: pointer;" onclick="window.open('/${text}', '_blank')">`;
+            bubble.innerHTML = `<img src="/${text}" loading="lazy" decoding="async" style="max-width: 100%; max-height: 180px; border-radius: var(--radius-md); display: block; cursor: pointer;" onclick="window.open('/${text}', '_blank')">`;
         } else {
             bubble.innerHTML = escapeHtml(text);
         }
@@ -589,8 +606,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check initial unread messages count on load
     loadMessages();
     
-    // Poll constantly in the background every 5 seconds
-    setInterval(loadMessages, 5000);
+    // Poll at a restrained rate and pause automatically while the tab is hidden.
+    const chatPoll = setInterval(loadMessages, 10000);
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) loadMessages();
+    });
+    window.addEventListener('pagehide', () => clearInterval(chatPoll), { once: true });
 
     // Global Cart Sync to Server function
     window.syncCartToServer = function() {
