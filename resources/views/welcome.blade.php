@@ -1980,7 +1980,7 @@
         <div class="section-header" id="products-list">
             <h2 class="section-title">
                 <span class="section-title-line"></span>
-                Tài Nguyên AI & Công Cụ Nổi Bật
+                Sản Phẩm AI
             </h2>
         </div>
 
@@ -2073,7 +2073,7 @@
         <!-- View All Products Button -->
         <div class="view-all-products-wrapper">
             <a href="/products" class="btn btn-outline" style="font-size: 0.92rem; padding: 0.75rem 2.25rem; font-weight: 700; border-radius: var(--radius-full); box-shadow: var(--shadow-sm); display: inline-flex; align-items: center; gap: 0.6rem;">
-                <span>Xem Tất Cả Sản Phẩm & Kho Tài Nguyên AI</span>
+                <span>Xem Tất Cả Sản Phẩm</span>
                 <i class="fa-solid fa-arrow-right"></i>
             </a>
         </div>

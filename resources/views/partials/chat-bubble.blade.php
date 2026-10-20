@@ -1,3 +1,13 @@
+<!-- Floating Phone Hotline Bubble -->
+<a href="tel:0569012134" class="phone-bubble-float" title="Gọi Hotline: 0569012134">
+    <i class="fa-solid fa-phone"></i>
+</a>
+
+<!-- Floating Telegram Chat Bubble -->
+<a href="https://t.me/specademy" target="_blank" class="telegram-bubble-float" title="Chat Telegram">
+    <i class="fa-brands fa-telegram"></i>
+</a>
+
 <!-- Floating Zalo Chat Bubble -->
 <a href="https://zalo.me/0569012134" target="_blank" class="zalo-bubble-float" title="Chat Zalo ngay">
     <svg viewBox="0 0 200 200" style="width: 100%; height: 100%; display: block;">
@@ -35,10 +45,9 @@
                 </div>
             </div>
             
-            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <a href="https://zalo.me/0569012134" target="_blank" title="Chat Zalo" style="color: white; font-size: 1.05rem; opacity: 0.9; transition: opacity 0.2s;"><i class="fa-solid fa-phone"></i></a>
-                <a href="https://t.me/specademy" target="_blank" title="Chat Telegram" style="color: white; font-size: 1.05rem; opacity: 0.9; transition: opacity 0.2s; margin-left: 0.25rem;"><i class="fa-brands fa-telegram"></i></a>
-            </div>
+            <button id="chat-header-close-btn" type="button" style="background: rgba(255, 255, 255, 0.2); border: none; color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 1.05rem;" title="Đóng chat">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
 
         <!-- Chat Area -->
@@ -99,9 +108,52 @@
         transform: scale(0.95);
     }
 
+    #chat-header-close-btn:hover {
+        background: rgba(255, 255, 255, 0.35) !important;
+        transform: scale(1.08);
+    }
+
+    .phone-bubble-float {
+        position: fixed;
+        bottom: 14rem;
+        right: 1.5rem;
+        width: 3.5rem;
+        height: 3.5rem;
+        z-index: 997;
+        transition: all 0.3s ease;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: #ffffff;
+        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.35rem;
+        text-decoration: none;
+    }
+
+    .telegram-bubble-float {
+        position: fixed;
+        bottom: 9.85rem;
+        right: 1.5rem;
+        width: 3.5rem;
+        height: 3.5rem;
+        z-index: 998;
+        transition: all 0.3s ease;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #2AABEE, #229ED9);
+        color: #ffffff;
+        box-shadow: 0 10px 25px rgba(34, 158, 217, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.7rem;
+        text-decoration: none;
+    }
+
     .zalo-bubble-float {
         position: fixed;
-        bottom: 5.75rem;
+        bottom: 5.7rem;
         right: 1.5rem;
         width: 3.5rem;
         height: 3.5rem;
@@ -109,23 +161,56 @@
         transition: all 0.3s ease;
         border-radius: 50%;
         box-shadow: 0 10px 25px rgba(0, 104, 255, 0.4);
+        text-decoration: none;
     }
     
+    .phone-bubble-float:hover,
+    .telegram-bubble-float:hover,
     .zalo-bubble-float:hover {
         transform: scale(1.08);
+        color: #ffffff;
     }
 
     @media (max-width: 768px) {
         #floating-chat-widget {
-            bottom: 5.5rem !important; /* Move higher to clear sticky bottom actions bar */
+            bottom: 1.25rem !important;
+            right: 1rem !important;
+        }
+        #chat-bubble-btn {
+            width: 3.1rem !important;
+            height: 3.1rem !important;
+            font-size: 1.3rem !important;
         }
         .zalo-bubble-float {
-            bottom: 9.75rem !important; /* Stacked above the AI chat bubble */
+            bottom: 4.85rem !important;
+            right: 1rem !important;
+            width: 3.1rem !important;
+            height: 3.1rem !important;
+        }
+        .telegram-bubble-float {
+            bottom: 8.45rem !important;
+            right: 1rem !important;
+            width: 3.1rem !important;
+            height: 3.1rem !important;
+            font-size: 1.45rem !important;
+        }
+        .phone-bubble-float {
+            bottom: 12.05rem !important;
+            right: 1rem !important;
+            width: 3.1rem !important;
+            height: 3.1rem !important;
+            font-size: 1.15rem !important;
+        }
+        #chat-box-window {
+            width: calc(100vw - 2rem) !important;
+            right: -0.25rem !important;
+            bottom: 3.75rem !important;
+            max-height: 80vh !important;
         }
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .typing-dot, #chat-bubble-btn, .zalo-bubble-float {
+        .typing-dot, #chat-bubble-btn, .zalo-bubble-float, .telegram-bubble-float, .phone-bubble-float {
             animation: none !important;
             transition: none !important;
         }
@@ -136,6 +221,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const chatBubbleBtn = document.getElementById('chat-bubble-btn');
     const chatBoxWindow = document.getElementById('chat-box-window');
+    const chatHeaderCloseBtn = document.getElementById('chat-header-close-btn');
     const chatIconMsg = document.getElementById('chat-icon-msg');
     const chatIconClose = document.getElementById('chat-icon-close');
     const chatInputForm = document.getElementById('chat-input-form');
@@ -221,6 +307,16 @@ document.addEventListener('DOMContentLoaded', function() {
             loadMessages();
         }
     });
+
+    // Close button in chat window header
+    if (chatHeaderCloseBtn) {
+        chatHeaderCloseBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (isChatOpen) {
+                chatBubbleBtn.click();
+            }
+        });
+    }
 
     // Handle Call Admin Alert
     if (callAdminBtn) {
