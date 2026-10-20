@@ -12,7 +12,7 @@
     <!-- JSON-LD Structured Data Schema for SEO -->
     <script type="application/ld+json">
     {
-        "@@context": "https://schema.org",
+        "@context": "https://schema.org",
         "@graph": [
             {
                 "@type": "WebSite",
@@ -73,47 +73,47 @@
     
     <style>
         :root {
-            /* Dark Cyber AI Design System */
-            --bg-body: #05070f;
-            --bg-surface: #0a0e1c;
-            --bg-nav: rgba(10, 14, 28, 0.85);
-            --bg-card: #0d1326;
-            --bg-card-hover: #131b36;
-            --bg-glass: rgba(255, 255, 255, 0.03);
-            --bg-glass-hover: rgba(255, 255, 255, 0.06);
+            /* Clean Light Tech & High-Trust Design System */
+            --bg-body: #f8fafc; /* Crisp clean slate */
+            --bg-surface: #ffffff;
+            --bg-nav: rgba(255, 255, 255, 0.94);
+            --bg-card: #ffffff;
+            --bg-card-hover: #ffffff;
+            --bg-glass: rgba(15, 23, 42, 0.03);
+            --bg-glass-hover: rgba(15, 23, 42, 0.06);
             
-            --primary: #06b6d4; /* Electric Cyan */
-            --primary-rgb: 6, 182, 212;
-            --primary-glow: rgba(6, 182, 212, 0.35);
+            --primary: #0284c7; /* Trustworthy Deep Sky Blue */
+            --primary-hover: #0369a1;
+            --primary-rgb: 2, 132, 199;
+            --primary-glow: rgba(2, 132, 199, 0.18);
             
-            --secondary: #8b5cf6; /* Cyber Violet */
-            --secondary-rgb: 139, 92, 246;
-            --secondary-glow: rgba(139, 92, 246, 0.35);
+            --secondary: #4f46e5; /* Tech Indigo */
+            --secondary-rgb: 79, 70, 229;
+            --secondary-glow: rgba(79, 70, 229, 0.18);
             
-            --accent: #ec4899; /* Neon Fuchsia */
-            --accent-glow: rgba(236, 72, 153, 0.35);
+            --accent: #f43f5e; /* Hot Tag Coral */
+            --accent-glow: rgba(244, 63, 94, 0.2);
             
-            --success: #10b981; /* Emerald Neon */
-            --warning: #f59e0b; /* Amber */
-            --danger: #ef4444; /* Neon Crimson */
+            --success: #059669; /* Emerald Green */
+            --warning: #d97706; /* Amber */
+            --danger: #dc2626; /* Crimson */
             
-            --text-main: #f8fafc; /* Crisp Pure White */
-            --text-muted: #94a3b8; /* Muted Slate */
-            --text-dark: #64748b; /* Dim Slate */
+            --text-main: #0f172a; /* Slate 900 - Ultra Sharp & Clear */
+            --text-muted: #475569; /* Slate 600 */
+            --text-dark: #94a3b8; /* Slate 400 */
             
-            --border-color: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(6, 182, 212, 0.45);
-            --border-glow: 0 0 25px rgba(6, 182, 212, 0.25);
+            --border-color: #e2e8f0; /* Crisp soft slate border */
+            --border-hover: #0284c7;
             
             --radius-sm: 8px;
             --radius-md: 14px;
             --radius-lg: 20px;
             --radius-full: 9999px;
             
-            --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-            --shadow-md: 0 10px 30px -5px rgba(0, 0, 0, 0.6), 0 0 1px 1px rgba(255, 255, 255, 0.05);
-            --shadow-lg: 0 20px 45px -10px rgba(0, 0, 0, 0.8), 0 0 25px rgba(6, 182, 212, 0.2);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+            --shadow-lg: 0 20px 35px -10px rgba(15, 23, 42, 0.1), 0 0 1px rgba(0, 0, 0, 0.08);
         }
 
         * {
@@ -129,11 +129,11 @@
             line-height: 1.55;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.08) 0%, transparent 45%),
-                radial-gradient(circle at 85% 75%, rgba(139, 92, 246, 0.08) 0%, transparent 45%),
-                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+                radial-gradient(circle at 10% 10%, rgba(2, 132, 199, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 85%, rgba(79, 70, 229, 0.04) 0%, transparent 40%),
+                linear-gradient(#f1f5f9 1px, transparent 1px),
+                linear-gradient(90deg, #f1f5f9 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
             background-attachment: fixed;
         }
 
@@ -153,26 +153,25 @@
             padding: 0 1.5rem;
         }
 
-        /* Mono font utility */
         .font-mono {
             font-family: 'JetBrains Mono', monospace;
         }
 
         /* Top Sale Ticker */
         .top-ticker {
-            background: linear-gradient(90deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
-            border-bottom: 1px solid rgba(6, 182, 212, 0.25);
+            background: linear-gradient(90deg, #0284c7 0%, #0369a1 50%, #0284c7 100%);
             color: white;
             padding: 0.45rem 0;
             font-size: 0.8rem;
             font-weight: 600;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.3px;
             position: relative;
             z-index: 101;
             overflow: hidden;
             display: flex;
             align-items: center;
             height: 36px;
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15);
         }
 
         .marquee-wrapper {
@@ -198,22 +197,21 @@
             align-items: center;
             gap: 0.55rem;
             white-space: nowrap;
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.95);
             font-size: 0.78rem;
         }
 
         .marquee-content span strong {
-            color: var(--primary);
+            color: #fef08a; /* Bright clear yellow */
             font-family: 'JetBrains Mono', monospace;
-            background: rgba(6, 182, 212, 0.12);
+            background: rgba(0, 0, 0, 0.15);
             padding: 0.15rem 0.45rem;
             border-radius: 4px;
-            border: 1px solid rgba(6, 182, 212, 0.3);
         }
 
         .marquee-badge {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #030712;
+            background: #ffffff;
+            color: #0284c7;
             padding: 0.1rem 0.4rem;
             border-radius: 4px;
             font-size: 0.68rem;
@@ -266,16 +264,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 20px var(--primary-glow);
-            color: #030712;
+            box-shadow: 0 4px 12px var(--primary-glow);
+            color: #ffffff;
             font-size: 1.15rem;
             flex-shrink: 0;
         }
 
         .logo-text {
-            background: linear-gradient(135deg, #ffffff 30%, var(--primary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #0f172a;
             font-weight: 900;
             letter-spacing: -0.5px;
         }
@@ -284,9 +280,9 @@
             font-size: 0.6rem;
             padding: 0.1rem 0.35rem;
             border-radius: 4px;
-            background: rgba(139, 92, 246, 0.2);
-            color: var(--secondary);
-            border: 1px solid rgba(139, 92, 246, 0.4);
+            background: #e0f2fe;
+            color: var(--primary);
+            border: 1px solid #bae6fd;
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
             vertical-align: middle;
@@ -303,7 +299,7 @@
         .cat-pill {
             padding: 0.42rem 0.85rem;
             border-radius: var(--radius-full);
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: 600;
             color: var(--text-muted);
             transition: var(--transition);
@@ -315,16 +311,15 @@
         }
 
         .cat-pill:hover {
-            color: var(--text-main);
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.08);
+            color: var(--primary);
+            background: #f1f5f9;
         }
 
         .cat-pill.active {
             color: var(--primary);
-            background: rgba(6, 182, 212, 0.1);
-            border-color: rgba(6, 182, 212, 0.3);
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
+            background: #e0f2fe;
+            border-color: #bae6fd;
+            font-weight: 700;
         }
 
         /* Search input */
@@ -338,7 +333,7 @@
             width: 100%;
             height: 2.45rem;
             padding: 0 2.4rem 0 0.95rem;
-            background: rgba(13, 19, 38, 0.8);
+            background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-full);
             color: var(--text-main);
@@ -350,8 +345,7 @@
 
         .search-input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15);
-            background: rgba(13, 19, 38, 1);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
         }
 
         .search-input::placeholder {
@@ -388,7 +382,7 @@
             width: 2.45rem;
             height: 2.45rem;
             border-radius: var(--radius-full);
-            background: rgba(255, 255, 255, 0.04);
+            background: #ffffff;
             border: 1px solid var(--border-color);
             color: var(--text-main);
             display: flex;
@@ -398,20 +392,21 @@
             transition: var(--transition);
             position: relative;
             font-size: 0.95rem;
+            box-shadow: var(--shadow-sm);
         }
 
         .action-icon-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--border-hover);
+            border-color: var(--primary);
             color: var(--primary);
             transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
         }
 
         .badge {
             position: absolute;
             top: -4px;
             right: -4px;
-            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            background: linear-gradient(135deg, var(--accent), #e11d48);
             color: white;
             font-size: 0.65rem;
             font-weight: 800;
@@ -421,8 +416,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 10px var(--accent-glow);
             font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 2px 6px rgba(244, 63, 94, 0.3);
         }
 
         /* Hero Banner */
@@ -430,8 +425,8 @@
             margin-top: 1.5rem;
             margin-bottom: 2.5rem;
             border-radius: var(--radius-lg);
-            background: linear-gradient(135deg, rgba(13, 19, 38, 0.9) 0%, rgba(10, 14, 28, 0.95) 100%);
-            border: 1px solid rgba(6, 182, 212, 0.2);
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+            border: 1px solid #bae6fd;
             padding: 2.8rem 2.5rem;
             display: grid;
             grid-template-columns: 1.15fr 0.85fr;
@@ -439,7 +434,7 @@
             align-items: center;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7), inset 0 0 80px rgba(6, 182, 212, 0.04);
+            box-shadow: 0 15px 35px -10px rgba(2, 132, 199, 0.1), 0 0 1px rgba(0, 0, 0, 0.05);
         }
 
         .hero-banner-canvas {
@@ -449,7 +444,7 @@
             height: 100%;
             pointer-events: none;
             z-index: 1;
-            opacity: 0.7;
+            opacity: 0.6;
         }
 
         .hero-text {
@@ -463,13 +458,12 @@
             gap: 0.5rem;
             padding: 0.35rem 0.85rem;
             border-radius: var(--radius-full);
-            background: rgba(6, 182, 212, 0.1);
-            border: 1px solid rgba(6, 182, 212, 0.3);
-            color: var(--primary);
+            background: #e0f2fe;
+            border: 1px solid #bae6fd;
+            color: #0369a1;
             font-size: 0.75rem;
             font-weight: 700;
             margin-bottom: 1.25rem;
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
             font-family: 'JetBrains Mono', monospace;
         }
 
@@ -477,8 +471,8 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--primary);
-            box-shadow: 0 0 10px var(--primary);
+            background: #0284c7;
+            box-shadow: 0 0 8px rgba(2, 132, 199, 0.6);
             animation: pulse-glow 2s infinite;
         }
 
@@ -493,14 +487,13 @@
             line-height: 1.2;
             margin-bottom: 1rem;
             letter-spacing: -0.8px;
-            color: #ffffff;
+            color: #0f172a;
         }
 
         .hero-text h1 .highlight-ai {
-            background: linear-gradient(135deg, var(--primary) 0%, #38bdf8 40%, var(--secondary) 100%);
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 40%, #4f46e5 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(6, 182, 212, 0.4);
         }
 
         .hero-text p {
@@ -535,26 +528,27 @@
 
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #030712;
-            box-shadow: 0 0 25px var(--primary-glow);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.25);
             font-weight: 800;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 0 35px rgba(6, 182, 212, 0.5);
-            color: #000;
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.35);
+            color: #ffffff;
         }
 
         .btn-outline {
-            background: rgba(255, 255, 255, 0.04);
+            background: #ffffff;
             border: 1px solid var(--border-color);
             color: var(--text-main);
+            box-shadow: var(--shadow-sm);
         }
 
         .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--border-hover);
+            background: #f8fafc;
+            border-color: var(--primary);
             color: var(--primary);
             transform: translateY(-2px);
         }
@@ -569,7 +563,7 @@
         }
 
         .showcase-card {
-            background: rgba(13, 19, 38, 0.85);
+            background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
             padding: 1.1rem;
@@ -577,14 +571,12 @@
             position: relative;
             overflow: hidden;
             transition: var(--transition);
-            backdrop-filter: blur(8px);
         }
 
         .showcase-card:hover {
             transform: translateY(-4px);
             border-color: var(--primary);
-            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.7), 0 0 20px rgba(6, 182, 212, 0.2);
-            background: rgba(19, 27, 54, 0.95);
+            box-shadow: 0 15px 30px -5px rgba(2, 132, 199, 0.15);
         }
 
         .showcase-header {
@@ -595,11 +587,11 @@
         }
 
         .showcase-icon-wrapper {
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -646,12 +638,12 @@
             align-items: center;
             justify-content: space-between;
             padding-top: 0.55rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid #f1f5f9;
         }
 
         .showcase-price {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.92rem;
+            font-size: 0.95rem;
             font-weight: 800;
             color: var(--primary);
         }
@@ -668,10 +660,11 @@
         .ai-ecosystem-bar {
             margin-bottom: 3.5rem;
             padding: 1.5rem 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative;
-            overflow: hidden;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            background: #ffffff;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
         }
 
         .ai-bar-title {
@@ -687,7 +680,7 @@
 
         .ai-brands-track {
             display: flex;
-            gap: 2.5rem;
+            gap: 1.5rem;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
@@ -699,18 +692,18 @@
             gap: 0.6rem;
             padding: 0.5rem 1rem;
             border-radius: var(--radius-full);
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            color: var(--text-muted);
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            color: #334155;
             font-size: 0.82rem;
             font-weight: 600;
             transition: var(--transition);
         }
 
         .ai-brand-pill:hover {
-            background: rgba(6, 182, 212, 0.08);
-            border-color: rgba(6, 182, 212, 0.3);
-            color: var(--text-main);
+            background: #f0f9ff;
+            border-color: #bae6fd;
+            color: var(--primary);
             transform: translateY(-2px);
         }
 
@@ -729,7 +722,7 @@
         }
 
         .trust-card {
-            background: var(--bg-card);
+            background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
             padding: 1.4rem;
@@ -742,42 +735,24 @@
             overflow: hidden;
         }
 
-        .trust-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            opacity: 0;
-            transition: var(--transition);
-        }
-
         .trust-card:hover {
             transform: translateY(-3px);
-            border-color: rgba(6, 182, 212, 0.3);
-            background: var(--bg-card-hover);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(6, 182, 212, 0.1);
-        }
-
-        .trust-card:hover::before {
-            opacity: 1;
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.12);
         }
 
         .trust-icon-box {
             width: 44px;
             height: 44px;
             border-radius: 12px;
-            background: rgba(6, 182, 212, 0.1);
-            border: 1px solid rgba(6, 182, 212, 0.25);
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--primary);
             font-size: 1.15rem;
             flex-shrink: 0;
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
         }
 
         .trust-info h3 {
@@ -800,14 +775,14 @@
             justify-content: space-between;
             margin-bottom: 1.75rem;
             padding-bottom: 0.75rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .section-title {
             font-size: 1.5rem;
             font-weight: 800;
             letter-spacing: -0.5px;
-            color: #ffffff;
+            color: #0f172a;
             display: flex;
             align-items: center;
             gap: 0.75rem;
@@ -819,7 +794,6 @@
             height: 1.3rem;
             border-radius: 2px;
             background: linear-gradient(180deg, var(--primary), var(--secondary));
-            box-shadow: 0 0 10px var(--primary-glow);
         }
 
         /* Products Grid */
@@ -831,7 +805,7 @@
         }
 
         .product-card {
-            background: var(--bg-card);
+            background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
             overflow: hidden;
@@ -845,15 +819,14 @@
         .product-card:hover {
             transform: translateY(-5px);
             border-color: var(--primary);
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(6, 182, 212, 0.2);
-            background: var(--bg-card-hover);
+            box-shadow: 0 15px 35px -5px rgba(2, 132, 199, 0.15);
         }
 
         .product-sale-tag {
             position: absolute;
             top: 0.75rem;
             left: 0.75rem;
-            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            background: linear-gradient(135deg, var(--accent), #e11d48);
             color: white;
             font-size: 0.65rem;
             font-weight: 800;
@@ -862,21 +835,21 @@
             z-index: 5;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            box-shadow: 0 0 15px var(--accent-glow);
             font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 2px 6px rgba(244, 63, 94, 0.25);
         }
 
         .product-media {
             width: 100%;
             height: 170px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(0, 0, 0, 0.2) 100%);
+            background: #f8fafc;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 1.25rem;
             position: relative;
             overflow: hidden;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid #f1f5f9;
         }
 
         .product-media img {
@@ -884,7 +857,6 @@
             max-height: 100%;
             object-fit: contain;
             transition: transform 0.4s ease;
-            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.4));
         }
 
         .product-card:hover .product-media img {
@@ -929,7 +901,7 @@
         }
 
         .stars {
-            color: #facc15;
+            color: #f59e0b;
             font-size: 0.75rem;
             display: flex;
             gap: 1px;
@@ -964,7 +936,7 @@
         .product-footer {
             margin-top: auto;
             padding-top: 0.85rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid #f1f5f9;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -985,17 +957,16 @@
         .price-active {
             font-size: 1.15rem;
             font-weight: 800;
-            color: #ffffff;
+            color: #0f172a;
             font-family: 'JetBrains Mono', monospace;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
 
         .btn-add-cart {
             width: 2.45rem;
             height: 2.45rem;
             border-radius: var(--radius-sm);
-            background: rgba(6, 182, 212, 0.1);
-            border: 1px solid rgba(6, 182, 212, 0.3);
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
             color: var(--primary);
             display: flex;
             align-items: center;
@@ -1007,9 +978,10 @@
 
         .btn-add-cart:hover {
             background: var(--primary);
-            color: #030712;
-            box-shadow: 0 0 20px var(--primary-glow);
+            color: #ffffff;
+            border-color: var(--primary);
             transform: scale(1.05);
+            box-shadow: 0 4px 12px var(--primary-glow);
         }
 
         /* VS Performance Section */
@@ -1025,7 +997,7 @@
         }
 
         .vs-card {
-            background: var(--bg-card);
+            background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
             padding: 2rem;
@@ -1036,14 +1008,14 @@
         }
 
         .vs-card.negative {
-            border-top: 3px solid var(--danger);
-            background: radial-gradient(circle at top left, rgba(239, 68, 68, 0.05), transparent 60%), var(--bg-card);
+            border-top: 4px solid var(--danger);
+            background: radial-gradient(circle at top left, rgba(220, 38, 38, 0.02), transparent 60%), #ffffff;
         }
 
         .vs-card.positive {
-            border-top: 3px solid var(--primary);
-            background: radial-gradient(circle at top left, rgba(6, 182, 212, 0.08), transparent 60%), var(--bg-card);
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 25px rgba(6, 182, 212, 0.1);
+            border-top: 4px solid var(--primary);
+            background: radial-gradient(circle at top left, rgba(2, 132, 199, 0.04), transparent 60%), #ffffff;
+            box-shadow: 0 10px 30px -5px rgba(2, 132, 199, 0.1);
         }
 
         .vs-header {
@@ -1055,7 +1027,7 @@
             gap: 0.65rem;
         }
 
-        .vs-card.negative .vs-header { color: #f87171; }
+        .vs-card.negative .vs-header { color: #dc2626; }
         .vs-card.positive .vs-header { color: var(--primary); }
 
         .vs-list {
@@ -1084,7 +1056,7 @@
         }
 
         .vs-card.positive .vs-list strong {
-            color: #ffffff;
+            color: #0f172a;
         }
 
         /* Comparison Table */
@@ -1096,7 +1068,8 @@
             overflow-x: auto;
             border-radius: var(--radius-md);
             border: 1px solid var(--border-color);
-            background: var(--bg-card);
+            background: #ffffff;
+            box-shadow: var(--shadow-sm);
         }
 
         .comparison-table {
@@ -1108,12 +1081,12 @@
 
         .comparison-table th, .comparison-table td {
             padding: 1.1rem 1.4rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid #f1f5f9;
         }
 
         .comparison-table th {
-            background: rgba(255, 255, 255, 0.02);
-            color: var(--text-muted);
+            background: #f8fafc;
+            color: #475569;
             font-size: 0.78rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -1121,7 +1094,7 @@
         }
 
         .comp-ours {
-            background: rgba(6, 182, 212, 0.04) !important;
+            background: #f0f9ff !important;
             color: var(--text-main);
             font-weight: 600;
         }
@@ -1144,13 +1117,12 @@
 
         /* Warranty Section */
         .warranty-section {
-            background: linear-gradient(135deg, rgba(13, 19, 38, 0.8) 0%, rgba(10, 14, 28, 0.9) 100%);
-            border: 1px solid var(--border-color);
+            background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+            border: 1px solid #bae6fd;
             border-radius: var(--radius-lg);
             padding: 3rem 2rem;
             margin-bottom: 4.5rem;
-            position: relative;
-            overflow: hidden;
+            box-shadow: var(--shadow-sm);
         }
 
         .warranty-grid {
@@ -1160,19 +1132,19 @@
         }
 
         .warranty-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
             border-radius: var(--radius-md);
             padding: 1.75rem;
             text-align: center;
             transition: var(--transition);
+            box-shadow: var(--shadow-sm);
         }
 
         .warranty-card:hover {
             transform: translateY(-3px);
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(6, 182, 212, 0.3);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.15);
         }
 
         .warranty-card .w-icon {
@@ -1180,13 +1152,12 @@
             color: var(--primary);
             margin-bottom: 1rem;
             display: inline-block;
-            filter: drop-shadow(0 0 15px var(--primary-glow));
         }
 
         .warranty-card h3 {
             font-size: 1.05rem;
             font-weight: 800;
-            color: #ffffff;
+            color: #0f172a;
             margin-bottom: 0.6rem;
         }
 
@@ -1210,16 +1181,17 @@
         }
 
         .faq-item {
-            background: var(--bg-card);
+            background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
             overflow: hidden;
             transition: var(--transition);
+            box-shadow: var(--shadow-sm);
         }
 
         .faq-item.active {
-            border-color: rgba(6, 182, 212, 0.4);
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.1);
         }
 
         .faq-question {
@@ -1267,7 +1239,7 @@
         .cart-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(15, 23, 42, 0.5);
             backdrop-filter: blur(4px);
             z-index: 1000;
             opacity: 0;
@@ -1286,13 +1258,13 @@
             right: -420px;
             width: 400px;
             height: 100%;
-            background: var(--bg-surface);
+            background: #ffffff;
             border-left: 1px solid var(--border-color);
             z-index: 1001;
             display: flex;
             flex-direction: column;
             transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: -15px 0 35px rgba(0, 0, 0, 0.8);
+            box-shadow: -15px 0 35px rgba(0, 0, 0, 0.1);
         }
 
         .cart-sidebar.open {
@@ -1310,7 +1282,7 @@
         .cart-header h3 {
             font-size: 1.05rem;
             font-weight: 800;
-            color: #ffffff;
+            color: #0f172a;
             display: flex;
             align-items: center;
             gap: 0.6rem;
@@ -1347,7 +1319,7 @@
         }
 
         .cart-item {
-            background: var(--bg-card);
+            background: #f8fafc;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
             padding: 0.85rem;
@@ -1360,7 +1332,8 @@
             width: 44px;
             height: 44px;
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.03);
+            background: #ffffff;
+            border: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1407,7 +1380,7 @@
             width: 22px;
             height: 22px;
             border-radius: 4px;
-            background: rgba(255, 255, 255, 0.06);
+            background: #ffffff;
             border: 1px solid var(--border-color);
             color: var(--text-main);
             display: flex;
@@ -1420,7 +1393,8 @@
 
         .qty-btn:hover {
             background: var(--primary);
-            color: #030712;
+            color: #ffffff;
+            border-color: var(--primary);
         }
 
         .qty-val {
@@ -1447,7 +1421,7 @@
         .cart-footer {
             padding: 1.25rem 1.5rem;
             border-top: 1px solid var(--border-color);
-            background: rgba(13, 19, 38, 0.6);
+            background: #f8fafc;
         }
 
         .cart-total-row {
@@ -1465,7 +1439,7 @@
         .total-val {
             font-size: 1.25rem;
             font-weight: 800;
-            color: #ffffff;
+            color: #0f172a;
             font-family: 'JetBrains Mono', monospace;
         }
 
@@ -1474,7 +1448,7 @@
             padding: 0.85rem;
             border-radius: var(--radius-full);
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #030712;
+            color: #ffffff;
             font-weight: 800;
             font-size: 0.92rem;
             border: none;
@@ -1483,14 +1457,13 @@
             align-items: center;
             justify-content: center;
             gap: 0.6rem;
-            box-shadow: 0 0 25px var(--primary-glow);
+            box-shadow: 0 4px 15px var(--primary-glow);
             transition: var(--transition);
         }
 
         .checkout-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 0 35px rgba(6, 182, 212, 0.5);
-            color: #000;
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.35);
         }
 
         /* Toast Notify */
@@ -1498,7 +1471,7 @@
             position: fixed;
             top: 2rem;
             right: 2rem;
-            background: var(--bg-surface);
+            background: #ffffff;
             border: 1px solid var(--primary);
             padding: 0.75rem 1.25rem;
             border-radius: var(--radius-md);
@@ -1506,7 +1479,7 @@
             display: flex;
             align-items: center;
             gap: 0.65rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px var(--primary-glow);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             transform: translateY(-100px);
             opacity: 0;
             transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -1536,10 +1509,10 @@
             position: absolute;
             top: calc(100% + 0.5rem);
             right: 0;
-            background: var(--bg-surface);
+            background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+            box-shadow: var(--shadow-lg);
             width: 230px;
             padding: 0.5rem 0;
             display: none;
@@ -1565,7 +1538,7 @@
         .user-display-name {
             font-size: 0.88rem;
             font-weight: 800;
-            color: #ffffff;
+            color: #0f172a;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -1582,7 +1555,7 @@
 
         .user-dropdown-divider {
             height: 1px;
-            background: rgba(255, 255, 255, 0.06);
+            background: #f1f5f9;
             margin: 0.4rem 0;
         }
 
@@ -1605,12 +1578,12 @@
         }
 
         .user-dropdown-item:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: #f8fafc;
             color: var(--primary);
         }
 
         .user-dropdown-item.logout-btn-item:hover {
-            background: rgba(239, 68, 68, 0.1);
+            background: #fef2f2;
             color: var(--danger) !important;
         }
 
@@ -1622,15 +1595,15 @@
             width: 2.85rem;
             height: 2.85rem;
             border-radius: 50%;
-            background: var(--bg-card);
-            border: 1px solid var(--primary);
+            background: #ffffff;
+            border: 1px solid var(--border-color);
             color: var(--primary);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.1rem;
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.25);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             z-index: 99;
             opacity: 0;
             visibility: hidden;
@@ -1646,15 +1619,17 @@
 
         .back-to-top-btn:hover {
             background: var(--primary);
-            color: #030712;
+            color: #ffffff;
+            border-color: var(--primary);
             transform: translateY(-4px);
-            box-shadow: 0 0 30px var(--primary-glow);
+            box-shadow: 0 6px 20px var(--primary-glow);
         }
 
         /* Footer */
         footer {
-            background: #020408;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            background: #0f172a; /* Sophisticated deep slate footer */
+            color: #f8fafc;
+            border-top: 1px solid var(--border-color);
             padding: 4rem 0 2rem;
             margin-top: 5rem;
             position: relative;
@@ -1683,12 +1658,12 @@
 
         .footer-links a {
             font-size: 0.82rem;
-            color: var(--text-muted);
+            color: #94a3b8;
             transition: var(--transition);
         }
 
         .footer-links a:hover {
-            color: var(--primary);
+            color: #38bdf8;
             transform: translateX(3px);
         }
 
@@ -1702,29 +1677,28 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-muted);
+            color: #cbd5e1;
             transition: var(--transition);
         }
 
         .social-circle:hover {
             background: var(--primary);
-            color: #030712;
+            color: #ffffff;
             border-color: var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow);
             transform: translateY(-2px);
         }
 
         .footer-bottom {
             padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
             text-align: center;
             font-size: 0.78rem;
-            color: var(--text-dark);
+            color: #64748b;
             font-family: 'JetBrains Mono', monospace;
         }
 
@@ -1799,7 +1773,7 @@
         }
 
         .menu-side-link:hover, .menu-side-link.active {
-            background: rgba(6, 182, 212, 0.1);
+            background: #f0f9ff;
             color: var(--primary);
         }
     </style>
@@ -1811,17 +1785,17 @@
         <div class="marquee-wrapper">
             <div class="marquee-content">
                 <span><span class="marquee-badge">PROMO</span> Nhập mã <strong>AI2026</strong> giảm ngay 20% toàn bộ tài khoản AI</span>
-                <span><i class="fa-solid fa-bolt" style="color: var(--primary);"></i> Hệ thống kích hoạt tài nguyên AI tự động trong 30 giây</span>
-                <span><i class="fa-solid fa-shield-halved" style="color: var(--success);"></i> Cam kết bảo hành 1 đổi 1 suốt thời gian sử dụng</span>
-                <span><i class="fa-solid fa-lock" style="color: var(--secondary);"></i> Tài khoản Private chính chủ — Bảo mật dữ liệu 100%</span>
-                <span><i class="fa-solid fa-headset" style="color: var(--primary);"></i> Đội ngũ kỹ thuật hỗ trợ xuyên đêm 24/7 qua Zalo</span>
+                <span><i class="fa-solid fa-bolt"></i> Hệ thống kích hoạt tài nguyên AI tự động trong 30 giây</span>
+                <span><i class="fa-solid fa-shield-halved"></i> Cam kết bảo hành 1 đổi 1 suốt thời gian sử dụng</span>
+                <span><i class="fa-solid fa-lock"></i> Tài khoản Private chính chủ — Bảo mật dữ liệu 100%</span>
+                <span><i class="fa-solid fa-headset"></i> Đội ngũ kỹ thuật hỗ trợ xuyên đêm 24/7 qua Zalo</span>
             </div>
             <div class="marquee-content" aria-hidden="true">
                 <span><span class="marquee-badge">PROMO</span> Nhập mã <strong>AI2026</strong> giảm ngay 20% toàn bộ tài khoản AI</span>
-                <span><i class="fa-solid fa-bolt" style="color: var(--primary);"></i> Hệ thống kích hoạt tài nguyên AI tự động trong 30 giây</span>
-                <span><i class="fa-solid fa-shield-halved" style="color: var(--success);"></i> Cam kết bảo hành 1 đổi 1 suốt thời gian sử dụng</span>
-                <span><i class="fa-solid fa-lock" style="color: var(--secondary);"></i> Tài khoản Private chính chủ — Bảo mật dữ liệu 100%</span>
-                <span><i class="fa-solid fa-headset" style="color: var(--primary);"></i> Đội ngũ kỹ thuật hỗ trợ xuyên đêm 24/7 qua Zalo</span>
+                <span><i class="fa-solid fa-bolt"></i> Hệ thống kích hoạt tài nguyên AI tự động trong 30 giây</span>
+                <span><i class="fa-solid fa-shield-halved"></i> Cam kết bảo hành 1 đổi 1 suốt thời gian sử dụng</span>
+                <span><i class="fa-solid fa-lock"></i> Tài khoản Private chính chủ — Bảo mật dữ liệu 100%</span>
+                <span><i class="fa-solid fa-headset"></i> Đội ngũ kỹ thuật hỗ trợ xuyên đêm 24/7 qua Zalo</span>
             </div>
         </div>
     </div>
@@ -1840,7 +1814,7 @@
                         </svg>
                     </div>
                     <span class="logo-text">AI CỦA TÔI</span>
-                    <span class="logo-tag">PRO</span>
+                    <span class="logo-tag">CHÍNH HÃNG</span>
                 </a>
 
                 <!-- Header Category Pills -->
@@ -1928,7 +1902,7 @@
     <!-- Main Content -->
     <main class="container">
         
-        <!-- CYBER AI HERO BANNER -->
+        <!-- CLEAN LIGHT HERO BANNER -->
         <section class="hero-banner">
             <canvas id="heroCanvas" class="hero-banner-canvas"></canvas>
             
@@ -1944,7 +1918,7 @@
                 </h1>
                 
                 <p>
-                    Nâng tầm công việc sáng tạo với hệ sinh thái tài khoản AI bản quyền chính chủ: ChatGPT Plus, Claude 3.5 Sonnet, Midjourney, Google Gemini, CapCut Pro và Canva VIP. Tiết kiệm tới 80% chi phí, bảo hành lỗi 1 đổi 1 tức thì.
+                    Nâng tầm công việc sáng tạo với hệ sinh thái tài khoản AI bản quyền chính chủ: ChatGPT Plus, Claude 3.5 Sonnet, Midjourney, Google Gemini, CapCut Pro và Canva VIP. Tiết kiệm tới 80% chi phí, cam kết bảo hành 1 đổi 1 tức thì.
                 </p>
                 
                 <div class="hero-buttons">
@@ -1964,24 +1938,20 @@
                         <div class="showcase-header">
                             <div class="showcase-icon-wrapper">
                                 @if($prod->slug === 'chatgpt')
-                                    <!-- OpenAI ChatGPT SVG -->
-                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <svg viewBox="0 0 24 24" fill="#0284c7">
                                         <path d="M22.28 9.37a5.99 5.99 0 0 0-.52-4.94 6.06 6.06 0 0 0-6.42-2.73A6.04 6.04 0 0 0 10.7.35a6.04 6.04 0 0 0-5.8 4.22 6.06 6.06 0 0 0-4.14 3 6.05 6.05 0 0 0 .75 6.94 6.02 6.02 0 0 0 .52 4.94 6.06 6.06 0 0 0 6.42 2.73 6.04 6.04 0 0 0 4.64 1.35 6.04 6.04 0 0 0 5.8-4.22 6.06 6.06 0 0 0 4.14-3 6.05 6.05 0 0 0-.75-6.94zm-8.87 13.06a4.54 4.54 0 0 1-2.92-1.07l.14-.08 4.85-2.8a.78.78 0 0 0 .4-.68v-6.85l2.06 1.19a.07.07 0 0 1 .04.06v5.69a4.56 4.56 0 0 1-4.57 4.54zm-8.9-4.33a4.52 4.52 0 0 1-.62-3.05l.14.09 4.85 2.8a.77.77 0 0 0 .79 0l5.93-3.43v2.38a.07.07 0 0 1-.03.06l-4.93 2.85a4.55 4.55 0 0 1-6.13-1.7zm-1.8-8.88a4.54 4.54 0 0 1 2.3-1.98v5.76a.78.78 0 0 0 .39.68l5.93 3.42-2.06 1.19a.07.07 0 0 1-.07 0l-4.93-2.85a4.56 4.56 0 0 1-1.56-6.22zm14.65 2.21l-5.93-3.42 2.06-1.19a.07.07 0 0 1 .07 0l4.93 2.85a4.56 4.56 0 0 1 1.56 6.22 4.54 4.54 0 0 1-2.3 1.98v-5.76a.78.78 0 0 0-.39-.68zm2.66 4.97l-.14-.09-4.85-2.8a.77.77 0 0 0-.79 0l-5.93 3.43v-2.38a.07.07 0 0 1 .03-.06l4.93-2.85a4.55 4.55 0 0 1 6.75 4.75zM8.07 11.58l2.94-1.7a.78.78 0 0 0 .4-.68V5.76l2.06-1.19a.07.07 0 0 1 .07 0l4.93 2.85a4.55 4.55 0 0 1 2.3 3.96l-.14-.08-4.85-2.8a.77.77 0 0 0-.79 0l-5.93 3.43v-2.35l-1-.6zm2.84 1.34l2.67-1.54 2.67 1.54v3.08l-2.67 1.54-2.67-1.54z"/>
                                     </svg>
                                 @elseif($prod->slug === 'gemini')
-                                    <!-- Google Gemini 4-Point Star SVG -->
-                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <svg viewBox="0 0 24 24" fill="#4f46e5">
                                         <path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z"/>
                                     </svg>
                                 @elseif($prod->slug === 'capcut')
-                                    <!-- CapCut Geometric SVG -->
-                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <svg viewBox="0 0 24 24" fill="#0f172a">
                                         <path d="M4 4h7l4 8-4 8H4l4-8-4-8zm9 0h7l-4 8 4 8h-7l4-8-4-8z"/>
                                     </svg>
                                 @elseif($prod->slug === 'canva')
-                                    <!-- Canva Studio SVG -->
-                                    <svg viewBox="0 0 24 24" fill="currentColor">
-                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                                    <svg viewBox="0 0 24 24" fill="#0284c7">
+                                        <circle cx="12" cy="12" r="10" stroke="#0284c7" stroke-width="2" fill="none"/>
                                         <path d="M8 12a4 4 0 0 1 8 0c0 2-2 4-4 4s-4-2-4-4z"/>
                                     </svg>
                                 @else
@@ -1998,8 +1968,8 @@
                         <p class="showcase-desc">{{ $prod->seo_desc }}</p>
                         <div class="showcase-price-row">
                             <span class="showcase-price">{{ number_format($prod->default_price, 0, ',', '.') }}₫</span>
-                            <span class="showcase-badge" style="background: rgba(6, 182, 212, 0.12); color: var(--primary); border: 1px solid rgba(6, 182, 212, 0.3);">
-                                {{ $prod->tag ?: 'PRO TIER' }}
+                            <span class="showcase-badge" style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;">
+                                {{ $prod->tag ?: 'CHÍNH HÃNG' }}
                             </span>
                         </div>
                     </a>
@@ -2012,31 +1982,31 @@
             <div class="ai-bar-title">HỆ SINH THÁI TÀI NGUYÊN AI ĐƯỢC HỖ TRỢ CHÍNH HÃNG</div>
             <div class="ai-brands-track">
                 <div class="ai-brand-pill">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#0284c7"><circle cx="12" cy="12" r="10"/></svg>
                     <span>OpenAI ChatGPT-4o</span>
                 </div>
                 <div class="ai-brand-pill">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 22h20L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#ea580c"><path d="M12 2L2 22h20L12 2z"/></svg>
                     <span>Anthropic Claude 3.5</span>
                 </div>
                 <div class="ai-brand-pill">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#4f46e5"><path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z"/></svg>
                     <span>Google Gemini Ultra</span>
                 </div>
                 <div class="ai-brand-pill">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v18H3z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#0f172a"><path d="M3 3h18v18H3z"/></svg>
                     <span>Midjourney v6</span>
                 </div>
                 <div class="ai-brand-pill">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h7l4 8-4 8H4l4-8-4-8z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#0f172a"><path d="M4 4h7l4 8-4 8H4l4-8-4-8z"/></svg>
                     <span>CapCut Pro</span>
                 </div>
                 <div class="ai-brand-pill">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="9"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#0284c7"><circle cx="12" cy="12" r="9"/></svg>
                     <span>Canva Pro Magic AI</span>
                 </div>
                 <div class="ai-brand-pill">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8"/></svg>
                     <span>Cursor AI Code</span>
                 </div>
             </div>
@@ -2108,7 +2078,7 @@
                     @if($prod->tag)
                         <span class="product-sale-tag">{{ $prod->tag }}</span>
                     @else
-                        <span class="product-sale-tag">HOT DEAL</span>
+                        <span class="product-sale-tag">CHÍNH HÃNG</span>
                     @endif
                     
                     <a href="/product/{{ $prod->slug }}" style="display: block; width: 100%; text-decoration: none; color: inherit;">
@@ -2116,15 +2086,15 @@
                             @if($prod->image_path && file_exists(public_path($prod->image_path)))
                                 <img src="{{ asset($prod->image_path) }}" alt="{{ $prod->name }}" loading="lazy" decoding="async">
                             @elseif($prod->slug === 'chatgpt')
-                                <svg viewBox="0 0 24 24" width="70" height="70" fill="var(--primary)">
+                                <svg viewBox="0 0 24 24" width="70" height="70" fill="#0284c7">
                                     <path d="M22.28 9.37a5.99 5.99 0 0 0-.52-4.94 6.06 6.06 0 0 0-6.42-2.73A6.04 6.04 0 0 0 10.7.35a6.04 6.04 0 0 0-5.8 4.22 6.06 6.06 0 0 0-4.14 3 6.05 6.05 0 0 0 .75 6.94 6.02 6.02 0 0 0 .52 4.94 6.06 6.06 0 0 0 6.42 2.73 6.04 6.04 0 0 0 4.64 1.35 6.04 6.04 0 0 0 5.8-4.22 6.06 6.06 0 0 0 4.14-3 6.05 6.05 0 0 0-.75-6.94zm-8.87 13.06a4.54 4.54 0 0 1-2.92-1.07l.14-.08 4.85-2.8a.78.78 0 0 0 .4-.68v-6.85l2.06 1.19a.07.07 0 0 1 .04.06v5.69a4.56 4.56 0 0 1-4.57 4.54zm-8.9-4.33a4.52 4.52 0 0 1-.62-3.05l.14.09 4.85 2.8a.77.77 0 0 0 .79 0l5.93-3.43v2.38a.07.07 0 0 1-.03.06l-4.93 2.85a4.55 4.55 0 0 1-6.13-1.7zm-1.8-8.88a4.54 4.54 0 0 1 2.3-1.98v5.76a.78.78 0 0 0 .39.68l5.93 3.42-2.06 1.19a.07.07 0 0 1-.07 0l-4.93-2.85a4.56 4.56 0 0 1-1.56-6.22zm14.65 2.21l-5.93-3.42 2.06-1.19a.07.07 0 0 1 .07 0l4.93 2.85a4.56 4.56 0 0 1 1.56 6.22 4.54 4.54 0 0 1-2.3 1.98v-5.76a.78.78 0 0 0-.39-.68zm2.66 4.97l-.14-.09-4.85-2.8a.77.77 0 0 0-.79 0l-5.93 3.43v-2.38a.07.07 0 0 1 .03-.06l4.93-2.85a4.55 4.55 0 0 1 6.75 4.75zM8.07 11.58l2.94-1.7a.78.78 0 0 0 .4-.68V5.76l2.06-1.19a.07.07 0 0 1 .07 0l4.93 2.85a4.55 4.55 0 0 1 2.3 3.96l-.14-.08-4.85-2.8a.77.77 0 0 0-.79 0l-5.93 3.43v-2.35l-1-.6zm2.84 1.34l2.67-1.54 2.67 1.54v3.08l-2.67 1.54-2.67-1.54z"/>
                                 </svg>
                             @elseif($prod->slug === 'capcut')
-                                <svg viewBox="0 0 24 24" width="70" height="70" fill="var(--primary)">
+                                <svg viewBox="0 0 24 24" width="70" height="70" fill="#0f172a">
                                     <path d="M4 4h7l4 8-4 8H4l4-8-4-8zm9 0h7l-4 8 4 8h-7l4-8-4-8z"/>
                                 </svg>
                             @elseif($prod->slug === 'gemini')
-                                <svg viewBox="0 0 24 24" width="70" height="70" fill="var(--secondary)">
+                                <svg viewBox="0 0 24 24" width="70" height="70" fill="#4f46e5">
                                     <path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z"/>
                                 </svg>
                             @else
@@ -2266,7 +2236,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td style="font-weight: 700; color: #fff;">Chính Chủ & Riêng Tư</td>
+                            <td style="font-weight: 700; color: #0f172a;">Chính Chủ & Riêng Tư</td>
                             <td class="comp-ours">
                                 <span class="badge-check"><i class="fa-solid fa-circle-check"></i> 100% Private</span> - Nâng cấp trên Email cá nhân, giữ kín lịch sử dữ liệu.
                             </td>
@@ -2275,7 +2245,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="font-weight: 700; color: #fff;">Độ Ổn Định</td>
+                            <td style="font-weight: 700; color: #0f172a;">Độ Ổn Định</td>
                             <td class="comp-ours">
                                 <span class="badge-check"><i class="fa-solid fa-circle-check"></i> Ổn định tuyệt đối</span> - Bản quyền gia hạn hợp pháp, không bị out giữa chừng.
                             </td>
@@ -2284,7 +2254,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="font-weight: 700; color: #fff;">Tốc Độ Kích Hoạt</td>
+                            <td style="font-weight: 700; color: #0f172a;">Tốc Độ Kích Hoạt</td>
                             <td class="comp-ours">
                                 <span class="badge-check"><i class="fa-solid fa-circle-check"></i> Tự động 30s</span> - Quét mã QR SePay, nhận quyền sử dụng tức thời.
                             </td>
@@ -2293,7 +2263,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="font-weight: 700; color: #fff;">Cam Kết Bảo Hành</td>
+                            <td style="font-weight: 700; color: #0f172a;">Cam Kết Bảo Hành</td>
                             <td class="comp-ours">
                                 <span class="badge-check"><i class="fa-solid fa-circle-check"></i> 1 Đổi 1 Uy Tín</span> - Hỗ trợ suốt toàn bộ chu kỳ gói đăng ký.
                             </td>
@@ -2309,7 +2279,7 @@
         <!-- Warranty Section -->
         <section class="warranty-section">
             <div style="text-align: center; margin-bottom: 2.5rem;">
-                <h2 style="font-size: 1.5rem; font-weight: 900; color: #ffffff; letter-spacing: -0.5px;">Cam Kết An Toàn & Bảo Hành Vàng</h2>
+                <h2 style="font-size: 1.5rem; font-weight: 900; color: #0f172a; letter-spacing: -0.5px;">Cam Kết An Toàn & Bảo Hành Vàng</h2>
                 <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.5rem;">Bảo vệ tối đa quyền lợi khách hàng trong từng giao dịch tại AI CỦA TÔI</p>
             </div>
             
@@ -2337,7 +2307,7 @@
         <!-- FAQs Section -->
         <section class="faqs-section">
             <div style="text-align: center; margin-bottom: 1.5rem;">
-                <h2 style="font-size: 1.5rem; font-weight: 900; color: #ffffff;">Câu Hỏi Thường Gặp Về Tài Nguyên AI</h2>
+                <h2 style="font-size: 1.5rem; font-weight: 900; color: #0f172a;">Câu Hỏi Thường Gặp Về Tài Nguyên AI</h2>
                 <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.4rem;">Giải đáp các băn khoăn phổ biến của người dùng khi nâng cấp</p>
             </div>
             
@@ -2409,10 +2379,10 @@
     </div>
 
     <!-- Slide-out Mobile Menu Sidebar -->
-    <div class="menu-overlay" id="menu-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); z-index: 9999; opacity: 0; transition: opacity 0.3s ease;"></div>
-    <div class="menu-sidebar" id="menu-sidebar" style="position: fixed; top: 0; left: -290px; width: 280px; height: 100%; background: var(--bg-surface); border-right: 1px solid var(--border-color); z-index: 10000; display: flex; flex-direction: column; transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1); overflow-y: auto; padding: 1.5rem 1.25rem;">
+    <div class="menu-overlay" id="menu-overlay" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(4px); z-index: 9999; opacity: 0; transition: opacity 0.3s ease;"></div>
+    <div class="menu-sidebar" id="menu-sidebar" style="position: fixed; top: 0; left: -290px; width: 280px; height: 100%; background: #ffffff; border-right: 1px solid var(--border-color); z-index: 10000; display: flex; flex-direction: column; transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1); overflow-y: auto; padding: 1.5rem 1.25rem;">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
-            <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 800; font-size: 1rem; color: #fff;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 800; font-size: 1rem; color: #0f172a;">
                 <i class="fa-solid fa-cubes" style="color: var(--primary);"></i> DANH MỤC
             </div>
             <button id="menu-close-btn" style="background: none; border: none; font-size: 1.2rem; color: var(--text-muted); cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
@@ -2438,9 +2408,9 @@
                                 <path d="M12 2a4 4 0 0 0-4 4v1a3 3 0 0 0-3 3v2a3 3 0 0 0 2 2.82V16a4 4 0 0 0 4 4h2a4 4 0 0 0 4-4v-1.18A3 3 0 0 0 19 12v-2a3 3 0 0 0-3-3V6a4 4 0 0 0-4-4z"/>
                             </svg>
                         </div>
-                        <span class="logo-text">AI CỦA TÔI</span>
+                        <span class="logo-text" style="color: #ffffff;">AI CỦA TÔI</span>
                     </a>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; max-width: 320px;">
+                    <p style="font-size: 0.82rem; color: #94a3b8; line-height: 1.6; max-width: 320px;">
                         Hệ thống phân phối tài nguyên trí tuệ nhân tạo, phần mềm bản quyền và tài khoản số hàng đầu Việt Nam. Tự động - Uy tín - Giá rẻ.
                     </p>
                     <div class="footer-socials">
@@ -2476,13 +2446,13 @@
                     <h4>Liên Hệ Trực Tiếp</h4>
                     <div class="footer-links" style="gap: 0.95rem;">
                         <a href="https://zalo.me/0569012134" target="_blank" style="display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fa-solid fa-phone" style="color: var(--primary);"></i> Zalo: 0569012134
+                            <i class="fa-solid fa-phone" style="color: #38bdf8;"></i> Zalo: 0569012134
                         </a>
                         <a href="https://t.me/specademy" target="_blank" style="display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fa-brands fa-telegram" style="color: var(--primary);"></i> Telegram: @specademy
+                            <i class="fa-brands fa-telegram" style="color: #38bdf8;"></i> Telegram: @specademy
                         </a>
-                        <span style="font-size: 0.82rem; color: var(--text-dark); display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fa-solid fa-clock" style="color: var(--primary);"></i> Vận hành tự động: 24/7/365
+                        <span style="font-size: 0.82rem; color: #94a3b8; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fa-solid fa-clock" style="color: #38bdf8;"></i> Vận hành tự động: 24/7/365
                         </span>
                     </div>
                 </div>
@@ -2739,7 +2709,7 @@
             menuOverlay.addEventListener('click', closeMenu);
         }
 
-        // CYBER AI PARTICLE CANVAS
+        // LIGHT TECH PARTICLE CANVAS
         (function() {
             const canvas = document.getElementById('heroCanvas');
             if (!canvas) return;
@@ -2754,8 +2724,8 @@
             let isVisible = false;
 
             const mouse = { x: null, y: null, radius: 140 };
-            const particleCount = window.innerWidth < 768 ? 24 : 45;
-            const connectionDistance = 120;
+            const particleCount = window.innerWidth < 768 ? 20 : 38;
+            const connectionDistance = 115;
 
             class Particle {
                 constructor() {
@@ -2766,9 +2736,9 @@
                     this.x = Math.random() * width;
                     this.y = Math.random() * height;
                     this.radius = Math.random() * 2 + 1.2;
-                    this.vx = (Math.random() - 0.5) * 0.7;
-                    this.vy = (Math.random() - 0.5) * 0.7;
-                    this.color = Math.random() > 0.5 ? 'rgba(6, 182, 212, 0.7)' : 'rgba(139, 92, 246, 0.7)';
+                    this.vx = (Math.random() - 0.5) * 0.6;
+                    this.vy = (Math.random() - 0.5) * 0.6;
+                    this.color = Math.random() > 0.5 ? 'rgba(2, 132, 199, 0.4)' : 'rgba(79, 70, 229, 0.35)';
                 }
 
                 update() {
@@ -2820,11 +2790,11 @@
 
                         if (distSq < connectionDistance * connectionDistance) {
                             const dist = Math.sqrt(distSq);
-                            const alpha = (1 - dist / connectionDistance) * 0.35;
+                            const alpha = (1 - dist / connectionDistance) * 0.22;
                             ctx.beginPath();
                             ctx.moveTo(p1.x, p1.y);
                             ctx.lineTo(p2.x, p2.y);
-                            ctx.strokeStyle = `rgba(6, 182, 212, ${alpha})`;
+                            ctx.strokeStyle = `rgba(2, 132, 199, ${alpha})`;
                             ctx.lineWidth = 0.9;
                             ctx.stroke();
                         }
@@ -2837,11 +2807,11 @@
 
                         if (distSq < mouse.radius * mouse.radius) {
                             const dist = Math.sqrt(distSq);
-                            const alpha = (1 - dist / mouse.radius) * 0.55;
+                            const alpha = (1 - dist / mouse.radius) * 0.35;
                             ctx.beginPath();
                             ctx.moveTo(p1.x, p1.y);
                             ctx.lineTo(mouse.x, mouse.y);
-                            ctx.strokeStyle = `rgba(139, 92, 246, ${alpha})`;
+                            ctx.strokeStyle = `rgba(2, 132, 199, ${alpha})`;
                             ctx.lineWidth = 1.1;
                             ctx.stroke();
                         }
