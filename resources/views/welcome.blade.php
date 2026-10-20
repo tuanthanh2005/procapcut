@@ -1862,7 +1862,6 @@
                         </svg>
                     </div>
                     <span class="logo-text">AI CỦA TÔI</span>
-                    <span class="logo-tag">CHÍNH HÃNG</span>
                 </a>
 
                 <!-- Header Category Pills -->
