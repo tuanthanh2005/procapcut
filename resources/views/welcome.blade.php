@@ -838,7 +838,13 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 1.25rem;
-            margin-bottom: 4rem;
+            margin-bottom: 2rem;
+        }
+
+        .view-all-products-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3.5rem;
         }
 
         .product-card {
@@ -1976,9 +1982,6 @@
                 <span class="section-title-line"></span>
                 Tài Nguyên AI & Công Cụ Nổi Bật
             </h2>
-            <a href="/products" class="btn btn-outline" style="font-size: 0.8rem; padding: 0.5rem 1.15rem;">
-                Xem Tất Cả Sản Phẩm <i class="fa-solid fa-arrow-right"></i>
-            </a>
         </div>
 
         <!-- Products Grid (4 Highlighted Products) -->
@@ -2066,6 +2069,14 @@
                 </div>
             @endforeach
         </section>
+
+        <!-- View All Products Button -->
+        <div class="view-all-products-wrapper">
+            <a href="/products" class="btn btn-outline" style="font-size: 0.92rem; padding: 0.75rem 2.25rem; font-weight: 700; border-radius: var(--radius-full); box-shadow: var(--shadow-sm); display: inline-flex; align-items: center; gap: 0.6rem;">
+                <span>Xem Tất Cả Sản Phẩm & Kho Tài Nguyên AI</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
 
         <!-- AI BRAND ECOSYSTEM MARQUEE BAR -->
         <section class="ai-ecosystem-bar">
