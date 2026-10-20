@@ -444,14 +444,14 @@
             box-shadow: 0 2px 6px rgba(244, 63, 94, 0.3);
         }
 
-        /* Hero Banner Centered */
+        /* Hero Banner Centered & Expanded */
         .hero-banner {
             margin-top: 1.5rem;
             margin-bottom: 2.5rem;
             border-radius: var(--radius-lg);
             background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
             border: 1px solid #bae6fd;
-            padding: 4rem 2rem;
+            padding: 4.5rem 2.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -475,7 +475,8 @@
         .hero-text {
             position: relative;
             z-index: 2;
-            max-width: 860px;
+            width: 100%;
+            max-width: 1140px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -487,15 +488,16 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.4rem 1rem;
+            padding: 0.45rem 1.15rem;
             border-radius: var(--radius-full);
             background: #e0f2fe;
             border: 1px solid #bae6fd;
             color: #0369a1;
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             font-weight: 700;
-            margin-bottom: 1.35rem;
+            margin-bottom: 1.5rem;
             font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 2px 6px rgba(2, 132, 199, 0.08);
         }
 
         .pulse-dot {
@@ -513,13 +515,14 @@
         }
 
         .hero-text h1 {
-            font-size: 2.85rem;
+            font-size: 3.35rem;
             font-weight: 900;
             line-height: 1.25;
-            margin-bottom: 1.25rem;
-            letter-spacing: -0.8px;
+            margin-bottom: 1.35rem;
+            letter-spacing: -1px;
             color: #0f172a;
             text-align: center;
+            max-width: 1120px;
         }
 
         .hero-text h1 .highlight-ai {
@@ -529,11 +532,11 @@
         }
 
         .hero-text p {
-            font-size: 1.05rem;
+            font-size: 1.15rem;
             color: var(--text-muted);
-            line-height: 1.65;
-            margin-bottom: 2rem;
-            max-width: 760px;
+            line-height: 1.7;
+            margin-bottom: 2.25rem;
+            max-width: 1040px;
             text-align: center;
         }
 
@@ -1738,6 +1741,12 @@
 
         /* Responsive Layout */
         @media (max-width: 1024px) {
+            .hero-text h1 {
+                font-size: 2.65rem;
+            }
+            .hero-text p {
+                font-size: 1.05rem;
+            }
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -1751,11 +1760,13 @@
 
         @media (max-width: 820px) {
             .hero-banner {
-                grid-template-columns: 1fr;
-                padding: 2rem 1.5rem;
+                padding: 3rem 1.5rem;
             }
-            .hero-showcase {
-                order: -1;
+            .hero-text h1 {
+                font-size: 2.2rem;
+            }
+            .hero-text p {
+                font-size: 0.98rem;
             }
             .vs-container {
                 grid-template-columns: 1fr;
@@ -1775,6 +1786,9 @@
         }
 
         @media (max-width: 580px) {
+            .hero-banner {
+                padding: 2.5rem 1rem;
+            }
             .products-grid {
                 grid-template-columns: 1fr;
             }
@@ -1947,8 +1961,7 @@
                 </div>
                 
                 <h1>
-                    Siêu Thị Tài Nguyên <br>
-                    <span class="highlight-ai">Trí Tuệ Nhân Tạo & Tools Pro</span>
+                    Siêu Thị Tài Nguyên <span class="highlight-ai">Trí Tuệ Nhân Tạo & Tools Pro</span>
                 </h1>
                 
                 <p>
