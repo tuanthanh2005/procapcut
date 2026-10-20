@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -38,15 +37,15 @@ class ForgotPasswordController extends Controller
         DB::table('password_reset_tokens')->insert([
             'email' => $email,
             'token' => Hash::make($token),
-            'created_at' => now()
+            'created_at' => now(),
         ]);
 
-        $resetUrl = url("/reset-password/{$token}?email=" . urlencode($email));
+        $resetUrl = url("/reset-password/{$token}?email=".urlencode($email));
 
         // Redirect back with the reset URL so the user can test the flow on local without configuring SMTP mail
         return back()->with([
             'status' => 'Hệ thống đã tạo mã đặt lại mật khẩu thành công!',
-            'reset_link' => $resetUrl
+            'reset_link' => $resetUrl,
         ]);
     }
 
@@ -55,7 +54,7 @@ class ForgotPasswordController extends Controller
     {
         return view('reset-password')->with([
             'token' => $token,
-            'email' => $request->email
+            'email' => $request->email,
         ]);
     }
 
@@ -77,7 +76,7 @@ class ForgotPasswordController extends Controller
 
         $record = DB::table('password_reset_tokens')->where('email', $request->email)->first();
 
-        if (!$record || !Hash::check($request->token, $record->token)) {
+        if (! $record || ! Hash::check($request->token, $record->token)) {
             return back()->withErrors(['email' => 'Mã thông báo đặt lại mật khẩu đã hết hạn hoặc không hợp lệ.']);
         }
 

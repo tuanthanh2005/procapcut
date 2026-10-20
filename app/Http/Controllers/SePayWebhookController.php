@@ -17,10 +17,10 @@ class SePayWebhookController extends Controller
     {
         // 1. Verify token/Authorization
         $configuredToken = Setting::getValue('sepay_webhook_token');
-        $requestToken = $request->query('token') 
+        $requestToken = $request->query('token')
             ?? $request->header('x-sepay-token');
 
-        if (!$requestToken) {
+        if (! $requestToken) {
             $authHeader = $request->header('Authorization') ?? '';
             if (preg_match('/^Apikey\s+(.+)$/i', trim($authHeader), $matches)) {
                 $requestToken = trim($matches[1]);
@@ -32,19 +32,20 @@ class SePayWebhookController extends Controller
         if (empty($configuredToken) || $requestToken !== $configuredToken) {
             Log::warning('SePay Webhook: Unauthorized request received.', [
                 'ip' => $request->ip(),
-                'token_provided' => $requestToken
+                'token_provided' => $requestToken,
             ]);
+
             return response()->json(['status' => 'unauthorized', 'message' => 'Invalid Token'], 401);
         }
 
         // 2. Parse payload details
         $content = $request->input('content', '');
         $transferAmount = (int) $request->input('transferAmount', 0);
-        
+
         Log::info('SePay Webhook: Received transaction log.', [
             'content' => $content,
             'amount' => $transferAmount,
-            'transaction_id' => $request->input('id')
+            'transaction_id' => $request->input('id'),
         ]);
 
         // 3. Search for order ID pattern (e.g. OD1005 or OD5)
@@ -72,17 +73,17 @@ class SePayWebhookController extends Controller
                         $prefix = 'CANVA-PRO';
                     }
 
-                    $activationKey = $prefix . '-' . strtoupper(Str::random(5)) . '-' . strtoupper(Str::random(5));
+                    $activationKey = $prefix.'-'.strtoupper(Str::random(5)).'-'.strtoupper(Str::random(5));
 
                     $order->update([
                         'status' => 'processing',
-                        'activation_key' => $activationKey
+                        'activation_key' => $activationKey,
                     ]);
 
                     Log::info('SePay Webhook: Order successfully auto-completed.', [
                         'order_id' => $order->id,
                         'price' => $order->price,
-                        'transferred' => $transferAmount
+                        'transferred' => $transferAmount,
                     ]);
 
                     return response()->json(['success' => true, 'message' => 'Order auto-completed successfully']);
@@ -90,17 +91,20 @@ class SePayWebhookController extends Controller
                     Log::warning('SePay Webhook: Amount mismatch.', [
                         'order_id' => $order->id,
                         'expected' => $order->price,
-                        'received' => $transferAmount
+                        'received' => $transferAmount,
                     ]);
+
                     return response()->json(['success' => false, 'message' => 'Insufficient payment amount'], 400);
                 }
             } else {
                 Log::warning('SePay Webhook: Order not found.', ['extracted_id' => $orderId]);
+
                 return response()->json(['success' => false, 'message' => 'Order not found'], 404);
             }
         }
 
         Log::warning('SePay Webhook: No order ID pattern found in description.', ['content' => $content]);
+
         return response()->json(['success' => false, 'message' => 'No order ID pattern found'], 400);
     }
 }

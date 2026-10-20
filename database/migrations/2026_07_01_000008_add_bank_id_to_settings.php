@@ -14,7 +14,7 @@ return new class extends Migration
             ['key' => 'bank_id'],
             ['value' => 'MB', 'created_at' => now(), 'updated_at' => now()]
         );
-        
+
         // Ensure bank_name is MB Bank
         DB::table('settings')->where('key', 'bank_name')->update(['value' => 'MB Bank']);
     }

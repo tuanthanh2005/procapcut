@@ -49,7 +49,7 @@ return [
 
         'public_uploads' => [
             'driver' => 'local',
-            'root' => is_dir(base_path('../public_html')) ? base_path('../public_html') : public_path(),
+            'root' => (is_dir(base_path('../public_html')) && file_exists(base_path('../public_html/index.php'))) ? base_path('../public_html') : public_path(),
             'visibility' => 'public',
             'throw' => false,
             'report' => false,

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Product;
 use App\Models\Post;
+use App\Models\Product;
+use Google\Client;
+use Google\Service\Indexing;
+use Google\Service\Indexing\UrlNotification;
+use Illuminate\Http\Request;
 
 class AdminSeoController extends Controller
 {
@@ -16,22 +19,22 @@ class AdminSeoController extends Controller
     public function indexUrls(Request $request)
     {
         $request->validate([
-            'manual_urls.*' => 'nullable|url'
+            'manual_urls.*' => 'nullable|url',
         ]);
 
         $keyFilePath = public_path('google-indexing-api.json');
-        
-        if (!file_exists($keyFilePath)) {
+
+        if (! file_exists($keyFilePath)) {
             return back()->with('error', 'Không tìm thấy tệp khóa Google API (google-indexing-api.json) trong thư mục public.');
         }
 
         try {
-            $client = new \Google\Client();
+            $client = new Client;
             $client->setAuthConfig($keyFilePath);
             $client->addScope('https://www.googleapis.com/auth/indexing');
             $client->setUseBatch(true);
 
-            $service = new \Google\Service\Indexing($client);
+            $service = new Indexing($client);
             $batch = $service->createBatch();
 
             $urlsToSubmit = [];
@@ -48,7 +51,7 @@ class AdminSeoController extends Controller
                 $products = Product::all();
                 foreach ($products as $product) {
                     if ($product->slug) {
-                        $urlsToSubmit[] = url('/product/' . $product->slug);
+                        $urlsToSubmit[] = url('/product/'.$product->slug);
                     }
                 }
             }
@@ -58,7 +61,7 @@ class AdminSeoController extends Controller
                 $posts = Post::all();
                 foreach ($posts as $post) {
                     if ($post->slug) {
-                        $urlsToSubmit[] = url('/post/' . $post->slug);
+                        $urlsToSubmit[] = url('/post/'.$post->slug);
                     }
                 }
             }
@@ -66,7 +69,7 @@ class AdminSeoController extends Controller
             // 4. Manual Custom URLs
             if ($request->has('manual_urls') && is_array($request->manual_urls)) {
                 foreach ($request->manual_urls as $manualUrl) {
-                    if (!empty($manualUrl) && filter_var($manualUrl, FILTER_VALIDATE_URL)) {
+                    if (! empty($manualUrl) && filter_var($manualUrl, FILTER_VALIDATE_URL)) {
                         $urlsToSubmit[] = $manualUrl;
                     }
                 }
@@ -81,14 +84,14 @@ class AdminSeoController extends Controller
 
             $urlCount = 0;
             foreach ($urlsToSubmit as $url) {
-                $urlNotification = new \Google\Service\Indexing\UrlNotification();
+                $urlNotification = new UrlNotification;
                 $urlNotification->setUrl($url);
                 $urlNotification->setType('URL_UPDATED');
-                
+
                 $req = $service->urlNotifications->publish($urlNotification);
                 $batch->add($req);
                 $urlCount++;
-                
+
                 if ($urlCount % 100 == 0) {
                     $batch->execute();
                     $batch = $service->createBatch();
@@ -100,9 +103,9 @@ class AdminSeoController extends Controller
             }
 
             return back()->with('success', "Đã gửi thành công {$urlCount} đường link đến Google Indexing API!");
-            
+
         } catch (\Exception $e) {
-            return back()->with('error', 'Lỗi API Google: ' . $e->getMessage());
+            return back()->with('error', 'Lỗi API Google: '.$e->getMessage());
         }
     }
 }

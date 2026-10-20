@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -12,6 +11,7 @@ class AdminProductController extends Controller
     public function index()
     {
         $products = Product::orderBy('created_at', 'desc')->paginate(10);
+
         return view('admin.products.index', compact('products'));
     }
 
@@ -27,8 +27,8 @@ class AdminProductController extends Controller
                 'slashed' => 150000,
                 'description' => 'Mô tả ngắn gọn đặc quyền của gói cước này.',
                 'require_email' => false,
-                'stock' => 0
-            ]
+                'stock' => 0,
+            ],
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         return view('admin.products.create', compact('defaultOptionsJson'));
@@ -62,7 +62,7 @@ class AdminProductController extends Controller
 
         // Process features (convert line-by-line to array)
         if ($request->filled('features')) {
-            $featuresArr = array_filter(array_map('trim', explode("\n", str_replace("\r", "", $request->features))));
+            $featuresArr = array_filter(array_map('trim', explode("\n", str_replace("\r", '', $request->features))));
             $data['features'] = array_values($featuresArr);
         } else {
             $data['features'] = [];
@@ -82,15 +82,15 @@ class AdminProductController extends Controller
         // Handle Image Upload
         if ($request->hasFile('image_path')) {
             $file = $request->file('image_path');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = time().'_'.$file->getClientOriginalName();
             $file->move(public_path('uploads/products'), $filename);
-            $data['image_path'] = 'uploads/products/' . $filename;
+            $data['image_path'] = 'uploads/products/'.$filename;
         }
 
         // Auto calculate discount percentage tag
         if ($data['default_slashed'] > 0 && $data['default_slashed'] > $data['default_price']) {
             $discount = round((($data['default_slashed'] - $data['default_price']) / $data['default_slashed']) * 100);
-            $data['tag'] = '-' . $discount . '%';
+            $data['tag'] = '-'.$discount.'%';
         } else {
             $data['tag'] = null;
         }
@@ -116,7 +116,7 @@ class AdminProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $data = $request->validate([
-            'slug' => 'required|string|unique:products,slug,' . $product->id . '|max:255',
+            'slug' => 'required|string|unique:products,slug,'.$product->id.'|max:255',
             'name' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'category_label' => 'required|string|max:255',
@@ -140,7 +140,7 @@ class AdminProductController extends Controller
 
         // Process features
         if ($request->filled('features')) {
-            $featuresArr = array_filter(array_map('trim', explode("\n", str_replace("\r", "", $request->features))));
+            $featuresArr = array_filter(array_map('trim', explode("\n", str_replace("\r", '', $request->features))));
             $data['features'] = array_values($featuresArr);
         } else {
             $data['features'] = [];
@@ -164,15 +164,15 @@ class AdminProductController extends Controller
                 @unlink(public_path($product->image_path));
             }
             $file = $request->file('image_path');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = time().'_'.$file->getClientOriginalName();
             $file->move(public_path('uploads/products'), $filename);
-            $data['image_path'] = 'uploads/products/' . $filename;
+            $data['image_path'] = 'uploads/products/'.$filename;
         }
 
         // Auto calculate discount percentage tag
         if ($data['default_slashed'] > 0 && $data['default_slashed'] > $data['default_price']) {
             $discount = round((($data['default_slashed'] - $data['default_price']) / $data['default_slashed']) * 100);
-            $data['tag'] = '-' . $discount . '%';
+            $data['tag'] = '-'.$discount.'%';
         } else {
             $data['tag'] = null;
         }
@@ -186,6 +186,7 @@ class AdminProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
+
         return redirect()->route('admin.products.index')->with('success_message', 'Xóa sản phẩm thành công!');
     }
 }

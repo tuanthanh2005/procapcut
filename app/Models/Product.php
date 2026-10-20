@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
     'slug', 'name', 'category', 'category_label', 'icon', 'image_path', 'rating',
     'review_count', 'sold', 'tag', 'description', 'default_price', 'default_slashed',
-    'seo_title', 'seo_desc', 'seo_keywords', 'features', 'options'
+    'seo_title', 'seo_desc', 'seo_keywords', 'features', 'options',
 ])]
 class Product extends Model
 {
@@ -25,14 +26,14 @@ class Product extends Model
             'rating' => 'float',
             'review_count' => 'integer',
             'default_price' => 'integer',
-            'default_slashed' => 'integer'
+            'default_slashed' => 'integer',
         ];
     }
 
     /**
      * Get the reviews for this product.
      */
-    public function reviews(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function reviews(): HasMany
     {
         return $this->hasMany(Review::class)->latest();
     }
@@ -43,7 +44,8 @@ class Product extends Model
     public function getRealRatingAttribute(): float
     {
         $avg = $this->reviews()->avg('rating');
-        return $avg ? (float)round($avg, 1) : 5.0;
+
+        return $avg ? (float) round($avg, 1) : 5.0;
     }
 
     /**
@@ -64,7 +66,7 @@ class Product extends Model
             return 0;
         }
 
-        return (int) \App\Models\Order::whereIn('status', ['completed', 'processing'])
+        return (int) Order::whereIn('status', ['completed', 'processing'])
             ->get()
             ->sum(function ($order) use ($optionIds) {
                 $count = 0;
@@ -75,6 +77,7 @@ class Product extends Model
                         }
                     }
                 }
+
                 return $count;
             });
     }

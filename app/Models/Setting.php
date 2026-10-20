@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Setting extends Model
 {
     protected $primaryKey = 'key';
+
     public $incrementing = false;
+
     protected $keyType = 'string';
 
     protected $fillable = ['key', 'value'];
@@ -16,6 +18,7 @@ class Setting extends Model
     public static function getValue($key, $default = null)
     {
         $setting = self::find($key);
+
         return $setting ? $setting->value : $default;
     }
 

@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Post;
-use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -25,7 +23,7 @@ class PostController extends Controller
             ->where('is_published', true)
             ->first();
 
-        if (!$post) {
+        if (! $post) {
             abort(404, 'Bài viết không tồn tại.');
         }
 

@@ -2,9 +2,12 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\Models\Product;
 use App\Models\Post;
+use App\Models\Product;
+use Google\Client;
+use Google\Service\Indexing;
+use Google\Service\Indexing\UrlNotification;
+use Illuminate\Console\Command;
 
 class GoogleIndexUrls extends Command
 {
@@ -30,23 +33,24 @@ class GoogleIndexUrls extends Command
         $this->info('Starting Google Indexing API Submission...');
 
         $keyFilePath = public_path('google-indexing-api.json');
-        
-        if (!file_exists($keyFilePath)) {
+
+        if (! file_exists($keyFilePath)) {
             $this->error("Google Service Account JSON key not found at: {$keyFilePath}");
+
             return Command::FAILURE;
         }
 
         try {
-            $client = new \Google\Client();
+            $client = new Client;
             $client->setAuthConfig($keyFilePath);
             $client->addScope('https://www.googleapis.com/auth/indexing');
             $client->setUseBatch(true);
 
-            $service = new \Google\Service\Indexing($client);
+            $service = new Indexing($client);
             $batch = $service->createBatch();
 
             $urlsToSubmit = [];
-            
+
             // Add static pages
             $urlsToSubmit[] = url('/');
             $urlsToSubmit[] = url('/products');
@@ -56,7 +60,7 @@ class GoogleIndexUrls extends Command
             $products = Product::all();
             foreach ($products as $product) {
                 if ($product->slug) {
-                    $urlsToSubmit[] = url('/product/' . $product->slug);
+                    $urlsToSubmit[] = url('/product/'.$product->slug);
                 }
             }
 
@@ -64,26 +68,26 @@ class GoogleIndexUrls extends Command
             $posts = Post::all();
             foreach ($posts as $post) {
                 if ($post->slug) {
-                    $urlsToSubmit[] = url('/post/' . $post->slug);
+                    $urlsToSubmit[] = url('/post/'.$post->slug);
                 }
             }
 
-            $this->info('Found ' . count($urlsToSubmit) . ' URLs to submit.');
-            
+            $this->info('Found '.count($urlsToSubmit).' URLs to submit.');
+
             $urlCount = 0;
             foreach ($urlsToSubmit as $url) {
-                $urlNotification = new \Google\Service\Indexing\UrlNotification();
+                $urlNotification = new UrlNotification;
                 $urlNotification->setUrl($url);
                 $urlNotification->setType('URL_UPDATED');
-                
+
                 $request = $service->urlNotifications->publish($urlNotification);
                 $batch->add($request);
                 $urlCount++;
-                
+
                 // Google Indexing API limits batch sizes to 100
                 if ($urlCount % 100 == 0) {
                     $results = $batch->execute();
-                    $this->info("Submitted batch of 100 URLs...");
+                    $this->info('Submitted batch of 100 URLs...');
                     $batch = $service->createBatch();
                 }
             }
@@ -91,14 +95,16 @@ class GoogleIndexUrls extends Command
             // Execute remaining
             if ($urlCount % 100 != 0) {
                 $results = $batch->execute();
-                $this->info("Submitted final batch.");
+                $this->info('Submitted final batch.');
             }
 
             $this->info("Successfully pushed {$urlCount} URLs to Google Indexing API!");
+
             return Command::SUCCESS;
-            
+
         } catch (\Exception $e) {
-            $this->error("Failed to submit to Google Indexing API: " . $e->getMessage());
+            $this->error('Failed to submit to Google Indexing API: '.$e->getMessage());
+
             return Command::FAILURE;
         }
     }

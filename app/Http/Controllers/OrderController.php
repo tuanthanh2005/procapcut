@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -53,11 +56,11 @@ class OrderController extends Controller
 
         // Validate stock for each item in the cart
         foreach ($cart as $item) {
-            if (!isset($item['id'])) {
+            if (! isset($item['id'])) {
                 continue;
             }
 
-            $product = \App\Models\Product::all()->first(function ($prod) use ($item) {
+            $product = Product::all()->first(function ($prod) use ($item) {
                 if (is_array($prod->options)) {
                     foreach ($prod->options as $opt) {
                         if (isset($opt['id']) && $opt['id'] === $item['id']) {
@@ -65,11 +68,12 @@ class OrderController extends Controller
                         }
                     }
                 }
+
                 return false;
             });
 
-            if (!$product) {
-                return back()->withErrors(['items_json' => "Không tìm thấy sản phẩm tương ứng với gói: " . ($item['name'] ?? 'Không rõ')])->withInput();
+            if (! $product) {
+                return back()->withErrors(['items_json' => 'Không tìm thấy sản phẩm tương ứng với gói: '.($item['name'] ?? 'Không rõ')])->withInput();
             }
 
             $options = $product->options;
@@ -81,20 +85,20 @@ class OrderController extends Controller
                 }
             }
 
-            if (!$matchingOpt) {
-                return back()->withErrors(['items_json' => "Không tìm thấy gói: " . ($item['name'] ?? 'Không rõ')])->withInput();
+            if (! $matchingOpt) {
+                return back()->withErrors(['items_json' => 'Không tìm thấy gói: '.($item['name'] ?? 'Không rõ')])->withInput();
             }
 
-            $stock = isset($matchingOpt['stock']) ? (int)$matchingOpt['stock'] : 0;
-            $inStock = !isset($matchingOpt['in_stock']) || $matchingOpt['in_stock'] !== false;
+            $stock = isset($matchingOpt['stock']) ? (int) $matchingOpt['stock'] : 0;
+            $inStock = ! isset($matchingOpt['in_stock']) || $matchingOpt['in_stock'] !== false;
 
-            if (!$inStock || $stock <= 0) {
-                return back()->withErrors(['items_json' => "Gói: " . ($item['name'] ?? 'Không rõ') . " đã hết hàng, không thể tiếp tục thanh toán."])->withInput();
+            if (! $inStock || $stock <= 0) {
+                return back()->withErrors(['items_json' => 'Gói: '.($item['name'] ?? 'Không rõ').' đã hết hàng, không thể tiếp tục thanh toán.'])->withInput();
             }
 
-            $reqQty = isset($item['quantity']) ? (int)$item['quantity'] : 1;
+            $reqQty = isset($item['quantity']) ? (int) $item['quantity'] : 1;
             if ($stock < $reqQty) {
-                return back()->withErrors(['items_json' => "Gói: " . ($item['name'] ?? 'Không rõ') . " chỉ còn lại " . $stock . " sản phẩm trong kho. Bạn đang yêu cầu mua " . $reqQty . " sản phẩm."])->withInput();
+                return back()->withErrors(['items_json' => 'Gói: '.($item['name'] ?? 'Không rõ').' chỉ còn lại '.$stock.' sản phẩm trong kho. Bạn đang yêu cầu mua '.$reqQty.' sản phẩm.'])->withInput();
             }
         }
 
@@ -113,7 +117,7 @@ class OrderController extends Controller
         }
 
         if (count($cart) > 1) {
-            $firstItemName .= ' và ' . (count($cart) - 1) . ' sản phẩm khác';
+            $firstItemName .= ' và '.(count($cart) - 1).' sản phẩm khác';
         }
 
         // Create the order
@@ -134,11 +138,11 @@ class OrderController extends Controller
 
         // Deduct stock after order creation
         foreach ($cart as $item) {
-            if (!isset($item['id'])) {
+            if (! isset($item['id'])) {
                 continue;
             }
 
-            $product = \App\Models\Product::all()->first(function ($prod) use ($item) {
+            $product = Product::all()->first(function ($prod) use ($item) {
                 if (is_array($prod->options)) {
                     foreach ($prod->options as $opt) {
                         if (isset($opt['id']) && $opt['id'] === $item['id']) {
@@ -146,6 +150,7 @@ class OrderController extends Controller
                         }
                     }
                 }
+
                 return false;
             });
 
@@ -153,8 +158,8 @@ class OrderController extends Controller
                 $options = $product->options;
                 foreach ($options as $idx => $opt) {
                     if (isset($opt['id']) && $opt['id'] === $item['id']) {
-                        $currentStock = isset($opt['stock']) ? (int)$opt['stock'] : 0;
-                        $newStock = max(0, $currentStock - (isset($item['quantity']) ? (int)$item['quantity'] : 1));
+                        $currentStock = isset($opt['stock']) ? (int) $opt['stock'] : 0;
+                        $newStock = max(0, $currentStock - (isset($item['quantity']) ? (int) $item['quantity'] : 1));
                         $options[$idx]['stock'] = $newStock;
                         if ($newStock <= 0) {
                             $options[$idx]['in_stock'] = false; // set in_stock to false as well if stock hits 0
@@ -170,26 +175,26 @@ class OrderController extends Controller
         // Send Telegram Alert for new order
         $botToken = env('TELEGRAM_BOT_TOKEN');
         $chatId = env('TELEGRAM_CHAT_ID');
-        if (!empty($botToken) && !empty($chatId)) {
-            $text = "🛍️ <b>ĐƠN HÀNG MỚI</b> 🛍️\n\n" .
-                    "🆔 <b>Mã đơn hàng</b>: #" . $order->id . "\n" .
-                    "👤 <b>Khách hàng</b>: " . $order->customer_name . "\n" .
-                    "📞 <b>Số điện thoại</b>: " . $order->customer_phone . "\n" .
-                    "✉️ <b>Email</b>: " . $order->customer_email . "\n" .
-                    "📦 <b>Sản phẩm</b>: " . $order->product_name . "\n" .
-                    "💵 <b>Tổng tiền</b>: " . number_format($order->price) . "đ\n" .
-                    "💳 <b>Phương thức</b>: " . ($order->payment_method === 'qr_bank' ? 'Chuyển khoản QR Bank' : 'Ví MoMo') . "\n" .
-                    "⚙️ <b>Thông tin nâng cấp</b>: " . $order->upgrade_details . "\n\n" .
-                    "🔗 <b>Xem chi tiết đơn hàng</b>: <a href=\"" . url('/admin/orders/' . $order->id) . "\">Quản trị Đơn hàng</a>";
+        if (! empty($botToken) && ! empty($chatId)) {
+            $text = "🛍️ <b>ĐƠN HÀNG MỚI</b> 🛍️\n\n".
+                    '🆔 <b>Mã đơn hàng</b>: #'.$order->id."\n".
+                    '👤 <b>Khách hàng</b>: '.$order->customer_name."\n".
+                    '📞 <b>Số điện thoại</b>: '.$order->customer_phone."\n".
+                    '✉️ <b>Email</b>: '.$order->customer_email."\n".
+                    '📦 <b>Sản phẩm</b>: '.$order->product_name."\n".
+                    '💵 <b>Tổng tiền</b>: '.number_format($order->price)."đ\n".
+                    '💳 <b>Phương thức</b>: '.($order->payment_method === 'qr_bank' ? 'Chuyển khoản QR Bank' : 'Ví MoMo')."\n".
+                    '⚙️ <b>Thông tin nâng cấp</b>: '.$order->upgrade_details."\n\n".
+                    '🔗 <b>Xem chi tiết đơn hàng</b>: <a href="'.url('/admin/orders/'.$order->id).'">Quản trị Đơn hàng</a>';
 
             try {
-                \Illuminate\Support\Facades\Http::timeout(3)->post("https://api.telegram.org/bot{$botToken}/sendMessage", [
+                Http::timeout(3)->post("https://api.telegram.org/bot{$botToken}/sendMessage", [
                     'chat_id' => $chatId,
                     'text' => $text,
                     'parse_mode' => 'HTML',
                 ]);
             } catch (\Exception $e) {
-                \Illuminate\Support\Facades\Log::error('Telegram order alert failed: ' . $e->getMessage());
+                Log::error('Telegram order alert failed: '.$e->getMessage());
             }
         }
 
@@ -200,17 +205,17 @@ class OrderController extends Controller
     public function thankYou($id)
     {
         $order = Order::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
-        
+
         // If order is already completed or processing, redirect directly to success page
         if ($order->status === 'completed' || $order->status === 'processing') {
             return redirect()->route('checkout.success', $order->id);
         }
-        
+
         // Auto cancel if pending and created more than 5 minutes ago
         if ($order->status === 'pending' && $order->created_at->addMinutes(5)->isPast()) {
             $order->update(['status' => 'cancelled']);
         }
-        
+
         return view('thankyou', compact('order'));
     }
 
@@ -218,6 +223,7 @@ class OrderController extends Controller
     public function success($id)
     {
         $order = Order::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+
         return view('success', compact('order'));
     }
 
@@ -225,14 +231,14 @@ class OrderController extends Controller
     public function getStatus($id)
     {
         $order = Order::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
-        
+
         // Dynamic auto-cancel check here too, in case they are polling
         if ($order->status === 'pending' && $order->created_at->addMinutes(5)->isPast()) {
             $order->update(['status' => 'cancelled']);
         }
-        
+
         return response()->json([
-            'status' => $order->status
+            'status' => $order->status,
         ]);
     }
 
@@ -243,6 +249,7 @@ class OrderController extends Controller
         if ($order->status === 'pending') {
             $order->update(['status' => 'cancelled']);
         }
+
         return response()->json(['success' => true]);
     }
 }

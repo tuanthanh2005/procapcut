@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -15,9 +13,9 @@ class UserController extends Controller
     public function orders()
     {
         $user = Auth::user();
-        
+
         $orders = Order::where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(10);
-        
+
         // Auto cancel any pending orders older than 5 minutes
         foreach ($orders as $order) {
             if ($order->status === 'pending' && $order->created_at->addMinutes(5)->isPast()) {
@@ -45,7 +43,7 @@ class UserController extends Controller
         ], [
             'name.required' => 'Họ và tên không được để trống.',
             'password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự.',
-            'password.confirmed' => 'Xác nhận mật khẩu không trùng khớp.'
+            'password.confirmed' => 'Xác nhận mật khẩu không trùng khớp.',
         ]);
 
         $user->name = $request->name;

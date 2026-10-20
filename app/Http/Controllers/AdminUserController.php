@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\ChatConversation;
+use App\Models\ChatMessage;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminUserController extends Controller
@@ -16,9 +18,9 @@ class AdminUserController extends Controller
         $query = User::query();
 
         if ($search) {
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%");
             });
         }
 
@@ -42,10 +44,11 @@ class AdminUserController extends Controller
             return redirect()->back()->with('error_message', 'Bạn không thể tự khóa tài khoản của chính mình!');
         }
 
-        $user->is_blocked = !$user->is_blocked;
+        $user->is_blocked = ! $user->is_blocked;
         $user->save();
 
         $statusText = $user->is_blocked ? 'Khóa' : 'Mở khóa';
+
         return redirect()->back()->with('success_message', "Đã {$statusText} tài khoản khách hàng {$user->name} thành công!");
     }
 
@@ -67,6 +70,7 @@ class AdminUserController extends Controller
         $user->save();
 
         $roleText = $user->role === 'admin' ? 'Quản trị viên' : 'Khách hàng';
+
         return redirect()->back()->with('success_message', "Đã cập nhật quyền của {$user->name} thành {$roleText} thành công!");
     }
 
@@ -82,10 +86,10 @@ class AdminUserController extends Controller
 
         // Dissociate orders so revenue stats are preserved
         Order::where('user_id', $user->id)->update(['user_id' => null]);
-        
+
         // Clean up chat messages and conversations
-        \App\Models\ChatMessage::where('user_id', $user->id)->delete();
-        \App\Models\ChatConversation::where('user_id', $user->id)->delete();
+        ChatMessage::where('user_id', $user->id)->delete();
+        ChatConversation::where('user_id', $user->id)->delete();
 
         $name = $user->name;
         $user->delete();

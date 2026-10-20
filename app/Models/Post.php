@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
 #[Fillable([
-    'slug', 'title', 'summary', 'content', 'image_path', 'meta_title', 'meta_desc', 'meta_keywords', 'is_published'
+    'slug', 'title', 'summary', 'content', 'image_path', 'meta_title', 'meta_desc', 'meta_keywords', 'is_published',
 ])]
 class Post extends Model
 {

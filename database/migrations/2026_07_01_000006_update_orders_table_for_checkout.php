@@ -33,7 +33,7 @@ return new class extends Migration
                 'customer_email',
                 'upgrade_details',
                 'payment_method',
-                'items'
+                'items',
             ]);
         });
     }

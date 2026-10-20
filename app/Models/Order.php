@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable([
     'user_id', 'customer_name', 'customer_phone', 'customer_email',
     'upgrade_details', 'payment_method', 'items', 'product_name',
-    'product_icon', 'price', 'status', 'activation_key'
+    'product_icon', 'price', 'status', 'activation_key',
 ])]
 class Order extends Model
 {

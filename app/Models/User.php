@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -43,7 +44,7 @@ class User extends Authenticatable
     /**
      * Get the reviews by this user.
      */
-    public function reviews(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
     }
@@ -51,7 +52,7 @@ class User extends Authenticatable
     /**
      * Get the chat messages sent/received by this user.
      */
-    public function chatMessages(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function chatMessages(): HasMany
     {
         return $this->hasMany(ChatMessage::class);
     }
@@ -59,7 +60,7 @@ class User extends Authenticatable
     /**
      * Get the orders for this user.
      */
-    public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
