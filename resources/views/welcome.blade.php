@@ -444,14 +444,14 @@
             box-shadow: 0 2px 6px rgba(244, 63, 94, 0.3);
         }
 
-        /* Hero Banner Centered & Expanded */
+        /* Hero Banner Centered & Compact */
         .hero-banner {
-            margin-top: 1.5rem;
-            margin-bottom: 2.5rem;
+            margin-top: 1.25rem;
+            margin-bottom: 2rem;
             border-radius: var(--radius-lg);
             background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
             border: 1px solid #bae6fd;
-            padding: 4.5rem 2.5rem;
+            padding: 2.75rem 2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -459,7 +459,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 15px 35px -10px rgba(2, 132, 199, 0.1), 0 0 1px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 30px -10px rgba(2, 132, 199, 0.08), 0 0 1px rgba(0, 0, 0, 0.05);
         }
 
         .hero-banner-canvas {
@@ -476,7 +476,7 @@
             position: relative;
             z-index: 2;
             width: 100%;
-            max-width: 1140px;
+            max-width: 960px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -488,14 +488,14 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.45rem 1.15rem;
+            padding: 0.35rem 0.95rem;
             border-radius: var(--radius-full);
             background: #e0f2fe;
             border: 1px solid #bae6fd;
             color: #0369a1;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.15rem;
             font-family: 'JetBrains Mono', monospace;
             box-shadow: 0 2px 6px rgba(2, 132, 199, 0.08);
         }
@@ -515,14 +515,14 @@
         }
 
         .hero-text h1 {
-            font-size: 3.35rem;
-            font-weight: 900;
-            line-height: 1.25;
-            margin-bottom: 1.35rem;
-            letter-spacing: -1px;
+            font-size: 2.45rem;
+            font-weight: 850;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+            letter-spacing: -0.6px;
             color: #0f172a;
             text-align: center;
-            max-width: 1120px;
+            max-width: 880px;
         }
 
         .hero-text h1 .highlight-ai {
@@ -532,11 +532,11 @@
         }
 
         .hero-text p {
-            font-size: 1.15rem;
+            font-size: 1rem;
             color: var(--text-muted);
-            line-height: 1.7;
-            margin-bottom: 2.25rem;
-            max-width: 1040px;
+            line-height: 1.6;
+            margin-bottom: 1.65rem;
+            max-width: 820px;
             text-align: center;
         }
 
@@ -1961,7 +1961,8 @@
                 </div>
                 
                 <h1>
-                    Siêu Thị Tài Nguyên <span class="highlight-ai">Trí Tuệ Nhân Tạo & Tools Pro</span>
+                    Siêu Thị Tài Nguyên <br>
+                    <span class="highlight-ai">Trí Tuệ Nhân Tạo & Tools Pro</span>
                 </h1>
                 
                 <p>
@@ -1975,84 +1976,6 @@
                     <a href="https://zalo.me/0569012134" target="_blank" class="btn btn-outline">
                         <i class="fa-solid fa-comments"></i> Hỗ Trợ Kỹ Thuật Zalo
                     </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- AI BRAND ECOSYSTEM MARQUEE BAR -->
-        <section class="ai-ecosystem-bar">
-            <div class="ai-bar-title">HỆ SINH THÁI TÀI NGUYÊN AI ĐƯỢC HỖ TRỢ CHÍNH HÃNG</div>
-            <div class="ai-brands-track">
-                <div class="ai-brand-pill">
-                    <svg viewBox="0 0 24 24" fill="#0284c7"><circle cx="12" cy="12" r="10"/></svg>
-                    <span>OpenAI ChatGPT-4o</span>
-                </div>
-                <div class="ai-brand-pill">
-                    <svg viewBox="0 0 24 24" fill="#ea580c"><path d="M12 2L2 22h20L12 2z"/></svg>
-                    <span>Anthropic Claude 3.5</span>
-                </div>
-                <div class="ai-brand-pill">
-                    <svg viewBox="0 0 24 24" fill="#4f46e5"><path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z"/></svg>
-                    <span>Google Gemini Ultra</span>
-                </div>
-                <div class="ai-brand-pill">
-                    <svg viewBox="0 0 24 24" fill="#0f172a"><path d="M3 3h18v18H3z"/></svg>
-                    <span>Midjourney v6</span>
-                </div>
-                <div class="ai-brand-pill">
-                    <svg viewBox="0 0 24 24" fill="#0f172a"><path d="M4 4h7l4 8-4 8H4l4-8-4-8z"/></svg>
-                    <span>CapCut Pro</span>
-                </div>
-                <div class="ai-brand-pill">
-                    <svg viewBox="0 0 24 24" fill="#0284c7"><circle cx="12" cy="12" r="9"/></svg>
-                    <span>Canva Pro Magic AI</span>
-                </div>
-                <div class="ai-brand-pill">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8"/></svg>
-                    <span>Cursor AI Code</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Trust Badges Section -->
-        <section class="trust-grid">
-            <div class="trust-card">
-                <div class="trust-icon-box">
-                    <i class="fa-solid fa-bolt-lightning"></i>
-                </div>
-                <div class="trust-info">
-                    <h3>Kích Hoạt Tự Động 30s</h3>
-                    <p>API SePay đồng bộ tự động, giao nhận tài khoản hoặc nâng cấp qua Email tức thì.</p>
-                </div>
-            </div>
-            
-            <div class="trust-card">
-                <div class="trust-icon-box">
-                    <i class="fa-solid fa-shield-halved"></i>
-                </div>
-                <div class="trust-info">
-                    <h3>Bảo Hành 1 Đổi 1 Toàn Trình</h3>
-                    <p>Cam kết 1 đổi 1 hoặc hoàn tiền minh bạch nếu phát sinh lỗi gián đoạn từ nhà phát hành.</p>
-                </div>
-            </div>
-
-            <div class="trust-card">
-                <div class="trust-icon-box">
-                    <i class="fa-solid fa-user-shield"></i>
-                </div>
-                <div class="trust-info">
-                    <h3>Tài Khoản Private 100%</h3>
-                    <p>Nâng cấp trên Email cá nhân của bạn, tuyệt đối không dùng chung, bảo mật lịch sử chat & prompt.</p>
-                </div>
-            </div>
-
-            <div class="trust-card">
-                <div class="trust-icon-box">
-                    <i class="fa-solid fa-headset"></i>
-                </div>
-                <div class="trust-info">
-                    <h3>Kỹ Thuật Hỗ Trợ 24/7</h3>
-                    <p>Hỗ trợ Ultraview/AnyDesk trực tiếp, giải đáp mọi vấn đề cài đặt prompt và kết nối API.</p>
                 </div>
             </div>
         </section>
@@ -2152,6 +2075,84 @@
                     </div>
                 </div>
             @endforeach
+        </section>
+
+        <!-- AI BRAND ECOSYSTEM MARQUEE BAR -->
+        <section class="ai-ecosystem-bar">
+            <div class="ai-bar-title">HỆ SINH THÁI TÀI NGUYÊN AI ĐƯỢC HỖ TRỢ CHÍNH HÃNG</div>
+            <div class="ai-brands-track">
+                <div class="ai-brand-pill">
+                    <svg viewBox="0 0 24 24" fill="#0284c7"><circle cx="12" cy="12" r="10"/></svg>
+                    <span>OpenAI ChatGPT-4o</span>
+                </div>
+                <div class="ai-brand-pill">
+                    <svg viewBox="0 0 24 24" fill="#ea580c"><path d="M12 2L2 22h20L12 2z"/></svg>
+                    <span>Anthropic Claude 3.5</span>
+                </div>
+                <div class="ai-brand-pill">
+                    <svg viewBox="0 0 24 24" fill="#4f46e5"><path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z"/></svg>
+                    <span>Google Gemini Ultra</span>
+                </div>
+                <div class="ai-brand-pill">
+                    <svg viewBox="0 0 24 24" fill="#0f172a"><path d="M3 3h18v18H3z"/></svg>
+                    <span>Midjourney v6</span>
+                </div>
+                <div class="ai-brand-pill">
+                    <svg viewBox="0 0 24 24" fill="#0f172a"><path d="M4 4h7l4 8-4 8H4l4-8-4-8z"/></svg>
+                    <span>CapCut Pro</span>
+                </div>
+                <div class="ai-brand-pill">
+                    <svg viewBox="0 0 24 24" fill="#0284c7"><circle cx="12" cy="12" r="9"/></svg>
+                    <span>Canva Pro Magic AI</span>
+                </div>
+                <div class="ai-brand-pill">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8"/></svg>
+                    <span>Cursor AI Code</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trust Badges Section -->
+        <section class="trust-grid">
+            <div class="trust-card">
+                <div class="trust-icon-box">
+                    <i class="fa-solid fa-bolt-lightning"></i>
+                </div>
+                <div class="trust-info">
+                    <h3>Kích Hoạt Tự Động 30s</h3>
+                    <p>API SePay đồng bộ tự động, giao nhận tài khoản hoặc nâng cấp qua Email tức thì.</p>
+                </div>
+            </div>
+            
+            <div class="trust-card">
+                <div class="trust-icon-box">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div class="trust-info">
+                    <h3>Bảo Hành 1 Đổi 1 Toàn Trình</h3>
+                    <p>Cam kết 1 đổi 1 hoặc hoàn tiền minh bạch nếu phát sinh lỗi gián đoạn từ nhà phát hành.</p>
+                </div>
+            </div>
+
+            <div class="trust-card">
+                <div class="trust-icon-box">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <div class="trust-info">
+                    <h3>Tài Khoản Private 100%</h3>
+                    <p>Nâng cấp trên Email cá nhân của bạn, tuyệt đối không dùng chung, bảo mật lịch sử chat & prompt.</p>
+                </div>
+            </div>
+
+            <div class="trust-card">
+                <div class="trust-icon-box">
+                    <i class="fa-solid fa-headset"></i>
+                </div>
+                <div class="trust-info">
+                    <h3>Kỹ Thuật Hỗ Trợ 24/7</h3>
+                    <p>Hỗ trợ Ultraview/AnyDesk trực tiếp, giải đáp mọi vấn đề cài đặt prompt và kết nối API.</p>
+                </div>
+            </div>
         </section>
 
         <!-- VS Performance Section -->
