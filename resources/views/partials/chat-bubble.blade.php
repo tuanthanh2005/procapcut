@@ -99,13 +99,67 @@
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-4px); }
     }
+
+    /* 4-Stage Sequential Ringing Shake & Sonar Ripple Animations (8s Cycle) */
+    @keyframes ring-pulse-phone {
+        0% { transform: scale(1) rotate(0deg); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7), 0 0 0 0 rgba(16, 185, 129, 0.4), 0 10px 25px rgba(16, 185, 129, 0.4); }
+        2% { transform: scale(1.12) rotate(-16deg); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.45), 0 0 0 14px rgba(16, 185, 129, 0.25), 0 12px 28px rgba(16, 185, 129, 0.45); }
+        4% { transform: scale(1.15) rotate(16deg); box-shadow: 0 0 0 14px rgba(16, 185, 129, 0.25), 0 0 0 24px rgba(16, 185, 129, 0.1), 0 12px 28px rgba(16, 185, 129, 0.45); }
+        6% { transform: scale(1.14) rotate(-14deg); box-shadow: 0 0 0 20px rgba(16, 185, 129, 0), 0 0 0 32px rgba(16, 185, 129, 0), 0 10px 25px rgba(16, 185, 129, 0.4); }
+        8% { transform: scale(1.1) rotate(14deg); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.4), 0 0 0 14px rgba(16, 185, 129, 0.2), 0 10px 25px rgba(16, 185, 129, 0.4); }
+        10% { transform: scale(1.08) rotate(-10deg); box-shadow: 0 0 0 16px rgba(16, 185, 129, 0.2), 0 0 0 26px rgba(16, 185, 129, 0.08), 0 10px 25px rgba(16, 185, 129, 0.4); }
+        12% { transform: scale(1.05) rotate(8deg); box-shadow: 0 0 0 24px rgba(16, 185, 129, 0), 0 0 0 36px rgba(16, 185, 129, 0), 0 10px 25px rgba(16, 185, 129, 0.4); }
+        15% { transform: scale(1.02) rotate(-3deg); }
+        18%, 100% { transform: scale(1) rotate(0deg); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), 0 10px 25px rgba(16, 185, 129, 0.4); }
+    }
+
+    @keyframes ring-pulse-telegram {
+        0%, 25% { transform: scale(1) rotate(0deg); box-shadow: 0 0 0 0 rgba(34, 158, 217, 0.7), 0 0 0 0 rgba(34, 158, 217, 0.4), 0 10px 25px rgba(34, 158, 217, 0.4); }
+        27% { transform: scale(1.12) rotate(-16deg); box-shadow: 0 0 0 8px rgba(34, 158, 217, 0.45), 0 0 0 14px rgba(34, 158, 217, 0.25), 0 12px 28px rgba(34, 158, 217, 0.45); }
+        29% { transform: scale(1.15) rotate(16deg); box-shadow: 0 0 0 14px rgba(34, 158, 217, 0.25), 0 0 0 24px rgba(34, 158, 217, 0.1), 0 12px 28px rgba(34, 158, 217, 0.45); }
+        31% { transform: scale(1.14) rotate(-14deg); box-shadow: 0 0 0 20px rgba(34, 158, 217, 0), 0 0 0 32px rgba(34, 158, 217, 0), 0 10px 25px rgba(34, 158, 217, 0.4); }
+        33% { transform: scale(1.1) rotate(14deg); box-shadow: 0 0 0 8px rgba(34, 158, 217, 0.4), 0 0 0 14px rgba(34, 158, 217, 0.2), 0 10px 25px rgba(34, 158, 217, 0.4); }
+        35% { transform: scale(1.08) rotate(-10deg); box-shadow: 0 0 0 16px rgba(34, 158, 217, 0.2), 0 0 0 26px rgba(34, 158, 217, 0.08), 0 10px 25px rgba(34, 158, 217, 0.4); }
+        37% { transform: scale(1.05) rotate(8deg); box-shadow: 0 0 0 24px rgba(34, 158, 217, 0), 0 0 0 36px rgba(34, 158, 217, 0), 0 10px 25px rgba(34, 158, 217, 0.4); }
+        40% { transform: scale(1.02) rotate(-3deg); }
+        43%, 100% { transform: scale(1) rotate(0deg); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), 0 10px 25px rgba(34, 158, 217, 0.4); }
+    }
+
+    @keyframes ring-pulse-zalo {
+        0%, 50% { transform: scale(1) rotate(0deg); box-shadow: 0 0 0 0 rgba(0, 104, 255, 0.7), 0 0 0 0 rgba(0, 104, 255, 0.4), 0 10px 25px rgba(0, 104, 255, 0.4); }
+        52% { transform: scale(1.12) rotate(-16deg); box-shadow: 0 0 0 8px rgba(0, 104, 255, 0.45), 0 0 0 14px rgba(0, 104, 255, 0.25), 0 12px 28px rgba(0, 104, 255, 0.45); }
+        54% { transform: scale(1.15) rotate(16deg); box-shadow: 0 0 0 14px rgba(0, 104, 255, 0.25), 0 0 0 24px rgba(0, 104, 255, 0.1), 0 12px 28px rgba(0, 104, 255, 0.45); }
+        56% { transform: scale(1.14) rotate(-14deg); box-shadow: 0 0 0 20px rgba(0, 104, 255, 0), 0 0 0 32px rgba(0, 104, 255, 0), 0 10px 25px rgba(0, 104, 255, 0.4); }
+        58% { transform: scale(1.1) rotate(14deg); box-shadow: 0 0 0 8px rgba(0, 104, 255, 0.4), 0 0 0 14px rgba(0, 104, 255, 0.2), 0 10px 25px rgba(0, 104, 255, 0.4); }
+        60% { transform: scale(1.08) rotate(-10deg); box-shadow: 0 0 0 16px rgba(0, 104, 255, 0.2), 0 0 0 26px rgba(0, 104, 255, 0.08), 0 10px 25px rgba(0, 104, 255, 0.4); }
+        62% { transform: scale(1.05) rotate(8deg); box-shadow: 0 0 0 24px rgba(0, 104, 255, 0), 0 0 0 36px rgba(0, 104, 255, 0), 0 10px 25px rgba(0, 104, 255, 0.4); }
+        65% { transform: scale(1.02) rotate(-3deg); }
+        68%, 100% { transform: scale(1) rotate(0deg); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), 0 10px 25px rgba(0, 104, 255, 0.4); }
+    }
+
+    @keyframes ring-pulse-chat {
+        0%, 75% { transform: scale(1) rotate(0deg); box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7), 0 0 0 0 rgba(79, 70, 229, 0.4), 0 10px 25px rgba(2, 132, 199, 0.4); }
+        77% { transform: scale(1.12) rotate(-16deg); box-shadow: 0 0 0 8px rgba(2, 132, 199, 0.45), 0 0 0 14px rgba(79, 70, 229, 0.25), 0 12px 28px rgba(2, 132, 199, 0.45); }
+        79% { transform: scale(1.15) rotate(16deg); box-shadow: 0 0 0 14px rgba(2, 132, 199, 0.25), 0 0 0 24px rgba(79, 70, 229, 0.1), 0 12px 28px rgba(2, 132, 199, 0.45); }
+        81% { transform: scale(1.14) rotate(-14deg); box-shadow: 0 0 0 20px rgba(2, 132, 199, 0), 0 0 0 32px rgba(79, 70, 229, 0), 0 10px 25px rgba(2, 132, 199, 0.4); }
+        83% { transform: scale(1.1) rotate(14deg); box-shadow: 0 0 0 8px rgba(2, 132, 199, 0.4), 0 0 0 14px rgba(79, 70, 229, 0.2), 0 10px 25px rgba(2, 132, 199, 0.4); }
+        85% { transform: scale(1.08) rotate(-10deg); box-shadow: 0 0 0 16px rgba(2, 132, 199, 0.2), 0 0 0 26px rgba(79, 70, 229, 0.08), 0 10px 25px rgba(2, 132, 199, 0.4); }
+        87% { transform: scale(1.05) rotate(8deg); box-shadow: 0 0 0 24px rgba(2, 132, 199, 0), 0 0 0 36px rgba(79, 70, 229, 0), 0 10px 25px rgba(2, 132, 199, 0.4); }
+        90% { transform: scale(1.02) rotate(-3deg); }
+        93%, 100% { transform: scale(1) rotate(0deg); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), 0 10px 25px rgba(2, 132, 199, 0.4); }
+    }
     
+    #chat-bubble-btn {
+        animation: ring-pulse-chat 8s infinite ease-in-out;
+    }
+
     #chat-bubble-btn:hover {
-        transform: scale(1.08);
+        animation-play-state: paused;
+        transform: scale(1.12) !important;
     }
     
     #chat-bubble-btn:active {
-        transform: scale(0.95);
+        transform: scale(0.95) !important;
     }
 
     #chat-header-close-btn:hover {
@@ -120,7 +174,7 @@
         width: 3.5rem;
         height: 3.5rem;
         z-index: 997;
-        transition: all 0.3s ease;
+        transition: transform 0.25s ease, background 0.25s ease;
         border-radius: 50%;
         background: linear-gradient(135deg, #10b981, #059669);
         color: #ffffff;
@@ -130,6 +184,7 @@
         justify-content: center;
         font-size: 1.35rem;
         text-decoration: none;
+        animation: ring-pulse-phone 8s infinite ease-in-out;
     }
 
     .telegram-bubble-float {
@@ -139,7 +194,7 @@
         width: 3.5rem;
         height: 3.5rem;
         z-index: 998;
-        transition: all 0.3s ease;
+        transition: transform 0.25s ease, background 0.25s ease;
         border-radius: 50%;
         background: linear-gradient(135deg, #2AABEE, #229ED9);
         color: #ffffff;
@@ -149,6 +204,7 @@
         justify-content: center;
         font-size: 1.7rem;
         text-decoration: none;
+        animation: ring-pulse-telegram 8s infinite ease-in-out;
     }
 
     .zalo-bubble-float {
@@ -158,16 +214,18 @@
         width: 3.5rem;
         height: 3.5rem;
         z-index: 999;
-        transition: all 0.3s ease;
+        transition: transform 0.25s ease, background 0.25s ease;
         border-radius: 50%;
         box-shadow: 0 10px 25px rgba(0, 104, 255, 0.4);
         text-decoration: none;
+        animation: ring-pulse-zalo 8s infinite ease-in-out;
     }
     
     .phone-bubble-float:hover,
     .telegram-bubble-float:hover,
     .zalo-bubble-float:hover {
-        transform: scale(1.08);
+        animation-play-state: paused;
+        transform: scale(1.12) !important;
         color: #ffffff;
     }
 
