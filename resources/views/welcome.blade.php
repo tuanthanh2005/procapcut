@@ -1760,13 +1760,10 @@
 
         @media (max-width: 820px) {
             .hero-banner {
-                padding: 3rem 1.5rem;
+                display: none !important;
             }
-            .hero-text h1 {
-                font-size: 2.2rem;
-            }
-            .hero-text p {
-                font-size: 0.98rem;
+            .section-header#products-list {
+                margin-top: 1.25rem;
             }
             .vs-container {
                 grid-template-columns: 1fr;
@@ -1786,17 +1783,11 @@
         }
 
         @media (max-width: 580px) {
-            .hero-banner {
-                padding: 2.5rem 1rem;
-            }
             .products-grid {
                 grid-template-columns: 1fr;
             }
             .trust-grid {
                 grid-template-columns: 1fr;
-            }
-            .hero-text h1 {
-                font-size: 1.85rem;
             }
             .cart-sidebar {
                 width: 100%;
