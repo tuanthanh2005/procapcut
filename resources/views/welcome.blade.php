@@ -420,18 +420,19 @@
             box-shadow: 0 2px 6px rgba(244, 63, 94, 0.3);
         }
 
-        /* Hero Banner */
+        /* Hero Banner Centered */
         .hero-banner {
             margin-top: 1.5rem;
             margin-bottom: 2.5rem;
             border-radius: var(--radius-lg);
             background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
             border: 1px solid #bae6fd;
-            padding: 2.8rem 2.5rem;
-            display: grid;
-            grid-template-columns: 1.15fr 0.85fr;
-            gap: 2.5rem;
+            padding: 4rem 2rem;
+            display: flex;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            text-align: center;
             position: relative;
             overflow: hidden;
             box-shadow: 0 15px 35px -10px rgba(2, 132, 199, 0.1), 0 0 1px rgba(0, 0, 0, 0.05);
@@ -444,26 +445,32 @@
             height: 100%;
             pointer-events: none;
             z-index: 1;
-            opacity: 0.6;
+            opacity: 0.65;
         }
 
         .hero-text {
             position: relative;
             z-index: 2;
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.35rem 0.85rem;
+            padding: 0.4rem 1rem;
             border-radius: var(--radius-full);
             background: #e0f2fe;
             border: 1px solid #bae6fd;
             color: #0369a1;
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             font-weight: 700;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.35rem;
             font-family: 'JetBrains Mono', monospace;
         }
 
@@ -482,12 +489,13 @@
         }
 
         .hero-text h1 {
-            font-size: 2.35rem;
+            font-size: 2.85rem;
             font-weight: 900;
-            line-height: 1.2;
-            margin-bottom: 1rem;
+            line-height: 1.25;
+            margin-bottom: 1.25rem;
             letter-spacing: -0.8px;
             color: #0f172a;
+            text-align: center;
         }
 
         .hero-text h1 .highlight-ai {
@@ -497,16 +505,18 @@
         }
 
         .hero-text p {
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 1.75rem;
-            max-width: 540px;
+            line-height: 1.65;
+            margin-bottom: 2rem;
+            max-width: 760px;
+            text-align: center;
         }
 
         .hero-buttons {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 1rem;
             flex-wrap: wrap;
         }
@@ -1929,51 +1939,6 @@
                         <i class="fa-solid fa-comments"></i> Hỗ Trợ Kỹ Thuật Zalo
                     </a>
                 </div>
-            </div>
-
-            <!-- Hero Showcase Cards -->
-            <div class="hero-showcase">
-                @foreach($showcaseProducts as $index => $prod)
-                    <a href="/product/{{ $prod->slug }}" class="showcase-card">
-                        <div class="showcase-header">
-                            <div class="showcase-icon-wrapper">
-                                @if($prod->slug === 'chatgpt')
-                                    <svg viewBox="0 0 24 24" fill="#0284c7">
-                                        <path d="M22.28 9.37a5.99 5.99 0 0 0-.52-4.94 6.06 6.06 0 0 0-6.42-2.73A6.04 6.04 0 0 0 10.7.35a6.04 6.04 0 0 0-5.8 4.22 6.06 6.06 0 0 0-4.14 3 6.05 6.05 0 0 0 .75 6.94 6.02 6.02 0 0 0 .52 4.94 6.06 6.06 0 0 0 6.42 2.73 6.04 6.04 0 0 0 4.64 1.35 6.04 6.04 0 0 0 5.8-4.22 6.06 6.06 0 0 0 4.14-3 6.05 6.05 0 0 0-.75-6.94zm-8.87 13.06a4.54 4.54 0 0 1-2.92-1.07l.14-.08 4.85-2.8a.78.78 0 0 0 .4-.68v-6.85l2.06 1.19a.07.07 0 0 1 .04.06v5.69a4.56 4.56 0 0 1-4.57 4.54zm-8.9-4.33a4.52 4.52 0 0 1-.62-3.05l.14.09 4.85 2.8a.77.77 0 0 0 .79 0l5.93-3.43v2.38a.07.07 0 0 1-.03.06l-4.93 2.85a4.55 4.55 0 0 1-6.13-1.7zm-1.8-8.88a4.54 4.54 0 0 1 2.3-1.98v5.76a.78.78 0 0 0 .39.68l5.93 3.42-2.06 1.19a.07.07 0 0 1-.07 0l-4.93-2.85a4.56 4.56 0 0 1-1.56-6.22zm14.65 2.21l-5.93-3.42 2.06-1.19a.07.07 0 0 1 .07 0l4.93 2.85a4.56 4.56 0 0 1 1.56 6.22 4.54 4.54 0 0 1-2.3 1.98v-5.76a.78.78 0 0 0-.39-.68zm2.66 4.97l-.14-.09-4.85-2.8a.77.77 0 0 0-.79 0l-5.93 3.43v-2.38a.07.07 0 0 1 .03-.06l4.93-2.85a4.55 4.55 0 0 1 6.75 4.75zM8.07 11.58l2.94-1.7a.78.78 0 0 0 .4-.68V5.76l2.06-1.19a.07.07 0 0 1 .07 0l4.93 2.85a4.55 4.55 0 0 1 2.3 3.96l-.14-.08-4.85-2.8a.77.77 0 0 0-.79 0l-5.93 3.43v-2.35l-1-.6zm2.84 1.34l2.67-1.54 2.67 1.54v3.08l-2.67 1.54-2.67-1.54z"/>
-                                    </svg>
-                                @elseif($prod->slug === 'gemini')
-                                    <svg viewBox="0 0 24 24" fill="#4f46e5">
-                                        <path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z"/>
-                                    </svg>
-                                @elseif($prod->slug === 'capcut')
-                                    <svg viewBox="0 0 24 24" fill="#0f172a">
-                                        <path d="M4 4h7l4 8-4 8H4l4-8-4-8zm9 0h7l-4 8 4 8h-7l4-8-4-8z"/>
-                                    </svg>
-                                @elseif($prod->slug === 'canva')
-                                    <svg viewBox="0 0 24 24" fill="#0284c7">
-                                        <circle cx="12" cy="12" r="10" stroke="#0284c7" stroke-width="2" fill="none"/>
-                                        <path d="M8 12a4 4 0 0 1 8 0c0 2-2 4-4 4s-4-2-4-4z"/>
-                                    </svg>
-                                @else
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                                    </svg>
-                                @endif
-                            </div>
-                            <div>
-                                <div class="showcase-title">{{ $prod->name }}</div>
-                                <div class="showcase-meta">{{ $prod->category_label }}</div>
-                            </div>
-                        </div>
-                        <p class="showcase-desc">{{ $prod->seo_desc }}</p>
-                        <div class="showcase-price-row">
-                            <span class="showcase-price">{{ number_format($prod->default_price, 0, ',', '.') }}₫</span>
-                            <span class="showcase-badge" style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;">
-                                {{ $prod->tag ?: 'CHÍNH HÃNG' }}
-                            </span>
-                        </div>
-                    </a>
-                @endforeach
             </div>
         </section>
 
