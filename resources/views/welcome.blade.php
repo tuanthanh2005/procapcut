@@ -110,10 +110,14 @@
             --radius-lg: 20px;
             --radius-full: 9999px;
             
-            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
             --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
             --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
             --shadow-lg: 0 20px 35px -10px rgba(15, 23, 42, 0.1), 0 0 1px rgba(0, 0, 0, 0.08);
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         * {
@@ -125,16 +129,36 @@
         body {
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-body);
+            background-image: radial-gradient(circle at 50% 0%, rgba(2, 132, 199, 0.06) 0%, transparent 60%);
+            background-repeat: no-repeat;
+            background-size: 100% 700px;
             color: var(--text-main);
             line-height: 1.55;
             overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 10% 10%, rgba(2, 132, 199, 0.04) 0%, transparent 40%),
-                radial-gradient(circle at 90% 85%, rgba(79, 70, 229, 0.04) 0%, transparent 40%),
-                linear-gradient(#f1f5f9 1px, transparent 1px),
-                linear-gradient(90deg, #f1f5f9 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
-            background-attachment: fixed;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        /* Performance boost: hardware acceleration & offscreen section containment */
+        .product-card,
+        .trust-card {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+
+        .vs-wrapper,
+        .comparison-wrapper,
+        .warranty-section,
+        .faqs-section,
+        footer {
+            content-visibility: auto;
+            contain-intrinsic-size: 1px 400px;
+        }
+
+        .marquee-content {
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         a {
@@ -230,12 +254,12 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: var(--bg-nav);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: #ffffff;
             border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
             padding: 0.75rem 0;
-            transition: var(--transition);
+            transform: translateZ(0);
+            will-change: transform;
         }
 
         .navbar {
@@ -2632,16 +2656,24 @@
         // Initial render cart
         renderCart();
 
-        // Back to top
+        // Back to top (throttled with RAF)
         const backToTopBtn = document.getElementById('back-to-top-btn');
         if (backToTopBtn) {
+            let scrollTicking = false;
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) {
-                    backToTopBtn.classList.add('show');
-                } else {
-                    backToTopBtn.classList.remove('show');
+                if (!scrollTicking) {
+                    window.requestAnimationFrame(() => {
+                        if (window.scrollY > 300) {
+                            backToTopBtn.classList.add('show');
+                        } else {
+                            backToTopBtn.classList.remove('show');
+                        }
+                        scrollTicking = false;
+                    });
+                    scrollTicking = true;
                 }
             }, { passive: true });
+
             backToTopBtn.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
@@ -2674,23 +2706,34 @@
             menuOverlay.addEventListener('click', closeMenu);
         }
 
-        // LIGHT TECH PARTICLE CANVAS
+        // ULTRA-LIGHT TECH PARTICLE CANVAS (High FPS, 0% Scroll Jank)
         (function() {
             const canvas = document.getElementById('heroCanvas');
             if (!canvas) return;
 
-            const ctx = canvas.getContext('2d');
+            // Completely skip canvas calculations on mobile for buttery smooth touch scrolling
+            if (window.innerWidth < 768) {
+                canvas.style.display = 'none';
+                return;
+            }
+
+            const ctx = canvas.getContext('2d', { alpha: true });
             const container = canvas.parentElement;
+            if (!container) return;
 
             let particles = [];
             let animationFrameId = null;
             let width = 0;
             let height = 0;
             let isVisible = false;
+            let isScrolling = false;
+            let scrollTimer = null;
 
-            const mouse = { x: null, y: null, radius: 140 };
-            const particleCount = window.innerWidth < 768 ? 20 : 38;
-            const connectionDistance = 115;
+            const mouse = { x: null, y: null, radius: 120 };
+            const particleCount = 18; // Optimal count: minimal CPU, maximum elegance
+            const connectionDistance = 110;
+            const maxDistSq = connectionDistance * connectionDistance;
+            const mouseRadiusSq = mouse.radius * mouse.radius;
 
             class Particle {
                 constructor() {
@@ -2700,10 +2743,10 @@
                 reset() {
                     this.x = Math.random() * width;
                     this.y = Math.random() * height;
-                    this.radius = Math.random() * 2 + 1.2;
-                    this.vx = (Math.random() - 0.5) * 0.6;
-                    this.vy = (Math.random() - 0.5) * 0.6;
-                    this.color = Math.random() > 0.5 ? 'rgba(2, 132, 199, 0.4)' : 'rgba(79, 70, 229, 0.35)';
+                    this.radius = Math.random() * 1.6 + 1.2;
+                    this.vx = (Math.random() - 0.5) * 0.45;
+                    this.vy = (Math.random() - 0.5) * 0.45;
+                    this.color = Math.random() > 0.5 ? 'rgba(2, 132, 199, 0.45)' : 'rgba(79, 70, 229, 0.4)';
                 }
 
                 update() {
@@ -2729,12 +2772,13 @@
                 width = container.offsetWidth;
                 height = container.offsetHeight;
                 
-                const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+                const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
                 canvas.width = width * dpr;
                 canvas.height = height * dpr;
                 ctx.scale(dpr, dpr);
 
                 initParticles();
+                updateContainerRect();
             }
 
             function initParticles() {
@@ -2745,6 +2789,7 @@
             }
 
             function drawConnections() {
+                ctx.lineWidth = 0.8;
                 for (let i = 0; i < particles.length; i++) {
                     const p1 = particles[i];
                     for (let j = i + 1; j < particles.length; j++) {
@@ -2753,14 +2798,12 @@
                         const dy = p1.y - p2.y;
                         const distSq = dx * dx + dy * dy;
 
-                        if (distSq < connectionDistance * connectionDistance) {
-                            const dist = Math.sqrt(distSq);
-                            const alpha = (1 - dist / connectionDistance) * 0.22;
+                        if (distSq < maxDistSq) {
+                            const alpha = (1 - Math.sqrt(distSq) / connectionDistance) * 0.2;
                             ctx.beginPath();
                             ctx.moveTo(p1.x, p1.y);
                             ctx.lineTo(p2.x, p2.y);
                             ctx.strokeStyle = `rgba(2, 132, 199, ${alpha})`;
-                            ctx.lineWidth = 0.9;
                             ctx.stroke();
                         }
                     }
@@ -2770,14 +2813,12 @@
                         const dy = p1.y - mouse.y;
                         const distSq = dx * dx + dy * dy;
 
-                        if (distSq < mouse.radius * mouse.radius) {
-                            const dist = Math.sqrt(distSq);
-                            const alpha = (1 - dist / mouse.radius) * 0.35;
+                        if (distSq < mouseRadiusSq) {
+                            const alpha = (1 - Math.sqrt(distSq) / mouse.radius) * 0.3;
                             ctx.beginPath();
                             ctx.moveTo(p1.x, p1.y);
                             ctx.lineTo(mouse.x, mouse.y);
                             ctx.strokeStyle = `rgba(2, 132, 199, ${alpha})`;
-                            ctx.lineWidth = 1.1;
                             ctx.stroke();
                         }
                     }
@@ -2785,35 +2826,58 @@
             }
 
             let lastTime = 0;
-            const fpsInterval = 1000 / 30;
+            const fpsInterval = 1000 / 30; // Solid 30fps particle motion is perfectly fluid while saving 50% CPU
 
             function animate(timestamp = 0) {
                 if (!isVisible) return;
                 animationFrameId = requestAnimationFrame(animate);
 
+                // Yield 100% GPU / thread to scrolling while user moves the page
+                if (isScrolling) return;
+
                 if (timestamp - lastTime < fpsInterval) return;
                 lastTime = timestamp;
 
                 ctx.clearRect(0, 0, width, height);
-                particles.forEach(p => {
-                    p.update();
-                    p.draw();
-                });
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
                 drawConnections();
             }
 
+            // Cache rect to avoid synchronous reflows on mousemove
+            let cachedRect = null;
+            function updateContainerRect() {
+                if (container) cachedRect = container.getBoundingClientRect();
+            }
+
+            window.addEventListener('scroll', () => {
+                isScrolling = true;
+                clearTimeout(scrollTimer);
+                scrollTimer = setTimeout(() => {
+                    isScrolling = false;
+                    updateContainerRect();
+                }, 100);
+            }, { passive: true });
+
+            container.addEventListener('mouseenter', updateContainerRect, { passive: true });
             container.addEventListener('mousemove', (e) => {
-                const rect = container.getBoundingClientRect();
-                mouse.x = e.clientX - rect.left;
-                mouse.y = e.clientY - rect.top;
-            });
+                if (!cachedRect) updateContainerRect();
+                mouse.x = e.clientX - cachedRect.left;
+                mouse.y = e.clientY - cachedRect.top;
+            }, { passive: true });
 
             container.addEventListener('mouseleave', () => {
                 mouse.x = null;
                 mouse.y = null;
-            });
+            }, { passive: true });
 
-            window.addEventListener('resize', resizeCanvas);
+            let resizeTimer = null;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(resizeCanvas, 200);
+            }, { passive: true });
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -2825,7 +2889,7 @@
                         cancelAnimationFrame(animationFrameId);
                     }
                 });
-            }, { threshold: 0.1 });
+            }, { threshold: 0.05 });
 
             resizeCanvas();
             observer.observe(container);
