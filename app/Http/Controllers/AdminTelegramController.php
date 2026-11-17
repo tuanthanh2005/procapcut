@@ -526,42 +526,47 @@ class AdminTelegramController extends Controller
             return redirect()->back()->with('error_message', 'Không thể kết nối hoặc không có sản phẩm nào từ Canboso.');
         }
 
-        // Mapping rules from product names to existing categories
-        $categories = TelegramCategory::all();
-        if ($categories->isEmpty()) {
-            // Auto seed default categories if none exist
-            \Illuminate\Support\Facades\Artisan::call('db:seed', [
-                '--class' => 'TelegramBotSeeder',
-                '--force' => true,
-            ]);
-            $categories = TelegramCategory::all();
-        }
-
-        $defaultCat = $categories->first();
-        if (!$defaultCat) {
-            $defaultCat = TelegramCategory::create([
-                'name' => 'Sản phẩm khác',
-                'slug' => 'san-pham-khac',
-                'icon' => '📦',
-                'sort_order' => 99,
-                'is_active' => true,
-            ]);
-            $categories = TelegramCategory::all();
-        }
-
-        $catKeywords = [
-            'ChatGPT & OpenAI' => ['chatgpt', 'gpt', 'openai', 'dall-e', 'sora'],
-            'CapCut Pro' => ['capcut'],
-            'Canva Pro' => ['canva'],
-            'Google Gemini' => ['gemini', 'google one', 'pixel'],
-            'Claude AI' => ['claude', 'anthropic'],
-            'Cursor & Codex' => ['cursor', 'codex', 'copilot', 'github', 'replit', 'zed'],
-            'Adobe All Apps' => ['adobe', 'photoshop', 'illustrator'],
-            'Microsoft 365 & Office' => ['microsoft', 'office', 'windows', 'onedrive', '365'],
-            'Suno & Audio AI' => ['suno', 'udio', 'audio', 'elevenlabs'],
-            'Kling & Video AI' => ['kling', 'runway', 'luma', 'veo', 'hailuo', 'pika', 'heygen', 'vidiq', 'openart', 'dreamina'],
-            'VPN & Proxy Riêng' => ['vpn', 'proxy', 'proton', 'adguard', 'surfshark', 'kaspersky'],
-            'Spotify Premium' => ['spotify', 'netflix', 'youtube', 'prime', 'iqiyi', 'xingtu'],
+        // Mapping rules from Canboso emoji/names to friendly category info
+        $emojiCategoryMap = [
+            'chatgpt' => ['name' => 'ChatGPT & OpenAI', 'icon' => '🤖'],
+            'apigpt' => ['name' => 'ChatGPT & OpenAI', 'icon' => '🤖'],
+            'capcut' => ['name' => 'CapCut Pro', 'icon' => '✂️'],
+            'canva' => ['name' => 'Canva Pro', 'icon' => '🎨'],
+            'google' => ['name' => 'Google Gemini', 'icon' => '✦'],
+            'google_one' => ['name' => 'Google Gemini', 'icon' => '✦'],
+            'claude' => ['name' => 'Claude AI', 'icon' => '✴️'],
+            'cursor' => ['name' => 'Cursor & Codex', 'icon' => '🚀'],
+            'github' => ['name' => 'Cursor & Codex', 'icon' => '🚀'],
+            'replit' => ['name' => 'Cursor & Codex', 'icon' => '🚀'],
+            'zed' => ['name' => 'Cursor & Codex', 'icon' => '🚀'],
+            'adobe' => ['name' => 'Adobe All Apps', 'icon' => '🖌️'],
+            'microsoft_office_365' => ['name' => 'Microsoft 365 & Office', 'icon' => '🪟'],
+            'windows' => ['name' => 'Microsoft 365 & Office', 'icon' => '🪟'],
+            'suno' => ['name' => 'Suno & Audio AI', 'icon' => '🎵'],
+            'elevenlabs' => ['name' => 'Suno & Audio AI', 'icon' => '🎵'],
+            'kling' => ['name' => 'Kling & Video AI', 'icon' => '🎬'],
+            'runway' => ['name' => 'Kling & Video AI', 'icon' => '🎬'],
+            'heygen' => ['name' => 'Kling & Video AI', 'icon' => '🎬'],
+            'dreamina' => ['name' => 'Kling & Video AI', 'icon' => '🎬'],
+            'openart' => ['name' => 'Kling & Video AI', 'icon' => '🎬'],
+            'adguard_vpn' => ['name' => 'VPN & Proxy Riêng', 'icon' => '🛡️'],
+            'proton' => ['name' => 'VPN & Proxy Riêng', 'icon' => '🛡️'],
+            'surfshark' => ['name' => 'VPN & Proxy Riêng', 'icon' => '🛡️'],
+            'kaspersky' => ['name' => 'VPN & Proxy Riêng', 'icon' => '🛡️'],
+            'nordvpn' => ['name' => 'VPN & Proxy Riêng', 'icon' => '🛡️'],
+            'spotify' => ['name' => 'Spotify & Giải Trí', 'icon' => '🎧'],
+            'netflix' => ['name' => 'Spotify & Giải Trí', 'icon' => '🍿'],
+            'youtube' => ['name' => 'Spotify & Giải Trí', 'icon' => '📺'],
+            'iqiyi' => ['name' => 'Spotify & Giải Trí', 'icon' => '📺'],
+            'xingtu' => ['name' => 'App Sửa Ảnh & Video', 'icon' => '📸'],
+            'wink' => ['name' => 'App Sửa Ảnh & Video', 'icon' => '📸'],
+            'meitu' => ['name' => 'App Sửa Ảnh & Video', 'icon' => '📸'],
+            'grok' => ['name' => 'Grok X.AI', 'icon' => '⚡'],
+            'kimi' => ['name' => 'Kimi & LLM AI', 'icon' => '🧠'],
+            'perplexity' => ['name' => 'Perplexity AI', 'icon' => '🔍'],
+            'gmail' => ['name' => 'Tài Khoản Mail & OTP', 'icon' => '✉️'],
+            'outlook' => ['name' => 'Tài Khoản Mail & OTP', 'icon' => '✉️'],
+            'figma' => ['name' => 'Figma & Design', 'icon' => '📐'],
         ];
 
         $imported = 0;
@@ -572,6 +577,7 @@ class AdminTelegramController extends Controller
             $name = $p['name'] ?? '';
             $costPrice = (int) ($p['price']['amount'] ?? 0);
             $available = $p['availability']['available'] ?? 0;
+            $emoji = $p['emoji'] ?? '';
 
             if (!$productId || !$name) {
                 continue;
@@ -582,21 +588,34 @@ class AdminTelegramController extends Controller
                 continue;
             }
 
-            // Find matching category
-            $targetCatId = $defaultCat->id;
-            $lowerName = mb_strtolower($name);
+            // Auto determine Category Name & Icon from API emoji or product name
+            $catName = 'Sản phẩm khác';
+            $catIcon = '📦';
 
-            foreach ($catKeywords as $catName => $keywords) {
-                foreach ($keywords as $kw) {
-                    if (str_contains($lowerName, $kw)) {
-                        $matchedCat = $categories->firstWhere('name', $catName);
-                        if ($matchedCat) {
-                            $targetCatId = $matchedCat->id;
-                            break 2;
-                        }
-                    }
-                }
+            if (isset($emojiCategoryMap[$emoji])) {
+                $catName = $emojiCategoryMap[$emoji]['name'];
+                $catIcon = $emojiCategoryMap[$emoji]['icon'];
+            } else {
+                $lowerName = mb_strtolower($name);
+                if (str_contains($lowerName, 'capcut')) { $catName = 'CapCut Pro'; $catIcon = '✂️'; }
+                elseif (str_contains($lowerName, 'chatgpt') || str_contains($lowerName, 'gpt')) { $catName = 'ChatGPT & OpenAI'; $catIcon = '🤖'; }
+                elseif (str_contains($lowerName, 'gemini') || str_contains($lowerName, 'google')) { $catName = 'Google Gemini'; $catIcon = '✦'; }
+                elseif (str_contains($lowerName, 'canva')) { $catName = 'Canva Pro'; $catIcon = '🎨'; }
+                elseif (str_contains($lowerName, 'vpn')) { $catName = 'VPN & Proxy Riêng'; $catIcon = '🛡️'; }
+                elseif (str_contains($lowerName, 'cursor') || str_contains($lowerName, 'codex')) { $catName = 'Cursor & Codex'; $catIcon = '🚀'; }
+                elseif (str_contains($lowerName, 'youtube') || str_contains($lowerName, 'netflix')) { $catName = 'Spotify & Giải Trí'; $catIcon = '🍿'; }
             }
+
+            // Auto create category if not exists in DB (NO SEEDER NEEDED!)
+            $category = TelegramCategory::firstOrCreate(
+                ['name' => $catName],
+                [
+                    'slug' => \Illuminate\Support\Str::slug($catName) . '-' . rand(10, 99),
+                    'icon' => $catIcon,
+                    'sort_order' => 1,
+                    'is_active' => true,
+                ]
+            );
 
             // Calculate selling price: costPrice + margin%, ensuring at least +minProfit
             $profit = max($minProfit, (int) round(($costPrice * $marginPercent) / 100));
@@ -606,7 +625,7 @@ class AdminTelegramController extends Controller
             $existing = TelegramProduct::where('canboso_product_id', $productId)->first();
 
             $data = [
-                'category_id' => $targetCatId,
+                'category_id' => $category->id,
                 'name' => $name,
                 'price' => $sellPrice,
                 'original_price' => $originalPrice,
@@ -623,7 +642,7 @@ class AdminTelegramController extends Controller
                 $existing->update($data);
                 $updated++;
             } else {
-                $data['sold_count'] = rand(5, 45); // Fake nice initial sold count
+                $data['sold_count'] = rand(8, 48);
                 TelegramProduct::create($data);
                 $imported++;
             }
