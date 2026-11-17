@@ -1055,9 +1055,20 @@
                 <div class="content-card">
                     <div class="card-header-flex">
                         <h3 class="card-title"><i class="fa-solid fa-boxes-stacked"></i> Danh sách sản phẩm Bot ({{ $products->count() }})</h3>
-                        <button class="btn-primary" onclick="openModal('addProductModal')">
-                            <i class="fa-solid fa-plus"></i> Thêm sản phẩm mới
-                        </button>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <form action="{{ route('admin.telegram.products.clear_samples') }}" method="POST" onsubmit="return confirm('CẢNH BÁO: Thao tác này sẽ xóa toàn bộ sản phẩm và key mẫu trong kho để bạn nhập kho mới từ đầu. Tiếp tục?')">
+                                @csrf
+                                <button type="submit" class="btn-danger" style="padding: 0.5rem 0.85rem; font-size: 0.85rem;">
+                                    <i class="fa-solid fa-trash-can"></i> Xóa Hết Dữ Liệu Mẫu
+                                </button>
+                            </form>
+                            <a href="{{ route('admin.telegram.index', ['tab' => 'canboso']) }}" class="btn-outline" style="padding: 0.5rem 0.85rem; font-size: 0.85rem; color: #2563eb; text-decoration: none; border-color: #93c5fd;">
+                                <i class="fa-solid fa-cloud-arrow-down"></i> Lấy Sản Phẩm Từ Canboso
+                            </a>
+                            <button class="btn-primary" onclick="openModal('addProductModal')">
+                                <i class="fa-solid fa-plus"></i> Thêm sản phẩm mới
+                            </button>
+                        </div>
                     </div>
 
                     <div class="table-responsive">
@@ -1354,15 +1365,18 @@
                                 Danh sách sản phẩm được lấy trực tiếp từ hệ thống Canboso. Bấm <strong>"Đưa vào Bot & Định giá bán"</strong> để tự động bán trên Bot của bạn và ăn chênh lệch!
                             </p>
                         </div>
-                        <div style="display: flex; gap: 0.75rem; align-items: center;">
+                        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
                             @if($canbosoBalance['success'] ?? false)
                                 <div style="background: #eff6ff; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid #bfdbfe;">
                                     <small style="color: #1e40af; font-weight: 600; display: block;">Số dư ví Canboso:</small>
                                     <strong style="color: #1d4ed8; font-size: 1.1rem;">{{ $canbosoBalance['balanceText'] ?? '0đ' }}</strong>
                                 </div>
                             @endif
+                            <button type="button" class="btn-primary" style="background: #2563eb; padding: 0.5rem 1rem;" onclick="openModal('importAllCanbosoModal')">
+                                <i class="fa-solid fa-cloud-arrow-down"></i> BẬT BÁN TẤT CẢ (ALL PRODUCTS)
+                            </button>
                             <a href="{{ route('admin.telegram.index', ['tab' => 'canboso']) }}" class="btn-outline" style="text-decoration: none;">
-                                <i class="fa-solid fa-rotate"></i> Làm mới danh sách
+                                <i class="fa-solid fa-rotate"></i> Làm mới
                             </a>
                         </div>
                     </div>
@@ -1498,6 +1512,46 @@
 
                             <button type="submit" class="btn-primary" style="width: 100%;">
                                 <i class="fa-solid fa-cloud-arrow-up"></i> Lưu & Bật Bán Tự Động Trên Bot
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Modal Import All Canboso Products -->
+                <div class="modal" id="importAllCanbosoModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="color: #1e40af;"><i class="fa-solid fa-cloud-arrow-down"></i> Bật Bán Hàng Loạt Tất Cả Sản Phẩm Canboso</h4>
+                            <button class="close-modal" onclick="closeModal('importAllCanbosoModal')">&times;</button>
+                        </div>
+                        <form action="{{ route('admin.telegram.products.canboso.import_all') }}" method="POST">
+                            @csrf
+                            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+                                Hệ thống sẽ tự động quét toàn bộ sản phẩm từ Canboso, tự động phân loại vào các Danh mục tương ứng (CapCut, ChatGPT, Gemini, Canva, Youtube, VPN...) và đưa lên bán trên Bot!
+                            </p>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" style="font-weight: 700; color: #1e40af;">Tỷ lệ Lợi nhuận thêm (%)</label>
+                                    <input type="number" name="margin_percent" class="form-input" value="30" min="0" max="500" required>
+                                    <small style="color: var(--text-muted); display: block; margin-top: 4px;">Ví dụ: 30% (Sỉ 100k -> Giá bán 130k)</small>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" style="font-weight: 700; color: #1e40af;">Lợi nhuận tối thiểu / 1 đơn (₫)</label>
+                                    <input type="number" name="min_profit" class="form-input" value="10000" min="0" required>
+                                    <small style="color: var(--text-muted); display: block; margin-top: 4px;">Đảm bảo mỗi đơn lời ít nhất số tiền này</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 1.5rem; background: #f8fafc; padding: 0.75rem 1rem; border-radius: 6px; border: 1px solid var(--border-color);">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; cursor: pointer;">
+                                    <input type="checkbox" name="only_in_stock" value="1" checked> 
+                                    Chỉ nhập các sản phẩm hiện ĐANG CÒN HÀNG trên kho sỉ Canboso
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn-primary" style="width: 100%; background: #2563eb;">
+                                <i class="fa-solid fa-bolt"></i> Bắt Đầu Nhập & Đồng Bộ Tất Cả Ngay
                             </button>
                         </form>
                     </div>

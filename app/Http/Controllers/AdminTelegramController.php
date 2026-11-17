@@ -496,4 +496,121 @@ class AdminTelegramController extends Controller
         return redirect()->route('admin.telegram.index', ['tab' => 'products'])
             ->with('success_message', "Đã nhập sản phẩm \"{$request->name}\" từ Canboso thành công! Đơn hàng sẽ được xuất tự động.");
     }
+
+    /**
+     * Clear all sample products & sample stock keys
+     */
+    public function clearSampleProducts()
+    {
+        TelegramProductKey::truncate();
+        TelegramProduct::truncate();
+
+        return redirect()->route('admin.telegram.index', ['tab' => 'products'])
+            ->with('success_message', 'Đã xóa toàn bộ sản phẩm và kho key mẫu thành công! Bảng sản phẩm hiện đã trống.');
+    }
+
+    /**
+     * Bulk Import all available products from Canboso with profit margin
+     */
+    public function importAllCanboso(Request $request)
+    {
+        $marginPercent = (int) $request->input('margin_percent', 30);
+        $minProfit = (int) $request->input('min_profit', 10000);
+        $onlyInStock = $request->has('only_in_stock');
+
+        $canbosoService = new \App\Services\CanbosoService();
+        $res = $canbosoService->getProducts();
+        $productsList = $res['products'] ?? [];
+
+        if (empty($productsList)) {
+            return redirect()->back()->with('error_message', 'Không thể kết nối hoặc không có sản phẩm nào từ Canboso.');
+        }
+
+        // Mapping rules from product names to existing categories
+        $categories = TelegramCategory::all();
+        $defaultCat = $categories->first();
+
+        $catKeywords = [
+            'ChatGPT & OpenAI' => ['chatgpt', 'gpt', 'openai', 'dall-e', 'sora'],
+            'CapCut Pro' => ['capcut'],
+            'Canva Pro' => ['canva'],
+            'Google Gemini' => ['gemini', 'google one', 'pixel'],
+            'Claude AI' => ['claude', 'anthropic'],
+            'Cursor & Codex' => ['cursor', 'codex', 'copilot', 'github', 'replit', 'zed'],
+            'Adobe All Apps' => ['adobe', 'photoshop', 'illustrator'],
+            'Microsoft 365 & Office' => ['microsoft', 'office', 'windows', 'onedrive', '365'],
+            'Suno & Audio AI' => ['suno', 'udio', 'audio', 'elevenlabs'],
+            'Kling & Video AI' => ['kling', 'runway', 'luma', 'veo', 'hailuo', 'pika', 'heygen', 'vidiq', 'openart', 'dreamina'],
+            'VPN & Proxy Riêng' => ['vpn', 'proxy', 'proton', 'adguard', 'surfshark', 'kaspersky'],
+            'Spotify Premium' => ['spotify', 'netflix', 'youtube', 'prime', 'iqiyi', 'xingtu'],
+        ];
+
+        $imported = 0;
+        $updated = 0;
+
+        foreach ($productsList as $p) {
+            $productId = $p['productId'] ?? null;
+            $name = $p['name'] ?? '';
+            $costPrice = (int) ($p['price']['amount'] ?? 0);
+            $available = $p['availability']['available'] ?? 0;
+
+            if (!$productId || !$name) {
+                continue;
+            }
+
+            // Skip out of stock if requested
+            if ($onlyInStock && $available <= 0) {
+                continue;
+            }
+
+            // Find matching category
+            $targetCatId = $defaultCat ? $defaultCat->id : 1;
+            $lowerName = mb_strtolower($name);
+
+            foreach ($catKeywords as $catName => $keywords) {
+                foreach ($keywords as $kw) {
+                    if (str_contains($lowerName, $kw)) {
+                        $matchedCat = $categories->firstWhere('name', $catName);
+                        if ($matchedCat) {
+                            $targetCatId = $matchedCat->id;
+                            break 2;
+                        }
+                    }
+                }
+            }
+
+            // Calculate selling price: costPrice + margin%, ensuring at least +minProfit
+            $profit = max($minProfit, (int) round(($costPrice * $marginPercent) / 100));
+            $sellPrice = ceil(($costPrice + $profit) / 1000) * 1000;
+            $originalPrice = ceil(($sellPrice * 1.35) / 1000) * 1000;
+
+            $existing = TelegramProduct::where('canboso_product_id', $productId)->first();
+
+            $data = [
+                'category_id' => $targetCatId,
+                'name' => $name,
+                'price' => $sellPrice,
+                'original_price' => $originalPrice,
+                'description' => $p['description'] ?? '',
+                'guide_text' => "Đăng nhập bằng thông tin Email | Mật khẩu bên trên tại trang web hoặc ứng dụng chính thức.",
+                'delivery_type' => 'canboso_api',
+                'canboso_product_id' => $productId,
+                'canboso_cost_price' => $costPrice,
+                'is_active' => true,
+                'sort_order' => 1,
+            ];
+
+            if ($existing) {
+                $existing->update($data);
+                $updated++;
+            } else {
+                $data['sold_count'] = rand(5, 45); // Fake nice initial sold count
+                TelegramProduct::create($data);
+                $imported++;
+            }
+        }
+
+        return redirect()->route('admin.telegram.index', ['tab' => 'products'])
+            ->with('success_message', "Đã đồng bộ thành công: Thêm mới {$imported} sản phẩm & cập nhật {$updated} sản phẩm từ Canboso!");
+    }
 }
