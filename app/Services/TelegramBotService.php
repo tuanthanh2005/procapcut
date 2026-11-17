@@ -636,7 +636,7 @@ class TelegramBotService
         $nextId = ($latestOrder ? $latestOrder->id : 0) + 1;
         $orderCode = 'TG' . (1000 + $nextId);
 
-        // Create pending order
+        // Create pending order (expires in 5 minutes)
         $order = TelegramOrder::create([
             'order_code' => $orderCode,
             'telegram_user_id' => $user->id,
@@ -646,7 +646,7 @@ class TelegramBotService
             'unit_price' => $product->price,
             'total_amount' => $totalAmount,
             'status' => 'pending',
-            'expires_at' => now()->addMinutes(15),
+            'expires_at' => now()->addMinutes(5),
         ]);
 
         $totalFormatted = number_format($totalAmount, 0, ',', '.') . 'đ';
@@ -690,6 +690,18 @@ class TelegramBotService
         $order = TelegramOrder::where('id', $orderId)->where('telegram_user_id', $user->id)->first();
         if (!$order || $order->status !== 'pending') {
             $this->editMessageText($chatId, $messageId, "⚠️ Đơn hàng không khả dụng hoặc đã được xử lý.");
+            return;
+        }
+
+        // Check 5 minutes expiration
+        if ($order->expires_at && now()->gt($order->expires_at)) {
+            $order->update(['status' => 'expired']);
+            $this->editMessageText($chatId, $messageId, "⏰ <b>Đơn hàng #{$order->order_code} đã hết hạn (quá 5 phút)!</b>\nVui lòng quay lại cửa hàng để đặt đơn mới.", [
+                'inline_keyboard' => [
+                    [['text' => '🛒 Đặt lại đơn mới', 'callback_data' => 'menu_store']],
+                    [['text' => '🏠 Trang chủ', 'callback_data' => 'menu_home']],
+                ]
+            ]);
             return;
         }
 
@@ -768,7 +780,7 @@ class TelegramBotService
         $caption .= "💳 Số tài khoản: <code>{$bankAccountNo}</code>\n";
         $caption .= "👤 Tên chủ TK: <b>{$bankAccountName}</b>\n";
         $caption .= "📯 Mã đơn hàng (ghi chú): <code>{$order->order_code}</code>\n";
-        $caption .= "⏳ Thời gian còn lại: <b>15 phút</b>\n\n";
+        $caption .= "⏳ Thời gian còn lại: <b>5 phút</b>\n\n";
         $caption .= "✅ <i>Sau khi chuyển thành công, bot sẽ tự động xác nhận và gửi tài khoản ngay lập tức!</i>";
 
         $keyboard = [
@@ -804,9 +816,30 @@ class TelegramBotService
 
         if ($order->status === 'completed') {
             $this->sendMessage($chatId, "✅ <b>Đơn hàng #{$order->order_code} đã được thanh toán thành công!</b>\nVui lòng kiểm tra tin nhắn nhận tài khoản bên trên hoặc vào mục '👁️ Lịch sử mua'.");
-        } else {
-            $this->sendMessage($chatId, "⏳ <b>Hệ thống đang chờ nhận tiền đơn hàng #{$order->order_code}...</b>\nNếu bạn vừa quét mã QR, vui lòng đợi 5-15 giây để ngân hàng và SePay đồng bộ giao dịch tự động.");
+            return;
         }
+
+        // Check 5 minutes expiration
+        if ($order->status === 'pending' && $order->expires_at && now()->gt($order->expires_at)) {
+            $order->update(['status' => 'expired']);
+            $this->sendMessage($chatId, "⏰ <b>Đơn hàng #{$order->order_code} đã hết hạn (quá 5 phút)!</b>\nĐơn hàng đã tự động bị hủy do quá thời gian thanh toán. Vui lòng tạo đơn mới để tiếp tục.", [
+                'inline_keyboard' => [
+                    [['text' => '🛒 Mua lại sản phẩm', 'callback_data' => 'menu_store']],
+                    [['text' => '🏠 Trang chủ', 'callback_data' => 'menu_home']],
+                ]
+            ]);
+            return;
+        }
+
+        if ($order->status === 'expired' || $order->status === 'cancelled') {
+            $this->sendMessage($chatId, "❌ Đơn hàng #{$order->order_code} đã bị hủy do hết hạn thanh toán (5 phút).");
+            return;
+        }
+
+        $remainingSecs = max(0, now()->diffInSeconds($order->expires_at, false));
+        $remainingMins = ceil($remainingSecs / 60);
+
+        $this->sendMessage($chatId, "⏳ <b>Hệ thống đang chờ nhận tiền đơn hàng #{$order->order_code}...</b>\nThời gian còn lại: <b>{$remainingMins} phút</b>.\nNếu bạn vừa quét mã QR, vui lòng đợi 5-15 giây để ngân hàng và SePay đồng bộ giao dịch tự động.");
     }
 
     /**

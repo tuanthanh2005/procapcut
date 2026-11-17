@@ -119,6 +119,48 @@ class SePayWebhookController extends Controller
                     return response()->json(['success' => true, 'message' => 'Telegram order already completed']);
                 }
 
+                // Check if order expired (> 5 minutes)
+                if ($telegramOrder->status === 'expired' || ($telegramOrder->expires_at && now()->gt($telegramOrder->expires_at))) {
+                    $telegramOrder->update([
+                        'status' => 'expired',
+                        'sepay_transaction_id' => $transactionId,
+                    ]);
+
+                    // Automatically credit to user wallet so customer never loses money
+                    $buyer = TelegramUser::find($telegramOrder->telegram_user_id);
+                    if ($buyer) {
+                        $balanceBefore = $buyer->balance;
+                        $buyer->increment('balance', $transferAmount);
+
+                        TelegramTransaction::create([
+                            'telegram_user_id' => $buyer->id,
+                            'type' => 'deposit',
+                            'amount' => $transferAmount,
+                            'balance_before' => $balanceBefore,
+                            'balance_after' => $buyer->balance,
+                            'description' => "Hoàn tiền đơn hàng quá hạn 5 phút #{$orderCode} vào ví",
+                            'reference_id' => $transactionId,
+                        ]);
+
+                        $amountFmt = number_format($transferAmount, 0, ',', '.') . 'đ';
+                        $walletFmt = number_format($buyer->balance, 0, ',', '.') . 'đ';
+                        $msg = "⏰ <b>ĐƠN HÀNG #{$orderCode} ĐÃ HẾT HẠN (QUÁ 5 PHÚT)!</b>\n";
+                        $msg .= "━━━━━━━━━━━━━━━━━━━━\n";
+                        $msg .= "Do bạn chuyển khoản sau khi đơn hàng đã hết hạn (5 phút), hệ thống đã tự động cộng số tiền <b>+{$amountFmt}</b> vào Ví của bạn.\n";
+                        $msg .= "👛 Số dư ví hiện tại: <b>{$walletFmt}</b>\n\n";
+                        $msg .= "Bạn có thể dùng số dư ví để mua lại sản phẩm ngay tức thì chỉ với 1 click!";
+
+                        $botService->sendMessage($buyer->telegram_id, $msg, [
+                            'inline_keyboard' => [
+                                [['text' => '🛒 Mua lại sản phẩm ngay', 'callback_data' => 'menu_store']],
+                                [['text' => '👛 Kiểm tra ví', 'callback_data' => 'menu_wallet']]
+                            ]
+                        ]);
+                    }
+
+                    return response()->json(['success' => true, 'message' => 'Telegram order was expired. Amount credited to wallet.']);
+                }
+
                 if ($transferAmount >= $telegramOrder->total_amount) {
                     $telegramOrder->update([
                         'sepay_transaction_id' => $transactionId,
