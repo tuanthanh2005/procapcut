@@ -52,11 +52,13 @@ class SyncProductsToWebsiteCommand extends Command
 
             foreach ($catProducts as $p) {
                 $stock = (int) $p->stock_count;
-                $isAvailable = $stock > 0;
-                if ($isAvailable) {
-                    $hasInStock = true;
+                
+                // Nếu gói cước hết hàng (stock <= 0) thì bỏ qua không đưa lên web
+                if ($stock <= 0) {
+                    continue;
                 }
 
+                $hasInStock = true;
                 $optPrice = (int) $p->price;
                 $optSlashed = (int) ($p->original_price ?: round($optPrice * 1.35));
 
@@ -73,8 +75,13 @@ class SyncProductsToWebsiteCommand extends Command
                     'description' => $p->description ?: 'Bảo hành đầy đủ trong suốt thời gian sử dụng.',
                     'require_email' => false,
                     'stock' => $stock,
-                    'in_stock' => $isAvailable,
+                    'in_stock' => true,
                 ];
+            }
+
+            // Nếu toàn bộ danh mục không có gói nào còn hàng thì không tạo hoặc bỏ qua
+            if (empty($options)) {
+                continue;
             }
 
             if ($minPrice === PHP_INT_MAX) {

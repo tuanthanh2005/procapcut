@@ -2048,25 +2048,24 @@ $schema = [
                                 $stock = isset($opt['stock']) ? (int)$opt['stock'] : 0;
                                 $isOutOfStock = (isset($opt['in_stock']) && $opt['in_stock'] === false) || $stock <= 0;
                             @endphp
-                            <div class="option-item {{ $isOutOfStock ? 'out-of-stock' : '' }} {{ $idx === $defaultSelectedIdx ? 'selected' : '' }}" 
+                            @if($isOutOfStock)
+                                @continue
+                            @endif
+                            <div class="option-item {{ $idx === $defaultSelectedIdx ? 'selected' : '' }}" 
                                  data-id="{{ $opt['id'] }}" 
                                  data-name="{{ $opt['name'] }}" 
                                  data-price="{{ $opt['price'] }}" 
                                  data-slashed="{{ $opt['slashed'] }}" 
                                  data-desc="{{ e($opt['description']) }}"
                                  data-require-email="{{ (isset($opt['require_email']) && $opt['require_email']) ? 'true' : 'false' }}"
-                                 @if(!$isOutOfStock) onclick="selectOption(this)" @endif>
+                                 onclick="selectOption(this)">
                                 <div style="display: flex; flex-direction: column; gap: 0.2rem; align-items: flex-start;">
                                     <span class="opt-name" style="font-weight: 700; color: var(--text-main);">{{ $opt['name'] }}</span>
-                                    <span style="font-size: 0.75rem; {{ $isOutOfStock ? 'color: #ef4444;' : 'color: #10b981;' }} font-weight: 600;">
-                                        @if($isOutOfStock)
-                                            <i class="fa-solid fa-triangle-exclamation"></i> Hết hàng
-                                        @else
-                                            <i class="fa-solid fa-boxes-stacked"></i> Còn lại: {{ $stock }}
-                                        @endif
+                                    <span style="font-size: 0.75rem; color: #10b981; font-weight: 600;">
+                                        <i class="fa-solid fa-boxes-stacked"></i> Còn lại: {{ $stock }}
                                     </span>
                                 </div>
-                                <span class="opt-price" @if($isOutOfStock) style="text-decoration: line-through; color: var(--text-dark);" @endif>{{ number_format($opt['price'], 0, ',', '.') }}₫</span>
+                                <span class="opt-price">{{ number_format($opt['price'], 0, ',', '.') }}₫</span>
                             </div>
                         @endforeach
                     </div>
