@@ -556,7 +556,69 @@ $schema = [
             display: grid;
             grid-template-columns: 1fr;
             gap: 0.75rem;
-            margin-bottom: 1.75rem;
+            margin-bottom: 1.25rem;
+            max-height: 380px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        /* Custom scrollbar for options list */
+        .options-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .options-grid::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .options-grid::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .options-grid::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .package-notice-banner {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-left: 5px solid #d97706;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .package-notice-banner:hover {
+            background: #fde68a;
+        }
+        .package-notice-banner .notice-tag {
+            background: #d97706;
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            margin-right: 0.5rem;
+        }
+        .package-notice-banner .notice-text {
+            color: #92400e;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+        .package-notice-banner .notice-action {
+            color: #b45309;
+            font-size: 0.85rem;
+            font-weight: 700;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
         }
 
         .option-item {
@@ -2008,6 +2070,15 @@ $schema = [
                             </div>
                         @endforeach
                     </div>
+
+                    <!-- Yellow Warning Banner that scrolls to Package details tab -->
+                    <div class="package-notice-banner" onclick="scrollToPackageDetail()">
+                        <div style="display: flex; align-items: center;">
+                            <span class="notice-tag"><i class="fa-solid fa-triangle-exclamation"></i> LƯU Ý</span>
+                            <span class="notice-text">Vui Lòng Kéo Xuống Đọc Kĩ Thông Tin Gói Bạn Đã Chọn Trước Khi Mua !!!</span>
+                        </div>
+                        <span class="notice-action">Xem chi tiết <i class="fa-solid fa-arrow-down"></i></span>
+                    </div>
                 </div>
 
                 @php
@@ -2052,25 +2123,18 @@ $schema = [
             </div>
         </div>
 
-        <!-- Tabs Section: Description (First), Package Detail (Second), Reviews (Third) -->
-        <div class="detail-tabs-wrapper">
+        <!-- Tabs Section: Package Detail (Active Default), Description, Reviews -->
+        <div class="detail-tabs-wrapper" id="detail-tabs-section">
             <div class="tab-headers">
-                <button class="tab-btn active" id="btn-desc" onclick="switchTab('desc')">Mô Tả Chi Tiết</button>
+                <button class="tab-btn active" id="btn-package" onclick="switchTab('package')">Chi Tiết Gói</button>
                 <div class="tab-divider"></div>
-                <button class="tab-btn" id="btn-package" onclick="switchTab('package')">Chi Tiết Gói</button>
+                <button class="tab-btn" id="btn-desc" onclick="switchTab('desc')">Mô Tả Chi Tiết</button>
                 <div class="tab-divider"></div>
                 <button class="tab-btn" id="btn-reviews" onclick="switchTab('reviews')">Đánh Giá</button>
             </div>
 
-            <!-- Tab 1: Product Description -->
-            <div class="tab-content active" id="tab-desc">
-                <div class="desc-text">
-                    {!! htmlspecialchars_decode($product->description) !!}
-                </div>
-            </div>
-
-            <!-- Tab 2: Selected Package Detail -->
-            <div class="tab-content" id="tab-package">
+            <!-- Tab 1: Selected Package Detail (Active Default) -->
+            <div class="tab-content active" id="tab-package">
                 <div class="package-detail-box" style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.75rem;">
                         <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--primary);" id="tab-pkg-name">Đang chọn gói: --</h4>
@@ -2079,6 +2143,13 @@ $schema = [
                     <div style="font-size: 0.95rem; line-height: 1.8; color: var(--text-main); white-space: pre-wrap; word-break: break-word;" id="tab-pkg-desc">
                         Vui lòng chọn một gói cước bên trên để xem chi tiết hướng dẫn & cấu hình của gói đó.
                     </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Product Description -->
+            <div class="tab-content" id="tab-desc">
+                <div class="desc-text">
+                    {!! htmlspecialchars_decode($product->description) !!}
                 </div>
             </div>
 
@@ -2326,6 +2397,15 @@ $schema = [
 
     <!-- Interactive script logic -->
     <script>
+        // Scroll to Package Detail Tab
+        function scrollToPackageDetail() {
+            switchTab('package');
+            const target = document.getElementById('detail-tabs-section');
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
         // Tab switching function
         function switchTab(tabId) {
             // Remove active classes
