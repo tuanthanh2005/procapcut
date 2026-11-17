@@ -206,6 +206,7 @@ class AdminTelegramController extends Controller
             'guide_text' => $request->guide_text,
             'delivery_type' => $request->delivery_type ?: 'key_stock',
             'static_content' => $request->static_content,
+            'sold_count' => (int) $request->input('sold_count', 0),
             'is_active' => $request->has('is_active'),
             'sort_order' => (int) $request->sort_order,
         ]);
@@ -229,6 +230,7 @@ class AdminTelegramController extends Controller
             'guide_text' => $request->guide_text,
             'delivery_type' => $request->delivery_type ?: 'key_stock',
             'static_content' => $request->static_content,
+            'sold_count' => (int) $request->input('sold_count', $product->sold_count),
             'is_active' => $request->has('is_active'),
             'sort_order' => (int) $request->sort_order,
         ]);

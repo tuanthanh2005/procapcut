@@ -86,8 +86,23 @@ class TelegramBotService
     }
 
     /**
-     * Edit Message Text
+     * Edit Message Caption (For photo messages)
      */
+    public function editMessageCaption($chatId, $messageId, string $caption, $keyboard = null, string $parseMode = 'HTML')
+    {
+        $payload = [
+            'chat_id' => $chatId,
+            'message_id' => $messageId,
+            'caption' => $caption,
+            'parse_mode' => $parseMode,
+        ];
+
+        if ($keyboard) {
+            $payload['reply_markup'] = is_string($keyboard) ? $keyboard : json_encode($keyboard);
+        }
+
+        return $this->sendRequest('editMessageCaption', $payload);
+    }
     public function editMessageText($chatId, $messageId, string $text, $keyboard = null, string $parseMode = 'HTML')
     {
         $payload = [
@@ -367,12 +382,23 @@ class TelegramBotService
             $order = TelegramOrder::where('id', $orderId)->where('telegram_user_id', $user->id)->first();
             if ($order && $order->status === 'pending') {
                 $order->update(['status' => 'cancelled']);
-                $this->editMessageText($chatId, $messageId, "❌ <b>Đơn hàng #{$order->order_code} đã được hủy bỏ thành công.</b>", [
+                
+                $cancelText = "❌ <b>Đơn hàng #{$order->order_code} đã được hủy bỏ thành công.</b>\nBạn có thể quay lại cửa hàng để chọn gói sản phẩm khác!";
+                $keyboard = [
                     'inline_keyboard' => [
                         [['text' => '🛒 Tiếp tục mua sắm', 'callback_data' => 'menu_store']],
                         [['text' => '🏠 Trang chủ', 'callback_data' => 'menu_home']],
                     ]
-                ]);
+                ];
+
+                // If message has photo, edit caption; otherwise edit text
+                if (isset($message['photo'])) {
+                    $this->editMessageCaption($chatId, $messageId, $cancelText, $keyboard);
+                } else {
+                    $this->editMessageText($chatId, $messageId, $cancelText, $keyboard);
+                }
+            } else {
+                $this->answerCallbackQuery($id, 'Đơn hàng không tồn tại hoặc đã xử lý', true);
             }
             return;
         }

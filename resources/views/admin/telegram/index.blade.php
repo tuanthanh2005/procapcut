@@ -1097,6 +1097,7 @@
                                                     'description' => $p->description,
                                                     'guide_text' => $p->guide_text,
                                                     'static_content' => $p->static_content,
+                                                    'sold_count' => $p->sold_count,
                                                     'sort_order' => $p->sort_order,
                                                     'is_active' => $p->is_active ? 1 : 0,
                                                 ]) }}"
@@ -1162,6 +1163,10 @@
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom: 1rem;">
+                                <label class="form-label">Số lượng đã bán (Hiển thị uy tín)</label>
+                                <input type="number" name="sold_count" id="edit_prod_sold" class="form-input" placeholder="0">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 1rem;">
                                 <label class="form-label">Mô tả sản phẩm</label>
                                 <textarea name="description" id="edit_prod_description" class="form-textarea" rows="3"></textarea>
                             </div>
@@ -1210,12 +1215,18 @@
                                     <input type="number" name="original_price" class="form-input" placeholder="150000">
                                 </div>
                             </div>
-                            <div class="form-group" style="margin-bottom: 1rem;">
-                                <label class="form-label">Loại giao hàng</label>
-                                <select name="delivery_type" class="form-select">
-                                    <option value="key_stock">Xuất tự động từ Kho Key / Tài khoản (Khuyên dùng)</option>
-                                    <option value="static_text">Gửi tin nhắn hướng dẫn / link cố định</option>
-                                </select>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Loại giao hàng</label>
+                                    <select name="delivery_type" class="form-select">
+                                        <option value="key_stock">Xuất tự động từ Kho Key / Tài khoản (Khuyên dùng)</option>
+                                        <option value="static_text">Gửi tin nhắn hướng dẫn / link cố định</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Số lượng đã bán (Hiển thị uy tín)</label>
+                                    <input type="number" name="sold_count" class="form-input" value="0">
+                                </div>
                             </div>
                             <div class="form-group" style="margin-bottom: 1rem;">
                                 <label class="form-label">Mô tả sản phẩm (hiển thị khi bấm xem)</label>
@@ -1694,6 +1705,7 @@ Nhanh tay vào mua ngay số lượng có hạn!" required></textarea>
             document.getElementById('edit_prod_original_price').value = data.original_price || '';
             document.getElementById('edit_prod_delivery_type').value = data.delivery_type || 'key_stock';
             document.getElementById('edit_prod_sort').value = data.sort_order || 0;
+            document.getElementById('edit_prod_sold').value = data.sold_count || 0;
             document.getElementById('edit_prod_description').value = data.description || '';
             document.getElementById('edit_prod_guide').value = data.guide_text || '';
             document.getElementById('edit_prod_active').checked = (data.is_active == 1);
