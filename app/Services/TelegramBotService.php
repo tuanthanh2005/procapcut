@@ -134,6 +134,18 @@ class TelegramBotService
     }
 
     /**
+     * Notify Admin via Telegram
+     */
+    public function notifyAdmin(string $message, $keyboard = null)
+    {
+        $adminId = Setting::getValue('telegram_admin_id', '8199725778');
+        if ($adminId) {
+            return $this->sendMessage($adminId, $message, $keyboard);
+        }
+        return false;
+    }
+
+    /**
      * Get or create Telegram User
      */
     public function getOrCreateUser(array $from, ?string $startParam = null): TelegramUser
@@ -161,16 +173,34 @@ class TelegramBotService
                 'referred_by' => $referredBy,
             ]);
 
-            // Notify referrer if linked
+            // 1. Notify Referrer if linked
             if ($referredBy) {
                 $refUser = TelegramUser::where('telegram_id', $referredBy)->first();
                 if ($refUser) {
                     $this->sendMessage(
                         $refUser->telegram_id,
-                        "🎉 <b>Bạn vừa có thêm thành viên mới!</b>\nNgười dùng <b>" . htmlspecialchars($user->full_name) . "</b> vừa tham gia qua link giới thiệu của bạn. Khi thành viên này mua hàng, bạn sẽ nhận được hoa hồng tự động!"
+                        "🎉 <b>BẠN CÓ THÊM THÀNH VIÊN GIỚI THIỆU MỚI!</b>\n━━━━━━━━━━━━━━━━━━━━\n👤 Người dùng: <b>" . htmlspecialchars($user->full_name) . "</b>\nKhi thành viên này mua hàng, bạn sẽ nhận được hoa hồng tự động vào ví!"
                     );
                 }
             }
+
+            // 2. Instant Alert to Admin: New User & Referral Check
+            $refText = "Không có (Trực tiếp)";
+            if ($referredBy) {
+                $refUser = TelegramUser::where('telegram_id', $referredBy)->first();
+                $refName = $refUser ? $refUser->full_name : $referredBy;
+                $refText = "Được giới thiệu bởi: <b>" . htmlspecialchars($refName) . "</b> (ID: <code>{$referredBy}</code>)";
+            }
+
+            $userHandle = $user->username ? "@{$user->username}" : "Không có username";
+            $adminAlert = "👤 <b>[KHÁCH HÀNG MỚI THAM GIA BOT]</b>\n";
+            $adminAlert .= "━━━━━━━━━━━━━━━━━━━━\n";
+            $adminAlert .= "🏷️ Tên: <b>" . htmlspecialchars($user->full_name) . "</b> ({$userHandle})\n";
+            $adminAlert .= "🆔 Telegram ID: <code>{$user->telegram_id}</code>\n";
+            $adminAlert .= "🤝 Nguồn giới thiệu: {$refText}\n";
+            $adminAlert .= "⏰ Thời gian: " . now()->format('d/m/Y H:i:s');
+
+            $this->notifyAdmin($adminAlert);
         } else {
             // Update latest user info
             $user->update([
@@ -952,17 +982,21 @@ class TelegramBotService
         // Process Referral Commission
         $this->processReferralCommission($user, $order);
 
-        // Notify Admin
-        $adminId = Setting::getValue('telegram_admin_id');
-        if ($adminId) {
-            $adminAlert = "🔔 <b>[ĐƠN HÀNG TELEGRAM MỚI]</b>\n";
-            $adminAlert .= "Mã đơn: <b>#{$order->order_code}</b>\n";
-            $adminAlert .= "Khách hàng: <b>" . htmlspecialchars($user->full_name) . "</b> (ID: <code>{$user->telegram_id}</code>)\n";
-            $adminAlert .= "Sản phẩm: <b>{$order->product_name}</b> (x{$order->quantity})\n";
-            $adminAlert .= "Doanh thu: <b>" . number_format($order->total_amount, 0, ',', '.') . "đ</b>\n";
-            $adminAlert .= "Thanh toán qua: <b>{$order->payment_method}</b>";
-            $this->sendMessage($adminId, $adminAlert);
-        }
+        // Notify Admin: Order Completed
+        $userHandle = $user->username ? "@{$user->username}" : "Không có";
+        $paymentType = ($order->payment_method === 'wallet') ? 'Ví số dư Bot' : 'VietQR / SePay';
+        
+        $adminAlert = "🛒 <b>[ĐƠN HÀNG MỚI THÀNH CÔNG]</b>\n";
+        $adminAlert .= "━━━━━━━━━━━━━━━━━━━━\n";
+        $adminAlert .= "🧾 Mã đơn: <b>#{$order->order_code}</b>\n";
+        $adminAlert .= "👤 Khách mua: <b>" . htmlspecialchars($user->full_name) . "</b> ({$userHandle} | ID: <code>{$user->telegram_id}</code>)\n";
+        $adminAlert .= "📦 Sản phẩm: <b>{$order->product_name}</b> (x{$order->quantity})\n";
+        $adminAlert .= "💵 Tổng tiền: <b>" . number_format($order->total_amount, 0, ',', '.') . "đ</b>\n";
+        $adminAlert .= "💳 Thanh toán qua: <b>{$paymentType}</b>\n";
+        $adminAlert .= "🔑 Key/Acc đã giao: <code>" . Str::limit($order->delivered_data, 60) . "</code>\n";
+        $adminAlert .= "⏰ Thời gian: " . now()->format('d/m/Y H:i:s');
+
+        $this->notifyAdmin($adminAlert);
     }
 
     /**
@@ -1014,6 +1048,18 @@ class TelegramBotService
         $refMsg .= "Bạn có thể sử dụng số dư này để mua hàng hoặc tích lũy bất cứ lúc nào!";
 
         $this->sendMessage($referrer->telegram_id, $refMsg);
+
+        // Notify Admin: Referral Commission Alert
+        $adminAlert = "🎁 <b>[HOA HỒNG GIỚI THIỆU ĐƯỢC CỘNG]</b>\n";
+        $adminAlert .= "━━━━━━━━━━━━━━━━━━━━\n";
+        $adminAlert .= "👤 Người giới thiệu: <b>" . htmlspecialchars($referrer->full_name) . "</b> (ID: <code>{$referrer->telegram_id}</code>)\n";
+        $adminAlert .= "👤 Khách mua hàng: <b>" . htmlspecialchars($buyer->full_name) . "</b> (ID: <code>{$buyer->telegram_id}</code>)\n";
+        $adminAlert .= "🧾 Từ đơn hàng: <b>#{$order->order_code}</b> (" . number_format($order->total_amount, 0, ',', '.') . "đ)\n";
+        $adminAlert .= "💵 Số tiền hoa hồng (+{$commissionPercent}%): <b>+{$commFormatted}</b>\n";
+        $adminAlert .= "👛 Số dư ví người nhận: <b>{$refBalanceFormatted}</b>\n";
+        $adminAlert .= "⏰ Thời gian: " . now()->format('d/m/Y H:i:s');
+
+        $this->notifyAdmin($adminAlert);
     }
 
     /**

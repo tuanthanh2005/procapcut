@@ -100,6 +100,19 @@ class SePayWebhookController extends Controller
 
                 $botService->sendMessage($telegramUser->telegram_id, $msg, $keyboard);
 
+                // Alert Admin via Telegram
+                $userHandle = $telegramUser->username ? "@{$telegramUser->username}" : "Không có";
+                $adminAlert = "💰 <b>[KHÁCH HÀNG NẠP VÍ THÀNH CÔNG]</b>\n";
+                $adminAlert .= "━━━━━━━━━━━━━━━━━━━━\n";
+                $adminAlert .= "👤 Khách nạp: <b>" . htmlspecialchars($telegramUser->full_name) . "</b> ({$userHandle} | ID: <code>{$telegramUser->telegram_id}</code>)\n";
+                $adminAlert .= "💵 Số tiền: <b>+{$amountFormatted}</b>\n";
+                $adminAlert .= "👛 Số dư ví mới: <b>{$newBalanceFormatted}</b>\n";
+                $adminAlert .= "🏦 Ngân hàng: <b>{$gateway}</b> | GD: <code>{$transactionId}</code>\n";
+                $adminAlert .= "📝 Nội dung CK: <code>{$content}</code>\n";
+                $adminAlert .= "⏰ Thời gian: " . now()->format('d/m/Y H:i:s');
+
+                $botService->notifyAdmin($adminAlert);
+
                 Log::info('SePay Webhook: Telegram wallet topup completed.', [
                     'telegram_id' => $telegramId,
                     'amount' => $transferAmount
@@ -156,6 +169,17 @@ class SePayWebhookController extends Controller
                                 [['text' => '👛 Kiểm tra ví', 'callback_data' => 'menu_wallet']]
                             ]
                         ]);
+
+                        // Alert Admin about late payment converted to wallet
+                        $adminAlert = "⏰ <b>[KHÁCH THANH TOÁN TRỄ >5P - ĐÃ HOÀN VÍ]</b>\n";
+                        $adminAlert .= "━━━━━━━━━━━━━━━━━━━━\n";
+                        $adminAlert .= "🧾 Mã đơn trễ: <b>#{$orderCode}</b>\n";
+                        $adminAlert .= "👤 Khách hàng: <b>" . htmlspecialchars($buyer->full_name) . "</b> (ID: <code>{$buyer->telegram_id}</code>)\n";
+                        $adminAlert .= "💵 Số tiền: <b>+{$amountFmt}</b> (Đã tự động cộng vào ví)\n";
+                        $adminAlert .= "👛 Số dư ví hiện tại: <b>{$walletFmt}</b>\n";
+                        $adminAlert .= "📝 Nội dung CK: <code>{$content}</code>";
+
+                        $botService->notifyAdmin($adminAlert);
                     }
 
                     return response()->json(['success' => true, 'message' => 'Telegram order was expired. Amount credited to wallet.']);
