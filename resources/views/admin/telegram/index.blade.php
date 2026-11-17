@@ -919,7 +919,13 @@
                             <tbody>
                                 @foreach($categories as $cat)
                                     <tr>
-                                        <td style="font-size: 1.5rem;">{{ $cat->icon }}</td>
+                                        <td>
+                                            @if($cat->image)
+                                                <img src="{{ asset('storage/' . $cat->image) }}" alt="{{ $cat->name }}" style="width: 32px; height: 32px; object-fit: contain; border-radius: 6px; display: inline-block; vertical-align: middle;">
+                                            @else
+                                                <span style="font-size: 1.5rem; display: inline-block; vertical-align: middle;">{{ $cat->icon }}</span>
+                                            @endif
+                                        </td>
                                         <td><strong>{{ $cat->name }}</strong></td>
                                         <td><span class="badge-status badge-info">{{ $cat->products_count }} sản phẩm</span></td>
                                         <td>{{ $cat->sort_order }}</td>
@@ -932,7 +938,7 @@
                                         </td>
                                         <td style="text-align: right; white-space: nowrap;">
                                             <button type="button" class="btn-outline" style="padding: 0.35rem 0.65rem; font-size: 0.8rem; margin-right: 4px;"
-                                                onclick="openEditCategoryModal({{ $cat->id }}, '{{ addslashes($cat->name) }}', '{{ $cat->icon }}', {{ $cat->sort_order }}, {{ $cat->is_active ? 1 : 0 }})">
+                                                onclick="openEditCategoryModal({{ $cat->id }}, '{{ addslashes($cat->name) }}', '{{ $cat->icon }}', '{{ $cat->image ? asset('storage/' . $cat->image) : '' }}', {{ $cat->sort_order }}, {{ $cat->is_active ? 1 : 0 }})">
                                                 <i class="fa-solid fa-pen-to-square"></i> Sửa
                                             </button>
                                             <form action="{{ route('admin.telegram.categories.delete', $cat->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Xóa danh mục này sẽ xóa tất cả sản phẩm và key thuộc danh mục. Tiếp tục?')">
@@ -955,23 +961,40 @@
                             <h4 class="modal-title">Chỉnh Sửa Danh Mục Bot</h4>
                             <button class="close-modal" onclick="closeModal('editCategoryModal')">&times;</button>
                         </div>
-                        <form id="editCategoryForm" method="POST">
+                        <form id="editCategoryForm" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="form-group" style="margin-bottom: 1rem;">
                                 <label class="form-label">Tên danh mục</label>
                                 <input type="text" name="name" id="edit_cat_name" class="form-input" required>
                             </div>
+                            
                             <div class="form-row">
                                 <div class="form-group">
                                     <label class="form-label">Biểu tượng (Emoji)</label>
-                                    <input type="text" name="icon" id="edit_cat_icon" class="form-input" required>
+                                    <input type="text" name="icon" id="edit_cat_icon" class="form-input" placeholder="Ví dụ: ✂️, 🤖, 🎨">
+                                    <small style="color: var(--text-muted); font-size: 0.78rem; display: block; margin-top: 3px;">
+                                        Hiển thị trên nút bấm Telegram
+                                    </small>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Thứ tự hiển thị</label>
                                     <input type="number" name="sort_order" id="edit_cat_sort" class="form-input">
                                 </div>
                             </div>
+
+                            <div class="form-group" style="margin-bottom: 1.25rem; background: #f8fafc; padding: 0.85rem; border-radius: 8px; border: 1px dashed var(--border-color);">
+                                <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span><i class="fa-solid fa-image"></i> Hình ảnh / Logo danh mục (Tùy chọn)</span>
+                                    <span style="font-size: 0.75rem; color: #2563eb; font-weight: normal;">Khuyên dùng: 64x64px hoặc 128x128px</span>
+                                </label>
+                                <input type="file" name="image" class="form-input" accept="image/*" onchange="previewCatImage(this, 'edit_cat_preview')">
+                                <div id="edit_cat_preview_wrapper" style="margin-top: 0.5rem; display: none; align-items: center; gap: 0.75rem;">
+                                    <img id="edit_cat_preview" src="" style="width: 48px; height: 48px; object-fit: contain; border-radius: 8px; border: 1px solid var(--border-color); background: #fff; padding: 2px;">
+                                    <small style="color: var(--text-muted); font-size: 0.8rem;">Ảnh đại diện hiện tại</small>
+                                </div>
+                            </div>
+
                             <div class="form-group" style="margin-bottom: 1.5rem;">
                                 <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; cursor: pointer;">
                                     <input type="checkbox" name="is_active" id="edit_cat_active" value="1"> Bật hiển thị ngay trên Bot
@@ -989,7 +1012,7 @@
                             <h4 class="modal-title">Thêm Danh Mục Bot Mới</h4>
                             <button class="close-modal" onclick="closeModal('addCategoryModal')">&times;</button>
                         </div>
-                        <form action="{{ route('admin.telegram.categories.store') }}" method="POST">
+                        <form action="{{ route('admin.telegram.categories.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group" style="margin-bottom: 1rem;">
                                 <label class="form-label">Tên danh mục</label>
@@ -998,12 +1021,19 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label class="form-label">Biểu tượng (Emoji)</label>
-                                    <input type="text" name="icon" class="form-input" placeholder="Ví dụ: 🤖, 🎨, ✂️" value="📦" required>
+                                    <input type="text" name="icon" class="form-input" placeholder="Ví dụ: 🤖, 🎨, ✂️" value="📦">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Thứ tự hiển thị</label>
                                     <input type="number" name="sort_order" class="form-input" value="1">
                                 </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 1.25rem; background: #f8fafc; padding: 0.85rem; border-radius: 8px; border: 1px dashed var(--border-color);">
+                                <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span><i class="fa-solid fa-image"></i> Hình ảnh / Logo danh mục (Tùy chọn)</span>
+                                    <span style="font-size: 0.75rem; color: #2563eb; font-weight: normal;">Khuyên dùng: 64x64px hoặc 128x128px</span>
+                                </label>
+                                <input type="file" name="image" class="form-input" accept="image/*">
                             </div>
                             <div class="form-group" style="margin-bottom: 1.5rem;">
                                 <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; cursor: pointer;">
@@ -1011,40 +1041,6 @@
                                 </label>
                             </div>
                             <button type="submit" class="btn-primary" style="width: 100%;">Thêm Danh Mục</button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Edit Category Modal -->
-                <div class="modal" id="editCategoryModal">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Chỉnh Sửa Danh Mục Bot</h4>
-                            <button class="close-modal" onclick="closeModal('editCategoryModal')">&times;</button>
-                        </div>
-                        <form id="editCategoryForm" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <div class="form-group" style="margin-bottom: 1rem;">
-                                <label class="form-label">Tên danh mục</label>
-                                <input type="text" name="name" id="edit_cat_name" class="form-input" required>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Biểu tượng (Emoji)</label>
-                                    <input type="text" name="icon" id="edit_cat_icon" class="form-input" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Thứ tự hiển thị</label>
-                                    <input type="number" name="sort_order" id="edit_cat_sort" class="form-input">
-                                </div>
-                            </div>
-                            <div class="form-group" style="margin-bottom: 1.5rem;">
-                                <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; cursor: pointer;">
-                                    <input type="checkbox" name="is_active" id="edit_cat_active" value="1"> Bật hiển thị ngay trên Bot
-                                </label>
-                            </div>
-                            <button type="submit" class="btn-primary" style="width: 100%;">Lưu Thay Đổi Danh Mục</button>
                         </form>
                     </div>
                 </div>
@@ -2051,13 +2047,36 @@ Nhanh tay vào mua ngay số lượng có hạn!" required></textarea>
             document.getElementById(id).classList.remove('active');
         }
 
-        function openEditCategoryModal(id, name, icon, sort, isActive) {
+        function openEditCategoryModal(id, name, icon, imageUrl, sort, isActive) {
             document.getElementById('edit_cat_name').value = name;
-            document.getElementById('edit_cat_icon').value = icon;
+            document.getElementById('edit_cat_icon').value = icon || '';
             document.getElementById('edit_cat_sort').value = sort;
             document.getElementById('edit_cat_active').checked = (isActive == 1);
+            
+            const previewWrapper = document.getElementById('edit_cat_preview_wrapper');
+            const previewImg = document.getElementById('edit_cat_preview');
+            if (imageUrl) {
+                previewImg.src = imageUrl;
+                previewWrapper.style.display = 'flex';
+            } else {
+                previewWrapper.style.display = 'none';
+                previewImg.src = '';
+            }
+
             document.getElementById('editCategoryForm').action = '/admin/telegram/categories/' + id;
             openModal('editCategoryModal');
+        }
+
+        function previewCatImage(input, imgId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById(imgId);
+                    img.src = e.target.result;
+                    document.getElementById(imgId + '_wrapper').style.display = 'flex';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
         }
 
         function toggleCanbosoField(prefix) {

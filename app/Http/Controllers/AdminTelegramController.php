@@ -169,13 +169,20 @@ class AdminTelegramController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:100',
-            'icon' => 'required|string|max:10',
+            'icon' => 'nullable|string|max:20',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
         ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('telegram_categories', 'public');
+        }
 
         TelegramCategory::create([
             'name' => $request->name,
             'slug' => Str::slug($request->name) . '-' . rand(10, 99),
-            'icon' => $request->icon,
+            'icon' => $request->icon ?: '📦',
+            'image' => $imagePath,
             'sort_order' => (int) $request->sort_order,
             'is_active' => $request->has('is_active'),
         ]);
@@ -189,10 +196,23 @@ class AdminTelegramController extends Controller
      */
     public function updateCategory(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'icon' => 'nullable|string|max:20',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
+        ]);
+
         $cat = TelegramCategory::findOrFail($id);
+
+        $imagePath = $cat->image;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('telegram_categories', 'public');
+        }
+
         $cat->update([
             'name' => $request->name,
-            'icon' => $request->icon,
+            'icon' => $request->icon ?: '📦',
+            'image' => $imagePath,
             'sort_order' => (int) $request->sort_order,
             'is_active' => $request->has('is_active'),
         ]);
