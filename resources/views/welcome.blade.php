@@ -2015,6 +2015,16 @@
                                 <svg viewBox="0 0 24 24" width="70" height="70" fill="#4f46e5">
                                     <path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z"/>
                                 </svg>
+                            @elseif($prod->slug === 'canva')
+                                <div style="font-size: 3.5rem;">🎨</div>
+                            @elseif($prod->icon && (str_starts_with(trim($prod->icon), '<svg') || str_contains($prod->icon, '</svg>')))
+                                <div style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
+                                    {!! $prod->icon !!}
+                                </div>
+                            @elseif($prod->icon)
+                                <div style="font-size: 3.5rem; display: flex; align-items: center; justify-content: center;">
+                                    {{ $prod->icon }}
+                                </div>
                             @else
                                 <div style="font-size: 3.5rem; color: var(--primary);">
                                     <i class="fa-solid fa-cube"></i>

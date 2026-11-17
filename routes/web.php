@@ -37,21 +37,17 @@ Route::get('/sitemap.xml', function () {
 });
 
 Route::get('/', function () {
-    $showcaseProducts = Product::whereIn('slug', ['capcut', 'chatgpt', 'gemini', 'canva'])->get();
-    if ($showcaseProducts->isEmpty()) {
-        $showcaseProducts = Product::take(4)->get();
-    }
-
-    $products = Product::whereIn('slug', ['capcut', 'chatgpt', 'gemini', 'canva'])->get();
+    $products = Product::all();
     if ($products->isEmpty()) {
-        $products = Product::take(4)->get();
+        $products = Product::take(12)->get();
     }
+    $showcaseProducts = $products;
 
     return view('welcome', compact('showcaseProducts', 'products'));
 });
 
 Route::get('/products', function () {
-    $products = Product::paginate(10);
+    $products = Product::orderBy('created_at', 'desc')->paginate(24);
 
     return view('products', compact('products'));
 })->name('products.index');

@@ -1953,8 +1953,16 @@ if ($category === 'all' && empty($search)) {
                                 <div class="product-media" style="display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 1.5rem; height: 160px;">
                                     @if($prod->image_path)
                                         <img src="{{ asset($prod->image_path) }}" alt="{{ $prod->name }}" loading="lazy" decoding="async" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px;">
+                                    @elseif($prod->icon && (str_starts_with(trim($prod->icon), '<svg') || str_contains($prod->icon, '</svg>')))
+                                        <div style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
+                                            {!! $prod->icon !!}
+                                        </div>
+                                    @elseif($prod->icon && !str_starts_with($prod->icon, 'fa-'))
+                                        <div style="font-size: 3.5rem; display: flex; align-items: center; justify-content: center;">
+                                            {{ $prod->icon }}
+                                        </div>
                                     @else
-                                        <i class="fa-solid {{ strtok($prod->icon, ' ') }}"></i>
+                                        <i class="fa-solid {{ strtok($prod->icon, ' ') ?: 'fa-cube' }}" style="font-size: 3.5rem; color: var(--primary);"></i>
                                     @endif
                                 </div>
                             </a>
