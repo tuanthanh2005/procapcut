@@ -758,8 +758,8 @@ class TelegramBotService
         $bankAccountNo = Setting::getValue('bank_account_no', '0772698113');
         $bankAccountName = Setting::getValue('bank_account_name', 'TRAN THANH TUAN');
 
-        // VietQR Image URL
-        $qrUrl = "https://img.vietqr.io/image/{$bankId}-{$bankAccountNo}-compact2.png?amount={$order->total_amount}&addInfo={$order->order_code}&accountName=" . urlencode($bankAccountName);
+        // SePay / VietQR PNG Image URL
+        $qrUrl = "https://qr.sepay.vn/img?bank={$bankId}&acc={$bankAccountNo}&template=compact&amount={$order->total_amount}&des={$order->order_code}";
 
         $amountFormatted = number_format($order->total_amount, 0, ',', '.') . 'đ';
 
@@ -783,8 +783,12 @@ class TelegramBotService
             ]
         ];
 
-        // Send photo with caption
-        $this->sendPhoto($chatId, $qrUrl, $caption, $keyboard);
+        // Send photo with caption, fallback to message if photo fails
+        $res = $this->sendPhoto($chatId, $qrUrl, $caption, $keyboard);
+        if (!($res['ok'] ?? false)) {
+            $fallbackText = $caption . "\n\n🔗 <b>Mã QR:</b> <a href=\"{$qrUrl}\">Bấm để xem ảnh QR</a>";
+            $this->sendMessage($chatId, $fallbackText, $keyboard);
+        }
     }
 
     /**
@@ -1006,7 +1010,8 @@ class TelegramBotService
         // Topup memo format: NAP{telegram_id}
         $transferMemo = 'NAP' . $user->telegram_id;
 
-        $qrUrl = "https://img.vietqr.io/image/{$bankId}-{$bankAccountNo}-compact2.png?amount={$amount}&addInfo={$transferMemo}&accountName=" . urlencode($bankAccountName);
+        // SePay / VietQR PNG Image URL
+        $qrUrl = "https://qr.sepay.vn/img?bank={$bankId}&acc={$bankAccountNo}&template=compact&amount={$amount}&des={$transferMemo}";
 
         $amountFormatted = number_format($amount, 0, ',', '.') . 'đ';
 
@@ -1027,7 +1032,11 @@ class TelegramBotService
             ]
         ];
 
-        $this->sendPhoto($chatId, $qrUrl, $caption, $keyboard);
+        $res = $this->sendPhoto($chatId, $qrUrl, $caption, $keyboard);
+        if (!($res['ok'] ?? false)) {
+            $fallbackText = $caption . "\n\n🔗 <b>Mã QR:</b> <a href=\"{$qrUrl}\">Bấm để xem ảnh QR</a>";
+            $this->sendMessage($chatId, $fallbackText, $keyboard);
+        }
     }
 
     /**

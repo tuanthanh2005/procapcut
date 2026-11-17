@@ -868,7 +868,11 @@
                                                 <span class="badge-status badge-danger">Ẩn</span>
                                             @endif
                                         </td>
-                                        <td style="text-align: right;">
+                                        <td style="text-align: right; white-space: nowrap;">
+                                            <button type="button" class="btn-outline" style="padding: 0.35rem 0.65rem; font-size: 0.8rem; margin-right: 4px;"
+                                                onclick="openEditCategoryModal({{ $cat->id }}, '{{ addslashes($cat->name) }}', '{{ $cat->icon }}', {{ $cat->sort_order }}, {{ $cat->is_active ? 1 : 0 }})">
+                                                <i class="fa-solid fa-pen-to-square"></i> Sửa
+                                            </button>
                                             <form action="{{ route('admin.telegram.categories.delete', $cat->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Xóa danh mục này sẽ xóa tất cả sản phẩm và key thuộc danh mục. Tiếp tục?')">
                                                 @csrf
                                                 @method('DELETE')
@@ -879,6 +883,40 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+                </div>
+
+                <!-- Edit Category Modal -->
+                <div class="modal" id="editCategoryModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Chỉnh Sửa Danh Mục Bot</h4>
+                            <button class="close-modal" onclick="closeModal('editCategoryModal')">&times;</button>
+                        </div>
+                        <form id="editCategoryForm" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label class="form-label">Tên danh mục</label>
+                                <input type="text" name="name" id="edit_cat_name" class="form-input" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Biểu tượng (Emoji)</label>
+                                    <input type="text" name="icon" id="edit_cat_icon" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Thứ tự hiển thị</label>
+                                    <input type="number" name="sort_order" id="edit_cat_sort" class="form-input">
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 1.5rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; cursor: pointer;">
+                                    <input type="checkbox" name="is_active" id="edit_cat_active" value="1"> Bật hiển thị ngay trên Bot
+                                </label>
+                            </div>
+                            <button type="submit" class="btn-primary" style="width: 100%;">Lưu Thay Đổi Danh Mục</button>
+                        </form>
                     </div>
                 </div>
 
@@ -979,7 +1017,24 @@
                                                 <span class="badge-status badge-danger">Tắt</span>
                                             @endif
                                         </td>
-                                        <td style="text-align: right;">
+                                        <td style="text-align: right; white-space: nowrap;">
+                                            <button type="button" class="btn-outline" style="padding: 0.35rem 0.65rem; font-size: 0.8rem; margin-right: 4px;"
+                                                data-prod="{{ json_encode([
+                                                    'id' => $p->id,
+                                                    'category_id' => $p->category_id,
+                                                    'name' => $p->name,
+                                                    'price' => $p->price,
+                                                    'original_price' => $p->original_price,
+                                                    'delivery_type' => $p->delivery_type,
+                                                    'description' => $p->description,
+                                                    'guide_text' => $p->guide_text,
+                                                    'static_content' => $p->static_content,
+                                                    'sort_order' => $p->sort_order,
+                                                    'is_active' => $p->is_active ? 1 : 0,
+                                                ]) }}"
+                                                onclick="openEditProductModal(this)">
+                                                <i class="fa-solid fa-pen-to-square"></i> Sửa
+                                            </button>
                                             <form action="{{ route('admin.telegram.products.delete', $p->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?')">
                                                 @csrf
                                                 @method('DELETE')
@@ -990,6 +1045,69 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+                </div>
+
+                <!-- Edit Product Modal -->
+                <div class="modal" id="editProductModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Chỉnh Sửa Sản Phẩm Bot</h4>
+                            <button class="close-modal" onclick="closeModal('editProductModal')">&times;</button>
+                        </div>
+                        <form id="editProductForm" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label class="form-label">Chọn Danh mục</label>
+                                <select name="category_id" id="edit_prod_category_id" class="form-select" required>
+                                    @foreach($categories as $c)
+                                        <option value="{{ $c->id }}">{{ $c->icon }} {{ $c->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label class="form-label">Tên sản phẩm</label>
+                                <input type="text" name="name" id="edit_prod_name" class="form-input" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Giá bán (VND)</label>
+                                    <input type="number" name="price" id="edit_prod_price" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Giá gốc hiển thị (gạch ngang)</label>
+                                    <input type="number" name="original_price" id="edit_prod_original_price" class="form-input">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Loại giao hàng</label>
+                                    <select name="delivery_type" id="edit_prod_delivery_type" class="form-select">
+                                        <option value="key_stock">Xuất tự động từ Kho Key / Tài khoản</option>
+                                        <option value="static_text">Gửi tin nhắn hướng dẫn / link cố định</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Thứ tự hiển thị</label>
+                                    <input type="number" name="sort_order" id="edit_prod_sort" class="form-input">
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label class="form-label">Mô tả sản phẩm</label>
+                                <textarea name="description" id="edit_prod_description" class="form-textarea" rows="3"></textarea>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label class="form-label">Hướng dẫn sử dụng</label>
+                                <textarea name="guide_text" id="edit_prod_guide" class="form-textarea" rows="2"></textarea>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 1.5rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; cursor: pointer;">
+                                    <input type="checkbox" name="is_active" id="edit_prod_active" value="1"> Bật hiển thị ngay trên Bot
+                                </label>
+                            </div>
+                            <button type="submit" class="btn-primary" style="width: 100%;">Lưu Thay Đổi Sản Phẩm</button>
+                        </form>
                     </div>
                 </div>
 
@@ -1353,6 +1471,30 @@ Nhanh tay vào mua ngay số lượng có hạn!" required></textarea>
 
         function closeModal(id) {
             document.getElementById(id).classList.remove('active');
+        }
+
+        function openEditCategoryModal(id, name, icon, sort, isActive) {
+            document.getElementById('edit_cat_name').value = name;
+            document.getElementById('edit_cat_icon').value = icon;
+            document.getElementById('edit_cat_sort').value = sort;
+            document.getElementById('edit_cat_active').checked = (isActive == 1);
+            document.getElementById('editCategoryForm').action = '/admin/telegram/categories/' + id;
+            openModal('editCategoryModal');
+        }
+
+        function openEditProductModal(btn) {
+            const data = JSON.parse(btn.getAttribute('data-prod'));
+            document.getElementById('edit_prod_category_id').value = data.category_id;
+            document.getElementById('edit_prod_name').value = data.name;
+            document.getElementById('edit_prod_price').value = data.price;
+            document.getElementById('edit_prod_original_price').value = data.original_price || '';
+            document.getElementById('edit_prod_delivery_type').value = data.delivery_type || 'key_stock';
+            document.getElementById('edit_prod_sort').value = data.sort_order || 0;
+            document.getElementById('edit_prod_description').value = data.description || '';
+            document.getElementById('edit_prod_guide').value = data.guide_text || '';
+            document.getElementById('edit_prod_active').checked = (data.is_active == 1);
+            document.getElementById('editProductForm').action = '/admin/telegram/products/' + data.id;
+            openModal('editProductModal');
         }
 
         function openBalanceModal(userId, userName, currentBalance) {
