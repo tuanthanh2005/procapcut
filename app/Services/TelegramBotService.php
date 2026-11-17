@@ -911,8 +911,35 @@ class TelegramBotService
         }
 
         $deliveredItems = [];
+        $canbosoOrderCode = null;
+        $canbosoResponseRaw = null;
 
-        if ($product->delivery_type === 'key_stock') {
+        // 1. DELIVERY TYPE: Auto Purchase via Canboso API
+        if ($product->delivery_type === 'canboso_api' && $product->canboso_product_id) {
+            $canbosoService = new \App\Services\CanbosoService();
+            $purchaseRes = $canbosoService->purchase($product->canboso_product_id, $order->quantity);
+
+            if ($purchaseRes['success'] ?? false) {
+                $deliveredItems[] = $canbosoService->formatDeliveryContent($purchaseRes);
+                $canbosoOrderCode = $purchaseRes['order']['orderCode'] ?? null;
+                $canbosoResponseRaw = json_encode($purchaseRes['raw'] ?? []);
+            } else {
+                // If Canboso purchase failed (e.g. out of wallet or out of stock), alert Admin immediately and notify buyer
+                $failMsg = $purchaseRes['message'] ?? 'Lỗi kết nối Canboso';
+                \Illuminate\Support\Facades\Log::error("Canboso Auto Purchase Failed for Order #{$order->order_code}: {$failMsg}");
+
+                $deliveredItems[] = "⚠️ Đơn hàng của bạn đang được hệ thống xử lý bổ sung. Kỹ thuật viên sẽ hỗ trợ gửi tài khoản cho bạn ngay lập tức!";
+                
+                // Alert Admin via Telegram with High Priority
+                $alertMsg = "🚨 <b>[CẢNH BÁO: MUA CANBOSO THẤT BẠI]</b>\n";
+                $alertMsg .= "━━━━━━━━━━━━━━━━━━━━\n";
+                $alertMsg .= "Mã đơn khách: <b>#{$order->order_code}</b>\n";
+                $alertMsg .= "Sản phẩm: <b>{$product->name}</b>\n";
+                $alertMsg .= "Lý do: <code>{$failMsg}</code>\n";
+                $alertMsg .= "👉 <i>Vui lòng kiểm tra lại số dư ví Canboso hoặc xử lý thủ công cho khách!</i>";
+                $this->notifyAdmin($alertMsg);
+            }
+        } elseif ($product->delivery_type === 'key_stock') {
             // Pick available keys from stock
             $keys = TelegramProductKey::where('product_id', $product->id)
                 ->where('is_used', false)
@@ -945,6 +972,8 @@ class TelegramBotService
 
         $order->update([
             'delivered_data' => $deliveredDataStr,
+            'canboso_order_code' => $canbosoOrderCode,
+            'canboso_response' => $canbosoResponseRaw,
             'status' => 'completed',
             'paid_at' => $order->paid_at ?: now(),
         ]);

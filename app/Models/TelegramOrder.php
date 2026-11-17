@@ -20,6 +20,8 @@ class TelegramOrder extends Model
         'status',
         'delivered_data',
         'sepay_transaction_id',
+        'canboso_order_code',
+        'canboso_response',
         'paid_at',
         'expires_at',
     ];

@@ -293,6 +293,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::put('/categories/{id}', [\App\Http\Controllers\AdminTelegramController::class, 'updateCategory'])->name('categories.update');
         Route::delete('/categories/{id}', [\App\Http\Controllers\AdminTelegramController::class, 'deleteCategory'])->name('categories.delete');
         Route::post('/products', [\App\Http\Controllers\AdminTelegramController::class, 'storeProduct'])->name('products.store');
+        Route::post('/products/canboso-import', [\App\Http\Controllers\AdminTelegramController::class, 'importCanbosoProduct'])->name('products.canboso.import');
         Route::put('/products/{id}', [\App\Http\Controllers\AdminTelegramController::class, 'updateProduct'])->name('products.update');
         Route::delete('/products/{id}', [\App\Http\Controllers\AdminTelegramController::class, 'deleteProduct'])->name('products.delete');
         Route::post('/stock', [\App\Http\Controllers\AdminTelegramController::class, 'storeStockKeys'])->name('stock.store');
