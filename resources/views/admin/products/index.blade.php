@@ -394,7 +394,10 @@
                 <a href="/admin/orders"><i class="fa-solid fa-shopping-cart"></i> Đơn hàng</a>
             </li>
             <li class="menu-item">
-                <a href="/admin/chat"><i class="fa-solid fa-comments"></i> Hỗ trợ Chat</a>
+<a href="/admin/chat"><i class="fa-solid fa-comments"></i> Hỗ trợ Chat</a>
+            </li>
+            <li class="menu-item">
+                <a href="/admin/telegram"><i class="fa-brands fa-telegram" style="color: #0ea5e9;"></i> Bot Telegram <span style="background: #0ea5e9; color: white; font-size: 0.65rem; padding: 2px 6px; border-radius: 8px; font-weight: 700; margin-left: auto;">24/7</span></a>
             </li>
             <li class="menu-item">
                 <a href="/admin/customers"><i class="fa-solid fa-users"></i> Khách hàng</a>

@@ -281,6 +281,28 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
         return response()->json(['success' => true, 'is_ai_enabled' => $convo->is_ai_enabled]);
     });
+
+    // Admin Telegram Bot Management routes
+    Route::prefix('telegram')->name('telegram.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\AdminTelegramController::class, 'index'])->name('index');
+        Route::post('/settings', [\App\Http\Controllers\AdminTelegramController::class, 'updateSettings'])->name('settings.update');
+        Route::post('/webhook/set', [\App\Http\Controllers\AdminTelegramController::class, 'setWebhook'])->name('webhook.set');
+        Route::post('/webhook/delete', [\App\Http\Controllers\AdminTelegramController::class, 'deleteWebhook'])->name('webhook.delete');
+        Route::get('/test', [\App\Http\Controllers\AdminTelegramController::class, 'testBot'])->name('test');
+        Route::post('/categories', [\App\Http\Controllers\AdminTelegramController::class, 'storeCategory'])->name('categories.store');
+        Route::put('/categories/{id}', [\App\Http\Controllers\AdminTelegramController::class, 'updateCategory'])->name('categories.update');
+        Route::delete('/categories/{id}', [\App\Http\Controllers\AdminTelegramController::class, 'deleteCategory'])->name('categories.delete');
+        Route::post('/products', [\App\Http\Controllers\AdminTelegramController::class, 'storeProduct'])->name('products.store');
+        Route::put('/products/{id}', [\App\Http\Controllers\AdminTelegramController::class, 'updateProduct'])->name('products.update');
+        Route::delete('/products/{id}', [\App\Http\Controllers\AdminTelegramController::class, 'deleteProduct'])->name('products.delete');
+        Route::post('/stock', [\App\Http\Controllers\AdminTelegramController::class, 'storeStockKeys'])->name('stock.store');
+        Route::delete('/stock/{id}', [\App\Http\Controllers\AdminTelegramController::class, 'deleteStockKey'])->name('stock.delete');
+        Route::post('/orders/{id}/complete', [\App\Http\Controllers\AdminTelegramController::class, 'completeOrderManually'])->name('orders.complete');
+        Route::post('/orders/{id}/cancel', [\App\Http\Controllers\AdminTelegramController::class, 'cancelOrder'])->name('orders.cancel');
+        Route::post('/users/{id}/balance', [\App\Http\Controllers\AdminTelegramController::class, 'adjustBalance'])->name('users.balance');
+        Route::post('/users/{id}/ban', [\App\Http\Controllers\AdminTelegramController::class, 'toggleBan'])->name('users.ban');
+        Route::post('/broadcast', [\App\Http\Controllers\AdminTelegramController::class, 'sendBroadcast'])->name('broadcast');
+    });
 });
 
 // User Protected Routes
@@ -701,3 +723,6 @@ Route::post('/api/chat/upload', function (Request $request) {
 
     return response()->json(['success' => false, 'error' => 'No file uploaded'], 400);
 });
+
+// Telegram Bot Webhook endpoint (public API)
+Route::match(['get', 'post'], '/webhook/telegram/{token?}', [\App\Http\Controllers\TelegramWebhookController::class, 'handle']);

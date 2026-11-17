@@ -18,6 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->validateCsrfTokens(except: [
             'webhook/sepay',
+            'webhook/telegram',
+            'webhook/telegram/*',
             'api/chat/messages',
             'api/chat/call-admin',
             'api/chat/upload',
