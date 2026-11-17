@@ -308,6 +308,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 // User Protected Routes
 Route::middleware(['auth'])->group(function () {
+    Route::get('/wallet', [\App\Http\Controllers\WalletController::class, 'index'])->name('wallet.index');
+    Route::get('/api/wallet/balance', [\App\Http\Controllers\WalletController::class, 'checkBalance'])->name('wallet.checkBalance');
     Route::get('/orders', [UserController::class, 'orders'])->name('orders.index');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile.edit');
     Route::post('/profile', [UserController::class, 'updateProfile'])->name('profile.update');

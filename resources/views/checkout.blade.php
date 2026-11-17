@@ -492,6 +492,7 @@
 
                 <div class="nav-actions">
                     <a href="/products" class="action-icon-btn" title="Quay lại cửa hàng"><i class="fa-solid fa-store"></i></a>
+                    @include('partials.user-nav')
                 </div>
             </div>
         </div>
@@ -544,6 +545,18 @@
                         <h2><i class="fa-regular fa-credit-card"></i> Phương Thức Thanh Toán</h2>
                         
                         <div class="payment-methods-grid">
+                            @auth
+                            <div class="payment-method-card" onclick="selectPaymentMethod('wallet')" style="border-color: #0d9488; background: #f0fdfa;">
+                                <input type="radio" name="payment_method" id="payment_wallet" value="wallet" style="margin-right: 0.25rem;">
+                                <div class="payment-method-info">
+                                    <span style="color: #0f766e; font-weight: 800;">
+                                        <i class="fa-solid fa-wallet" style="color: #0d9488;"></i> Số Dư Ví Của Bạn
+                                    </span>
+                                    <p style="color: #115e59;">Khả dụng: <strong>{{ number_format(auth()->user()->balance ?? 0, 0, ',', '.') }}đ</strong> • Trừ tiền & kích hoạt ngay lập tức</p>
+                                </div>
+                            </div>
+                            @endauth
+
                             <div class="payment-method-card active" onclick="selectPaymentMethod('qr_bank')">
                                 <input type="radio" name="payment_method" id="payment_qr_bank" value="qr_bank" checked style="margin-right: 0.25rem;">
                                 <div class="payment-method-info">
@@ -764,11 +777,14 @@
             });
 
             if (method === 'qr_bank') {
-                document.getElementById('payment_qr_bank').checked = true;
-                document.getElementById('payment_qr_bank').parentElement.classList.add('active');
+                const el = document.getElementById('payment_qr_bank');
+                if (el) { el.checked = true; el.parentElement.classList.add('active'); }
+            } else if (method === 'wallet') {
+                const el = document.getElementById('payment_wallet');
+                if (el) { el.checked = true; el.parentElement.classList.add('active'); }
             } else {
-                document.getElementById('payment_momo').checked = true;
-                document.getElementById('payment_momo').parentElement.classList.add('active');
+                const el = document.getElementById('payment_momo');
+                if (el) { el.checked = true; el.parentElement.classList.add('active'); }
             }
         }
 

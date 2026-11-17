@@ -40,7 +40,7 @@ class OrderController extends Controller
             'customer_phone' => 'required|string|max:20',
             'customer_email' => 'required|email|max:255',
             'upgrade_details' => $requireEmail ? 'required|string' : 'nullable|string',
-            'payment_method' => 'required|string|in:qr_bank,momo',
+            'payment_method' => 'required|string|in:qr_bank,momo,wallet',
             'items_json' => 'required|string', // JSON serialized cart array
         ], [
             'customer_name.required' => 'Họ tên không được để trống.',
@@ -172,10 +172,59 @@ class OrderController extends Controller
             }
         }
 
+        // If paying with Wallet Balance
+        $isPaidWithWallet = false;
+        if ($request->payment_method === 'wallet') {
+            $user = Auth::user();
+            if (!$user || $user->balance < $totalPrice) {
+                return back()->withErrors([
+                    'payment_method' => 'Số dư ví của bạn không đủ (' . number_format($user->balance ?? 0, 0, ',', '.') . 'đ) để thanh toán đơn hàng ' . number_format($totalPrice, 0, ',', '.') . 'đ. Vui lòng nạp thêm tiền vào ví hoặc chọn Chuyển khoản QR.'
+                ])->withInput();
+            }
+
+            $balanceBefore = (int) ($user->balance ?? 0);
+            $user->decrement('balance', $totalPrice);
+            $user->increment('total_spent', $totalPrice);
+
+            \Illuminate\Support\Facades\DB::table('wallet_transactions')->insert([
+                'user_id' => $user->id,
+                'type' => 'purchase',
+                'amount' => $totalPrice,
+                'balance_before' => $balanceBefore,
+                'balance_after' => $balanceBefore - $totalPrice,
+                'description' => "Thanh toán đơn hàng #OD" . (1000 + $order->id) . " ({$firstItemName})",
+                'payment_method' => 'wallet',
+                'status' => 'completed',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            $prefix = 'KEY';
+            if (str_contains(strtolower($order->product_name), 'capcut')) {
+                $prefix = 'CAPCUT-PRO';
+            } elseif (str_contains(strtolower($order->product_name), 'gpt')) {
+                $prefix = 'GPT-PLUS';
+            } elseif (str_contains(strtolower($order->product_name), 'canva')) {
+                $prefix = 'CANVA-PRO';
+            }
+            $activationKey = $prefix . '-' . strtoupper(\Illuminate\Support\Str::random(5)) . '-' . strtoupper(\Illuminate\Support\Str::random(5));
+
+            $order->update([
+                'status' => 'processing',
+                'activation_key' => $activationKey,
+            ]);
+            $isPaidWithWallet = true;
+        }
+
         // Send Telegram Alert for new order
         $botToken = env('TELEGRAM_BOT_TOKEN');
         $chatId = env('TELEGRAM_CHAT_ID');
         if (! empty($botToken) && ! empty($chatId)) {
+            $methodText = match($order->payment_method) {
+                'wallet' => 'Ví AI CỦA TÔI (Đã trừ tiền ví tự động)',
+                'qr_bank' => 'Chuyển khoản QR Bank',
+                default => 'Ví MoMo'
+            };
             $text = "🛍️ <b>ĐƠN HÀNG MỚI</b> 🛍️\n\n".
                     '🆔 <b>Mã đơn hàng</b>: #'.$order->id."\n".
                     '👤 <b>Khách hàng</b>: '.$order->customer_name."\n".
@@ -183,7 +232,7 @@ class OrderController extends Controller
                     '✉️ <b>Email</b>: '.$order->customer_email."\n".
                     '📦 <b>Sản phẩm</b>: '.$order->product_name."\n".
                     '💵 <b>Tổng tiền</b>: '.number_format($order->price)."đ\n".
-                    '💳 <b>Phương thức</b>: '.($order->payment_method === 'qr_bank' ? 'Chuyển khoản QR Bank' : 'Ví MoMo')."\n".
+                    '💳 <b>Phương thức</b>: '.$methodText."\n".
                     '⚙️ <b>Thông tin nâng cấp</b>: '.$order->upgrade_details."\n\n".
                     '🔗 <b>Xem chi tiết đơn hàng</b>: <a href="'.url('/admin/orders/'.$order->id).'">Quản trị Đơn hàng</a>';
 
@@ -196,6 +245,10 @@ class OrderController extends Controller
             } catch (\Exception $e) {
                 Log::error('Telegram order alert failed: '.$e->getMessage());
             }
+        }
+
+        if ($isPaidWithWallet) {
+            return redirect()->route('checkout.success', $order->id);
         }
 
         return redirect()->route('checkout.thankyou', $order->id);

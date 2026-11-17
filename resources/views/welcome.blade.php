@@ -351,13 +351,37 @@
             position: relative;
             flex: 1;
             max-width: 280px;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon-left {
+            position: absolute;
+            left: 0.85rem;
+            color: #94a3b8;
+            font-size: 0.82rem;
+            pointer-events: none;
+        }
+
+        .search-shortcut-badge {
+            position: absolute;
+            right: 0.75rem;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 0.1rem 0.35rem;
+            font-size: 0.68rem;
+            color: #64748b;
+            font-weight: 600;
+            line-height: 1;
+            pointer-events: none;
         }
 
         .search-input {
             width: 100%;
             height: 2.45rem;
-            padding: 0 2.4rem 0 0.95rem;
-            background: #ffffff;
+            padding: 0 2.2rem 0 2.2rem;
+            background: #f8fafc;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-full);
             color: var(--text-main);
@@ -370,6 +394,7 @@
         .search-input:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+            background: #ffffff;
         }
 
         .search-input::placeholder {
@@ -1882,8 +1907,9 @@
 
                 <!-- Search Input -->
                 <div class="search-wrapper">
-                    <input type="text" class="search-input" id="search-input" placeholder="Tìm kiếm ChatGPT, Claude, CapCut...">
-                    <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <i class="fa-solid fa-magnifying-glass search-icon-left"></i>
+                    <input type="text" class="search-input" id="search-input" placeholder="Tìm tài khoản, dịch vụ...">
+                    <span class="search-shortcut-badge">/</span>
                 </div>
 
                 <!-- Nav Actions -->
@@ -1897,47 +1923,7 @@
                         <span class="badge" id="cart-count">0</span>
                     </button>
 
-                    @auth
-                        <div class="user-menu-wrapper">
-                            <button class="action-icon-btn user-menu-btn" title="{{ auth()->user()->name }}">
-                                @if(auth()->user()->avatar)
-                                    <img src="{{ auth()->user()->avatar }}" alt="Avatar" class="user-avatar-img">
-                                @else
-                                    <i class="fa-solid fa-circle-user"></i>
-                                @endif
-                            </button>
-                            <div class="user-dropdown-menu">
-                                <div class="user-dropdown-header">
-                                    <span class="user-display-name">{{ auth()->user()->name }}</span>
-                                    <span class="user-display-email">{{ auth()->user()->email }}</span>
-                                </div>
-                                <div class="user-dropdown-divider"></div>
-                                @if(auth()->user()->isAdmin())
-                                    <a href="/admin/dashboard" class="user-dropdown-item" style="color: var(--danger); font-weight: 700;">
-                                        <i class="fa-solid fa-shield-halved"></i> Quản Trị Hệ Thống
-                                    </a>
-                                    <div class="user-dropdown-divider"></div>
-                                @endif
-                                <a href="/orders" class="user-dropdown-item">
-                                    <i class="fa-solid fa-receipt"></i> Đơn hàng đã mua
-                                </a>
-                                <a href="/profile" class="user-dropdown-item">
-                                    <i class="fa-solid fa-user-gear"></i> Cài đặt tài khoản
-                                </a>
-                                <div class="user-dropdown-divider"></div>
-                                <form action="{{ route('logout') }}" method="POST" style="margin: 0; width: 100%;">
-                                    @csrf
-                                    <button type="submit" class="user-dropdown-item logout-btn-item">
-                                        <i class="fa-solid fa-power-off"></i> Đăng xuất
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    @else
-                        <a href="{{ route('login') }}" class="action-icon-btn" title="Đăng nhập">
-                            <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                        </a>
-                    @endauth
+                    @include('partials.user-nav')
                 </div>
             </div>
         </div>

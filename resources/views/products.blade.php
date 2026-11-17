@@ -1836,41 +1836,7 @@ if ($category === 'all' && empty($search)) {
                         <i class="fa-solid fa-bag-shopping"></i>
                         <span class="badge" id="cart-count">0</span>
                     </button>
-                    @auth
-                        <div class="user-menu-wrapper">
-                            <button class="action-icon-btn user-menu-btn" title="Tài khoản: {{ auth()->user()->name }}">
-                                @if(auth()->user()->avatar)
-                                    <img src="{{ auth()->user()->avatar }}" alt="Avatar" class="user-avatar-img">
-                                @else
-                                    <i class="fa-solid fa-circle-user" style="font-size: 1.25rem;"></i>
-                                @endif
-                            </button>
-                            <div class="user-dropdown-menu">
-                                <div class="user-dropdown-header">
-                                    <span class="user-display-name">{{ auth()->user()->name }}</span>
-                                    <span class="user-display-email">{{ auth()->user()->email }}</span>
-                                </div>
-                                <div class="user-dropdown-divider"></div>
-                                @if(auth()->user()->isAdmin())
-                                    <a href="/admin/dashboard" class="user-dropdown-item" style="color: #ef4444; font-weight: 700;"><i class="fa-solid fa-user-shield"></i> Quản trị Admin</a>
-                                    <div class="user-dropdown-divider"></div>
-                                @endif
-                                <a href="/orders" class="user-dropdown-item"><i class="fa-solid fa-clock-rotate-left"></i> Đơn hàng đã mua</a>
-                                <a href="/profile" class="user-dropdown-item"><i class="fa-solid fa-user-gear"></i> Thiết lập tài khoản</a>
-                                <div class="user-dropdown-divider"></div>
-                                <form action="{{ route('logout') }}" method="POST" style="margin: 0; width: 100%;">
-                                    @csrf
-                                    <button type="submit" class="user-dropdown-item logout-btn-item">
-                                        <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    @else
-                        <a href="{{ route('login') }}" class="action-icon-btn" title="Đăng nhập tài khoản">
-                            <i class="fa-solid fa-user-lock"></i>
-                        </a>
-                    @endauth
+                    @include('partials.user-nav')
                 </div>
             </div>
 

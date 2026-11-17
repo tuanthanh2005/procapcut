@@ -60,11 +60,59 @@ class SePayWebhookController extends Controller
         ]);
 
         $botService = new TelegramBotService();
+        $gateway = (string) $request->input('gateway', 'MB');
 
-        // 3. CASE A: Check Telegram Wallet Top-up (NAP{telegram_id})
+        // 3. CASE A1: Check Web Wallet Top-up (NAPW {user_id} or NAPW{user_id})
+        if (preg_match('/NAPW\s*([0-9]+)/i', $content, $matches)) {
+            $webUserId = (int) $matches[1];
+            $webUser = \App\Models\User::find($webUserId);
+
+            if ($webUser) {
+                $balanceBefore = (int) ($webUser->balance ?? 0);
+                $webUser->increment('balance', $transferAmount);
+
+                \Illuminate\Support\Facades\DB::table('wallet_transactions')->insert([
+                    'user_id' => $webUser->id,
+                    'type' => 'deposit',
+                    'amount' => $transferAmount,
+                    'balance_before' => $balanceBefore,
+                    'balance_after' => $balanceBefore + $transferAmount,
+                    'description' => "Nạp tiền vào ví website tự động qua VietQR SePay (GD #{$transactionId})",
+                    'sepay_transaction_id' => $transactionId,
+                    'payment_method' => 'vietqr',
+                    'status' => 'completed',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+                $amountFormatted = number_format($transferAmount, 0, ',', '.') . 'đ';
+                $newBalanceFormatted = number_format($webUser->balance, 0, ',', '.') . 'đ';
+
+                // Notify admin via Telegram bot
+                $adminAlert = "💰 <b>[KHÁCH NẠP VÍ WEB THÀNH CÔNG]</b>\n";
+                $adminAlert .= "━━━━━━━━━━━━━━━━━━━━\n";
+                $adminAlert .= "👤 Khách nạp: <b>" . htmlspecialchars($webUser->name ?? $webUser->email) . "</b> (ID: <code>{$webUser->id}</code> | {$webUser->email})\n";
+                $adminAlert .= "💵 Số tiền: <b>+{$amountFormatted}</b>\n";
+                $adminAlert .= "👛 Số dư ví web mới: <b>{$newBalanceFormatted}</b>\n";
+                $adminAlert .= "🏦 Ngân hàng: <b>{$gateway}</b> | GD: <code>{$transactionId}</code>\n";
+                $adminAlert .= "📝 Nội dung CK: <code>{$content}</code>\n";
+                $adminAlert .= "⏰ Thời gian: " . now()->format('d/m/Y H:i:s');
+
+                $botService->notifyAdmin($adminAlert);
+
+                Log::info('SePay Webhook: Web user wallet topup completed.', [
+                    'user_id' => $webUser->id,
+                    'amount' => $transferAmount
+                ]);
+
+                return response()->json(['success' => true, 'message' => 'Web user wallet topup completed']);
+            }
+        }
+
+        // 3. CASE A2: Check Telegram Wallet Top-up (NAP{telegram_id}) with fallback to Web User
         if (preg_match('/NAP\s*([0-9]+)/i', $content, $matches)) {
-            $telegramId = (int) $matches[1];
-            $telegramUser = TelegramUser::where('telegram_id', $telegramId)->first();
+            $targetId = (int) $matches[1];
+            $telegramUser = TelegramUser::where('telegram_id', $targetId)->first();
 
             if ($telegramUser) {
                 $balanceBefore = $telegramUser->balance;
@@ -102,7 +150,7 @@ class SePayWebhookController extends Controller
 
                 // Alert Admin via Telegram
                 $userHandle = $telegramUser->username ? "@{$telegramUser->username}" : "Không có";
-                $adminAlert = "💰 <b>[KHÁCH HÀNG NẠP VÍ THÀNH CÔNG]</b>\n";
+                $adminAlert = "💰 <b>[KHÁCH HÀNG NẠP VÍ BOT THÀNH CÔNG]</b>\n";
                 $adminAlert .= "━━━━━━━━━━━━━━━━━━━━\n";
                 $adminAlert .= "👤 Khách nạp: <b>" . htmlspecialchars($telegramUser->full_name) . "</b> ({$userHandle} | ID: <code>{$telegramUser->telegram_id}</code>)\n";
                 $adminAlert .= "💵 Số tiền: <b>+{$amountFormatted}</b>\n";
@@ -114,11 +162,48 @@ class SePayWebhookController extends Controller
                 $botService->notifyAdmin($adminAlert);
 
                 Log::info('SePay Webhook: Telegram wallet topup completed.', [
-                    'telegram_id' => $telegramId,
+                    'telegram_id' => $targetId,
                     'amount' => $transferAmount
                 ]);
 
                 return response()->json(['success' => true, 'message' => 'Telegram wallet topup completed']);
+            }
+
+            // Fallback: Check if targetId matches Web User
+            $webUser = \App\Models\User::find($targetId);
+            if ($webUser) {
+                $balanceBefore = (int) ($webUser->balance ?? 0);
+                $webUser->increment('balance', $transferAmount);
+
+                \Illuminate\Support\Facades\DB::table('wallet_transactions')->insert([
+                    'user_id' => $webUser->id,
+                    'type' => 'deposit',
+                    'amount' => $transferAmount,
+                    'balance_before' => $balanceBefore,
+                    'balance_after' => $balanceBefore + $transferAmount,
+                    'description' => "Nạp tiền vào ví website tự động qua VietQR SePay (GD #{$transactionId})",
+                    'sepay_transaction_id' => $transactionId,
+                    'payment_method' => 'vietqr',
+                    'status' => 'completed',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+                $amountFormatted = number_format($transferAmount, 0, ',', '.') . 'đ';
+                $newBalanceFormatted = number_format($webUser->balance, 0, ',', '.') . 'đ';
+
+                $adminAlert = "💰 <b>[KHÁCH NẠP VÍ WEB THÀNH CÔNG]</b>\n";
+                $adminAlert .= "━━━━━━━━━━━━━━━━━━━━\n";
+                $adminAlert .= "👤 Khách nạp: <b>" . htmlspecialchars($webUser->name ?? $webUser->email) . "</b> (ID: <code>{$webUser->id}</code> | {$webUser->email})\n";
+                $adminAlert .= "💵 Số tiền: <b>+{$amountFormatted}</b>\n";
+                $adminAlert .= "👛 Số dư ví web mới: <b>{$newBalanceFormatted}</b>\n";
+                $adminAlert .= "🏦 Ngân hàng: <b>{$gateway}</b> | GD: <code>{$transactionId}</code>\n";
+                $adminAlert .= "📝 Nội dung CK: <code>{$content}</code>\n";
+                $adminAlert .= "⏰ Thời gian: " . now()->format('d/m/Y H:i:s');
+
+                $botService->notifyAdmin($adminAlert);
+
+                return response()->json(['success' => true, 'message' => 'Web user wallet topup completed via NAP code']);
             }
         }
 
