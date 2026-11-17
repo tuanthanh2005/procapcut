@@ -826,6 +826,7 @@ $schema = [
         .tab-headers {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 1.5rem;
             border-bottom: 2px solid var(--bg-body);
             margin-bottom: 1.5rem;
@@ -1962,7 +1963,6 @@ $schema = [
                         <span class="active-price" id="display-price">250.000₫</span>
                         <span class="slashed-price" id="display-slashed">600.000₫</span>
                     </div>
-                    <p class="selected-desc" id="display-desc">Vui lòng chọn một gói cước nâng cấp bên dưới.</p>
                 </div>
 
                 <!-- Options -->
@@ -2052,10 +2052,12 @@ $schema = [
             </div>
         </div>
 
-        <!-- Tabs Section: Description (First), Reviews (Second) -->
+        <!-- Tabs Section: Description (First), Package Detail (Second), Reviews (Third) -->
         <div class="detail-tabs-wrapper">
             <div class="tab-headers">
                 <button class="tab-btn active" id="btn-desc" onclick="switchTab('desc')">Mô Tả Chi Tiết</button>
+                <div class="tab-divider"></div>
+                <button class="tab-btn" id="btn-package" onclick="switchTab('package')">Chi Tiết Gói</button>
                 <div class="tab-divider"></div>
                 <button class="tab-btn" id="btn-reviews" onclick="switchTab('reviews')">Đánh Giá</button>
             </div>
@@ -2067,7 +2069,20 @@ $schema = [
                 </div>
             </div>
 
-            <!-- Tab 2: Customer Reviews -->
+            <!-- Tab 2: Selected Package Detail -->
+            <div class="tab-content" id="tab-package">
+                <div class="package-detail-box" style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.75rem;">
+                        <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--primary);" id="tab-pkg-name">Đang chọn gói: --</h4>
+                        <span style="font-size: 1.25rem; font-weight: 800; color: #16a34a;" id="tab-pkg-price">--₫</span>
+                    </div>
+                    <div style="font-size: 0.95rem; line-height: 1.8; color: var(--text-main); white-space: pre-wrap; word-break: break-word;" id="tab-pkg-desc">
+                        Vui lòng chọn một gói cước bên trên để xem chi tiết hướng dẫn & cấu hình của gói đó.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Customer Reviews -->
             <div class="tab-content" id="tab-reviews">
                 <div class="reviews-box">
                     
@@ -2321,6 +2336,9 @@ $schema = [
             if (tabId === 'desc') {
                 document.getElementById('btn-desc').classList.add('active');
                 document.getElementById('tab-desc').classList.add('active');
+            } else if (tabId === 'package') {
+                document.getElementById('btn-package').classList.add('active');
+                document.getElementById('tab-package').classList.add('active');
             } else if (tabId === 'reviews') {
                 document.getElementById('btn-reviews').classList.add('active');
                 document.getElementById('tab-reviews').classList.add('active');
@@ -2372,7 +2390,13 @@ $schema = [
             // Update UI displays
             document.getElementById('display-price').innerText = formatVND(price);
             document.getElementById('display-slashed').innerText = formatVND(slashed);
-            document.getElementById('display-desc').innerText = desc;
+            
+            const pkgNameEl = document.getElementById('tab-pkg-name');
+            const pkgPriceEl = document.getElementById('tab-pkg-price');
+            const pkgDescEl = document.getElementById('tab-pkg-desc');
+            if (pkgNameEl) pkgNameEl.innerText = 'Đang chọn gói: ' + name;
+            if (pkgPriceEl) pkgPriceEl.innerText = formatVND(price);
+            if (pkgDescEl) pkgDescEl.innerText = desc || 'Chưa có thông tin mô tả chi tiết cho gói cước này.';
         }
 
         // Cart Actions
