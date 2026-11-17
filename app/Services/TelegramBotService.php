@@ -555,7 +555,13 @@ class TelegramBotService
 
         foreach ($category->products as $p) {
             $stock = $p->stock_count;
-            $stockBadge = ($stock > 0) ? "📦 {$stock}" : "❌ Hết hàng";
+
+            // Nếu sản phẩm hết hàng (stock <= 0) thì ẩn khỏi danh sách Bot
+            if ($stock <= 0) {
+                continue;
+            }
+
+            $stockBadge = "📦 {$stock}";
             $priceBadge = $p->formatted_price;
 
             $buttons[] = [
@@ -566,8 +572,8 @@ class TelegramBotService
             ];
         }
 
-        if ($category->products->isEmpty()) {
-            $html .= "\n\n<i>Hiện tại danh mục này đang được cập nhật thêm sản phẩm. Vui lòng quay lại sau!</i>";
+        if (empty($buttons)) {
+            $html .= "\n\n<i>Hiện tại các sản phẩm thuộc danh mục này đang tạm hết hàng. Hệ thống sẽ tự động hiển thị lại khi kho được nạp thêm!</i>";
         }
 
         $buttons[] = [
