@@ -557,7 +557,7 @@ class TelegramBotService
 
             $buttons[] = [
                 [
-                    'text' => "{$category->icon} {$p->name} | {$priceBadge} | {$stockBadge}",
+                    'text' => "{$p->name} | {$priceBadge} | {$stockBadge}",
                     'callback_data' => "prod_{$p->id}"
                 ]
             ];
