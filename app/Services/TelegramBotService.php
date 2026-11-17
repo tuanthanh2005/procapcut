@@ -519,7 +519,8 @@ class TelegramBotService
         }
 
         $buttons[] = [
-            ['text' => '🏠 Trang Chủ', 'callback_data' => 'menu_home']
+            ['text' => '🏠 Trang Chủ', 'callback_data' => 'menu_home'],
+            ['text' => '🔄 Cập nhật', 'callback_data' => 'menu_store']
         ];
 
         $keyboard = ['inline_keyboard' => $buttons];
