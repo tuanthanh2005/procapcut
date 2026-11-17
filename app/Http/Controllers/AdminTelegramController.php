@@ -170,6 +170,7 @@ class AdminTelegramController extends Controller
         $request->validate([
             'name' => 'required|string|max:100',
             'icon' => 'nullable|string',
+            'telegram_icon' => 'nullable|string|max:50',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
         ]);
 
@@ -182,6 +183,7 @@ class AdminTelegramController extends Controller
             'name' => $request->name,
             'slug' => Str::slug($request->name) . '-' . rand(10, 99),
             'icon' => $request->icon ?: '📦',
+            'telegram_icon' => $request->telegram_icon,
             'image' => $imagePath,
             'sort_order' => (int) $request->sort_order,
             'is_active' => $request->has('is_active'),
@@ -199,6 +201,7 @@ class AdminTelegramController extends Controller
         $request->validate([
             'name' => 'required|string|max:100',
             'icon' => 'nullable|string',
+            'telegram_icon' => 'nullable|string|max:50',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
         ]);
 
@@ -212,6 +215,7 @@ class AdminTelegramController extends Controller
         $cat->update([
             'name' => $request->name,
             'icon' => $request->icon ?: '📦',
+            'telegram_icon' => $request->telegram_icon,
             'image' => $imagePath,
             'sort_order' => (int) $request->sort_order,
             'is_active' => $request->has('is_active'),

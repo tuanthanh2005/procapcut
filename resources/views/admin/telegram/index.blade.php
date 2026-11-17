@@ -954,6 +954,7 @@
                                                 data-cat-id="{{ $cat->id }}"
                                                 data-cat-name="{{ $cat->name }}"
                                                 data-cat-icon="{{ e($cat->icon) }}"
+                                                data-cat-telegram-icon="{{ e($cat->telegram_icon) }}"
                                                 data-cat-image="{{ $cat->image ? asset('storage/' . $cat->image) : '' }}"
                                                 data-cat-sort="{{ $cat->sort_order }}"
                                                 data-cat-active="{{ $cat->is_active ? 1 : 0 }}"
@@ -989,15 +990,22 @@
                             </div>
                             
                             <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Biểu tượng (Emoji hoặc mã SVG)</label>
-                                    <input type="text" name="icon" id="edit_cat_icon" class="form-input" placeholder="Ví dụ: ✂️, 🤖 hoặc <svg ...>">
+                                <div class="form-group" style="flex: 2;">
+                                    <label class="form-label">Biểu tượng Web (Mã &lt;svg&gt; hoặc Emoji)</label>
+                                    <input type="text" name="icon" id="edit_cat_icon" class="form-input" placeholder="Ví dụ: <svg ...> hoặc ✂️">
                                     <small style="color: var(--text-muted); font-size: 0.78rem; display: block; margin-top: 3px;">
-                                        Nhập Emoji (✂️, 🤖) hoặc dán trực tiếp mã &lt;svg&gt;...&lt;/svg&gt;
+                                        Hiển thị trên bảng Web Admin
                                     </small>
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label">Thứ tự hiển thị</label>
+                                <div class="form-group" style="flex: 1;">
+                                    <label class="form-label">Emoji Telegram</label>
+                                    <input type="text" name="telegram_icon" id="edit_cat_telegram_icon" class="form-input" placeholder="Ví dụ: ✂️">
+                                    <small style="color: var(--text-muted); font-size: 0.78rem; display: block; margin-top: 3px;">
+                                        Hiển thị trên nút Bot
+                                    </small>
+                                </div>
+                                <div class="form-group" style="flex: 1;">
+                                    <label class="form-label">Thứ tự</label>
                                     <input type="number" name="sort_order" id="edit_cat_sort" class="form-input">
                                 </div>
                             </div>
@@ -1038,15 +1046,22 @@
                                 <input type="text" name="name" class="form-input" placeholder="Ví dụ: ChatGPT & OpenAI..." required>
                             </div>
                             <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Biểu tượng (Emoji hoặc mã SVG)</label>
-                                    <input type="text" name="icon" class="form-input" placeholder="Ví dụ: 🤖, 🎨 hoặc <svg ...>" value="📦">
+                                <div class="form-group" style="flex: 2;">
+                                    <label class="form-label">Biểu tượng Web (Mã &lt;svg&gt; hoặc Emoji)</label>
+                                    <input type="text" name="icon" class="form-input" placeholder="Ví dụ: <svg ...> hoặc 🤖" value="📦">
                                     <small style="color: var(--text-muted); font-size: 0.78rem; display: block; margin-top: 3px;">
-                                        Nhập Emoji hoặc dán mã SVG
+                                        Hiển thị trên bảng Web Admin
                                     </small>
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label">Thứ tự hiển thị</label>
+                                <div class="form-group" style="flex: 1;">
+                                    <label class="form-label">Emoji Telegram</label>
+                                    <input type="text" name="telegram_icon" class="form-input" placeholder="Ví dụ: 🤖">
+                                    <small style="color: var(--text-muted); font-size: 0.78rem; display: block; margin-top: 3px;">
+                                        Hiển thị trên nút Bot
+                                    </small>
+                                </div>
+                                <div class="form-group" style="flex: 1;">
+                                    <label class="form-label">Thứ tự</label>
                                     <input type="number" name="sort_order" class="form-input" value="1">
                                 </div>
                             </div>
@@ -2073,15 +2088,17 @@ Nhanh tay vào mua ngay số lượng có hạn!" required></textarea>
             const id = btn.getAttribute('data-cat-id');
             const name = btn.getAttribute('data-cat-name');
             const icon = btn.getAttribute('data-cat-icon');
+            const telegramIcon = btn.getAttribute('data-cat-telegram-icon');
             const imageUrl = btn.getAttribute('data-cat-image');
             const sort = btn.getAttribute('data-cat-sort');
             const isActive = btn.getAttribute('data-cat-active');
-            openEditCategoryModal(id, name, icon, imageUrl, sort, isActive);
+            openEditCategoryModal(id, name, icon, telegramIcon, imageUrl, sort, isActive);
         }
 
-        function openEditCategoryModal(id, name, icon, imageUrl, sort, isActive) {
+        function openEditCategoryModal(id, name, icon, telegramIcon, imageUrl, sort, isActive) {
             document.getElementById('edit_cat_name').value = name;
             document.getElementById('edit_cat_icon').value = icon || '';
+            document.getElementById('edit_cat_telegram_icon').value = telegramIcon || '';
             document.getElementById('edit_cat_sort').value = sort;
             document.getElementById('edit_cat_active').checked = (isActive == 1);
             
