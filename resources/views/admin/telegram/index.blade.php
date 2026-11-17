@@ -1477,41 +1477,6 @@ https://link-invite-canva.com/..." required></textarea>
                 </div>
             @endif
 
-                <!-- Edit Category Modal -->
-                <div class="modal" id="editCategoryModal">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Chỉnh Sửa Danh Mục Bot</h4>
-                            <button class="close-modal" onclick="closeModal('editCategoryModal')">&times;</button>
-                        </div>
-                        <form id="editCategoryForm" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <div class="form-group" style="margin-bottom: 1rem;">
-                                <label class="form-label">Tên danh mục</label>
-                                <input type="text" name="name" id="edit_cat_name" class="form-input" required>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Biểu tượng (Emoji)</label>
-                                    <input type="text" name="icon" id="edit_cat_icon" class="form-input" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Thứ tự hiển thị</label>
-                                    <input type="number" name="sort_order" id="edit_cat_sort" class="form-input">
-                                </div>
-                            </div>
-                            <div class="form-group" style="margin-bottom: 1.5rem;">
-                                <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; cursor: pointer;">
-                                    <input type="checkbox" name="is_active" id="edit_cat_active" value="1"> Bật hiển thị ngay trên Bot
-                                </label>
-                            </div>
-                            <button type="submit" class="btn-primary" style="width: 100%;">Lưu Thay Đổi Danh Mục</button>
-                        </form>
-                    </div>
-                </div>
-            @endif
-
             <!-- TAB 6: ORDERS -->
             @if($tab === 'orders')
                 <div class="content-card">
