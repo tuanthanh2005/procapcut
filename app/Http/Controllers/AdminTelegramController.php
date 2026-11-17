@@ -643,7 +643,7 @@ class AdminTelegramController extends Controller
             $productId = $p['productId'] ?? null;
             $name = $p['name'] ?? '';
             $costPrice = (int) ($p['price']['amount'] ?? 0);
-            $available = $p['availability']['available'] ?? 0;
+            $available = (int) ($p['availability']['available'] ?? 0);
             $emoji = $p['emoji'] ?? '';
 
             if (!$productId || !$name) {
@@ -655,34 +655,27 @@ class AdminTelegramController extends Controller
                 continue;
             }
 
-            // Auto determine Category Name & Icon from API emoji or product name
-            $catName = 'Sản phẩm khác';
-            $catIcon = '📦';
+            // Auto determine Category Name & Icons using comprehensive mapping
+            $catConfig = \App\Console\Commands\SyncAllCanbosoProductsCommand::getCategoryMapping($emoji, $name);
 
-            if (isset($emojiCategoryMap[$emoji])) {
-                $catName = $emojiCategoryMap[$emoji]['name'];
-                $catIcon = $emojiCategoryMap[$emoji]['icon'];
-            } else {
-                $lowerName = mb_strtolower($name);
-                if (str_contains($lowerName, 'capcut')) { $catName = 'CapCut Pro'; $catIcon = '✂️'; }
-                elseif (str_contains($lowerName, 'chatgpt') || str_contains($lowerName, 'gpt')) { $catName = 'ChatGPT & OpenAI'; $catIcon = '🤖'; }
-                elseif (str_contains($lowerName, 'gemini') || str_contains($lowerName, 'google')) { $catName = 'Google Gemini'; $catIcon = '✦'; }
-                elseif (str_contains($lowerName, 'canva')) { $catName = 'Canva Pro'; $catIcon = '🎨'; }
-                elseif (str_contains($lowerName, 'vpn')) { $catName = 'VPN & Proxy Riêng'; $catIcon = '🛡️'; }
-                elseif (str_contains($lowerName, 'cursor') || str_contains($lowerName, 'codex')) { $catName = 'Cursor & Codex'; $catIcon = '🚀'; }
-                elseif (str_contains($lowerName, 'youtube') || str_contains($lowerName, 'netflix')) { $catName = 'Spotify & Giải Trí'; $catIcon = '🍿'; }
-            }
-
-            // Auto create category if not exists in DB (NO SEEDER NEEDED!)
+            // Auto create category if not exists in DB
             $category = TelegramCategory::firstOrCreate(
-                ['name' => $catName],
+                ['name' => $catConfig['name']],
                 [
-                    'slug' => \Illuminate\Support\Str::slug($catName) . '-' . rand(10, 99),
-                    'icon' => $catIcon,
+                    'slug' => \Illuminate\Support\Str::slug($catConfig['name']) . '-' . rand(10, 99),
+                    'icon' => $catConfig['icon'],
+                    'telegram_icon' => $catConfig['telegram_icon'],
                     'sort_order' => 1,
                     'is_active' => true,
                 ]
             );
+
+            if (empty($category->telegram_icon)) {
+                $category->update([
+                    'telegram_icon' => $catConfig['telegram_icon'],
+                    'icon' => $catConfig['icon']
+                ]);
+            }
 
             // Calculate selling price: costPrice + margin%, ensuring at least +minProfit
             $profit = max($minProfit, (int) round(($costPrice * $marginPercent) / 100));
