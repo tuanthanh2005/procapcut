@@ -1283,9 +1283,9 @@
 
             <!-- TAB 5: STOCK / KEYS MANAGEMENT -->
             @if($tab === 'stock')
-                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem;">
+                <div style="display: grid; grid-template-columns: 1fr 2.5fr; gap: 1.5rem;">
                     <!-- Bulk Import Form -->
-                    <div class="content-card">
+                    <div class="content-card" style="height: fit-content;">
                         <h3 class="card-title" style="margin-bottom: 1rem;"><i class="fa-solid fa-file-import"></i> Nhập Kho Hàng Loạt</h3>
                         <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
                             Dán danh sách tài khoản hoặc mã key (mỗi dòng 1 key/acc). Hệ thống sẽ tự động tách và đưa vào kho để bot tự xuất khi khách mua.
@@ -1297,7 +1297,9 @@
                                 <label class="form-label">Chọn sản phẩm cần nhập</label>
                                 <select name="product_id" class="form-select" required>
                                     @foreach($products as $p)
-                                        <option value="{{ $p->id }}">{{ $p->name }} (Hiện có {{ $p->stock_count }} key)</option>
+                                        <option value="{{ $p->id }}" {{ $stockProductId == $p->id ? 'selected' : '' }}>
+                                            {{ $p->name }} (Còn {{ $p->availableKeys->count() }} key)
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -1316,25 +1318,74 @@ https://link-invite-canva.com/..." required></textarea>
                         </form>
                     </div>
 
-                    <!-- Stock List Table -->
+                    <!-- Stock List Table by Product Filter -->
                     <div class="content-card">
-                        <h3 class="card-title" style="margin-bottom: 1rem;"><i class="fa-solid fa-list-check"></i> Danh sách Key / Tài khoản trong kho ({{ $stockKeys->total() }})</h3>
+                        <div class="card-header-flex" style="flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+                            <div>
+                                <h3 class="card-title" style="margin: 0;"><i class="fa-solid fa-boxes-stacked"></i> Kho Hàng: Phân Theo Từng Sản Phẩm</h3>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0 0 0;">
+                                    Lọc riêng từng gói hàng để xem, sửa nội dung cấp cho khách, hoặc cấp đổi trả key khi cần.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Filter Toolbar -->
+                        <form method="GET" action="{{ route('admin.telegram.index') }}" style="background: #f8fafc; padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 1.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem;">
+                            <input type="hidden" name="tab" value="stock">
+                            
+                            <div style="flex: 1; min-width: 220px;">
+                                <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 4px;">Sản phẩm:</label>
+                                <select name="stock_product_id" class="form-select" onchange="this.form.submit()" style="padding: 0.4rem 0.6rem; font-size: 0.88rem;">
+                                    <option value="">-- Tất cả sản phẩm ({{ $stockKeys->total() }} mục) --</option>
+                                    @foreach($products as $p)
+                                        <option value="{{ $p->id }}" {{ $stockProductId == $p->id ? 'selected' : '' }}>
+                                            {{ $p->name }} [Sẵn: {{ $p->availableKeys->count() }}]
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div style="min-width: 150px;">
+                                <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 4px;">Trạng thái:</label>
+                                <select name="stock_status" class="form-select" onchange="this.form.submit()" style="padding: 0.4rem 0.6rem; font-size: 0.88rem;">
+                                    <option value="" {{ empty($stockStatus) ? 'selected' : '' }}>Tất cả</option>
+                                    <option value="available" {{ $stockStatus === 'available' ? 'selected' : '' }}>🟢 Còn trống (Chờ bán)</option>
+                                    <option value="used" {{ $stockStatus === 'used' ? 'selected' : '' }}>🔴 Đã cấp cho khách</option>
+                                </select>
+                            </div>
+
+                            <div style="align-self: flex-end;">
+                                <a href="{{ route('admin.telegram.index', ['tab' => 'stock']) }}" class="btn-outline" style="padding: 0.42rem 0.8rem; font-size: 0.85rem; text-decoration: none; display: inline-block;">
+                                    <i class="fa-solid fa-rotate-left"></i> Đặt lại
+                                </a>
+                            </div>
+                        </form>
+
                         <div class="table-responsive">
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Sản phẩm</th>
+                                        <th style="width: 25%;">Sản phẩm</th>
                                         <th>Nội dung tài khoản / Key</th>
-                                        <th>Trạng thái</th>
-                                        <th>Đơn hàng</th>
-                                        <th style="text-align: right;">Xóa</th>
+                                        <th style="width: 14%;">Trạng thái</th>
+                                        <th style="width: 14%;">Đơn hàng</th>
+                                        <th style="text-align: right; width: 15%;">Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse($stockKeys as $k)
                                         <tr>
-                                            <td><strong>{{ $k->product ? $k->product->name : 'N/A' }}</strong></td>
-                                            <td><code>{{ Str::limit($k->account_data, 35) }}</code></td>
+                                            <td>
+                                                <strong style="color: var(--text-color); font-size: 0.9rem;">{{ $k->product ? $k->product->name : 'N/A' }}</strong>
+                                                @if($k->product && $k->product->category)
+                                                    <small style="color: var(--text-muted); display: block;">{{ $k->product->category->name }}</small>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <code style="word-break: break-all; font-size: 0.85rem; display: block; max-width: 320px;" title="{{ $k->account_data }}">
+                                                    {{ Str::limit($k->account_data, 50) }}
+                                                </code>
+                                            </td>
                                             <td>
                                                 @if($k->is_used)
                                                     <span class="badge-status badge-danger"><i class="fa-solid fa-check"></i> Đã bán</span>
@@ -1343,31 +1394,88 @@ https://link-invite-canva.com/..." required></textarea>
                                                 @endif
                                             </td>
                                             <td>
-                                                @if($k->used_by_order_id)
-                                                    <a href="{{ route('admin.telegram.index', ['tab' => 'orders']) }}" class="tag-pill">Đơn #{{ $k->used_by_order_id }}</a>
+                                                @if($k->order)
+                                                    <a href="{{ route('admin.telegram.index', ['tab' => 'orders']) }}" class="tag-pill" title="Mã đơn: #{{ $k->order->order_code }}">
+                                                        #{{ $k->order->order_code }}
+                                                    </a>
+                                                    @if($k->order->telegramUser)
+                                                        <small style="display: block; color: var(--text-muted); font-size: 0.75rem;">
+                                                            {{ $k->order->telegramUser->first_name }} ({{ $k->order->telegramUser->telegram_id }})
+                                                        </small>
+                                                    @endif
+                                                @elseif($k->used_by_order_id)
+                                                    <span class="tag-pill">#{{ $k->used_by_order_id }}</span>
                                                 @else
                                                     <span style="color: var(--text-muted);">-</span>
                                                 @endif
                                             </td>
-                                            <td style="text-align: right;">
-                                                <form action="{{ route('admin.telegram.stock.delete', $k->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xóa mã key này?')">
+                                            <td style="text-align: right; white-space: nowrap;">
+                                                <button type="button" class="btn-outline" style="padding: 0.35rem 0.6rem; font-size: 0.8rem; margin-right: 4px;"
+                                                    onclick="openEditStockKeyModal({{ $k->id }}, '{{ addslashes($k->account_data) }}', {{ $k->is_used ? 1 : 0 }}, '{{ addslashes($k->product ? $k->product->name : '') }}')"
+                                                    title="Sửa thông tin tài khoản hoặc đổi trạng thái">
+                                                    <i class="fa-solid fa-pen-to-square"></i> Sửa
+                                                </button>
+                                                <form action="{{ route('admin.telegram.stock.delete', $k->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xóa mã key này khỏi kho?')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                                    <button type="submit" class="btn-danger" style="padding: 0.35rem 0.6rem; font-size: 0.8rem;" title="Xóa">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
                                                 </form>
                                             </td>
                                         </tr>
                                     @empty
-                                        <tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2rem;">Chưa có key nào trong kho. Hãy dán danh sách ở cột bên trái để nhập kho!</td></tr>
+                                        <tr>
+                                            <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 3rem 1rem;">
+                                                <i class="fa-solid fa-inbox" style="font-size: 2.5rem; opacity: 0.4; margin-bottom: 0.5rem; display: block;"></i>
+                                                Không có tài khoản / key nào phù hợp với bộ lọc hiện tại.
+                                            </td>
+                                        </tr>
                                     @endforelse
                                 </tbody>
                             </table>
                         </div>
                         <div style="margin-top: 1rem;">
-                            {{ $stockKeys->appends(['tab' => 'stock'])->links() }}
+                            {{ $stockKeys->appends(['tab' => 'stock', 'stock_product_id' => $stockProductId, 'stock_status' => $stockStatus])->links() }}
                         </div>
                     </div>
                 </div>
+
+                <!-- Edit Stock Key Modal -->
+                <div class="modal" id="editStockKeyModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Chỉnh Sửa Thông Tin Key / Tài Khoản</h4>
+                            <button class="close-modal" onclick="closeModal('editStockKeyModal')">&times;</button>
+                        </div>
+                        <form id="editStockKeyForm" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label class="form-label">Sản phẩm</label>
+                                <input type="text" id="edit_stock_prod_name" class="form-input" readonly style="background: #f1f5f9; cursor: not-allowed;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 1rem;">
+                                <label class="form-label">Nội dung tài khoản / Mã Key / Link (Cấp cho khách)</label>
+                                <textarea name="account_data" id="edit_stock_account_data" class="form-textarea" rows="4" required></textarea>
+                                <small style="color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; display: block;">
+                                    * Khi chỉnh sửa tại đây, bạn có thể cập nhật tài khoản mới để cấp bù hoặc bảo hành cho khách.
+                                </small>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 1.5rem;">
+                                <label class="form-label">Trạng thái kho</label>
+                                <select name="is_used" id="edit_stock_is_used" class="form-select">
+                                    <option value="0">🟢 Còn trống (Có thể xuất bán cho khách mới)</option>
+                                    <option value="1">🔴 Đã bán / Đã xuất</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-primary" style="width: 100%;">
+                                <i class="fa-solid fa-floppy-disk"></i> Lưu Thay Đổi Key
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @endif
 
                 <!-- Edit Category Modal -->
                 <div class="modal" id="editCategoryModal">
@@ -1718,6 +1826,14 @@ Nhanh tay vào mua ngay số lượng có hạn!" required></textarea>
             document.getElementById('modalCurrentBalance').innerText = new Intl.NumberFormat('vi-VN').format(currentBalance) + '₫';
             document.getElementById('balanceForm').action = '/admin/telegram/users/' + userId + '/balance';
             openModal('balanceModal');
+        }
+
+        function openEditStockKeyModal(id, accountData, isUsed, productName) {
+            document.getElementById('edit_stock_prod_name').value = productName;
+            document.getElementById('edit_stock_account_data').value = accountData;
+            document.getElementById('edit_stock_is_used').value = isUsed ? '1' : '0';
+            document.getElementById('editStockKeyForm').action = '/admin/telegram/stock/' + id;
+            openModal('editStockKeyModal');
         }
 
         // Close modal when clicking outside

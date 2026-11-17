@@ -296,6 +296,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::put('/products/{id}', [\App\Http\Controllers\AdminTelegramController::class, 'updateProduct'])->name('products.update');
         Route::delete('/products/{id}', [\App\Http\Controllers\AdminTelegramController::class, 'deleteProduct'])->name('products.delete');
         Route::post('/stock', [\App\Http\Controllers\AdminTelegramController::class, 'storeStockKeys'])->name('stock.store');
+        Route::put('/stock/{id}', [\App\Http\Controllers\AdminTelegramController::class, 'updateStockKey'])->name('stock.update');
         Route::delete('/stock/{id}', [\App\Http\Controllers\AdminTelegramController::class, 'deleteStockKey'])->name('stock.delete');
         Route::post('/orders/{id}/complete', [\App\Http\Controllers\AdminTelegramController::class, 'completeOrderManually'])->name('orders.complete');
         Route::post('/orders/{id}/cancel', [\App\Http\Controllers\AdminTelegramController::class, 'cancelOrder'])->name('orders.cancel');

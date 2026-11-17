@@ -62,11 +62,26 @@ class AdminTelegramController extends Controller
         $products = TelegramProduct::with(['category', 'availableKeys'])->orderBy('category_id')->orderBy('sort_order')->get();
         $orders = TelegramOrder::with(['telegramUser', 'product'])->latest('id')->paginate(20, ['*'], 'orders_page');
         $users = TelegramUser::withCount('orders')->latest('id')->paginate(20, ['*'], 'users_page');
-        $stockKeys = TelegramProductKey::with('product')->latest('id')->paginate(30, ['*'], 'keys_page');
+
+        // Filter stock keys by product_id if provided
+        $stockProductId = $request->query('stock_product_id');
+        $stockStatus = $request->query('stock_status');
+
+        $stockQuery = TelegramProductKey::with(['product', 'order'])->latest('id');
+        if ($stockProductId) {
+            $stockQuery->where('product_id', $stockProductId);
+        }
+        if ($stockStatus === 'available') {
+            $stockQuery->where('is_used', false);
+        } elseif ($stockStatus === 'used') {
+            $stockQuery->where('is_used', true);
+        }
+        $stockKeys = $stockQuery->paginate(30, ['*'], 'keys_page');
 
         return view('admin.telegram.index', compact(
             'tab', 'stats', 'webhookInfo', 'botInfo', 'settings',
-            'categories', 'products', 'orders', 'users', 'stockKeys'
+            'categories', 'products', 'orders', 'users', 'stockKeys',
+            'stockProductId', 'stockStatus'
         ));
     }
 
@@ -286,9 +301,30 @@ class AdminTelegramController extends Controller
     public function deleteStockKey($id)
     {
         $key = TelegramProductKey::findOrFail($id);
+        $productId = $key->product_id;
         $key->delete();
-        return redirect()->route('admin.telegram.index', ['tab' => 'stock'])
+        return redirect()->route('admin.telegram.index', ['tab' => 'stock', 'stock_product_id' => $productId])
             ->with('success_message', 'Đã xóa mã trong kho thành công!');
+    }
+
+    /**
+     * Update/Edit a Stock Key
+     */
+    public function updateStockKey(Request $request, $id)
+    {
+        $request->validate([
+            'account_data' => 'required|string',
+        ]);
+
+        $key = TelegramProductKey::findOrFail($id);
+        $key->account_data = trim($request->account_data);
+        if ($request->has('is_used')) {
+            $key->is_used = (bool) $request->is_used;
+        }
+        $key->save();
+
+        return redirect()->route('admin.telegram.index', ['tab' => 'stock', 'stock_product_id' => $key->product_id])
+            ->with('success_message', 'Đã cập nhật thông tin tài khoản/key thành công!');
     }
 
     /**
