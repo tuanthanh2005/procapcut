@@ -1,50 +1,4 @@
 <style>
-    /* Nav Icons (Sun, Chat, Bell) */
-    .nav-actions-group {
-        display: flex;
-        align-items: center;
-        gap: 0.35rem;
-    }
-    .nav-icon-link {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        border: none;
-        background: transparent;
-        color: #64748b;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-size: 0.95rem;
-        position: relative;
-        transition: all 0.2s ease;
-        text-decoration: none;
-    }
-    .nav-icon-link:hover {
-        background: #f1f5f9;
-        color: #0284c7;
-    }
-    .nav-icon-link.sun-btn {
-        color: #f59e0b;
-    }
-    .nav-icon-badge-dot {
-        position: absolute;
-        top: 7px;
-        right: 7px;
-        width: 7px;
-        height: 7px;
-        background: #ef4444;
-        border-radius: 50%;
-        border: 1.5px solid #ffffff;
-    }
-    .nav-vertical-divider {
-        width: 1px;
-        height: 22px;
-        background: #e2e8f0;
-        margin: 0 0.35rem;
-    }
-
     /* User Profile Pill */
     .user-menu-wrapper {
         position: relative;
@@ -265,101 +219,81 @@
     }
 </style>
 
-<div class="nav-actions-group">
-    <!-- Theme Toggle (Sun) -->
-    <button class="nav-icon-link sun-btn" type="button" title="Giao diện sáng / tối">
-        <i class="fa-regular fa-sun"></i>
-    </button>
-
-    <!-- Chat / Support (Zalo) -->
-    <a href="https://zalo.me/0569012134" target="_blank" class="nav-icon-link" title="Hỗ trợ kỹ thuật 24/7 qua Zalo">
-        <i class="fa-regular fa-comment-dots"></i>
-    </a>
-
-    <!-- Notification Bell -->
-    <button class="nav-icon-link" type="button" title="Thông báo hệ thống">
-        <i class="fa-regular fa-bell"></i>
-        <span class="nav-icon-badge-dot"></span>
-    </button>
-
-    <div class="nav-vertical-divider"></div>
-
-    @auth
-        <!-- User Profile Pill Button -->
-        <div class="user-menu-wrapper">
-            <button class="user-pill-btn user-menu-btn" type="button" title="Tài khoản: {{ auth()->user()->name }}">
-                <div class="user-pill-avatar">
-                    @if(auth()->user()->avatar)
-                        <img src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->name }}">
-                    @else
-                        <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=0284c7&color=fff&bold=true" alt="{{ auth()->user()->name }}">
-                    @endif
-                </div>
-                <div class="user-pill-info">
-                    <span class="user-pill-name">{{ Str::limit(auth()->user()->name, 11) }}</span>
-                    <span class="user-pill-balance">{{ number_format(auth()->user()->balance ?? 0, 0, ',', '.') }}đ</span>
-                </div>
-                <i class="fa-solid fa-chevron-down user-pill-arrow"></i>
-            </button>
-
-            <!-- Dropdown Menu -->
-            <div class="user-dropdown-menu">
-                <div class="user-dropdown-header">
-                    <div class="user-dropdown-user-row">
-                        <div class="dropdown-avatar">
-                            @if(auth()->user()->avatar)
-                                <img src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->name }}">
-                            @else
-                                <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=0284c7&color=fff&bold=true" alt="{{ auth()->user()->name }}">
-                            @endif
-                        </div>
-                        <div class="dropdown-user-meta">
-                            <span class="user-display-name">{{ auth()->user()->name }}</span>
-                            <span class="user-display-email">{{ auth()->user()->email }}</span>
-                        </div>
-                    </div>
-                    <div class="user-wallet-card">
-                        <div class="wallet-card-header">
-                            <span class="wallet-card-label"><i class="fa-solid fa-wallet"></i> Số dư ví web</span>
-                            <span class="wallet-card-amount">{{ number_format(auth()->user()->balance ?? 0, 0, ',', '.') }}đ</span>
-                        </div>
-                        <a href="/wallet" class="wallet-card-btn"><i class="fa-solid fa-plus-circle"></i> Nạp tiền</a>
-                    </div>
-                </div>
-                <div class="user-dropdown-divider"></div>
-                @if(auth()->user()->isAdmin())
-                    <a href="/admin/dashboard" class="user-dropdown-item" style="color: #ef4444; font-weight: 700;">
-                        <i class="fa-solid fa-shield-halved"></i> Quản Trị Hệ Thống
-                    </a>
-                    <div class="user-dropdown-divider"></div>
+@auth
+    <!-- User Profile Pill Button -->
+    <div class="user-menu-wrapper">
+        <button class="user-pill-btn user-menu-btn" type="button" title="Tài khoản: {{ auth()->user()->name }}">
+            <div class="user-pill-avatar">
+                @if(auth()->user()->avatar)
+                    <img src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->name }}">
+                @else
+                    <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=0284c7&color=fff&bold=true" alt="{{ auth()->user()->name }}">
                 @endif
-                <a href="/wallet" class="user-dropdown-item" style="color: #0284c7;">
-                    <i class="fa-solid fa-wallet"></i> Nạp tiền vào ví
-                </a>
-                <a href="/wallet#history" class="user-dropdown-item">
-                    <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử giao dịch ví
-                </a>
-                <a href="/orders" class="user-dropdown-item">
-                    <i class="fa-solid fa-receipt"></i> Đơn hàng đã mua
-                </a>
-                <a href="/profile" class="user-dropdown-item">
-                    <i class="fa-solid fa-user-gear"></i> Thiết lập tài khoản
+            </div>
+            <div class="user-pill-info">
+                <span class="user-pill-name">{{ Str::limit(auth()->user()->name, 11) }}</span>
+                <span class="user-pill-balance">{{ number_format(auth()->user()->balance ?? 0, 0, ',', '.') }}đ</span>
+            </div>
+            <i class="fa-solid fa-chevron-down user-pill-arrow"></i>
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div class="user-dropdown-menu">
+            <div class="user-dropdown-header">
+                <div class="user-dropdown-user-row">
+                    <div class="dropdown-avatar">
+                        @if(auth()->user()->avatar)
+                            <img src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->name }}">
+                        @else
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=0284c7&color=fff&bold=true" alt="{{ auth()->user()->name }}">
+                        @endif
+                    </div>
+                    <div class="dropdown-user-meta">
+                        <span class="user-display-name">{{ auth()->user()->name }}</span>
+                        <span class="user-display-email">{{ auth()->user()->email }}</span>
+                    </div>
+                </div>
+                <div class="user-wallet-card">
+                    <div class="wallet-card-header">
+                        <span class="wallet-card-label"><i class="fa-solid fa-wallet"></i> Số dư ví web</span>
+                        <span class="wallet-card-amount">{{ number_format(auth()->user()->balance ?? 0, 0, ',', '.') }}đ</span>
+                    </div>
+                    <a href="/wallet" class="wallet-card-btn"><i class="fa-solid fa-plus-circle"></i> Nạp tiền</a>
+                </div>
+            </div>
+            <div class="user-dropdown-divider"></div>
+            @if(auth()->user()->isAdmin())
+                <a href="/admin/dashboard" class="user-dropdown-item" style="color: #ef4444; font-weight: 700;">
+                    <i class="fa-solid fa-shield-halved"></i> Quản Trị Hệ Thống
                 </a>
                 <div class="user-dropdown-divider"></div>
-                <form action="{{ route('logout') }}" method="POST" style="margin: 0; width: 100%;">
-                    @csrf
-                    <button type="submit" class="user-dropdown-item logout-btn-item">
-                        <i class="fa-solid fa-power-off"></i> Đăng xuất
-                    </button>
-                </form>
-            </div>
+            @endif
+            <a href="/wallet" class="user-dropdown-item" style="color: #0284c7;">
+                <i class="fa-solid fa-wallet"></i> Nạp tiền vào ví
+            </a>
+            <a href="/wallet#history" class="user-dropdown-item">
+                <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử giao dịch ví
+            </a>
+            <a href="/orders" class="user-dropdown-item">
+                <i class="fa-solid fa-receipt"></i> Đơn hàng đã mua
+            </a>
+            <a href="/profile" class="user-dropdown-item">
+                <i class="fa-solid fa-user-gear"></i> Thiết lập tài khoản
+            </a>
+            <div class="user-dropdown-divider"></div>
+            <form action="{{ route('logout') }}" method="POST" style="margin: 0; width: 100%;">
+                @csrf
+                <button type="submit" class="user-dropdown-item logout-btn-item">
+                    <i class="fa-solid fa-power-off"></i> Đăng xuất
+                </button>
+            </form>
         </div>
-    @else
-        <a href="{{ route('login') }}" class="btn-login-header">
-            <i class="fa-solid fa-user"></i> Đăng Nhập
-        </a>
-    @endauth
-</div>
+    </div>
+@else
+    <a href="{{ route('login') }}" class="btn-login-header">
+        <i class="fa-solid fa-user"></i> Đăng Nhập
+    </a>
+@endauth
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

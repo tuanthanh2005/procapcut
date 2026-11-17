@@ -198,49 +198,6 @@
             flex-shrink: 0;
         }
 
-        .nav-icon-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: none;
-            background: transparent;
-            color: #64748b;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 0.95rem;
-            position: relative;
-            transition: var(--transition);
-            text-decoration: none;
-        }
-
-        .nav-icon-btn:hover {
-            background: #f1f5f9;
-            color: var(--primary);
-        }
-
-        .nav-icon-btn.sun-btn {
-            color: #f59e0b;
-        }
-
-        .nav-icon-badge-dot {
-            position: absolute;
-            top: 7px;
-            right: 7px;
-            width: 7px;
-            height: 7px;
-            background: #ef4444;
-            border-radius: 50%;
-            border: 1.5px solid #ffffff;
-        }
-
-        .nav-vertical-divider {
-            width: 1px;
-            height: 24px;
-            background: #e2e8f0;
-            margin: 0 0.35rem;
-        }
 
         /* User Profile Pill */
         .user-menu-wrapper {
@@ -1154,90 +1111,9 @@
                     <span class="search-shortcut-badge">/</span>
                 </div>
 
-                <!-- Nav Actions matching Screenshot -->
+                <!-- Nav Actions -->
                 <div class="nav-actions">
-                    <button class="nav-icon-btn sun-btn" title="Giao diện sáng/tối">
-                        <i class="fa-regular fa-sun"></i>
-                    </button>
-                    <a href="https://zalo.me/0569012134" target="_blank" class="nav-icon-btn" title="Hỗ trợ kỹ thuật">
-                        <i class="fa-regular fa-comment-dots"></i>
-                    </a>
-                    <button class="nav-icon-btn" title="Thông báo">
-                        <i class="fa-regular fa-bell"></i>
-                        <span class="nav-icon-badge-dot"></span>
-                    </button>
-
-                    <div class="nav-vertical-divider"></div>
-
-                    <!-- User Profile Pill -->
-                    <div class="user-menu-wrapper">
-                        <button class="user-pill-btn user-menu-btn" id="user-menu-btn" type="button">
-                            <div class="user-pill-avatar">
-                                @if(auth()->user()->avatar)
-                                    <img src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->name }}">
-                                @else
-                                    <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=0284c7&color=fff&bold=true" alt="{{ auth()->user()->name }}">
-                                @endif
-                            </div>
-                            <div class="user-pill-info">
-                                <span class="user-pill-name">{{ Str::limit(auth()->user()->name, 11) }}</span>
-                                <span class="user-pill-balance" id="header-user-balance">{{ number_format(auth()->user()->balance ?? 0, 0, ',', '.') }}đ</span>
-                            </div>
-                            <i class="fa-solid fa-chevron-down user-pill-arrow"></i>
-                        </button>
-
-                        <!-- Dropdown Menu -->
-                        <div class="user-dropdown-menu" id="user-dropdown-menu">
-                            <div class="user-dropdown-header">
-                                <div class="user-dropdown-user-row">
-                                    <div class="dropdown-avatar">
-                                        @if(auth()->user()->avatar)
-                                            <img src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->name }}">
-                                        @else
-                                            <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=0284c7&color=fff&bold=true" alt="{{ auth()->user()->name }}">
-                                        @endif
-                                    </div>
-                                    <div class="dropdown-user-meta">
-                                        <span class="user-display-name">{{ auth()->user()->name }}</span>
-                                        <span class="user-display-email">{{ auth()->user()->email }}</span>
-                                    </div>
-                                </div>
-                                <div class="user-wallet-card">
-                                    <div class="wallet-card-header">
-                                        <span class="wallet-card-label"><i class="fa-solid fa-wallet"></i> Số dư ví web</span>
-                                        <span class="wallet-card-amount" id="dropdown-user-balance">{{ number_format(auth()->user()->balance ?? 0, 0, ',', '.') }}đ</span>
-                                    </div>
-                                    <a href="/wallet" class="wallet-card-btn"><i class="fa-solid fa-plus-circle"></i> Nạp tiền</a>
-                                </div>
-                            </div>
-                            <div class="user-dropdown-divider"></div>
-                            @if(auth()->user()->isAdmin())
-                                <a href="/admin/dashboard" class="user-dropdown-item" style="color: #ef4444; font-weight: 700;">
-                                    <i class="fa-solid fa-shield-halved"></i> Quản Trị Hệ Thống
-                                </a>
-                                <div class="user-dropdown-divider"></div>
-                            @endif
-                            <a href="/wallet" class="user-dropdown-item" style="color: var(--primary);">
-                                <i class="fa-solid fa-wallet"></i> Nạp tiền vào ví
-                            </a>
-                            <a href="#history" class="user-dropdown-item">
-                                <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử giao dịch ví
-                            </a>
-                            <a href="/orders" class="user-dropdown-item">
-                                <i class="fa-solid fa-receipt"></i> Đơn hàng đã mua
-                            </a>
-                            <a href="/profile" class="user-dropdown-item">
-                                <i class="fa-solid fa-user-gear"></i> Thiết lập tài khoản
-                            </a>
-                            <div class="user-dropdown-divider"></div>
-                            <form action="{{ route('logout') }}" method="POST" style="margin: 0; width: 100%;">
-                                @csrf
-                                <button type="submit" class="user-dropdown-item logout-btn-item">
-                                    <i class="fa-solid fa-power-off"></i> Đăng xuất
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+                    @include('partials.user-nav')
                 </div>
             </div>
         </div>
@@ -1567,19 +1443,6 @@
             });
         });
 
-        // User Dropdown toggle
-        const userMenuBtn = document.getElementById('user-menu-btn');
-        const userDropdownMenu = document.getElementById('user-dropdown-menu');
-        if (userMenuBtn && userDropdownMenu) {
-            userMenuBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                userDropdownMenu.classList.toggle('show');
-            });
-            document.addEventListener('click', function() {
-                userDropdownMenu.classList.remove('show');
-            });
-        }
-
         // Success Modal close
         const successModal = document.getElementById('success-modal');
         const btnCloseModal = document.getElementById('btn-close-modal');
@@ -1602,9 +1465,10 @@
                     currentBalance = data.balance;
 
                     // Update UI elements
-                    document.getElementById('header-user-balance').textContent = data.balance_formatted;
-                    document.getElementById('dropdown-user-balance').textContent = data.balance_formatted;
-                    document.getElementById('hero-user-balance').textContent = formatCurrency(data.balance);
+                    document.querySelectorAll('.user-pill-balance').forEach(el => el.textContent = data.balance_formatted);
+                    document.querySelectorAll('.wallet-card-amount').forEach(el => el.textContent = data.balance_formatted);
+                    const heroBal = document.getElementById('hero-user-balance');
+                    if (heroBal) heroBal.textContent = formatCurrency(data.balance);
 
                     // Show Modal
                     document.getElementById('modal-success-desc').innerHTML = 
