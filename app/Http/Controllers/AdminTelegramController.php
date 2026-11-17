@@ -528,7 +528,26 @@ class AdminTelegramController extends Controller
 
         // Mapping rules from product names to existing categories
         $categories = TelegramCategory::all();
+        if ($categories->isEmpty()) {
+            // Auto seed default categories if none exist
+            \Illuminate\Support\Facades\Artisan::call('db:seed', [
+                '--class' => 'TelegramBotSeeder',
+                '--force' => true,
+            ]);
+            $categories = TelegramCategory::all();
+        }
+
         $defaultCat = $categories->first();
+        if (!$defaultCat) {
+            $defaultCat = TelegramCategory::create([
+                'name' => 'Sản phẩm khác',
+                'slug' => 'san-pham-khac',
+                'icon' => '📦',
+                'sort_order' => 99,
+                'is_active' => true,
+            ]);
+            $categories = TelegramCategory::all();
+        }
 
         $catKeywords = [
             'ChatGPT & OpenAI' => ['chatgpt', 'gpt', 'openai', 'dall-e', 'sora'],
@@ -564,7 +583,7 @@ class AdminTelegramController extends Controller
             }
 
             // Find matching category
-            $targetCatId = $defaultCat ? $defaultCat->id : 1;
+            $targetCatId = $defaultCat->id;
             $lowerName = mb_strtolower($name);
 
             foreach ($catKeywords as $catName => $keywords) {
