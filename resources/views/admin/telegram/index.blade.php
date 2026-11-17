@@ -1100,9 +1100,13 @@
                                         </td>
                                         <td>
                                             @if($p->delivery_type === 'canboso_api')
-                                                <span class="badge-status badge-success" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe;">
-                                                    <i class="fa-solid fa-cloud"></i> Kho Canboso (Auto)
-                                                </span>
+                                                @if($p->canboso_stock > 0)
+                                                    <span class="badge-status badge-success" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe;">
+                                                        <i class="fa-solid fa-cloud"></i> Sẵn {{ $p->canboso_stock }} (Canboso)
+                                                    </span>
+                                                @else
+                                                    <span class="badge-status badge-danger">Hết sỉ Canboso</span>
+                                                @endif
                                             @elseif($p->delivery_type === 'static_text')
                                                 <span class="badge-status badge-info">Vô hạn (Tự động)</span>
                                             @elseif($p->stock_count > 0)

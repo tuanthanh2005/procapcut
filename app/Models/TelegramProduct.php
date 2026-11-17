@@ -19,6 +19,7 @@ class TelegramProduct extends Model
         'static_content',
         'canboso_product_id',
         'canboso_cost_price',
+        'canboso_stock',
         'sold_count',
         'is_active',
         'sort_order',
@@ -28,6 +29,7 @@ class TelegramProduct extends Model
         'price' => 'integer',
         'original_price' => 'integer',
         'canboso_cost_price' => 'integer',
+        'canboso_stock' => 'integer',
         'sold_count' => 'integer',
         'is_active' => 'boolean',
         'sort_order' => 'integer',
@@ -50,7 +52,10 @@ class TelegramProduct extends Model
 
     public function getStockCountAttribute(): int
     {
-        if ($this->delivery_type === 'static_text' || $this->delivery_type === 'canboso_api') {
+        if ($this->delivery_type === 'canboso_api') {
+            return (int) $this->canboso_stock;
+        }
+        if ($this->delivery_type === 'static_text') {
             return 9999;
         }
         return $this->availableKeys()->count();

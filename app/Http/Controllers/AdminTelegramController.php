@@ -634,6 +634,7 @@ class AdminTelegramController extends Controller
                 'delivery_type' => 'canboso_api',
                 'canboso_product_id' => $productId,
                 'canboso_cost_price' => $costPrice,
+                'canboso_stock' => (int) $available,
                 'is_active' => true,
                 'sort_order' => 1,
             ];
