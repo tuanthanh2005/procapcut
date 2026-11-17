@@ -237,6 +237,15 @@
             font-size: 1.2rem;
         }
 
+        .cat-svg-preview svg {
+            width: 24px;
+            height: 24px;
+            max-width: 100%;
+            max-height: 100%;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
         /* Modern Tabs Navigation */
         .tabs-nav {
             display: flex;
@@ -922,6 +931,10 @@
                                         <td>
                                             @if($cat->image)
                                                 <img src="{{ asset('storage/' . $cat->image) }}" alt="{{ $cat->name }}" style="width: 32px; height: 32px; object-fit: contain; border-radius: 6px; display: inline-block; vertical-align: middle;">
+                                            @elseif(str_starts_with(trim($cat->icon), '<svg') || str_contains($cat->icon, '</svg>'))
+                                                <span class="cat-svg-preview" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; vertical-align: middle;">
+                                                    {!! $cat->icon !!}
+                                                </span>
                                             @else
                                                 <span style="font-size: 1.5rem; display: inline-block; vertical-align: middle;">{{ $cat->icon }}</span>
                                             @endif
@@ -938,7 +951,13 @@
                                         </td>
                                         <td style="text-align: right; white-space: nowrap;">
                                             <button type="button" class="btn-outline" style="padding: 0.35rem 0.65rem; font-size: 0.8rem; margin-right: 4px;"
-                                                onclick="openEditCategoryModal({{ $cat->id }}, '{{ addslashes($cat->name) }}', '{{ $cat->icon }}', '{{ $cat->image ? asset('storage/' . $cat->image) : '' }}', {{ $cat->sort_order }}, {{ $cat->is_active ? 1 : 0 }})">
+                                                data-cat-id="{{ $cat->id }}"
+                                                data-cat-name="{{ $cat->name }}"
+                                                data-cat-icon="{{ e($cat->icon) }}"
+                                                data-cat-image="{{ $cat->image ? asset('storage/' . $cat->image) : '' }}"
+                                                data-cat-sort="{{ $cat->sort_order }}"
+                                                data-cat-active="{{ $cat->is_active ? 1 : 0 }}"
+                                                onclick="openEditCategoryModalFromBtn(this)">
                                                 <i class="fa-solid fa-pen-to-square"></i> Sửa
                                             </button>
                                             <form action="{{ route('admin.telegram.categories.delete', $cat->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Xóa danh mục này sẽ xóa tất cả sản phẩm và key thuộc danh mục. Tiếp tục?')">
@@ -971,10 +990,10 @@
                             
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label class="form-label">Biểu tượng (Emoji)</label>
-                                    <input type="text" name="icon" id="edit_cat_icon" class="form-input" placeholder="Ví dụ: ✂️, 🤖, 🎨">
+                                    <label class="form-label">Biểu tượng (Emoji hoặc mã SVG)</label>
+                                    <input type="text" name="icon" id="edit_cat_icon" class="form-input" placeholder="Ví dụ: ✂️, 🤖 hoặc <svg ...>">
                                     <small style="color: var(--text-muted); font-size: 0.78rem; display: block; margin-top: 3px;">
-                                        Hiển thị trên nút bấm Telegram
+                                        Nhập Emoji (✂️, 🤖) hoặc dán trực tiếp mã &lt;svg&gt;...&lt;/svg&gt;
                                     </small>
                                 </div>
                                 <div class="form-group">
@@ -1020,8 +1039,11 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label class="form-label">Biểu tượng (Emoji)</label>
-                                    <input type="text" name="icon" class="form-input" placeholder="Ví dụ: 🤖, 🎨, ✂️" value="📦">
+                                    <label class="form-label">Biểu tượng (Emoji hoặc mã SVG)</label>
+                                    <input type="text" name="icon" class="form-input" placeholder="Ví dụ: 🤖, 🎨 hoặc <svg ...>" value="📦">
+                                    <small style="color: var(--text-muted); font-size: 0.78rem; display: block; margin-top: 3px;">
+                                        Nhập Emoji hoặc dán mã SVG
+                                    </small>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Thứ tự hiển thị</label>
@@ -2045,6 +2067,16 @@ Nhanh tay vào mua ngay số lượng có hạn!" required></textarea>
 
         function closeModal(id) {
             document.getElementById(id).classList.remove('active');
+        }
+
+        function openEditCategoryModalFromBtn(btn) {
+            const id = btn.getAttribute('data-cat-id');
+            const name = btn.getAttribute('data-cat-name');
+            const icon = btn.getAttribute('data-cat-icon');
+            const imageUrl = btn.getAttribute('data-cat-image');
+            const sort = btn.getAttribute('data-cat-sort');
+            const isActive = btn.getAttribute('data-cat-active');
+            openEditCategoryModal(id, name, icon, imageUrl, sort, isActive);
         }
 
         function openEditCategoryModal(id, name, icon, imageUrl, sort, isActive) {

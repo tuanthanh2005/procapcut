@@ -502,8 +502,9 @@ class TelegramBotService
         $buttons = [];
         $row = [];
         foreach ($categories as $index => $cat) {
+            $icon = $cat->telegram_icon;
             $row[] = [
-                'text' => "{$cat->icon} {$cat->name}",
+                'text' => "{$icon} {$cat->name}",
                 'callback_data' => "cat_{$cat->id}"
             ];
 
@@ -544,7 +545,8 @@ class TelegramBotService
             return;
         }
 
-        $html = "📂 <b>DANH MỤC: {$category->icon} " . htmlspecialchars($category->name) . "</b>\n";
+        $catIcon = $category->telegram_icon;
+        $html = "📂 <b>DANH MỤC: {$catIcon} " . htmlspecialchars($category->name) . "</b>\n";
         $html .= "━━━━━━━━━━━━━━━━━━━━\n";
         $html .= "Chọn gói sản phẩm bên dưới để xem chi tiết và mua hàng:";
 
@@ -592,7 +594,8 @@ class TelegramBotService
         $priceFormatted = number_format($product->price, 0, ',', '.') . 'đ';
         $sold = number_format($product->sold_count, 0, ',', '.');
 
-        $html = "{$product->category->icon} <b>" . htmlspecialchars($product->name) . "</b>\n";
+        $catIcon = $product->category ? $product->category->telegram_icon : '📦';
+        $html = "{$catIcon} <b>" . htmlspecialchars($product->name) . "</b>\n";
         $html .= "💵 <b>Giá:</b> {$priceFormatted}\n";
         $html .= "➕ <b>Tồn kho:</b> " . ($stock > 0 ? "{$stock} tài khoản" : "<b>Tạm hết hàng</b>") . "\n";
         $html .= "📊 <b>Đã bán:</b> {$sold} tài khoản\n\n";

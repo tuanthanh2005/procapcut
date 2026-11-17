@@ -169,7 +169,7 @@ class AdminTelegramController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:100',
-            'icon' => 'nullable|string|max:20',
+            'icon' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
         ]);
 
@@ -198,7 +198,7 @@ class AdminTelegramController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:100',
-            'icon' => 'nullable|string|max:20',
+            'icon' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
         ]);
 
