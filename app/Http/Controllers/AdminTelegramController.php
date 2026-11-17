@@ -510,6 +510,49 @@ class AdminTelegramController extends Controller
     }
 
     /**
+     * Sync real-time stock from Canboso API
+     */
+    public function syncCanbosoStock()
+    {
+        $service = new \App\Services\CanbosoService();
+        $res = $service->getProducts();
+        $productsList = $res['products'] ?? [];
+
+        if (empty($productsList)) {
+            return redirect()->back()->with('error_message', 'Không thể kết nối với API Canboso để lấy tồn kho.');
+        }
+
+        $stockMap = [];
+        $costMap = [];
+        foreach ($productsList as $p) {
+            $pid = $p['productId'] ?? null;
+            if ($pid) {
+                $stockMap[$pid] = $p['availability']['available'] ?? 0;
+                $costMap[$pid] = (int) ($p['price']['amount'] ?? 0);
+            }
+        }
+
+        $updated = 0;
+        $products = TelegramProduct::where('delivery_type', 'canboso_api')->get();
+
+        foreach ($products as $prod) {
+            if ($prod->canboso_product_id && isset($stockMap[$prod->canboso_product_id])) {
+                $realStock = (int) $stockMap[$prod->canboso_product_id];
+                $realCost = $costMap[$prod->canboso_product_id];
+
+                $prod->update([
+                    'canboso_stock' => $realStock,
+                    'canboso_cost_price' => $realCost,
+                ]);
+                $updated++;
+            }
+        }
+
+        return redirect()->route('admin.telegram.index', ['tab' => 'products'])
+            ->with('success_message', "Đã đồng bộ lại tồn kho thực tế cho {$updated} sản phẩm từ Canboso thành công!");
+    }
+
+    /**
      * Bulk Import all available products from Canboso with profit margin
      */
     public function importAllCanboso(Request $request)

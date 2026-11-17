@@ -295,6 +295,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::post('/products', [\App\Http\Controllers\AdminTelegramController::class, 'storeProduct'])->name('products.store');
         Route::post('/products/canboso-import', [\App\Http\Controllers\AdminTelegramController::class, 'importCanbosoProduct'])->name('products.canboso.import');
         Route::post('/products/canboso-import-all', [\App\Http\Controllers\AdminTelegramController::class, 'importAllCanboso'])->name('products.canboso.import_all');
+        Route::post('/products/sync-canboso-stock', [\App\Http\Controllers\AdminTelegramController::class, 'syncCanbosoStock'])->name('products.sync_canboso_stock');
         Route::post('/products/clear-samples', [\App\Http\Controllers\AdminTelegramController::class, 'clearSampleProducts'])->name('products.clear_samples');
         Route::put('/products/{id}', [\App\Http\Controllers\AdminTelegramController::class, 'updateProduct'])->name('products.update');
         Route::delete('/products/{id}', [\App\Http\Controllers\AdminTelegramController::class, 'deleteProduct'])->name('products.delete');

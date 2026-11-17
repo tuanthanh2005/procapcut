@@ -1055,7 +1055,13 @@
                 <div class="content-card">
                     <div class="card-header-flex">
                         <h3 class="card-title"><i class="fa-solid fa-boxes-stacked"></i> Danh sách sản phẩm Bot ({{ $products->count() }})</h3>
-                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                            <form action="{{ route('admin.telegram.products.sync_canboso_stock') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn-outline" style="padding: 0.5rem 0.85rem; font-size: 0.85rem; color: #16a34a; border-color: #86efac;">
+                                    <i class="fa-solid fa-arrows-rotate"></i> Cập Nhật Lại Tồn Kho Canboso
+                                </button>
+                            </form>
                             <form action="{{ route('admin.telegram.products.clear_samples') }}" method="POST" onsubmit="return confirm('CẢNH BÁO: Thao tác này sẽ xóa toàn bộ sản phẩm và key mẫu trong kho để bạn nhập kho mới từ đầu. Tiếp tục?')">
                                 @csrf
                                 <button type="submit" class="btn-danger" style="padding: 0.5rem 0.85rem; font-size: 0.85rem;">
