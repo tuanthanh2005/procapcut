@@ -536,9 +536,12 @@ $schema = [
         }
 
         .selected-desc {
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
-            line-height: 1.5;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: inherit;
         }
 
         /* Package Options selector */
@@ -1909,8 +1912,16 @@ $schema = [
                     @endif
                     @if($product->image_path)
                         <img src="{{ asset($product->image_path) }}" alt="{{ $product['name'] }}" decoding="async" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px;">
+                    @elseif($product->icon && (str_starts_with(trim($product->icon), '<svg') || str_contains($product->icon, '</svg>')))
+                        <div style="width: 140px; height: 140px; display: flex; align-items: center; justify-content: center;">
+                            {!! $product->icon !!}
+                        </div>
+                    @elseif($product->icon && !str_starts_with($product->icon, 'fa-'))
+                        <div style="font-size: 6rem; display: flex; align-items: center; justify-content: center;">
+                            {{ $product->icon }}
+                        </div>
                     @else
-                        <i class="fa-solid {{ strtok($product['icon'], ' ') }}" style="font-size: 6rem; color: var(--primary);"></i>
+                        <i class="fa-solid {{ strtok($product['icon'], ' ') ?: 'fa-cube' }}" style="font-size: 6rem; color: var(--primary);"></i>
                     @endif
                 </div>
 
@@ -1980,7 +1991,7 @@ $schema = [
                                  data-name="{{ $opt['name'] }}" 
                                  data-price="{{ $opt['price'] }}" 
                                  data-slashed="{{ $opt['slashed'] }}" 
-                                 data-desc="{{ $opt['description'] }}"
+                                 data-desc="{{ e($opt['description']) }}"
                                  data-require-email="{{ (isset($opt['require_email']) && $opt['require_email']) ? 'true' : 'false' }}"
                                  @if(!$isOutOfStock) onclick="selectOption(this)" @endif>
                                 <div style="display: flex; flex-direction: column; gap: 0.2rem; align-items: flex-start;">
