@@ -2,6 +2,7 @@
     /* User Profile Pill */
     .user-menu-wrapper {
         position: relative;
+        z-index: 1000;
     }
     .user-pill-btn {
         display: inline-flex;
@@ -15,6 +16,7 @@
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
         transition: all 0.2s ease;
         outline: none;
+        user-select: none;
     }
     .user-pill-btn:hover {
         background: #f8fafc;
@@ -70,22 +72,29 @@
     .user-dropdown-menu {
         position: absolute;
         top: calc(100% + 0.5rem);
+        top: calc(100% + 0.65rem);
         right: 0;
         background: #ffffff;
         border: 1px solid #e2e8f0;
         border-radius: 16px;
         box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         width: 270px;
         padding: 0.65rem 0;
         display: none;
         z-index: 500;
         animation: slideDownNav 0.2s ease;
+        display: none !important;
+        z-index: 99999;
     }
     .user-dropdown-menu.show {
         display: block;
+        display: block !important;
+        animation: slideDownNav 0.15s ease-out;
     }
     @keyframes slideDownNav {
         from { opacity: 0; transform: translateY(-8px); }
+        from { opacity: 0; transform: translateY(-6px); }
         to { opacity: 1; transform: translateY(0); }
     }
     .user-dropdown-header {
@@ -222,7 +231,7 @@
 @auth
     <!-- User Profile Pill Button -->
     <div class="user-menu-wrapper">
-        <button class="user-pill-btn user-menu-btn" type="button" title="Tài khoản: {{ auth()->user()->name }}">
+        <button class="user-pill-btn user-menu-btn" type="button" aria-expanded="false" title="Tài khoản: {{ auth()->user()->name }}">
             <div class="user-pill-avatar">
                 @if(auth()->user()->avatar)
                     <img src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->name }}">
@@ -296,19 +305,29 @@
 @endauth
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const userBtn = document.querySelector('.user-pill-btn');
-        const userMenu = document.querySelector('.user-dropdown-menu');
-        if (userBtn && userMenu) {
-            userBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                userMenu.classList.toggle('show');
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.user-menu-wrapper').forEach(function (wrapper) {
+            const button = wrapper.querySelector('.user-pill-btn');
+            const menu = wrapper.querySelector('.user-dropdown-menu');
+            if (!button || !menu) return;
+
+            function setOpen(open) {
+                menu.classList.toggle('show', open);
+                button.setAttribute('aria-expanded', String(open));
+            }
+
+            button.addEventListener('click', function () {
+                setOpen(!menu.classList.contains('show'));
             });
-            document.addEventListener('click', function(e) {
-                if (!userMenu.contains(e.target) && !userBtn.contains(e.target)) {
-                    userMenu.classList.remove('show');
+            document.addEventListener('click', function (event) {
+                if (!wrapper.contains(event.target)) setOpen(false);
+            });
+            wrapper.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    setOpen(false);
+                    button.focus();
                 }
             });
-        }
+        });
     });
 </script>

@@ -20,8 +20,6 @@ class TelegramOrder extends Model
         'status',
         'delivered_data',
         'sepay_transaction_id',
-        'canboso_order_code',
-        'canboso_response',
         'paid_at',
         'expires_at',
     ];
@@ -41,7 +39,7 @@ class TelegramOrder extends Model
 
     public function product(): BelongsTo
     {
-        return $this->belongsTo(TelegramProduct::class, 'product_id');
+        return $this->belongsTo(TelegramProduct::class, 'product_id')->withTrashed();
     }
 
     public function keys(): HasMany

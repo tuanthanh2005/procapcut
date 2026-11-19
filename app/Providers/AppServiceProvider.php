@@ -26,11 +26,14 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
 
-        if (config('app.url')) {
-            URL::forceRootUrl(config('app.url'));
-        }
-        if (str_starts_with(config('app.url') ?? '', 'https://')) {
-            URL::forceScheme('https');
+        // Local links must follow the current request host, scheme and port.
+        if (! $this->app->environment('local', 'testing')) {
+            if (config('app.url')) {
+                URL::forceRootUrl(config('app.url'));
+            }
+            if (str_starts_with(config('app.url') ?? '', 'https://')) {
+                URL::forceScheme('https');
+            }
         }
     }
 }

@@ -35,9 +35,7 @@ class CheckTelegramDbCommand extends Command
         foreach ($categories as $cat) {
             $totalProducts = $cat->products()->count();
             $activeProducts = $cat->products()->where('is_active', true)->count();
-            $inStockProducts = $cat->products()->where('is_active', true)->where(function($q) {
-                $q->where('delivery_type', '!=', 'canboso_api')->orWhere('canboso_stock', '>', 0);
-            })->count();
+            $inStockProducts = $cat->products()->where('is_active', true)->get()->filter(fn ($product) => $product->stock_count > 0)->count();
 
             $this->line("📁 [ID: {$cat->id}] {$cat->name} (is_active: " . ($cat->is_active ? 'BẬT' : 'TẮT') . ") -> Tổng: {$totalProducts} SP | Hoạt động: {$activeProducts} SP | Còn hàng: {$inStockProducts} SP");
         }
@@ -45,7 +43,7 @@ class CheckTelegramDbCommand extends Command
         $vpnProducts = TelegramProduct::where('name', 'LIKE', '%VPN%')->get();
         $this->info("\n=== SẢN PHẨM VPN TRONG HỆ THỐNG (" . $vpnProducts->count() . " sản phẩm) ===");
         foreach ($vpnProducts as $vp) {
-            $this->line("- [ID: {$vp->id} | Cat ID: {$vp->category_id}] {$vp->name} | Giá: " . number_format($vp->price) . "đ | Stock: {$vp->canboso_stock} | is_active: {$vp->is_active}");
+            $this->line("- [ID: {$vp->id} | Cat ID: {$vp->category_id}] {$vp->name} | Giá: " . number_format($vp->price) . "đ | Stock: {$vp->stock_count} | is_active: {$vp->is_active}");
         }
 
         return 0;

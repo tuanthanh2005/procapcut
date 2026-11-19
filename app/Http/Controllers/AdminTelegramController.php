@@ -28,6 +28,9 @@ class AdminTelegramController extends Controller
     public function index(Request $request)
     {
         $tab = $request->query('tab', 'overview');
+        if (! in_array($tab, ['overview', 'settings', 'categories', 'products', 'stock', 'orders', 'users', 'broadcast'], true)) {
+            return redirect()->route('admin.telegram.index', ['tab' => 'products']);
+        }
 
         // Overview stats
         $stats = [
@@ -37,7 +40,7 @@ class AdminTelegramController extends Controller
             'pending_orders' => TelegramOrder::where('status', 'pending')->count(),
             'total_revenue' => TelegramOrder::where('status', 'completed')->sum('total_amount'),
             'total_wallet_balance' => TelegramUser::sum('balance'),
-            'total_stock_keys' => TelegramProductKey::where('is_used', false)->count(),
+            'total_stock_keys' => TelegramProductKey::whereHas('product')->where('is_used', false)->count(),
         ];
 
         // Webhook status
@@ -55,17 +58,7 @@ class AdminTelegramController extends Controller
             'telegram_support_admin' => Setting::getValue('telegram_support_admin', '@specademy'),
             'telegram_support_websites' => Setting::getValue('telegram_support_websites', 'dungthu.com | aicuatoi.com | aicuatoi.net | vpnstore.pro'),
             'sepay_webhook_token' => Setting::getValue('sepay_webhook_token', 'RX2FPYARHKQE0TTIZZGEF7KLUUUC9THJD8JA3Z51HIXMONSS1PXXWRGVG89EH4EN'),
-            'canboso_api_key' => Setting::getValue('canboso_api_key', 'tgb_8eae3646b74f7706536280e9778cf35d0f9ba900817be34b'),
         ];
-
-        // Canboso Info
-        $canbosoService = new \App\Services\CanbosoService($settings['canboso_api_key']);
-        $canbosoBalance = $canbosoService->getBalance();
-        $canbosoProductsList = [];
-        if ($tab === 'canboso') {
-            $prodRes = $canbosoService->getProducts();
-            $canbosoProductsList = $prodRes['products'] ?? [];
-        }
 
         // Data for other tabs
         $categories = TelegramCategory::withCount('products')->orderBy('sort_order', 'asc')->get();
@@ -77,7 +70,7 @@ class AdminTelegramController extends Controller
         $stockProductId = $request->query('stock_product_id');
         $stockStatus = $request->query('stock_status');
 
-        $stockQuery = TelegramProductKey::with(['product', 'order'])->latest('id');
+        $stockQuery = TelegramProductKey::whereHas('product')->with(['product', 'order'])->latest('id');
         if ($stockProductId) {
             $stockQuery->where('product_id', $stockProductId);
         }
@@ -91,7 +84,7 @@ class AdminTelegramController extends Controller
         return view('admin.telegram.index', compact(
             'tab', 'stats', 'webhookInfo', 'botInfo', 'settings',
             'categories', 'products', 'orders', 'users', 'stockKeys',
-            'stockProductId', 'stockStatus', 'canbosoBalance', 'canbosoProductsList'
+            'stockProductId', 'stockStatus'
         ));
     }
 
@@ -115,10 +108,9 @@ class AdminTelegramController extends Controller
         Setting::setValue('telegram_support_admin', trim($request->telegram_support_admin));
         Setting::setValue('telegram_support_websites', trim($request->telegram_support_websites));
         Setting::setValue('sepay_webhook_token', trim($request->sepay_webhook_token));
-        Setting::setValue('canboso_api_key', trim($request->canboso_api_key));
 
         return redirect()->route('admin.telegram.index', ['tab' => 'settings'])
-            ->with('success_message', 'Cập nhật cấu hình Bot Telegram, SePay & Canboso thành công!');
+            ->with('success_message', 'Cập nhật cấu hình Bot Telegram & SePay thành công!');
     }
 
     /**
@@ -245,6 +237,7 @@ class AdminTelegramController extends Controller
             'category_id' => 'required|exists:telegram_categories,id',
             'name' => 'required|string|max:200',
             'price' => 'required|numeric|min:0',
+            'delivery_type' => 'nullable|in:key_stock,static_text,manual',
         ]);
 
         TelegramProduct::create([
@@ -256,8 +249,6 @@ class AdminTelegramController extends Controller
             'guide_text' => $request->guide_text,
             'delivery_type' => $request->delivery_type ?: 'key_stock',
             'static_content' => $request->static_content,
-            'canboso_product_id' => $request->canboso_product_id,
-            'canboso_cost_price' => (int) $request->input('canboso_cost_price', 0),
             'sold_count' => (int) $request->input('sold_count', 0),
             'is_active' => $request->has('is_active'),
             'sort_order' => (int) $request->sort_order,
@@ -272,6 +263,12 @@ class AdminTelegramController extends Controller
      */
     public function updateProduct(Request $request, $id)
     {
+        $request->validate([
+            'category_id' => 'required|exists:telegram_categories,id',
+            'name' => 'required|string|max:200',
+            'price' => 'required|numeric|min:0',
+            'delivery_type' => 'nullable|in:key_stock,static_text,manual',
+        ]);
         $product = TelegramProduct::findOrFail($id);
         $product->update([
             'category_id' => $request->category_id,
@@ -282,8 +279,6 @@ class AdminTelegramController extends Controller
             'guide_text' => $request->guide_text,
             'delivery_type' => $request->delivery_type ?: 'key_stock',
             'static_content' => $request->static_content,
-            'canboso_product_id' => $request->canboso_product_id,
-            'canboso_cost_price' => (int) $request->input('canboso_cost_price', $product->canboso_cost_price),
             'sold_count' => (int) $request->input('sold_count', $product->sold_count),
             'is_active' => $request->has('is_active'),
             'sort_order' => (int) $request->sort_order,
@@ -489,227 +484,20 @@ class AdminTelegramController extends Controller
             ->with('success_message', "Đã gửi thông báo thành công đến {$sentCount}/" . count($users) . " người dùng bot!");
     }
 
-    /**
-     * Import a product directly from Canboso catalog
-     */
-    public function importCanbosoProduct(Request $request)
-    {
-        $request->validate([
-            'category_id' => 'required|exists:telegram_categories,id',
-            'canboso_product_id' => 'required|string',
-            'name' => 'required|string|max:200',
-            'canboso_cost_price' => 'required|numeric',
-            'price' => 'required|numeric|min:0',
-        ]);
-
-        TelegramProduct::create([
-            'category_id' => $request->category_id,
-            'name' => $request->name,
-            'price' => (int) $request->price,
-            'original_price' => $request->original_price ? (int)$request->original_price : null,
-            'description' => $request->description,
-            'guide_text' => $request->guide_text,
-            'delivery_type' => 'canboso_api',
-            'canboso_product_id' => $request->canboso_product_id,
-            'canboso_cost_price' => (int) $request->canboso_cost_price,
-            'sold_count' => (int) $request->input('sold_count', 0),
-            'is_active' => true,
-            'sort_order' => (int) $request->input('sort_order', 1),
-        ]);
-
-        return redirect()->route('admin.telegram.index', ['tab' => 'products'])
-            ->with('success_message', "Đã nhập sản phẩm \"{$request->name}\" từ Canboso thành công! Đơn hàng sẽ được xuất tự động.");
-    }
 
     /**
      * Clear all sample products & sample stock keys
      */
     public function clearSampleProducts()
     {
-        TelegramProductKey::truncate();
-        TelegramProduct::truncate();
+        \Illuminate\Support\Facades\DB::transaction(function () {
+            TelegramProductKey::whereIn('product_id', TelegramProduct::select('id'))->where('is_used', false)->delete();
+            TelegramProduct::query()->delete();
+        });
 
         return redirect()->route('admin.telegram.index', ['tab' => 'products'])
             ->with('success_message', 'Đã xóa toàn bộ sản phẩm và kho key mẫu thành công! Bảng sản phẩm hiện đã trống.');
     }
 
-    /**
-     * Sync real-time stock from Canboso API
-     */
-    public function syncCanbosoStock()
-    {
-        $service = new \App\Services\CanbosoService();
-        $res = $service->getProducts();
-        $productsList = $res['products'] ?? [];
 
-        if (empty($productsList)) {
-            return redirect()->back()->with('error_message', 'Không thể kết nối với API Canboso để lấy tồn kho.');
-        }
-
-        $stockMap = [];
-        $costMap = [];
-        foreach ($productsList as $p) {
-            $pid = $p['productId'] ?? null;
-            if ($pid) {
-                $stockMap[$pid] = $p['availability']['available'] ?? 0;
-                $costMap[$pid] = (int) ($p['price']['amount'] ?? 0);
-            }
-        }
-
-        $updated = 0;
-        $products = TelegramProduct::where('delivery_type', 'canboso_api')->get();
-
-        foreach ($products as $prod) {
-            if ($prod->canboso_product_id && isset($stockMap[$prod->canboso_product_id])) {
-                $realStock = (int) $stockMap[$prod->canboso_product_id];
-                $realCost = $costMap[$prod->canboso_product_id];
-
-                $prod->update([
-                    'canboso_stock' => $realStock,
-                    'canboso_cost_price' => $realCost,
-                ]);
-                $updated++;
-            }
-        }
-
-        return redirect()->route('admin.telegram.index', ['tab' => 'products'])
-            ->with('success_message', "Đã đồng bộ lại tồn kho thực tế cho {$updated} sản phẩm từ Canboso thành công!");
-    }
-
-    /**
-     * Bulk Import all available products from Canboso with profit margin
-     */
-    public function importAllCanboso(Request $request)
-    {
-        $marginPercent = (int) $request->input('margin_percent', 30);
-        $minProfit = (int) $request->input('min_profit', 10000);
-        $onlyInStock = $request->has('only_in_stock');
-
-        $canbosoService = new \App\Services\CanbosoService();
-        $res = $canbosoService->getProducts();
-        $productsList = $res['products'] ?? [];
-
-        if (empty($productsList)) {
-            return redirect()->back()->with('error_message', 'Không thể kết nối hoặc không có sản phẩm nào từ Canboso.');
-        }
-
-        // Mapping rules from Canboso emoji/names to friendly category info
-        $emojiCategoryMap = [
-            'chatgpt' => ['name' => 'ChatGPT & OpenAI', 'icon' => '🤖'],
-            'apigpt' => ['name' => 'ChatGPT & OpenAI', 'icon' => '🤖'],
-            'capcut' => ['name' => 'CapCut Pro', 'icon' => '✂️'],
-            'canva' => ['name' => 'Canva Pro', 'icon' => '🎨'],
-            'google' => ['name' => 'Google Gemini', 'icon' => '✦'],
-            'google_one' => ['name' => 'Google Gemini', 'icon' => '✦'],
-            'claude' => ['name' => 'Claude AI', 'icon' => '✴️'],
-            'cursor' => ['name' => 'Cursor & Codex', 'icon' => '🚀'],
-            'github' => ['name' => 'Cursor & Codex', 'icon' => '🚀'],
-            'replit' => ['name' => 'Cursor & Codex', 'icon' => '🚀'],
-            'zed' => ['name' => 'Cursor & Codex', 'icon' => '🚀'],
-            'adobe' => ['name' => 'Adobe All Apps', 'icon' => '🖌️'],
-            'microsoft_office_365' => ['name' => 'Microsoft 365 & Office', 'icon' => '🪟'],
-            'windows' => ['name' => 'Microsoft 365 & Office', 'icon' => '🪟'],
-            'suno' => ['name' => 'Suno & Audio AI', 'icon' => '🎵'],
-            'elevenlabs' => ['name' => 'Suno & Audio AI', 'icon' => '🎵'],
-            'kling' => ['name' => 'Kling & Video AI', 'icon' => '🎬'],
-            'runway' => ['name' => 'Kling & Video AI', 'icon' => '🎬'],
-            'heygen' => ['name' => 'Kling & Video AI', 'icon' => '🎬'],
-            'dreamina' => ['name' => 'Kling & Video AI', 'icon' => '🎬'],
-            'openart' => ['name' => 'Kling & Video AI', 'icon' => '🎬'],
-            'adguard_vpn' => ['name' => 'VPN & Proxy Riêng', 'icon' => '🛡️'],
-            'proton' => ['name' => 'VPN & Proxy Riêng', 'icon' => '🛡️'],
-            'surfshark' => ['name' => 'VPN & Proxy Riêng', 'icon' => '🛡️'],
-            'kaspersky' => ['name' => 'VPN & Proxy Riêng', 'icon' => '🛡️'],
-            'nordvpn' => ['name' => 'VPN & Proxy Riêng', 'icon' => '🛡️'],
-            'spotify' => ['name' => 'Spotify & Giải Trí', 'icon' => '🎧'],
-            'netflix' => ['name' => 'Spotify & Giải Trí', 'icon' => '🍿'],
-            'youtube' => ['name' => 'Spotify & Giải Trí', 'icon' => '📺'],
-            'iqiyi' => ['name' => 'Spotify & Giải Trí', 'icon' => '📺'],
-            'xingtu' => ['name' => 'App Sửa Ảnh & Video', 'icon' => '📸'],
-            'wink' => ['name' => 'App Sửa Ảnh & Video', 'icon' => '📸'],
-            'meitu' => ['name' => 'App Sửa Ảnh & Video', 'icon' => '📸'],
-            'grok' => ['name' => 'Grok X.AI', 'icon' => '⚡'],
-            'kimi' => ['name' => 'Kimi & LLM AI', 'icon' => '🧠'],
-            'perplexity' => ['name' => 'Perplexity AI', 'icon' => '🔍'],
-            'gmail' => ['name' => 'Tài Khoản Mail & OTP', 'icon' => '✉️'],
-            'outlook' => ['name' => 'Tài Khoản Mail & OTP', 'icon' => '✉️'],
-            'figma' => ['name' => 'Figma & Design', 'icon' => '📐'],
-        ];
-
-        $imported = 0;
-        $updated = 0;
-
-        foreach ($productsList as $p) {
-            $productId = $p['productId'] ?? null;
-            $name = $p['name'] ?? '';
-            $costPrice = (int) ($p['price']['amount'] ?? 0);
-            $available = (int) ($p['availability']['available'] ?? 0);
-            $emoji = $p['emoji'] ?? '';
-
-            if (!$productId || !$name) {
-                continue;
-            }
-
-            // Skip out of stock if requested
-            if ($onlyInStock && $available <= 0) {
-                continue;
-            }
-
-            // Auto determine Category Name & Icons using comprehensive mapping
-            $catConfig = \App\Console\Commands\SyncAllCanbosoProductsCommand::getCategoryMapping($emoji, $name);
-
-            // Auto create category if not exists in DB
-            $category = TelegramCategory::firstOrCreate(
-                ['name' => $catConfig['name']],
-                [
-                    'slug' => \Illuminate\Support\Str::slug($catConfig['name']) . '-' . rand(10, 99),
-                    'icon' => $catConfig['icon'],
-                    'telegram_icon' => $catConfig['telegram_icon'],
-                    'sort_order' => 1,
-                    'is_active' => true,
-                ]
-            );
-
-            if (empty($category->telegram_icon)) {
-                $category->update([
-                    'telegram_icon' => $catConfig['telegram_icon'],
-                    'icon' => $catConfig['icon']
-                ]);
-            }
-
-            // Calculate selling price: costPrice + margin%, ensuring at least +minProfit
-            $profit = max($minProfit, (int) round(($costPrice * $marginPercent) / 100));
-            $sellPrice = ceil(($costPrice + $profit) / 1000) * 1000;
-            $originalPrice = ceil(($sellPrice * 1.35) / 1000) * 1000;
-
-            $existing = TelegramProduct::where('canboso_product_id', $productId)->first();
-
-            $data = [
-                'category_id' => $category->id,
-                'name' => $name,
-                'price' => $sellPrice,
-                'original_price' => $originalPrice,
-                'description' => $p['description'] ?? '',
-                'guide_text' => "Đăng nhập bằng thông tin Email | Mật khẩu bên trên tại trang web hoặc ứng dụng chính thức.",
-                'delivery_type' => 'canboso_api',
-                'canboso_product_id' => $productId,
-                'canboso_cost_price' => $costPrice,
-                'canboso_stock' => (int) $available,
-                'is_active' => true,
-                'sort_order' => 1,
-            ];
-
-            if ($existing) {
-                $existing->update($data);
-                $updated++;
-            } else {
-                $data['sold_count'] = rand(8, 48);
-                TelegramProduct::create($data);
-                $imported++;
-            }
-        }
-
-        return redirect()->route('admin.telegram.index', ['tab' => 'products'])
-            ->with('success_message', "Đã đồng bộ thành công: Thêm mới {$imported} sản phẩm & cập nhật {$updated} sản phẩm từ Canboso!");
-    }
 }

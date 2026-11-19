@@ -1307,12 +1307,11 @@
         .cart-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(4px);
+            background: rgba(15, 23, 42, 0.45);
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
-            transition: var(--transition);
+            transition: opacity 0.2s ease, visibility 0.2s ease;
         }
 
         .cart-overlay.open {
@@ -1323,20 +1322,23 @@
         .cart-sidebar {
             position: fixed;
             top: 0;
-            right: -420px;
+            right: 0;
             width: 400px;
+            max-width: 90vw;
             height: 100%;
             background: #ffffff;
             border-left: 1px solid var(--border-color);
             z-index: 1001;
             display: flex;
             flex-direction: column;
-            transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateX(100%);
+            transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
             box-shadow: -15px 0 35px rgba(0, 0, 0, 0.1);
         }
 
         .cart-sidebar.open {
-            right: 0;
+            transform: translateX(0);
         }
 
         .cart-header {
@@ -1904,13 +1906,6 @@
                         <i class="fa-solid fa-headset"></i> Kỹ Thuật Zalo
                     </a>
                 </nav>
-
-                <!-- Search Input -->
-                <div class="search-wrapper">
-                    <i class="fa-solid fa-magnifying-glass search-icon-left"></i>
-                    <input type="text" class="search-input" id="search-input" placeholder="Tìm tài khoản, dịch vụ...">
-                    <span class="search-shortcut-badge">/</span>
-                </div>
 
                 <!-- Nav Actions -->
                 <div class="nav-actions">
@@ -2595,19 +2590,6 @@
         if (openCartBtn) openCartBtn.addEventListener('click', openCart);
         if (closeCartBtn) closeCartBtn.addEventListener('click', closeCart);
         if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
-
-        // User Dropdown
-        const userMenuBtn = document.querySelector('.user-menu-btn');
-        const userDropdownMenu = document.querySelector('.user-dropdown-menu');
-        if (userMenuBtn && userDropdownMenu) {
-            userMenuBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                userDropdownMenu.classList.toggle('show');
-            });
-            document.addEventListener('click', () => {
-                userDropdownMenu.classList.remove('show');
-            });
-        }
 
         // Add to Cart Buttons
         document.querySelectorAll('.btn-add-cart').forEach(button => {

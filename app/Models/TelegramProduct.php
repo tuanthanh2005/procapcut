@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TelegramProduct extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'category_id',
         'name',
@@ -17,9 +20,6 @@ class TelegramProduct extends Model
         'guide_text',
         'delivery_type',
         'static_content',
-        'canboso_product_id',
-        'canboso_cost_price',
-        'canboso_stock',
         'sold_count',
         'is_active',
         'sort_order',
@@ -28,8 +28,6 @@ class TelegramProduct extends Model
     protected $casts = [
         'price' => 'integer',
         'original_price' => 'integer',
-        'canboso_cost_price' => 'integer',
-        'canboso_stock' => 'integer',
         'sold_count' => 'integer',
         'is_active' => 'boolean',
         'sort_order' => 'integer',
@@ -52,9 +50,6 @@ class TelegramProduct extends Model
 
     public function getStockCountAttribute(): int
     {
-        if ($this->delivery_type === 'canboso_api') {
-            return (int) $this->canboso_stock;
-        }
         if ($this->delivery_type === 'static_text') {
             return 9999;
         }

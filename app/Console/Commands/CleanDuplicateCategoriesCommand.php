@@ -77,11 +77,8 @@ class CleanDuplicateCategoriesCommand extends Command
         // 3. Khôi phục lại icon & telegram_icon chuẩn cho các danh mục còn lại
         $activeCategories = TelegramCategory::all();
         foreach ($activeCategories as $cat) {
-            $catMapping = \App\Console\Commands\SyncAllCanbosoProductsCommand::getCategoryMapping('', $cat->name);
             $cat->update([
                 'is_active' => true,
-                'telegram_icon' => $cat->telegram_icon ?: $catMapping['telegram_icon'],
-                'icon' => $cat->icon ?: $catMapping['icon']
             ]);
         }
 

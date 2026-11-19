@@ -656,9 +656,6 @@
                 <a href="{{ route('admin.telegram.index', ['tab' => 'products']) }}" class="tab-btn {{ $tab === 'products' ? 'active' : '' }}">
                     <i class="fa-solid fa-boxes-stacked"></i> Sản phẩm Bot ({{ $products->count() }})
                 </a>
-                <a href="{{ route('admin.telegram.index', ['tab' => 'canboso']) }}" class="tab-btn {{ $tab === 'canboso' ? 'active' : '' }}" style="color: #2563eb; font-weight: 700;">
-                    <i class="fa-solid fa-cloud-arrow-down"></i> Kho API Canboso (Sỉ Auto)
-                </a>
                 <a href="{{ route('admin.telegram.index', ['tab' => 'stock']) }}" class="tab-btn {{ $tab === 'stock' ? 'active' : '' }}">
                     <i class="fa-solid fa-database"></i> Quản lý Kho Key / Tài Khoản
                 </a>
@@ -859,31 +856,6 @@
                         <div class="form-group" style="margin-bottom: 1.5rem;">
                             <label class="form-label">Danh sách Website hiển thị ở hỗ trợ</label>
                             <input type="text" name="telegram_support_websites" class="form-input" value="{{ old('telegram_support_websites', $settings['telegram_support_websites']) }}">
-                        </div>
-
-                        <!-- Canboso Buyer API Configuration -->
-                        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                                <h4 style="font-size: 0.95rem; font-weight: 700; color: #1e40af; margin: 0;">
-                                    <i class="fa-solid fa-plug-circle-bolt"></i> Cấu hình Canboso Buyer API (Kho Sỉ Tự Động)
-                                </h4>
-                                @if($canbosoBalance['success'] ?? false)
-                                    <span class="badge-status badge-success" style="font-size: 0.85rem;">
-                                        <i class="fa-solid fa-wallet"></i> Ví Canboso: {{ $canbosoBalance['balanceText'] ?? '0đ' }}
-                                    </span>
-                                @else
-                                    <span class="badge-status badge-danger" style="font-size: 0.85rem;">
-                                        Chưa kết nối: {{ $canbosoBalance['message'] ?? 'Lỗi' }}
-                                    </span>
-                                @endif
-                            </div>
-                            <p style="font-size: 0.82rem; color: #3b82f6; margin-bottom: 0.75rem;">
-                                Hệ thống tự động trích ví Canboso để lấy tài khoản ngay khi khách mua hàng trên Telegram.
-                            </p>
-                            <div class="form-group" style="margin-bottom: 0;">
-                                <label class="form-label" style="color: #1e3a8a;">API Key Canboso (tgb_...)</label>
-                                <input type="text" name="canboso_api_key" class="form-input" value="{{ old('canboso_api_key', $settings['canboso_api_key'] ?? '') }}" placeholder="tgb_8eae3646b74f7706536280e9778cf35d0f9ba900817be34b">
-                            </div>
                         </div>
 
                         <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
@@ -1089,21 +1061,12 @@
                     <div class="card-header-flex">
                         <h3 class="card-title"><i class="fa-solid fa-boxes-stacked"></i> Danh sách sản phẩm Bot ({{ $products->count() }})</h3>
                         <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
-                            <form action="{{ route('admin.telegram.products.sync_canboso_stock') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn-outline" style="padding: 0.5rem 0.85rem; font-size: 0.85rem; color: #16a34a; border-color: #86efac;">
-                                    <i class="fa-solid fa-arrows-rotate"></i> Cập Nhật Lại Tồn Kho Canboso
-                                </button>
-                            </form>
                             <form action="{{ route('admin.telegram.products.clear_samples') }}" method="POST" onsubmit="return confirm('CẢNH BÁO: Thao tác này sẽ xóa toàn bộ sản phẩm và key mẫu trong kho để bạn nhập kho mới từ đầu. Tiếp tục?')">
                                 @csrf
                                 <button type="submit" class="btn-danger" style="padding: 0.5rem 0.85rem; font-size: 0.85rem;">
                                     <i class="fa-solid fa-trash-can"></i> Xóa Hết Dữ Liệu Mẫu
                                 </button>
                             </form>
-                            <a href="{{ route('admin.telegram.index', ['tab' => 'canboso']) }}" class="btn-outline" style="padding: 0.5rem 0.85rem; font-size: 0.85rem; color: #2563eb; text-decoration: none; border-color: #93c5fd;">
-                                <i class="fa-solid fa-cloud-arrow-down"></i> Lấy Sản Phẩm Từ Canboso
-                            </a>
                             <button class="btn-primary" onclick="openModal('addProductModal')">
                                 <i class="fa-solid fa-plus"></i> Thêm sản phẩm mới
                             </button>
@@ -1138,15 +1101,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if($p->delivery_type === 'canboso_api')
-                                                @if($p->canboso_stock > 0)
-                                                    <span class="badge-status badge-success" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe;">
-                                                        <i class="fa-solid fa-cloud"></i> Sẵn {{ $p->canboso_stock }} (Canboso)
-                                                    </span>
-                                                @else
-                                                    <span class="badge-status badge-danger">Hết sỉ Canboso</span>
-                                                @endif
-                                            @elseif($p->delivery_type === 'static_text')
+                                            @if($p->delivery_type === 'static_text')
                                                 <span class="badge-status badge-info">Vô hạn (Tự động)</span>
                                             @elseif($p->stock_count > 0)
                                                 <span class="badge-status badge-success">📦 {{ $p->stock_count }} tài khoản</span>
@@ -1156,12 +1111,7 @@
                                         </td>
                                         <td>{{ $p->sold_count }}</td>
                                         <td>
-                                            @if($p->delivery_type === 'canboso_api')
-                                                <span class="tag-pill" style="color: #2563eb; font-weight: 600;">Sỉ Canboso API</span>
-                                                @if($p->canboso_cost_price)
-                                                    <small style="display: block; color: var(--text-muted); font-size: 0.75rem;">Gốc: {{ number_format($p->canboso_cost_price, 0, ',', '.') }}₫</small>
-                                                @endif
-                                            @elseif($p->delivery_type === 'key_stock')
+                                            @if($p->delivery_type === 'key_stock')
                                                 <span class="tag-pill">Kho Key / Acc</span>
                                             @elseif($p->delivery_type === 'static_text')
                                                 <span class="tag-pill">Nội dung cố định</span>
@@ -1185,8 +1135,6 @@
                                                     'price' => $p->price,
                                                     'original_price' => $p->original_price,
                                                     'delivery_type' => $p->delivery_type,
-                                                    'canboso_product_id' => $p->canboso_product_id,
-                                                    'canboso_cost_price' => $p->canboso_cost_price,
                                                     'description' => $p->description,
                                                     'guide_text' => $p->guide_text,
                                                     'static_content' => $p->static_content,
@@ -1245,25 +1193,14 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label class="form-label">Loại giao hàng</label>
-                                    <select name="delivery_type" id="edit_prod_delivery_type" class="form-select" onchange="toggleCanbosoField('edit')">
+                                    <select name="delivery_type" id="edit_prod_delivery_type" class="form-select">
                                         <option value="key_stock">Xuất tự động từ Kho Key / Tài khoản</option>
-                                        <option value="canboso_api">🚀 Mua tự động qua Canboso API</option>
                                         <option value="static_text">Gửi tin nhắn hướng dẫn / link cố định</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Thứ tự hiển thị</label>
                                     <input type="number" name="sort_order" id="edit_prod_sort" class="form-input">
-                                </div>
-                            </div>
-                            <div class="form-row" id="edit_canboso_group" style="display: none; background: #eff6ff; padding: 0.75rem; border-radius: 6px; border: 1px dashed #3b82f6; margin-bottom: 1rem;">
-                                <div class="form-group">
-                                    <label class="form-label" style="color: #1e40af;">Canboso Product ID</label>
-                                    <input type="text" name="canboso_product_id" id="edit_prod_canboso_id" class="form-input" placeholder="Ví dụ: 6afbd1af6f7324afd7ce089d">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" style="color: #1e40af;">Giá gốc Canboso (₫)</label>
-                                    <input type="number" name="canboso_cost_price" id="edit_prod_canboso_cost" class="form-input" placeholder="Giá nhập sỉ">
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom: 1rem;">
@@ -1322,25 +1259,14 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label class="form-label">Loại giao hàng</label>
-                                    <select name="delivery_type" id="add_prod_delivery_type" class="form-select" onchange="toggleCanbosoField('add')">
+                                    <select name="delivery_type" id="add_prod_delivery_type" class="form-select">
                                         <option value="key_stock">Xuất tự động từ Kho Key / Tài khoản</option>
-                                        <option value="canboso_api">🚀 Mua tự động qua Canboso API</option>
                                         <option value="static_text">Gửi tin nhắn hướng dẫn / link cố định</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Số lượng đã bán (Hiển thị uy tín)</label>
                                     <input type="number" name="sold_count" class="form-input" value="0">
-                                </div>
-                            </div>
-                            <div class="form-row" id="add_canboso_group" style="display: none; background: #eff6ff; padding: 0.75rem; border-radius: 6px; border: 1px dashed #3b82f6; margin-bottom: 1rem;">
-                                <div class="form-group">
-                                    <label class="form-label" style="color: #1e40af;">Canboso Product ID</label>
-                                    <input type="text" name="canboso_product_id" class="form-input" placeholder="Ví dụ: 6afbd1af6f7324afd7ce089d">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" style="color: #1e40af;">Giá gốc Canboso (₫)</label>
-                                    <input type="number" name="canboso_cost_price" class="form-input" placeholder="Giá nhập sỉ">
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom: 1rem;">
@@ -1391,211 +1317,6 @@
                                 </label>
                             </div>
                             <button type="submit" class="btn-primary" style="width: 100%;">Lưu Thay Đổi Danh Mục</button>
-                        </form>
-                    </div>
-                </div>
-            @endif
-
-            <!-- TAB: CANBOSO API RESELLER -->
-            @if($tab === 'canboso')
-                <div class="content-card" style="margin-bottom: 1.5rem;">
-                    <div class="card-header-flex" style="flex-wrap: wrap; gap: 1rem;">
-                        <div>
-                            <h3 class="card-title" style="margin: 0; color: #1e40af;">
-                                <i class="fa-solid fa-cloud-arrow-down"></i> Kho Sản Phẩm Sỉ Canboso API (Tự Động Xuất Kho)
-                            </h3>
-                            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0 0 0;">
-                                Danh sách sản phẩm được lấy trực tiếp từ hệ thống Canboso. Bấm <strong>"Đưa vào Bot & Định giá bán"</strong> để tự động bán trên Bot của bạn và ăn chênh lệch!
-                            </p>
-                        </div>
-                        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
-                            @if($canbosoBalance['success'] ?? false)
-                                <div style="background: #eff6ff; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid #bfdbfe;">
-                                    <small style="color: #1e40af; font-weight: 600; display: block;">Số dư ví Canboso:</small>
-                                    <strong style="color: #1d4ed8; font-size: 1.1rem;">{{ $canbosoBalance['balanceText'] ?? '0đ' }}</strong>
-                                </div>
-                            @endif
-                            <button type="button" class="btn-primary" style="background: #2563eb; padding: 0.5rem 1rem;" onclick="openModal('importAllCanbosoModal')">
-                                <i class="fa-solid fa-cloud-arrow-down"></i> BẬT BÁN TẤT CẢ (ALL PRODUCTS)
-                            </button>
-                            <a href="{{ route('admin.telegram.index', ['tab' => 'canboso']) }}" class="btn-outline" style="text-decoration: none;">
-                                <i class="fa-solid fa-rotate"></i> Làm mới
-                            </a>
-                        </div>
-                    </div>
-
-                    @if(empty($canbosoProductsList))
-                        <div style="text-align: center; padding: 3rem 1rem; color: var(--text-muted);">
-                            <i class="fa-solid fa-triangle-exclamation" style="font-size: 2.5rem; color: #f59e0b; margin-bottom: 0.5rem; display: block;"></i>
-                            <p>Không thể kết nối hoặc tải danh mục từ Canboso. Hãy kiểm tra lại <strong>API Key Canboso</strong> trong tab Cài đặt!</p>
-                        </div>
-                    @else
-                        <!-- Search Box -->
-                        <div style="margin: 1.25rem 0;">
-                            <input type="text" id="canbosoSearchInput" class="form-input" placeholder="🔍 Gõ từ khóa tìm sản phẩm Canboso (Ví dụ: Capcut, Chatgpt, Youtube, Gemini, Grok...)" onkeyup="filterCanbosoProducts()">
-                        </div>
-
-                        <div class="table-responsive">
-                            <table id="canbosoTable">
-                                <thead>
-                                    <tr>
-                                        <th>Tên sản phẩm sỉ</th>
-                                        <th>Loại hàng</th>
-                                        <th>Giá nhập sỉ (Canboso)</th>
-                                        <th>Tồn kho sỉ</th>
-                                        <th>Đã bán (Canboso)</th>
-                                        <th style="text-align: right;">Hành động</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($canbosoProductsList as $cp)
-                                        @php
-                                            $cPrice = $cp['price']['amount'] ?? 0;
-                                            $cAvail = $cp['availability']['available'] ?? 0;
-                                            $cSold = $cp['availability']['sold'] ?? 0;
-                                            $isAlreadyAdded = $products->where('canboso_product_id', $cp['productId'])->first();
-                                        @endphp
-                                        <tr class="canboso-row">
-                                            <td>
-                                                <strong style="color: #1e293b; font-size: 0.95rem;">{{ $cp['name'] }}</strong>
-                                                <small style="color: var(--text-muted); display: block; font-size: 0.75rem;">ID: <code>{{ $cp['productId'] }}</code></small>
-                                            </td>
-                                            <td>
-                                                <span class="tag-pill">{{ strtoupper($cp['productType'] ?? 'ACC') }}</span>
-                                            </td>
-                                            <td>
-                                                <strong style="color: #2563eb;">{{ number_format($cPrice, 0, ',', '.') }}₫</strong>
-                                            </td>
-                                            <td>
-                                                @if($cAvail > 0)
-                                                    <span class="badge-status badge-success">Sẵn {{ $cAvail }}</span>
-                                                @else
-                                                    <span class="badge-status badge-danger">Hết sỉ</span>
-                                                @endif
-                                            </td>
-                                            <td style="color: var(--text-muted);">{{ $cSold }}</td>
-                                            <td style="text-align: right; white-space: nowrap;">
-                                                @if($isAlreadyAdded)
-                                                    <span class="badge-status badge-info" style="font-size: 0.8rem;">
-                                                        <i class="fa-solid fa-check"></i> Đang bán ({{ number_format($isAlreadyAdded->price, 0, ',', '.') }}₫)
-                                                    </span>
-                                                @else
-                                                    <button type="button" class="btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.82rem;"
-                                                        onclick="openImportCanbosoModal('{{ $cp['productId'] }}', '{{ addslashes($cp['name']) }}', {{ $cPrice }}, '{{ addslashes($cp['description'] ?? '') }}')">
-                                                        <i class="fa-solid fa-plus"></i> Đưa vào Bot & Định giá
-                                                    </button>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    @endif
-                </div>
-
-                <!-- Modal Import Canboso Product -->
-                <div class="modal" id="importCanbosoModal">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" style="color: #1e40af;"><i class="fa-solid fa-cart-plus"></i> Đưa Sản Phẩm Canboso Vào Bot Telegram</h4>
-                            <button class="close-modal" onclick="closeModal('importCanbosoModal')">&times;</button>
-                        </div>
-                        <form action="{{ route('admin.telegram.products.canboso.import') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="canboso_product_id" id="imp_canboso_id">
-                            <input type="hidden" name="canboso_cost_price" id="imp_canboso_cost_raw">
-
-                            <div class="form-group" style="margin-bottom: 1rem;">
-                                <label class="form-label">Chọn Danh mục hiển thị trên Bot</label>
-                                <select name="category_id" class="form-select" required>
-                                    @foreach($categories as $c)
-                                        <option value="{{ $c->id }}">{{ $c->icon }} {{ $c->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group" style="margin-bottom: 1rem;">
-                                <label class="form-label">Tên sản phẩm hiển thị với khách</label>
-                                <input type="text" name="name" id="imp_prod_name" class="form-input" required>
-                            </div>
-
-                            <div class="form-row" style="background: #eff6ff; padding: 0.75rem; border-radius: 6px; margin-bottom: 1rem;">
-                                <div class="form-group">
-                                    <label class="form-label" style="color: #1e40af;">Giá nhập sỉ Canboso</label>
-                                    <input type="text" id="imp_canboso_cost_display" class="form-input" readonly style="background: #e2e8f0; font-weight: 700;">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" style="color: #15803d; font-weight: 700;">Giá bán cho khách của bạn (VND)</label>
-                                    <input type="number" name="price" id="imp_prod_price" class="form-input" required style="border-color: #22c55e; font-weight: 700;">
-                                    <small style="color: #15803d; display: block; margin-top: 4px;" id="imp_profit_hint">Lợi nhuận: +0₫</small>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Giá gốc hiển thị (gạch ngang)</label>
-                                    <input type="number" name="original_price" id="imp_prod_orig" class="form-input" placeholder="Ví dụ: 150000">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Số lượng đã bán (Fake uy tín)</label>
-                                    <input type="number" name="sold_count" class="form-input" value="12">
-                                </div>
-                            </div>
-
-                            <div class="form-group" style="margin-bottom: 1rem;">
-                                <label class="form-label">Mô tả sản phẩm (quyền lợi bảo hành)</label>
-                                <textarea name="description" id="imp_prod_desc" class="form-textarea" rows="4"></textarea>
-                            </div>
-
-                            <div class="form-group" style="margin-bottom: 1.5rem;">
-                                <label class="form-label">Hướng dẫn sử dụng khi nhận hàng</label>
-                                <textarea name="guide_text" class="form-textarea" rows="2" placeholder="Ví dụ: Đăng nhập tại ứng dụng/trang web bằng thông tin Email|Mật khẩu được cấp bên trên."></textarea>
-                            </div>
-
-                            <button type="submit" class="btn-primary" style="width: 100%;">
-                                <i class="fa-solid fa-cloud-arrow-up"></i> Lưu & Bật Bán Tự Động Trên Bot
-                            </button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Modal Import All Canboso Products -->
-                <div class="modal" id="importAllCanbosoModal">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" style="color: #1e40af;"><i class="fa-solid fa-cloud-arrow-down"></i> Bật Bán Hàng Loạt Tất Cả Sản Phẩm Canboso</h4>
-                            <button class="close-modal" onclick="closeModal('importAllCanbosoModal')">&times;</button>
-                        </div>
-                        <form action="{{ route('admin.telegram.products.canboso.import_all') }}" method="POST">
-                            @csrf
-                            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;">
-                                Hệ thống sẽ tự động quét toàn bộ sản phẩm từ Canboso, tự động phân loại vào các Danh mục tương ứng (CapCut, ChatGPT, Gemini, Canva, Youtube, VPN...) và đưa lên bán trên Bot!
-                            </p>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label" style="font-weight: 700; color: #1e40af;">Tỷ lệ Lợi nhuận thêm (%)</label>
-                                    <input type="number" name="margin_percent" class="form-input" value="30" min="0" max="500" required>
-                                    <small style="color: var(--text-muted); display: block; margin-top: 4px;">Ví dụ: 30% (Sỉ 100k -> Giá bán 130k)</small>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" style="font-weight: 700; color: #1e40af;">Lợi nhuận tối thiểu / 1 đơn (₫)</label>
-                                    <input type="number" name="min_profit" class="form-input" value="10000" min="0" required>
-                                    <small style="color: var(--text-muted); display: block; margin-top: 4px;">Đảm bảo mỗi đơn lời ít nhất số tiền này</small>
-                                </div>
-                            </div>
-
-                            <div class="form-group" style="margin-bottom: 1.5rem; background: #f8fafc; padding: 0.75rem 1rem; border-radius: 6px; border: 1px solid var(--border-color);">
-                                <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; cursor: pointer;">
-                                    <input type="checkbox" name="only_in_stock" value="1" checked> 
-                                    Chỉ nhập các sản phẩm hiện ĐANG CÒN HÀNG trên kho sỉ Canboso
-                                </label>
-                            </div>
-
-                            <button type="submit" class="btn-primary" style="width: 100%; background: #2563eb;">
-                                <i class="fa-solid fa-bolt"></i> Bắt Đầu Nhập & Đồng Bộ Tất Cả Ngay
-                            </button>
                         </form>
                     </div>
                 </div>
@@ -1845,9 +1566,6 @@ https://link-invite-canva.com/..." required></textarea>
                                         <td>
                                             @if($ord->delivered_data)
                                                 <code title="{{ $ord->delivered_data }}">{{ Str::limit($ord->delivered_data, 20) }}</code>
-                                                @if($ord->canboso_order_code)
-                                                    <small style="display: block; color: #2563eb; font-size: 0.75rem;">Canboso: {{ $ord->canboso_order_code }}</small>
-                                                @endif
                                             @else
                                                 <span style="color: var(--text-muted);">Chưa giao</span>
                                             @endif
@@ -2128,14 +1846,6 @@ Nhanh tay vào mua ngay số lượng có hạn!" required></textarea>
             }
         }
 
-        function toggleCanbosoField(prefix) {
-            const select = document.getElementById(prefix === 'edit' ? 'edit_prod_delivery_type' : 'add_prod_delivery_type');
-            const group = document.getElementById(prefix === 'edit' ? 'edit_canboso_group' : 'add_canboso_group');
-            if (select && group) {
-                group.style.display = (select.value === 'canboso_api') ? 'flex' : 'none';
-            }
-        }
-
         function openEditProductModal(btn) {
             const data = JSON.parse(btn.getAttribute('data-prod'));
             document.getElementById('edit_prod_category_id').value = data.category_id;
@@ -2149,64 +1859,9 @@ Nhanh tay vào mua ngay số lượng có hạn!" required></textarea>
             document.getElementById('edit_prod_guide').value = data.guide_text || '';
             document.getElementById('edit_prod_active').checked = (data.is_active == 1);
             
-            // Canboso API fields
-            document.getElementById('edit_prod_canboso_id').value = data.canboso_product_id || '';
-            document.getElementById('edit_prod_canboso_cost').value = data.canboso_cost_price || 0;
-            toggleCanbosoField('edit');
 
             document.getElementById('editProductForm').action = '/admin/telegram/products/' + data.id;
             openModal('editProductModal');
-        }
-
-        function openImportCanbosoModal(productId, name, costPrice, description) {
-            document.getElementById('imp_canboso_id').value = productId;
-            document.getElementById('imp_canboso_cost_raw').value = costPrice;
-            document.getElementById('imp_prod_name').value = name;
-            document.getElementById('imp_canboso_cost_display').value = new Intl.NumberFormat('vi-VN').format(costPrice) + '₫';
-            
-            // Default suggested sell price: costPrice + 30% margin or minimum +10k
-            let suggestedPrice = Math.round((costPrice * 1.3) / 1000) * 1000;
-            if (suggestedPrice - costPrice < 10000) {
-                suggestedPrice = costPrice + 10000;
-            }
-            document.getElementById('imp_prod_price').value = suggestedPrice;
-            document.getElementById('imp_prod_orig').value = Math.round((suggestedPrice * 1.4) / 1000) * 1000;
-            document.getElementById('imp_prod_desc').value = description;
-
-            updateProfitHint();
-            openModal('importCanbosoModal');
-        }
-
-        function updateProfitHint() {
-            const cost = parseInt(document.getElementById('imp_canboso_cost_raw').value) || 0;
-            const price = parseInt(document.getElementById('imp_prod_price').value) || 0;
-            const profit = price - cost;
-            const hint = document.getElementById('imp_profit_hint');
-            if (hint) {
-                if (profit >= 0) {
-                    hint.style.color = '#15803d';
-                    hint.innerText = 'Lợi nhuận dự kiến: +' + new Intl.NumberFormat('vi-VN').format(profit) + '₫ / sản phẩm';
-                } else {
-                    hint.style.color = '#dc2626';
-                    hint.innerText = 'Cảnh báo: Bạn đang đặt giá bán thấp hơn giá sỉ (' + new Intl.NumberFormat('vi-VN').format(profit) + '₫)';
-                }
-            }
-        }
-
-        const impPriceInput = document.getElementById('imp_prod_price');
-        if (impPriceInput) {
-            impPriceInput.addEventListener('input', updateProfitHint);
-        }
-
-        function filterCanbosoProducts() {
-            const input = document.getElementById('canbosoSearchInput');
-            const filter = input.value.toLowerCase();
-            const rows = document.querySelectorAll('#canbosoTable tbody tr.canboso-row');
-
-            rows.forEach(row => {
-                const text = row.innerText.toLowerCase();
-                row.style.display = text.includes(filter) ? '' : 'none';
-            });
         }
 
         function openBalanceModal(userId, userName, currentBalance) {
