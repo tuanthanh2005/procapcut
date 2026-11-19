@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\CategoryIcon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -22,6 +23,16 @@ class TelegramCategory extends Model
         'is_active' => 'boolean',
         'sort_order' => 'integer',
     ];
+
+    public function getIconAttribute(?string $value): string
+    {
+        return CategoryIcon::normalize($value);
+    }
+
+    public function setIconAttribute(?string $value): void
+    {
+        $this->attributes['icon'] = CategoryIcon::normalize($value);
+    }
 
     public function getTelegramDisplayIconAttribute(): string
     {

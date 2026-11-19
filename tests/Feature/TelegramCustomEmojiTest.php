@@ -82,4 +82,32 @@ class TelegramCustomEmojiTest extends TestCase
         Http::assertSentCount(1);
         Http::assertSent(fn ($request) => str_contains($request['text'], '<code>5368324170671202286</code>'));
     }
+
+    public function test_web_icon_round_trip_repairs_old_encoding_and_preserves_custom_telegram_icon(): void
+    {
+        Http::fake(['*' => Http::response(['ok' => true])]);
+        $this->actingAs(User::factory()->create(['role' => 'admin']))
+            ->withSession(['admin_verified' => true, 'admin_verified_at' => time()]);
+        $category = TelegramCategory::create([
+            'name' => 'ChatGPT', 'slug' => 'chatgpt',
+            'telegram_custom_emoji_id' => '5368324170671202286',
+        ]);
+        $svg = '<svg viewBox="0 0 24 24"><path fill="#10a37f" d="M0 0h24v24z"/></svg>';
+        // Simulate a record saved by the old form, bypassing normalization.
+        \Illuminate\Support\Facades\DB::table('telegram_categories')->where('id', $category->id)
+            ->update(['icon' => htmlspecialchars($svg, ENT_QUOTES)]);
+        for ($round = 0; $round < 2; $round++) {
+            $html = $this->get('/admin/telegram?tab=categories')->assertOk()->getContent();
+            $this->assertStringContainsString('<path fill="#10a37f"', $html);
+            $this->assertStringNotContainsString('&amp;lt;svg', $html);
+            preg_match('/data-cat-icon="([^"]+)"/', $html, $matches);
+            $formValue = html_entity_decode($matches[1], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            $this->put('/admin/telegram/categories/'.$category->id, [
+                'name' => 'ChatGPT', 'icon' => $formValue,
+                'telegram_custom_emoji_id' => '5368324170671202286',
+            ])->assertSessionHasNoErrors();
+            $this->assertSame($svg, $category->fresh()->getRawOriginal('icon'));
+            $this->assertSame('5368324170671202286', $category->fresh()->telegram_custom_emoji_id);
+        }
+    }
 }
