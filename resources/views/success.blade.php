@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
+:root {
             --bg-body: #f8fafc;
             --primary: #0284c7;
             --primary-hover: #0369a1;
@@ -23,14 +23,12 @@
             --radius-lg: 20px;
             --transition: all 0.2s ease;
         }
-
-        * {
+* {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-
-        body {
+body {
             font-family: 'Inter', sans-serif;
             background: var(--bg-body);
             color: var(--text-main);
@@ -38,8 +36,7 @@
             display: flex;
             flex-direction: column;
         }
-
-        .container {
+.container {
             max-width: 600px;
             width: 100%;
             margin: 0 auto;
@@ -49,14 +46,11 @@
             align-items: center;
             justify-content: center;
         }
-
-        /* Header link home */
-        .brand-header {
+.brand-header {
             text-align: center;
             padding: 2rem 0 1rem 0;
         }
-
-        .brand-header a {
+.brand-header a {
             text-decoration: none;
             color: var(--text-main);
             font-size: 1.5rem;
@@ -65,13 +59,10 @@
             align-items: center;
             gap: 0.5rem;
         }
-
-        .brand-header a i {
+.brand-header a i {
             color: var(--primary);
         }
-
-        /* Success card */
-        .success-card {
+.success-card {
             background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
@@ -80,8 +71,7 @@
             text-align: center;
             width: 100%;
         }
-
-        .success-icon-box {
+.success-icon-box {
             width: 80px;
             height: 80px;
             border-radius: 50%;
@@ -97,27 +87,23 @@
         }
 
         @keyframes bounce {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.1); }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); opacity: 1; }
+0% { transform: scale(0.3); opacity: 0; }
+50% { transform: scale(1.1); }
+70% { transform: scale(0.9); }
+100% { transform: scale(1); opacity: 1; }
         }
-
-        .success-card h1 {
+.success-card h1 {
             font-size: 1.5rem;
             font-weight: 800;
             color: #065f46;
             margin-bottom: 0.5rem;
         }
-
-        .success-card p.subtitle {
+.success-card p.subtitle {
             font-size: 0.88rem;
             color: var(--text-muted);
             margin-bottom: 2rem;
         }
-
-        /* Key Box */
-        .activation-key-box {
+.activation-key-box {
             background: #f0fdf4;
             border: 1px dashed #bbf7d0;
             border-radius: var(--radius-md);
@@ -125,8 +111,7 @@
             margin-bottom: 2rem;
             text-align: left;
         }
-
-        .key-header {
+.key-header {
             font-size: 0.78rem;
             font-weight: 700;
             color: #166534;
@@ -137,8 +122,7 @@
             align-items: center;
             gap: 0.35rem;
         }
-
-        .key-value-row {
+.key-value-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -147,15 +131,13 @@
             border-radius: 8px;
             padding: 0.75rem 1rem;
         }
-
-        .key-value {
+.key-value {
             font-family: monospace;
             font-size: 1.15rem;
             font-weight: 700;
             color: #15803d;
         }
-
-        .copy-btn {
+.copy-btn {
             background: none;
             border: none;
             color: #166534;
@@ -163,14 +145,11 @@
             font-size: 1.1rem;
             transition: var(--transition);
         }
-
-        .copy-btn:hover {
+.copy-btn:hover {
             color: #15803d;
             transform: scale(1.1);
         }
-
-        /* Details list */
-        .details-list {
+.details-list {
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
             background: #f8fafc;
@@ -178,28 +157,23 @@
             text-align: left;
             margin-bottom: 2rem;
         }
-
-        .detail-row {
+.detail-row {
             display: flex;
             justify-content: space-between;
             font-size: 0.85rem;
             margin-bottom: 0.75rem;
             color: var(--text-dark);
         }
-
-        .detail-row:last-child {
+.detail-row:last-child {
             margin-bottom: 0;
             border-top: 1px dashed var(--border-color);
             padding-top: 0.75rem;
             font-weight: 800;
         }
-
-        .detail-row span.label {
+.detail-row span.label {
             color: var(--text-muted);
         }
-
-        /* Buttons */
-        .btn-action {
+.btn-action {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -212,32 +186,25 @@
             width: 48%;
             transition: var(--transition);
         }
-
-        .btn-primary {
+.btn-primary {
             background: var(--primary);
             color: white;
         }
-
-        .btn-primary:hover {
+.btn-primary:hover {
             background: var(--primary-hover);
         }
-
-        .btn-secondary {
+.btn-secondary {
             background: #0f172a;
             color: white;
         }
-
-        .btn-secondary:hover {
+.btn-secondary:hover {
             background: #000000;
         }
-
-        .btn-row {
+.btn-row {
             display: flex;
             justify-content: space-between;
         }
-
-        /* Support Message Box */
-        .support-msg-box {
+.support-msg-box {
             background: #f0f9ff;
             border: 1px dashed #bae6fd;
             padding: 1rem;
@@ -248,11 +215,11 @@
             justify-content: space-between;
             align-items: center;
         }
-        .support-msg-text-box {
+.support-msg-text-box {
             flex: 1;
             min-width: 0;
         }
-        .support-msg-btn {
+.support-msg-btn {
             background: #0284c7;
             color: white;
             border: none;
@@ -268,37 +235,34 @@
             margin-left: 1rem;
             transition: all 0.2s;
         }
-        .support-msg-btn:hover {
+.support-msg-btn:hover {
             background: #0369a1;
         }
 
         @media (max-width: 600px) {
-            .btn-row {
+.btn-row {
                 flex-direction: column;
                 gap: 1rem;
             }
-            .btn-action {
+.btn-action {
                 width: 100%;
             }
-            .support-msg-box {
+.support-msg-box {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 1rem;
             }
-            .support-msg-btn {
+.support-msg-btn {
                 margin-left: 0;
             }
         }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/site-header.css') }}?v={{ filemtime(public_path('css/site-header.css')) }}">
+    <script src="{{ asset('js/site-header.js') }}?v={{ filemtime(public_path('js/site-header.js')) }}" defer></script>
 </head>
 <body>
 
-    <header class="brand-header">
-        <a href="/">
-            <i class="fa-solid fa-rocket"></i>
-            <span>AI CỦA TÔI</span>
-        </a>
-    </header>
+    @include('partials.site-header')
 
     <main class="container">
         <div class="success-card">

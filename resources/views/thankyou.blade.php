@@ -10,9 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
+:root {
             --bg-body: #f8fafc;
-            --primary: #10b981; /* Green theme for success */
+            --primary: #10b981; 
             --primary-hover: #059669;
             --secondary: #34d399;
             --text-main: #0f172a;
@@ -25,14 +25,12 @@
             --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
             --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        * {
+* {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-
-        body {
+body {
             font-family: 'Inter', sans-serif;
             background: var(--bg-body);
             color: var(--text-main);
@@ -40,47 +38,13 @@
             display: flex;
             flex-direction: column;
         }
-
-        .container {
+.container {
             width: 100%;
             max-width: 1320px;
             margin: 0 auto;
             padding: 0 1.75rem;
         }
-
-        /* Navbar */
-        header {
-            background: #ffffff;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 70px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none;
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--text-main);
-        }
-
-        .logo i {
-            color: #0284c7;
-            font-size: 1.6rem;
-        }
-
-        /* Thank you box */
-        .thankyou-card {
+.thankyou-card {
             background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
@@ -90,8 +54,7 @@
             margin-bottom: 4rem;
             text-align: center;
         }
-
-        .success-icon {
+.success-icon {
             width: 5rem;
             height: 5rem;
             border-radius: 50%;
@@ -107,32 +70,28 @@
         }
 
         @keyframes pulse {
-            0% {
+0% {
                 box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
             }
-            70% {
+70% {
                 box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
             }
-            100% {
+100% {
                 box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
             }
         }
-
-        .thankyou-card h1 {
+.thankyou-card h1 {
             font-size: 1.8rem;
             font-weight: 800;
             color: var(--text-main);
             margin-bottom: 0.5rem;
         }
-
-        .thankyou-card p {
+.thankyou-card p {
             color: var(--text-muted);
             font-size: 0.95rem;
             margin-bottom: 2rem;
         }
-
-        /* Order details box */
-        .order-summary-box {
+.order-summary-box {
             background: #f8fafc;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
@@ -140,8 +99,7 @@
             text-align: left;
             margin-bottom: 2rem;
         }
-
-        .order-summary-box h3 {
+.order-summary-box h3 {
             font-size: 1rem;
             font-weight: 700;
             margin-bottom: 1rem;
@@ -149,16 +107,14 @@
             padding-bottom: 0.5rem;
             color: var(--text-main);
         }
-
-        .summary-row {
+.summary-row {
             display: flex;
             justify-content: space-between;
             margin-bottom: 0.75rem;
             font-size: 0.88rem;
             color: var(--text-dark);
         }
-
-        .summary-row.total {
+.summary-row.total {
             font-weight: 800;
             font-size: 1.1rem;
             color: var(--text-main);
@@ -166,28 +122,23 @@
             padding-top: 0.75rem;
             margin-top: 0.75rem;
         }
-
-        /* Instructions QR section */
-        .payment-instructions {
+.payment-instructions {
             border-top: 1px solid var(--border-color);
             padding-top: 2rem;
             margin-top: 2rem;
         }
-
-        .payment-instructions h2 {
+.payment-instructions h2 {
             font-size: 1.25rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
             color: var(--text-main);
         }
-
-        .payment-instructions p.subtitle {
+.payment-instructions p.subtitle {
             font-size: 0.82rem;
             color: var(--text-muted);
             margin-bottom: 1.5rem;
         }
-
-        .payment-details-card {
+.payment-details-card {
             background: #f8fafc;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
@@ -195,26 +146,22 @@
             text-align: left;
             margin-bottom: 1.5rem;
         }
-
-        .instruction-line {
+.instruction-line {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0.65rem 0;
             border-bottom: 1px solid #f1f5f9;
         }
-
-        .instruction-line:last-child {
+.instruction-line:last-child {
             border-bottom: none;
         }
-
-        .instruction-line span.label {
+.instruction-line span.label {
             font-size: 0.85rem;
             color: var(--text-muted);
             font-weight: 500;
         }
-
-        .instruction-line span.value {
+.instruction-line span.value {
             font-size: 0.88rem;
             color: var(--text-main);
             font-weight: 700;
@@ -222,8 +169,7 @@
             align-items: center;
             gap: 0.5rem;
         }
-
-        .copy-btn {
+.copy-btn {
             background: none;
             border: none;
             color: #0284c7;
@@ -231,13 +177,10 @@
             font-size: 0.9rem;
             transition: var(--transition);
         }
-
-        .copy-btn:hover {
+.copy-btn:hover {
             color: #0369a1;
         }
-
-        /* QR Image */
-        .qr-code-img {
+.qr-code-img {
             max-width: 250px;
             width: 100%;
             height: auto;
@@ -248,8 +191,7 @@
             background: #ffffff;
             padding: 0.5rem;
         }
-
-        .trust-badge-line {
+.trust-badge-line {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -258,18 +200,15 @@
             font-size: 0.78rem;
             margin-top: 2rem;
         }
-
-        .trust-badge-line span {
+.trust-badge-line span {
             display: flex;
             align-items: center;
             gap: 0.35rem;
         }
-
-        .trust-badge-line i {
+.trust-badge-line i {
             color: var(--primary);
         }
-
-        .btn-return-home {
+.btn-return-home {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -283,27 +222,22 @@
             transition: var(--transition);
             margin-top: 1.5rem;
         }
-
-        .btn-return-home:hover {
+.btn-return-home:hover {
             background: #000000;
         }
-
-        /* Wide screen side-by-side layout styles */
-        .thankyou-split-layout {
+.thankyou-split-layout {
             display: flex;
             gap: 2.5rem;
             margin-top: 1.5rem;
             text-align: left;
         }
-
-        .thankyou-left-col {
+.thankyou-left-col {
             flex: 1.2;
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
         }
-
-        .thankyou-right-col {
+.thankyou-right-col {
             flex: 0.8;
             background: #f8fafc;
             border: 1px solid var(--border-color);
@@ -314,60 +248,26 @@
             align-items: center;
             justify-content: flex-start;
         }
-
-        .payment-instructions {
+.payment-instructions {
             border-top: none;
             padding-top: 0;
             margin-top: 0;
         }
 
         @media (max-width: 768px) {
-            .thankyou-split-layout {
+.thankyou-split-layout {
                 flex-direction: column-reverse;
                 gap: 1.5rem;
             }
         }
-    
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff !important;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
-            transition: all 0.3s ease;
-            margin-right: 0.55rem;
-            -webkit-text-fill-color: initial !important;
-            background-clip: border-box !important;
-            -webkit-background-clip: border-box !important;
-        }
-        .logo:hover .logo-icon {
-            transform: scale(1.08) rotate(-8deg);
-            box-shadow: 0 6px 15px rgba(2, 132, 199, 0.4);
-        }
         </style>
+    <link rel="stylesheet" href="{{ asset('css/site-header.css') }}?v={{ filemtime(public_path('css/site-header.css')) }}">
+    <script src="{{ asset('js/site-header.js') }}?v={{ filemtime(public_path('js/site-header.js')) }}" defer></script>
 </head>
 <body>
 
     <!-- Header Navigation -->
-    <header>
-        <div class="container">
-            <div class="navbar">
-                <a href="/" class="logo">
-                    @if(file_exists(public_path('logo.png')))
-                        <img src="{{ asset('logo.png') }}" alt="Logo" width="160" height="36" style="max-height: 2.2rem; width: auto; object-fit: contain;">
-                    @else
-                        <i class="fa-solid fa-rocket logo-icon"></i>
-                        <span>AI CỦA TÔI</span>
-                    @endif
-                </a>
-            </div>
-        </div>
-    </header>
+    @include('partials.site-header')
 
     <main class="container">
         <div class="thankyou-card" style="padding: 2.5rem 2rem;">

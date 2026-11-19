@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
+:root {
             --bg-body: #f8fafc;
             --primary: #0284c7;
             --primary-hover: #0369a1;
@@ -25,14 +25,12 @@
             --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
             --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        * {
+* {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-
-        body {
+body {
             font-family: 'Inter', sans-serif;
             background: var(--bg-body);
             color: var(--text-main);
@@ -40,199 +38,34 @@
             display: flex;
             flex-direction: column;
         }
-
-        .container {
+.container {
             width: 100%;
             max-width: 1320px;
             margin: 0 auto;
             padding: 0 1.75rem;
         }
-
-        /* Navbar / Header */
-        header {
-            background: #ffffff;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 70px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none;
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--text-main);
-        }
-
-        
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff !important;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
-            transition: all 0.3s ease;
-            margin-right: 0.55rem;
-            -webkit-text-fill-color: initial !important;
-            background-clip: border-box !important;
-            -webkit-background-clip: border-box !important;
-        }
-        .logo:hover .logo-icon {
-            transform: scale(1.08) rotate(-8deg);
-            box-shadow: 0 6px 15px rgba(2, 132, 199, 0.4);
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .action-icon-btn {
-            background: #f1f5f9;
-            border: none;
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-dark);
-            cursor: pointer;
-            text-decoration: none;
-            transition: var(--transition);
-            font-size: 0.95rem;
-        }
-
-        .action-icon-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* User Menu Dropdown */
-        .user-menu-wrapper {
-            position: relative;
-        }
-
-        .user-avatar-img {
+.user-avatar-img {
             width: 100%;
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
         }
 
-        .user-dropdown-menu {
-            position: absolute;
-            top: calc(100% + 0.5rem);
-            right: 0;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-md);
-            width: 220px;
-            padding: 0.5rem 0;
-            display: none;
-            z-index: 150;
-            animation: slide-up-dropdown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .user-dropdown-menu.show {
-            display: block;
-        }
-
         @keyframes slide-up-dropdown {
-            from { transform: translateY(10px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+from { transform: translateY(10px); opacity: 0; }
+to { transform: translateY(0); opacity: 1; }
         }
-
-        .user-dropdown-header {
-            padding: 0.75rem 1.25rem;
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-        }
-
-        .user-display-name {
-            font-size: 0.88rem;
-            font-weight: 700;
-            color: var(--text-main);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .user-display-email {
-            font-size: 0.75rem;
-            color: var(--text-dark);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-top: 0.15rem;
-        }
-
-        .user-dropdown-divider {
-            height: 1px;
-            background: var(--border-color);
-            margin: 0.4rem 0;
-        }
-
-        .user-dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 0.65rem;
-            padding: 0.6rem 1.25rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: var(--transition);
-            cursor: pointer;
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
-            font-family: inherit;
-        }
-
-        .user-dropdown-item:hover {
-            background: var(--bg-body);
-            color: var(--primary);
-        }
-
-        .user-dropdown-item.logout-btn-item:hover {
-            background: #fef2f2;
-            color: #ef4444 !important;
-        }
-
-        /* Main Profile Settings Design */
-        main {
+main {
             flex-grow: 1;
             padding: 3rem 0;
         }
-
-        .profile-grid {
+.profile-grid {
             display: grid;
             grid-template-columns: 1fr 2fr;
             gap: 2.5rem;
             align-items: start;
         }
-
-        .sidebar-card {
+.sidebar-card {
             background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
@@ -240,8 +73,7 @@
             box-shadow: var(--shadow-sm);
             text-align: center;
         }
-
-        .profile-avatar-large {
+.profile-avatar-large {
             width: 6.5rem;
             height: 6.5rem;
             border-radius: 50%;
@@ -255,26 +87,22 @@
             margin: 0 auto 1.5rem;
             overflow: hidden;
         }
-
-        .profile-avatar-large img {
+.profile-avatar-large img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
-        .profile-meta h2 {
+.profile-meta h2 {
             font-size: 1.2rem;
             font-weight: 800;
             margin-bottom: 0.25rem;
         }
-
-        .profile-meta p {
+.profile-meta p {
             font-size: 0.82rem;
             color: var(--text-muted);
             margin-bottom: 1.5rem;
         }
-
-        .linked-badge {
+.linked-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
@@ -283,49 +111,41 @@
             font-size: 0.78rem;
             font-weight: 700;
         }
-
-        .badge-google {
+.badge-google {
             background: #f0fdf4;
             color: #16a34a;
             border: 1px solid #bbf7d0;
         }
-
-        .badge-normal {
+.badge-normal {
             background: #f8fafc;
             color: var(--text-muted);
             border: 1px solid var(--border-color);
         }
-
-        /* Form section */
-        .form-card {
+.form-card {
             background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
             padding: 2.5rem;
             box-shadow: var(--shadow-sm);
         }
-
-        .form-card h2 {
+.form-card h2 {
             font-size: 1.35rem;
             font-weight: 800;
             margin-bottom: 1.75rem;
             border-bottom: 2px solid var(--bg-body);
             padding-bottom: 0.75rem;
         }
-
-        .form-group {
+.form-group {
             margin-bottom: 1.5rem;
         }
-
-        .form-label {
+.form-label {
             display: block;
             font-size: 0.85rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
             color: var(--text-main);
         }
-
-        .form-input {
+.form-input {
             width: 100%;
             padding: 0.8rem 1rem;
             border: 1px solid var(--border-color);
@@ -336,21 +156,18 @@
             background: #f8fafc;
             transition: var(--transition);
         }
-
-        .form-input:focus {
+.form-input:focus {
             outline: none;
             border-color: var(--primary);
             background: #ffffff;
             box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
         }
-
-        .form-input:disabled {
+.form-input:disabled {
             background: #f1f5f9;
             color: var(--text-muted);
             cursor: not-allowed;
         }
-
-        .btn-save {
+.btn-save {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border: none;
@@ -364,34 +181,28 @@
             align-items: center;
             gap: 0.5rem;
         }
-
-        .btn-save:hover {
+.btn-save:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
         }
-
-        .alert {
+.alert {
             padding: 0.85rem 1.1rem;
             border-radius: var(--radius-md);
             font-size: 0.85rem;
             margin-bottom: 1.75rem;
             line-height: 1.5;
         }
-
-        .alert-error {
+.alert-error {
             background: #fef2f2;
             border: 1px solid #fee2e2;
             color: #ef4444;
         }
-
-        .alert-success {
+.alert-success {
             background: #ecfdf5;
             border: 1px solid #d1fae5;
             color: #065f46;
         }
-
-        /* Footer */
-        footer {
+footer {
             background: #0f172a;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             padding: 2rem 0;
@@ -402,100 +213,45 @@
         }
 
         @media (max-width: 900px) {
-            .profile-grid {
+.profile-grid {
                 grid-template-columns: 1fr;
             }
         }
     
-        /* Prevent auto zoom on iOS & Native app spacing */
+        
         @media (max-width: 768px) {
-            input, select, textarea, .form-input, .form-control {
+input, select, textarea, .form-input, .form-control {
                 font-size: 16px !important;
             }
-            .container {
+.container {
                 padding: 0 0.75rem !important;
             }
-            /* Header adjustments */
-            header {
-                padding: 0.5rem 0 !important;
-            }
-            .navbar {
-                display: grid !important;
-                grid-template-columns: 1fr auto !important;
-                gap: 0.35rem 0.75rem !important;
-                align-items: center !important;
-            }
-            .logo {
-                grid-column: 1 !important;
-                grid-row: 1 !important;
-                font-size: 1.2rem !important;
-            }
-            .nav-actions {
-                grid-column: 2 !important;
-                grid-row: 1 !important;
-                gap: 0.75rem !important;
-            }
-            .action-icon-btn {
-                width: 2.25rem !important;
-                height: 2.25rem !important;
-            }
-            .search-wrapper {
+.search-wrapper {
                 grid-column: 1 / span 2 !important;
                 grid-row: 2 !important;
                 width: 100% !important;
                 max-width: 100% !important;
                 margin-top: 0.25rem !important;
             }
-            .search-input {
+.search-input {
                 height: 2.3rem !important;
             }
-            .cat-nav-bar {
-                grid-column: 1 / span 2 !important;
-                grid-row: 3 !important;
-                width: 100% !important;
-                justify-content: flex-start !important;
-                padding: 0.25rem 0.25rem 0.5rem 0.25rem !important;
-                margin: 0 !important;
-                overflow-x: auto !important;
-                -webkit-overflow-scrolling: touch !important;
-            }
-            .cat-pill {
-                padding: 0.3rem 0.6rem !important;
-                font-size: 0.75rem !important;
-            }
-            /* Responsive cart sidebar */
-            .cart-sidebar {
+.cart-sidebar {
                 width: 100% !important;
                 right: -100%;
             }
-            .cart-sidebar.open {
+.cart-sidebar.open {
                 right: 0 !important;
             }
         }
 </style>
+    <link rel="stylesheet" href="{{ asset('css/site-header.css') }}?v={{ filemtime(public_path('css/site-header.css')) }}">
+    <script src="{{ asset('js/site-header.js') }}?v={{ filemtime(public_path('js/site-header.js')) }}" defer></script>
 </head>
 <body>
 
     <!-- Header Navigation -->
-    <header>
-        <div class="container">
-            <div class="navbar">
-                <a href="/" class="logo">
-                    @if(file_exists(public_path('logo.png')))
-                        <img src="{{ asset('logo.png') }}" alt="Logo" width="160" height="36" style="max-height: 2.2rem; width: auto; object-fit: contain;">
-                    @else
-                        <i class="fa-solid fa-rocket logo-icon"></i>
-                        <span>AI CỦA TÔI</span>
-                    @endif
-                </a>
-
-                <div class="nav-actions">
-                    <a href="/products" class="action-icon-btn" title="Cửa hàng"><i class="fa-solid fa-store"></i></a>
-                    @include('partials.user-nav')
-                </div>
-            </div>
-        </div>
-    </header>
+    @include('partials.site-header')
 
     <!-- Main Content -->
     <main class="container">
@@ -584,17 +340,7 @@
 
     <script>
         // Dropdown toggle
-        const userMenuBtn = document.querySelector('.user-menu-btn');
-        const userDropdownMenu = document.querySelector('.user-dropdown-menu');
-        if (userMenuBtn && userDropdownMenu) {
-            userMenuBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                userDropdownMenu.classList.toggle('show');
-            });
-            document.addEventListener('click', () => {
-                userDropdownMenu.classList.remove('show');
-            });
-        }
+
     </script>
 </body>
 </html>

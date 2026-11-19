@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
+:root {
             --bg-body: #f1f5f9;
             --primary: #0284c7;
             --primary-hover: #0369a1;
@@ -23,14 +23,12 @@
             --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        * {
+* {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-
-        body {
+body {
             font-family: 'Inter', sans-serif;
             background: var(--bg-body);
             color: var(--text-main);
@@ -45,8 +43,7 @@
                 radial-gradient(circle at 10% 20%, rgba(2, 132, 199, 0.06) 0%, transparent 40%),
                 radial-gradient(circle at 90% 80%, rgba(14, 165, 233, 0.05) 0%, transparent 45%);
         }
-
-        .auth-container {
+.auth-container {
             width: 100%;
             max-width: 440px;
             background: #ffffff;
@@ -57,13 +54,11 @@
             position: relative;
             z-index: 10;
         }
-
-        .logo-wrapper {
+.logo-wrapper {
             text-align: center;
             margin-bottom: 2rem;
         }
-
-        .logo-wrapper a {
+.logo-wrapper a {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -74,67 +69,57 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
-        .logo-wrapper i {
+.logo-wrapper i {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: 1.8rem;
         }
-
-        .auth-title {
+.auth-title {
             font-size: 1.25rem;
             font-weight: 800;
             text-align: center;
             margin-bottom: 0.5rem;
             color: var(--text-main);
         }
-
-        .auth-subtitle {
+.auth-subtitle {
             font-size: 0.85rem;
             color: var(--text-muted);
             text-align: center;
             margin-bottom: 2rem;
             line-height: 1.5;
         }
-
-        .alert {
+.alert {
             padding: 0.85rem 1.1rem;
             border-radius: var(--radius-md);
             font-size: 0.85rem;
             margin-bottom: 1.5rem;
             line-height: 1.5;
         }
-
-        .alert-error {
+.alert-error {
             background: #fef2f2;
             border: 1px solid #fee2e2;
             color: #ef4444;
         }
-
-        .alert-success {
+.alert-success {
             background: #ecfdf5;
             border: 1px solid #d1fae5;
             color: #065f46;
         }
-
-        .form-group {
+.form-group {
             margin-bottom: 1.5rem;
         }
-
-        .form-label {
+.form-label {
             display: block;
             font-size: 0.85rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
             color: var(--text-main);
         }
-
-        .input-wrapper {
+.input-wrapper {
             position: relative;
         }
-
-        .input-wrapper i {
+.input-wrapper i {
             position: absolute;
             left: 1rem;
             top: 50%;
@@ -142,8 +127,7 @@
             color: var(--text-muted);
             font-size: 0.95rem;
         }
-
-        .form-input {
+.form-input {
             width: 100%;
             padding: 0.8rem 1rem 0.8rem 2.75rem;
             border: 1px solid var(--border-color);
@@ -154,15 +138,13 @@
             transition: var(--transition);
             background: #f8fafc;
         }
-
-        .form-input:focus {
+.form-input:focus {
             outline: none;
             border-color: var(--primary);
             background: #ffffff;
             box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
         }
-
-        .btn-auth {
+.btn-auth {
             width: 100%;
             padding: 0.85rem;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -179,32 +161,27 @@
             justify-content: center;
             gap: 0.5rem;
         }
-
-        .btn-auth:hover {
+.btn-auth:hover {
             transform: translateY(-1px);
             box-shadow: 0 6px 15px rgba(2, 132, 199, 0.3);
         }
-
-        .auth-footer {
+.auth-footer {
             text-align: center;
             margin-top: 2rem;
             font-size: 0.85rem;
             color: var(--text-muted);
         }
-
-        .auth-footer a {
+.auth-footer a {
             color: var(--primary);
             text-decoration: none;
             font-weight: 600;
             transition: var(--transition);
         }
-
-        .auth-footer a:hover {
+.auth-footer a:hover {
             color: var(--primary-hover);
             text-decoration: underline;
         }
-
-        .mock-box {
+.mock-box {
             background: #f0f9ff;
             border: 1px dashed var(--primary);
             border-radius: var(--radius-md);
@@ -213,8 +190,7 @@
             font-size: 0.82rem;
             line-height: 1.5;
         }
-
-        .mock-link {
+.mock-link {
             display: inline-block;
             margin-top: 0.5rem;
             color: var(--primary);
@@ -226,79 +202,42 @@
             border-radius: 4px;
             transition: var(--transition);
         }
-
-        .mock-link:hover {
+.mock-link:hover {
             background: #bae6fd;
         }
     
-        /* Prevent auto zoom on iOS & Native app spacing */
+        
         @media (max-width: 768px) {
-            input, select, textarea, .form-input, .form-control {
+input, select, textarea, .form-input, .form-control {
                 font-size: 16px !important;
             }
-            .container {
+.container {
                 padding: 0 0.75rem !important;
             }
-            /* Header adjustments */
-            header {
-                padding: 0.5rem 0 !important;
-            }
-            .navbar {
-                display: grid !important;
-                grid-template-columns: 1fr auto !important;
-                gap: 0.35rem 0.75rem !important;
-                align-items: center !important;
-            }
-            .logo {
-                grid-column: 1 !important;
-                grid-row: 1 !important;
-                font-size: 1.2rem !important;
-            }
-            .nav-actions {
-                grid-column: 2 !important;
-                grid-row: 1 !important;
-                gap: 0.75rem !important;
-            }
-            .action-icon-btn {
-                width: 2.25rem !important;
-                height: 2.25rem !important;
-            }
-            .search-wrapper {
+.search-wrapper {
                 grid-column: 1 / span 2 !important;
                 grid-row: 2 !important;
                 width: 100% !important;
                 max-width: 100% !important;
                 margin-top: 0.25rem !important;
             }
-            .search-input {
+.search-input {
                 height: 2.3rem !important;
             }
-            .cat-nav-bar {
-                grid-column: 1 / span 2 !important;
-                grid-row: 3 !important;
-                width: 100% !important;
-                justify-content: flex-start !important;
-                padding: 0.25rem 0.25rem 0.5rem 0.25rem !important;
-                margin: 0 !important;
-                overflow-x: auto !important;
-                -webkit-overflow-scrolling: touch !important;
-            }
-            .cat-pill {
-                padding: 0.3rem 0.6rem !important;
-                font-size: 0.75rem !important;
-            }
-            /* Responsive cart sidebar */
-            .cart-sidebar {
+.cart-sidebar {
                 width: 100% !important;
                 right: -100%;
             }
-            .cart-sidebar.open {
+.cart-sidebar.open {
                 right: 0 !important;
             }
         }
 </style>
+    <link rel="stylesheet" href="{{ asset('css/site-header.css') }}?v={{ filemtime(public_path('css/site-header.css')) }}">
+    <script src="{{ asset('js/site-header.js') }}?v={{ filemtime(public_path('js/site-header.js')) }}" defer></script>
 </head>
-<body>
+<body class="site-auth-page">
+    @include('partials.site-header')
 
     <div class="auth-container">
         <div class="logo-wrapper">

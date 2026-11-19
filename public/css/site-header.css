@@ -1,0 +1,263 @@
+.site-ticker, .site-header { flex: none; width: 100%; font-family: 'Inter', sans-serif; box-sizing: border-box; }
+.site-ticker { overflow: hidden; background: #0284c7; color: #e0f2fe; font-size: 13px; font-weight: 700; }
+.site-ticker-track { display: flex; width: max-content; animation: siteTicker 40s linear infinite; }
+.site-ticker-content { display: flex; align-items: center; flex-shrink: 0; gap: 64px; padding: 7px 32px; white-space: nowrap; }
+.site-ticker-content span { display: inline-flex; align-items: center; gap: 9px; }
+.site-ticker-content strong { padding: 3px 6px; border-radius: 4px; background: #0369a1; color: #fde047; }
+@keyframes siteTicker { to { transform: translateX(-50%); } }
+.site-header { position: sticky; top: 0; z-index: 1000; padding: 0; margin: 0; background: #fff; color: #0f172a; border: 0; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 8px #0f172a05; text-align: left; }
+.site-header .site-navbar { max-width: 1312px; min-height: 68px; padding: 10px 20px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; box-sizing: border-box; }
+.site-header .site-logo { display: inline-flex; align-items: center; flex-shrink: 0; gap: 10px; color: #0f172a; font-size: 22px; font-weight: 800; text-decoration: none; white-space: nowrap; line-height: 1.2; }
+.site-logo-symbol { display: inline-flex; width: 38px; height: 38px; align-items: center; justify-content: center; border-radius: 11px; color: #fff; background: linear-gradient(135deg, #0284c7, #4f46e5); box-shadow: 0 4px 12px #0284c733; }
+.site-header .site-links { display: flex; align-items: center; gap: 4px; }
+.site-header .site-link { display: inline-flex; align-items: center; gap: 8px; padding: 11px 13px; border: 1px solid transparent; border-radius: 999px; color: #475569; font-size: 13px; font-weight: 600; line-height: 1.2; text-decoration: none; white-space: nowrap; }
+.site-header .site-link:hover, .site-header .site-link.is-active { color: #0284c7; background: #e0f2fe; border-color: #bae6fd; }
+.site-header .site-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.site-header .site-icon-button { position: relative; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 40px; height: 40px; padding: 0; border: 1px solid #e2e8f0; border-radius: 50%; background: #fff; color: #0f172a; cursor: pointer; font-size: 16px; text-decoration: none; }
+.site-header .site-cart-count { position: absolute; right: -3px; top: -6px; display: flex; align-items: center; justify-content: center; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 99px; background: #f43f5e; color: #fff; font: 700 10px/1 'Inter', sans-serif; }
+.site-header .site-menu-toggle { display: none; }
+.site-header a:focus-visible, .site-header button:focus-visible { outline: 2px solid #0284c7; outline-offset: 3px; }
+.site-page-search { display: flex; gap: 8px; max-width: 420px; margin: 16px 0; }
+.site-page-search input { min-width: 0; flex: 1; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; color: #0f172a; font: inherit; }
+.site-page-search button { padding: 10px 14px; border: 0; border-radius: 8px; background: #0284c7; color: #fff; cursor: pointer; }
+body.site-auth-page { display: block; padding: 0; }
+.site-auth-page .auth-container { margin: 40px auto; width: calc(100% - 32px); }
+@media (max-width: 1199px) {
+    .site-header .site-menu-toggle { display: inline-flex; }
+    .site-header .site-links { display: none; position: absolute; left: 0; right: 0; top: 100%; padding: 12px 20px; border-bottom: 1px solid #e2e8f0; background: #fff; box-shadow: 0 10px 20px #0f172a14; flex-direction: column; align-items: stretch; }
+    .site-header.is-menu-open .site-links { display: flex; }
+}
+@media (max-width: 540px) {
+    .site-header .site-navbar { min-height: 64px; gap: 8px; padding: 10px 12px; }
+    .site-header .site-logo { font-size: 17px; gap: 7px; }
+    .site-logo-symbol { width: 32px; height: 32px; }
+    .site-header .site-actions { gap: 8px; }
+    .site-header .site-icon-button { width: 34px; height: 34px; font-size: 14px; }
+    .site-header .user-pill-info, .site-header .user-pill-arrow { display: none; }
+    .site-header .user-pill-btn { padding: 0; border: 0; }
+    .site-header .btn-login-header { font-size: 11px; padding: 9px; gap: 4px; }
+    .site-header .user-dropdown-menu { width: min(270px, calc(100vw - 24px)); }
+}
+@media (prefers-reduced-motion: reduce) { .site-ticker-track { animation: none; } }
+
+
+    /* User Profile Pill */
+    .site-header .user-menu-wrapper {
+        position: relative;
+        z-index: 1000;
+    }
+    .site-header .user-pill-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        padding: 0.28rem 0.85rem 0.28rem 0.35rem;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 9999px;
+        cursor: pointer;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        transition: all 0.2s ease;
+        outline: none;
+        user-select: none;
+    }
+    .site-header .user-pill-btn:hover {
+        background: #f8fafc;
+        border-color: #cbd5e1;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+    .site-header .user-pill-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        overflow: hidden;
+        flex-shrink: 0;
+        background: #e0f2fe;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .site-header .user-pill-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .site-header .user-pill-info {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        line-height: 1.15;
+    }
+    .site-header .user-pill-name {
+        font-size: 0.78rem;
+        font-weight: 800;
+        color: #0f172a;
+        max-width: 110px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        letter-spacing: -0.01em;
+    }
+    .site-header .user-pill-balance {
+        font-size: 0.74rem;
+        font-weight: 700;
+        color: #0d9488;
+    }
+    .site-header .user-pill-arrow {
+        font-size: 0.65rem;
+        color: #64748b;
+        margin-left: 0.15rem;
+        transition: transform 0.2s ease;
+    }
+
+    /* User Dropdown */
+    .site-header .user-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 0.65rem);
+        right: 0;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        width: 270px;
+        padding: 0.65rem 0;
+        display: none !important;
+        z-index: 99999;
+    }
+    .site-header .user-dropdown-menu.show {
+        display: block !important;
+        animation: slideDownNav 0.15s ease-out;
+    }
+    @keyframes slideDownNav {
+        from { opacity: 0; transform: translateY(-6px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .site-header .user-dropdown-header {
+        padding: 0.75rem 1.1rem 0.85rem 1.1rem;
+    }
+    .site-header .user-dropdown-user-row {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        margin-bottom: 0.75rem;
+    }
+    .site-header .dropdown-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+    .site-header .dropdown-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .site-header .dropdown-user-meta {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        text-align: left;
+    }
+    .site-header .user-display-name {
+        font-size: 0.86rem;
+        font-weight: 800;
+        color: #0f172a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .site-header .user-display-email {
+        font-size: 0.72rem;
+        color: #64748b;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .site-header .user-wallet-card {
+        background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);
+        border: 1px solid #bbf7d0;
+        border-radius: 10px;
+        padding: 0.6rem 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .site-header .wallet-card-header {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+    }
+    .site-header .wallet-card-label {
+        font-size: 0.68rem;
+        color: #166534;
+        font-weight: 600;
+    }
+    .site-header .wallet-card-amount {
+        font-size: 0.95rem;
+        font-weight: 800;
+        color: #059669;
+    }
+    .site-header .wallet-card-btn {
+        background: #059669;
+        color: #ffffff !important;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        transition: background 0.2s;
+    }
+    .site-header .wallet-card-btn:hover {
+        background: #047857;
+    }
+    .site-header .user-dropdown-divider {
+        height: 1px;
+        background: #f1f5f9;
+        margin: 0.35rem 0;
+    }
+    .site-header .user-dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        padding: 0.6rem 1.25rem;
+        color: #334155;
+        text-decoration: none;
+        font-size: 0.82rem;
+        font-weight: 600;
+        transition: all 0.2s;
+        cursor: pointer;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+        font-family: inherit;
+    }
+    .site-header .user-dropdown-item:hover {
+        background: #f8fafc;
+        color: #0284c7;
+    }
+    .site-header .user-dropdown-item.logout-btn-item:hover {
+        background: #fef2f2;
+        color: #ef4444 !important;
+    }
+    .site-header .btn-login-header {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.45rem 1rem;
+        background: #0284c7;
+        color: #ffffff !important;
+        font-size: 0.82rem;
+        font-weight: 700;
+        border-radius: 9999px;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+    .site-header .btn-login-header:hover {
+        background: #0369a1;
+        box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
+    }

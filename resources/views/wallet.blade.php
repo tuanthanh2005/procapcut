@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
+:root {
             --bg-body: #f8fafc;
             --primary: #0284c7;
             --primary-hover: #0369a1;
@@ -31,14 +31,12 @@
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
             --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        * {
+* {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-
-        body {
+body {
             font-family: 'Inter', sans-serif;
             background: var(--bg-body);
             color: var(--text-main);
@@ -47,16 +45,13 @@
             flex-direction: column;
             line-height: 1.5;
         }
-
-        .container {
+.container {
             width: 100%;
             max-width: 1320px;
             margin: 0 auto;
             padding: 0 1.5rem;
         }
-
-        /* Top Announcement Banner */
-        .top-banner {
+.top-banner {
             background: #0284c7;
             color: #ffffff;
             font-size: 0.8rem;
@@ -64,93 +59,14 @@
             padding: 0.45rem 1rem;
             text-align: center;
         }
-
-        /* Header Navigation */
-        header {
-            background: #ffffff;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.02);
-        }
-
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 70px;
-            gap: 1.25rem;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.65rem;
-            text-decoration: none;
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: var(--text-main);
-            flex-shrink: 0;
-        }
-
-        .logo-symbol {
-            width: 38px;
-            height: 38px;
-            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
-        }
-
-        .logo-text {
-            letter-spacing: -0.02em;
-        }
-
-        /* Nav Category Links */
-        .cat-nav-bar {
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
-        }
-
-        .cat-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.45rem;
-            padding: 0.45rem 0.85rem;
-            border-radius: 9999px;
-            text-decoration: none;
-            color: var(--text-dark);
-            font-size: 0.82rem;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .cat-pill:hover {
-            background: #f1f5f9;
-            color: var(--primary);
-        }
-
-        .cat-pill.active {
-            background: #e0f2fe;
-            color: #0284c7;
-            font-weight: 700;
-        }
-
-        /* Search Input */
-        .search-wrapper {
+.search-wrapper {
             position: relative;
             display: flex;
             align-items: center;
             max-width: 280px;
             width: 100%;
         }
-
-        .search-input {
+.search-input {
             width: 100%;
             padding: 0.48rem 2.2rem 0.48rem 2.2rem;
             font-size: 0.82rem;
@@ -161,22 +77,19 @@
             color: #1e293b;
             transition: var(--transition);
         }
-
-        .search-input:focus {
+.search-input:focus {
             background: #ffffff;
             border-color: #38bdf8;
             box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
         }
-
-        .search-icon-left {
+.search-icon-left {
             position: absolute;
             left: 0.85rem;
             color: #94a3b8;
             font-size: 0.8rem;
             pointer-events: none;
         }
-
-        .search-shortcut-badge {
+.search-shortcut-badge {
             position: absolute;
             right: 0.75rem;
             background: #ffffff;
@@ -190,244 +103,11 @@
             pointer-events: none;
         }
 
-        /* Nav Actions */
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 0.45rem;
-            flex-shrink: 0;
-        }
-
-
-        /* User Profile Pill */
-        .user-menu-wrapper {
-            position: relative;
-        }
-
-        .user-pill-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0.3rem 0.85rem 0.3rem 0.35rem;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 9999px;
-            cursor: pointer;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-            transition: var(--transition);
-            outline: none;
-        }
-
-        .user-pill-btn:hover {
-            background: #f8fafc;
-            border-color: #cbd5e1;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-        }
-
-        .user-pill-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            overflow: hidden;
-            flex-shrink: 0;
-            background: #e0f2fe;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .user-pill-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .user-pill-info {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-            line-height: 1.15;
-        }
-
-        .user-pill-name {
-            font-size: 0.78rem;
-            font-weight: 800;
-            color: #0f172a;
-            max-width: 110px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            text-transform: uppercase;
-            letter-spacing: -0.01em;
-        }
-
-        .user-pill-balance {
-            font-size: 0.74rem;
-            font-weight: 700;
-            color: #0d9488;
-        }
-
-        .user-pill-arrow {
-            font-size: 0.65rem;
-            color: #64748b;
-            margin-left: 0.15rem;
-            transition: transform 0.2s ease;
-        }
-
-        /* User Dropdown */
-        .user-dropdown-menu {
-            position: absolute;
-            top: calc(100% + 0.5rem);
-            right: 0;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-            width: 270px;
-            padding: 0.65rem 0;
-            display: none;
-            z-index: 200;
-            animation: slideDown 0.2s ease;
-        }
-
-        .user-dropdown-menu.show {
-            display: block;
-        }
-
         @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
+from { opacity: 0; transform: translateY(-8px); }
+to { opacity: 1; transform: translateY(0); }
         }
-
-        .user-dropdown-header {
-            padding: 0.75rem 1.1rem 0.85rem 1.1rem;
-        }
-
-        .user-dropdown-user-row {
-            display: flex;
-            align-items: center;
-            gap: 0.65rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .dropdown-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .dropdown-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .dropdown-user-meta {
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-        }
-
-        .user-display-name {
-            font-size: 0.86rem;
-            font-weight: 800;
-            color: #0f172a;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .user-display-email {
-            font-size: 0.72rem;
-            color: #64748b;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .user-wallet-card {
-            background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);
-            border: 1px solid #bbf7d0;
-            border-radius: 10px;
-            padding: 0.6rem 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .wallet-card-header {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .wallet-card-label {
-            font-size: 0.68rem;
-            color: #166534;
-            font-weight: 600;
-        }
-
-        .wallet-card-amount {
-            font-size: 0.95rem;
-            font-weight: 800;
-            color: #059669;
-        }
-
-        .wallet-card-btn {
-            background: #059669;
-            color: #ffffff !important;
-            padding: 0.35rem 0.65rem;
-            border-radius: 6px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            transition: background 0.2s;
-        }
-
-        .wallet-card-btn:hover {
-            background: #047857;
-        }
-
-        .user-dropdown-divider {
-            height: 1px;
-            background: #f1f5f9;
-            margin: 0.35rem 0;
-        }
-
-        .user-dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 0.65rem;
-            padding: 0.6rem 1.25rem;
-            color: var(--text-dark);
-            text-decoration: none;
-            font-size: 0.82rem;
-            font-weight: 600;
-            transition: var(--transition);
-            cursor: pointer;
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
-            font-family: inherit;
-        }
-
-        .user-dropdown-item:hover {
-            background: #f8fafc;
-            color: var(--primary);
-        }
-
-        .user-dropdown-item.logout-btn-item:hover {
-            background: #fef2f2;
-            color: var(--danger) !important;
-        }
-
-        /* Breadcrumb */
-        .breadcrumb {
+.breadcrumb {
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -435,23 +115,18 @@
             color: var(--text-muted);
             margin: 1.5rem 0 1.25rem 0;
         }
-
-        .breadcrumb a {
+.breadcrumb a {
             color: var(--text-muted);
             text-decoration: none;
             transition: color 0.2s;
         }
-
-        .breadcrumb a:hover {
+.breadcrumb a:hover {
             color: var(--primary);
         }
-
-        .breadcrumb i {
+.breadcrumb i {
             font-size: 0.68rem;
         }
-
-        /* Top Hero Card */
-        .wallet-hero {
+.wallet-hero {
             background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #075985 100%);
             border-radius: var(--radius-xl);
             padding: 2rem 2.25rem;
@@ -465,8 +140,7 @@
             position: relative;
             overflow: hidden;
         }
-
-        .wallet-hero::before {
+.wallet-hero::before {
             content: '';
             position: absolute;
             top: -40px;
@@ -476,13 +150,11 @@
             background: rgba(255, 255, 255, 0.08);
             border-radius: 50%;
         }
-
-        .wallet-hero-left {
+.wallet-hero-left {
             position: relative;
             z-index: 1;
         }
-
-        .wallet-hero-badge {
+.wallet-hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
@@ -495,8 +167,7 @@
             letter-spacing: 0.02em;
             margin-bottom: 0.85rem;
         }
-
-        .wallet-pulse-dot {
+.wallet-pulse-dot {
             width: 8px;
             height: 8px;
             background: #4ade80;
@@ -507,18 +178,16 @@
         }
 
         @keyframes pulse-green {
-            0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
-            70% { box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
+70% { box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
+100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
         }
-
-        .wallet-hero-balance-label {
+.wallet-hero-balance-label {
             font-size: 0.88rem;
             opacity: 0.9;
             font-weight: 500;
         }
-
-        .wallet-hero-balance-val {
+.wallet-hero-balance-val {
             font-size: 2.6rem;
             font-weight: 900;
             letter-spacing: -0.02em;
@@ -527,30 +196,26 @@
             align-items: center;
             gap: 0.75rem;
         }
-
-        .wallet-hero-desc {
+.wallet-hero-desc {
             font-size: 0.85rem;
             opacity: 0.85;
             max-width: 480px;
         }
-
-        .wallet-hero-right {
+.wallet-hero-right {
             position: relative;
             z-index: 1;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
         }
-
-        .hero-stat-card {
+.hero-stat-card {
             background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: var(--radius-md);
             padding: 1rem 1.25rem;
         }
-
-        .hero-stat-label {
+.hero-stat-label {
             font-size: 0.75rem;
             opacity: 0.85;
             display: flex;
@@ -558,29 +223,24 @@
             gap: 0.4rem;
             margin-bottom: 0.35rem;
         }
-
-        .hero-stat-val {
+.hero-stat-val {
             font-size: 1.25rem;
             font-weight: 800;
         }
-
-        /* Main Grid: Deposit Box & Transfer Details */
-        .wallet-main-grid {
+.wallet-main-grid {
             display: grid;
             grid-template-columns: 1fr 1.05fr;
             gap: 2rem;
             margin-bottom: 2.5rem;
         }
-
-        .card-box {
+.card-box {
             background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
             padding: 1.75rem;
             box-shadow: var(--shadow-sm);
         }
-
-        .card-title {
+.card-title {
             font-size: 1.15rem;
             font-weight: 800;
             color: var(--text-main);
@@ -591,28 +251,23 @@
             padding-bottom: 0.85rem;
             border-bottom: 1px solid #f1f5f9;
         }
-
-        .card-title i {
+.card-title i {
             color: var(--primary);
         }
-
-        /* Preset Amounts */
-        .amount-selector-label {
+.amount-selector-label {
             font-size: 0.85rem;
             font-weight: 700;
             color: var(--text-dark);
             margin-bottom: 0.65rem;
             display: block;
         }
-
-        .preset-grid {
+.preset-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 0.65rem;
             margin-bottom: 1.25rem;
         }
-
-        .preset-btn {
+.preset-btn {
             border: 1.5px solid #e2e8f0;
             background: #f8fafc;
             border-radius: 10px;
@@ -624,27 +279,22 @@
             transition: var(--transition);
             text-align: center;
         }
-
-        .preset-btn:hover {
+.preset-btn:hover {
             border-color: #38bdf8;
             background: #f0f9ff;
             color: var(--primary);
         }
-
-        .preset-btn.active {
+.preset-btn.active {
             border-color: var(--primary);
             background: #e0f2fe;
             color: #0284c7;
             box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.2);
         }
-
-        /* Custom Input */
-        .custom-input-group {
+.custom-input-group {
             position: relative;
             margin-bottom: 1.5rem;
         }
-
-        .custom-input-group input {
+.custom-input-group input {
             width: 100%;
             padding: 0.75rem 3rem 0.75rem 1rem;
             border: 1.5px solid #e2e8f0;
@@ -655,13 +305,11 @@
             outline: none;
             transition: var(--transition);
         }
-
-        .custom-input-group input:focus {
+.custom-input-group input:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
         }
-
-        .currency-suffix {
+.currency-suffix {
             position: absolute;
             right: 1rem;
             top: 50%;
@@ -670,9 +318,7 @@
             color: var(--text-muted);
             pointer-events: none;
         }
-
-        /* QR Code Card Area */
-        .qr-display-box {
+.qr-display-box {
             background: #f8fafc;
             border: 1px dashed #cbd5e1;
             border-radius: 14px;
@@ -683,8 +329,7 @@
             text-align: center;
             margin-top: 1rem;
         }
-
-        .qr-code-img {
+.qr-code-img {
             width: 220px;
             height: 220px;
             object-fit: contain;
@@ -694,22 +339,18 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
             margin-bottom: 0.85rem;
         }
-
-        .qr-instructions {
+.qr-instructions {
             font-size: 0.82rem;
             color: var(--text-muted);
             line-height: 1.4;
         }
-
-        /* Right Column: Bank Transfer Details */
-        .bank-info-table {
+.bank-info-table {
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
             margin-bottom: 1.5rem;
         }
-
-        .bank-info-row {
+.bank-info-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -719,12 +360,10 @@
             padding: 0.75rem 1rem;
             transition: var(--transition);
         }
-
-        .bank-info-row:hover {
+.bank-info-row:hover {
             background: #f1f5f9;
         }
-
-        .bank-info-label {
+.bank-info-label {
             font-size: 0.82rem;
             color: var(--text-muted);
             font-weight: 600;
@@ -732,21 +371,18 @@
             align-items: center;
             gap: 0.45rem;
         }
-
-        .bank-info-content {
+.bank-info-content {
             display: flex;
             align-items: center;
             gap: 0.65rem;
         }
-
-        .bank-info-val {
+.bank-info-val {
             font-size: 0.95rem;
             font-weight: 800;
             color: var(--text-main);
             letter-spacing: 0.01em;
         }
-
-        .bank-info-val.highlight-syntax {
+.bank-info-val.highlight-syntax {
             color: #d97706;
             background: #fef3c7;
             padding: 0.2rem 0.55rem;
@@ -755,13 +391,11 @@
             font-family: monospace;
             font-size: 1.05rem;
         }
-
-        .bank-info-val.highlight-amount {
+.bank-info-val.highlight-amount {
             color: #059669;
             font-size: 1.05rem;
         }
-
-        .btn-copy {
+.btn-copy {
             background: #ffffff;
             border: 1px solid #cbd5e1;
             color: var(--primary);
@@ -775,21 +409,17 @@
             align-items: center;
             gap: 0.3rem;
         }
-
-        .btn-copy:hover {
+.btn-copy:hover {
             background: var(--primary);
             color: #ffffff;
             border-color: var(--primary);
         }
-
-        .btn-copy.copied {
+.btn-copy.copied {
             background: #10b981;
             color: #ffffff;
             border-color: #10b981;
         }
-
-        /* Warning Notice */
-        .warning-notice-box {
+.warning-notice-box {
             background: #fffbeb;
             border: 1px solid #fde68a;
             border-radius: 12px;
@@ -799,26 +429,21 @@
             align-items: flex-start;
             margin-bottom: 1.5rem;
         }
-
-        .warning-notice-box i {
+.warning-notice-box i {
             color: #d97706;
             font-size: 1.1rem;
             margin-top: 0.15rem;
             flex-shrink: 0;
         }
-
-        .warning-notice-text {
+.warning-notice-text {
             font-size: 0.82rem;
             color: #92400e;
             line-height: 1.45;
         }
-
-        .warning-notice-text strong {
+.warning-notice-text strong {
             color: #78350f;
         }
-
-        /* Live Polling Status Box */
-        .status-listening-box {
+.status-listening-box {
             background: #f0fdf4;
             border: 1px solid #bbf7d0;
             border-radius: 12px;
@@ -827,8 +452,7 @@
             align-items: center;
             gap: 0.75rem;
         }
-
-        .status-spinner {
+.status-spinner {
             width: 18px;
             height: 18px;
             border: 2.5px solid #86efac;
@@ -839,35 +463,29 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+to { transform: rotate(360deg); }
         }
-
-        .status-listening-text {
+.status-listening-text {
             font-size: 0.8rem;
             color: #166534;
             font-weight: 600;
         }
-
-        /* History Table Section */
-        .history-section {
+.history-section {
             margin-bottom: 3.5rem;
         }
-
-        .table-responsive {
+.table-responsive {
             overflow-x: auto;
             border-radius: var(--radius-md);
             border: 1px solid var(--border-color);
         }
-
-        .history-table {
+.history-table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
             font-size: 0.85rem;
             background: #ffffff;
         }
-
-        .history-table th {
+.history-table th {
             background: #f8fafc;
             padding: 0.85rem 1.25rem;
             font-weight: 700;
@@ -875,19 +493,16 @@
             border-bottom: 1px solid var(--border-color);
             white-space: nowrap;
         }
-
-        .history-table td {
+.history-table td {
             padding: 0.95rem 1.25rem;
             border-bottom: 1px solid #f1f5f9;
             color: var(--text-main);
             vertical-align: middle;
         }
-
-        .history-table tr:hover td {
+.history-table tr:hover td {
             background: #f8fafc;
         }
-
-        .badge-deposit {
+.badge-deposit {
             display: inline-flex;
             align-items: center;
             gap: 0.3rem;
@@ -898,8 +513,7 @@
             padding: 0.25rem 0.6rem;
             border-radius: 9999px;
         }
-
-        .badge-purchase {
+.badge-purchase {
             display: inline-flex;
             align-items: center;
             gap: 0.3rem;
@@ -910,8 +524,7 @@
             padding: 0.25rem 0.6rem;
             border-radius: 9999px;
         }
-
-        .badge-completed {
+.badge-completed {
             display: inline-flex;
             align-items: center;
             gap: 0.3rem;
@@ -922,21 +535,17 @@
             padding: 0.25rem 0.6rem;
             border-radius: 9999px;
         }
-
-        .empty-history-box {
+.empty-history-box {
             text-align: center;
             padding: 3rem 1.5rem;
             color: var(--text-muted);
         }
-
-        .empty-history-box i {
+.empty-history-box i {
             font-size: 2.5rem;
             color: #cbd5e1;
             margin-bottom: 0.75rem;
         }
-
-        /* Toast notification */
-        .toast-notif {
+.toast-notif {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
@@ -955,14 +564,11 @@
             opacity: 0;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .toast-notif.show {
+.toast-notif.show {
             transform: translateY(0);
             opacity: 1;
         }
-
-        /* Success Deposit Modal */
-        .modal-overlay {
+.modal-overlay {
             position: fixed;
             inset: 0;
             background: rgba(15, 23, 42, 0.6);
@@ -973,12 +579,10 @@
             z-index: 10000;
             animation: fadeIn 0.2s ease;
         }
-
-        .modal-overlay.show {
+.modal-overlay.show {
             display: flex;
         }
-
-        .modal-box {
+.modal-box {
             background: #ffffff;
             border-radius: 20px;
             max-width: 440px;
@@ -990,11 +594,10 @@
         }
 
         @keyframes scaleUp {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+from { transform: scale(0.9); opacity: 0; }
+to { transform: scale(1); opacity: 1; }
         }
-
-        .modal-icon {
+.modal-icon {
             width: 64px;
             height: 64px;
             background: #dcfce7;
@@ -1006,22 +609,19 @@
             justify-content: center;
             margin: 0 auto 1.25rem auto;
         }
-
-        .modal-title {
+.modal-title {
             font-size: 1.35rem;
             font-weight: 800;
             color: var(--text-main);
             margin-bottom: 0.5rem;
         }
-
-        .modal-desc {
+.modal-desc {
             font-size: 0.9rem;
             color: var(--text-muted);
             margin-bottom: 1.5rem;
             line-height: 1.5;
         }
-
-        .btn-modal-close {
+.btn-modal-close {
             background: var(--primary);
             color: #ffffff;
             border: none;
@@ -1033,13 +633,10 @@
             width: 100%;
             transition: var(--transition);
         }
-
-        .btn-modal-close:hover {
+.btn-modal-close:hover {
             background: var(--primary-hover);
         }
-
-        /* Footer */
-        footer {
+footer {
             background: #ffffff;
             border-top: 1px solid var(--border-color);
             padding: 2rem 0;
@@ -1050,18 +647,17 @@
         }
 
         @media (max-width: 992px) {
-            .cat-nav-bar {
-                display: none;
-            }
-            .wallet-hero {
+.wallet-hero {
                 grid-template-columns: 1fr;
                 padding: 1.5rem;
             }
-            .wallet-main-grid {
+.wallet-main-grid {
                 grid-template-columns: 1fr;
             }
         }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/site-header.css') }}?v={{ filemtime(public_path('css/site-header.css')) }}">
+    <script src="{{ asset('js/site-header.js') }}?v={{ filemtime(public_path('js/site-header.js')) }}" defer></script>
 </head>
 <body>
 
@@ -1071,53 +667,7 @@
     </div>
 
     <!-- Header Navigation -->
-    <header>
-        <div class="container">
-            <div class="navbar">
-                <a href="/" class="logo">
-                    <div class="logo-symbol">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2a4 4 0 0 0-4 4v1a3 3 0 0 0-3 3v2a3 3 0 0 0 2 2.82V16a4 4 0 0 0 4 4h2a4 4 0 0 0 4-4v-1.18A3 3 0 0 0 19 12v-2a3 3 0 0 0-3-3V6a4 4 0 0 0-4-4z"/>
-                            <path d="M9 12h6"/>
-                            <path d="M12 9v6"/>
-                        </svg>
-                    </div>
-                    <span class="logo-text">AI CỦA TÔI</span>
-                </a>
-
-                <!-- Header Category Pills -->
-                <nav class="cat-nav-bar">
-                    <a href="/" class="cat-pill">
-                        <i class="fa-solid fa-house"></i> Trang Chủ
-                    </a>
-                    <a href="/products" class="cat-pill">
-                        <i class="fa-solid fa-cubes"></i> Kho Tài Nguyên AI
-                    </a>
-                    <a href="/products?category=api-token" class="cat-pill">
-                        <i class="fa-solid fa-key"></i> API Token AI
-                    </a>
-                    <a href="/posts" class="cat-pill">
-                        <i class="fa-solid fa-newspaper"></i> Tin Tức & HD
-                    </a>
-                    <a href="https://zalo.me/0569012134" target="_blank" class="cat-pill">
-                        <i class="fa-solid fa-headset"></i> Kỹ Thuật Zalo
-                    </a>
-                </nav>
-
-                <!-- Search Input with / badge -->
-                <div class="search-wrapper">
-                    <i class="fa-solid fa-magnifying-glass search-icon-left"></i>
-                    <input type="text" class="search-input" id="search-input" placeholder="Tìm tài khoản, dịch vụ...">
-                    <span class="search-shortcut-badge">/</span>
-                </div>
-
-                <!-- Nav Actions -->
-                <div class="nav-actions">
-                    @include('partials.user-nav')
-                </div>
-            </div>
-        </div>
-    </header>
+    @include('partials.site-header')
 
     <main class="container">
         <!-- Breadcrumb -->
