@@ -12,6 +12,7 @@ class TelegramCategory extends Model
         'slug',
         'icon',
         'telegram_icon',
+        'telegram_custom_emoji_id',
         'image',
         'sort_order',
         'is_active',
@@ -56,5 +57,20 @@ class TelegramCategory extends Model
     public function products(): HasMany
     {
         return $this->hasMany(TelegramProduct::class, 'category_id')->orderBy('sort_order', 'asc');
+    }
+
+    public function toTelegramButton(): array
+    {
+        $customEmojiId = (string) $this->telegram_custom_emoji_id;
+        $button = [
+            'text' => $customEmojiId !== '' ? $this->name : trim($this->telegram_display_icon.' '.$this->name),
+            'callback_data' => 'cat_'.$this->id,
+        ];
+
+        if ($customEmojiId !== '') {
+            $button['icon_custom_emoji_id'] = $customEmojiId;
+        }
+
+        return $button;
     }
 }

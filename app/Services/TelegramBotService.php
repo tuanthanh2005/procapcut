@@ -32,6 +32,29 @@ class TelegramBotService
         try {
             $response = Http::timeout(10)->post("{$this->apiUrl}/{$method}", $params);
             $json = $response->json();
+
+            // Invalid/ineligible custom icons must not make the whole menu disappear.
+            if (($json['error_code'] ?? null) === 400
+                && preg_match('/emoji/i', $json['description'] ?? '')
+                && isset($params['reply_markup'])) {
+                $keyboard = is_string($params['reply_markup'])
+                    ? json_decode($params['reply_markup'], true)
+                    : $params['reply_markup'];
+                $removed = false;
+                foreach ($keyboard['inline_keyboard'] ?? [] as $rowIndex => $row) {
+                    foreach ($row as $buttonIndex => $button) {
+                        if (isset($button['icon_custom_emoji_id'])) {
+                            unset($keyboard['inline_keyboard'][$rowIndex][$buttonIndex]['icon_custom_emoji_id']);
+                            $removed = true;
+                        }
+                    }
+                }
+                if ($removed) {
+                    $params['reply_markup'] = json_encode($keyboard);
+                    $response = Http::timeout(10)->post("{$this->apiUrl}/{$method}", $params);
+                    $json = $response->json();
+                }
+            }
             
             if (!$response->successful() || !($json['ok'] ?? false)) {
                 Log::error("Telegram API Error ({$method}): " . json_encode($json ?? $response->body()));
@@ -252,6 +275,21 @@ class TelegramBotService
 
         if ($user->is_banned) {
             $this->sendMessage($chatId, "⛔ <b>Tài khoản của bạn đã bị khóa tạm thời.</b>\nVui lòng liên hệ Admin để được hỗ trợ giải quyết.");
+            return;
+        }
+
+        if (preg_match('/^\/emojiid(?:@\w+)?(?:\s|$)/u', $text)) {
+            $source = $message['reply_to_message'] ?? $message;
+            $entities = array_merge($source['entities'] ?? [], $source['caption_entities'] ?? []);
+            $ids = collect($entities)
+                ->where('type', 'custom_emoji')
+                ->pluck('custom_emoji_id')
+                ->filter(fn ($id) => is_string($id) && preg_match('/^[1-9][0-9]{0,19}$/', $id))
+                ->unique();
+            $reply = $ids->isEmpty()
+                ? 'Gửi /emojiid kèm emoji tùy chỉnh, hoặc trả lời tin nhắn có emoji tùy chỉnh bằng /emojiid. Emoji thường không có ID riêng.'
+                : "<b>ID Custom Emoji Telegram</b>\n".$ids->map(fn ($id) => '<code>'.$id.'</code>')->implode("\n")."\nDán ID vào ô Custom Emoji ID của danh mục trong trang quản trị.";
+            $this->sendMessage($chatId, $reply);
             return;
         }
 
@@ -502,11 +540,7 @@ class TelegramBotService
         $buttons = [];
         $row = [];
         foreach ($categories as $index => $cat) {
-            $icon = $cat->telegram_display_icon;
-            $row[] = [
-                'text' => "{$icon} {$cat->name}",
-                'callback_data' => "cat_{$cat->id}"
-            ];
+            $row[] = $cat->toTelegramButton();
 
             if (count($row) === 2) {
                 $buttons[] = $row;

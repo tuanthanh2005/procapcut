@@ -927,6 +927,7 @@
                                                 data-cat-name="{{ $cat->name }}"
                                                 data-cat-icon="{{ e($cat->icon) }}"
                                                 data-cat-telegram-icon="{{ e($cat->telegram_icon) }}"
+                                                data-cat-custom-emoji-id="{{ $cat->telegram_custom_emoji_id }}"
                                                 data-cat-image="{{ $cat->image ? asset('storage/' . $cat->image) : '' }}"
                                                 data-cat-sort="{{ $cat->sort_order }}"
                                                 data-cat-active="{{ $cat->is_active ? 1 : 0 }}"
@@ -970,7 +971,7 @@
                                     </small>
                                 </div>
                                 <div class="form-group" style="flex: 1;">
-                                    <label class="form-label">Emoji Telegram</label>
+                                    <label class="form-label">Emoji dự phòng Telegram</label>
                                     <input type="text" name="telegram_icon" id="edit_cat_telegram_icon" class="form-input" placeholder="Ví dụ: ✂️">
                                     <small style="color: var(--text-muted); font-size: 0.78rem; display: block; margin-top: 3px;">
                                         Hiển thị trên nút Bot
@@ -982,6 +983,7 @@
                                 </div>
                             </div>
 
+                            @include('admin.telegram.partials.custom-emoji-field', ['prefix' => 'edit'])
                             <div class="form-group" style="margin-bottom: 1.25rem; background: #f8fafc; padding: 0.85rem; border-radius: 8px; border: 1px dashed var(--border-color);">
                                 <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
                                     <span><i class="fa-solid fa-image"></i> Hình ảnh / Logo danh mục (Tùy chọn)</span>
@@ -1026,7 +1028,7 @@
                                     </small>
                                 </div>
                                 <div class="form-group" style="flex: 1;">
-                                    <label class="form-label">Emoji Telegram</label>
+                                    <label class="form-label">Emoji dự phòng Telegram</label>
                                     <input type="text" name="telegram_icon" class="form-input" placeholder="Ví dụ: 🤖">
                                     <small style="color: var(--text-muted); font-size: 0.78rem; display: block; margin-top: 3px;">
                                         Hiển thị trên nút Bot
@@ -1037,6 +1039,7 @@
                                     <input type="number" name="sort_order" class="form-input" value="1">
                                 </div>
                             </div>
+                            @include('admin.telegram.partials.custom-emoji-field', ['prefix' => 'add'])
                             <div class="form-group" style="margin-bottom: 1.25rem; background: #f8fafc; padding: 0.85rem; border-radius: 8px; border: 1px dashed var(--border-color);">
                                 <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
                                     <span><i class="fa-solid fa-image"></i> Hình ảnh / Logo danh mục (Tùy chọn)</span>
@@ -1811,6 +1814,7 @@ Nhanh tay vào mua ngay số lượng có hạn!" required></textarea>
             const sort = btn.getAttribute('data-cat-sort');
             const isActive = btn.getAttribute('data-cat-active');
             openEditCategoryModal(id, name, icon, telegramIcon, imageUrl, sort, isActive);
+            document.getElementById('edit_cat_custom_emoji_id').value = btn.getAttribute('data-cat-custom-emoji-id') || '';
         }
 
         function openEditCategoryModal(id, name, icon, telegramIcon, imageUrl, sort, isActive) {

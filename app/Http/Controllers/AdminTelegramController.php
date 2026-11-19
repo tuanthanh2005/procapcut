@@ -163,6 +163,7 @@ class AdminTelegramController extends Controller
             'name' => 'required|string|max:100',
             'icon' => 'nullable|string',
             'telegram_icon' => 'nullable|string|max:50',
+            'telegram_custom_emoji_id' => ['nullable', 'string', 'regex:/^[1-9][0-9]{0,19}$/'],
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
         ]);
 
@@ -176,6 +177,7 @@ class AdminTelegramController extends Controller
             'slug' => Str::slug($request->name) . '-' . rand(10, 99),
             'icon' => $request->icon ?: '📦',
             'telegram_icon' => $request->telegram_icon,
+            'telegram_custom_emoji_id' => $request->input('telegram_custom_emoji_id'),
             'image' => $imagePath,
             'sort_order' => (int) $request->sort_order,
             'is_active' => $request->has('is_active'),
@@ -194,6 +196,7 @@ class AdminTelegramController extends Controller
             'name' => 'required|string|max:100',
             'icon' => 'nullable|string',
             'telegram_icon' => 'nullable|string|max:50',
+            'telegram_custom_emoji_id' => ['nullable', 'string', 'regex:/^[1-9][0-9]{0,19}$/'],
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
         ]);
 
@@ -208,6 +211,7 @@ class AdminTelegramController extends Controller
             'name' => $request->name,
             'icon' => $request->icon ?: '📦',
             'telegram_icon' => $request->telegram_icon,
+            'telegram_custom_emoji_id' => $request->input('telegram_custom_emoji_id'),
             'image' => $imagePath,
             'sort_order' => (int) $request->sort_order,
             'is_active' => $request->has('is_active'),
