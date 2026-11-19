@@ -122,10 +122,6 @@ ul {
 50% { transform: scale(1.2); opacity: 0.8; }
 100% { transform: scale(1); opacity: 1; }
         }
-.search-wrapper {
-            flex: 0 1 240px;
-            position: relative;
-        }
 .search-input {
             width: 100%;
             height: 2.5rem;
@@ -145,36 +141,9 @@ ul {
             border-color: var(--primary);
             box-shadow: 0 0 12px rgba(2, 132, 199, 0.15);
         }
-.search-btn {
-            position: absolute;
-            right: 0.4rem;
-            top: 50%;
-            transform: translateY(-50%);
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-        }
-.search-btn:hover {
-            color: var(--primary);
-            background: var(--bg-glass-hover);
-        }
 main {
             padding-top: 2.5rem !important;
             padding-bottom: 4rem !important;
-        }
-.user-avatar-img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
         }
 .toast-notify {
             position: fixed;
@@ -732,9 +701,6 @@ footer {
         }
 
         @media (max-width: 768px) {
-.search-wrapper {
-                max-width: 180px;
-            }
 .article-grid {
                 grid-template-columns: 1fr;
             }
@@ -747,13 +713,6 @@ input, select, textarea, .form-input, .form-control {
             }
 .container {
                 padding: 0 0.75rem !important;
-            }
-.search-wrapper {
-                grid-column: 1 / span 2 !important;
-                grid-row: 2 !important;
-                width: 100% !important;
-                max-width: 100% !important;
-                margin-top: 0.25rem !important;
             }
 .search-input {
                 height: 2.3rem !important;
@@ -790,8 +749,7 @@ input, select, textarea, .form-input, .form-control {
             }
         }
 </style>
-    <link rel="stylesheet" href="{{ asset('css/site-header.css') }}?v={{ filemtime(public_path('css/site-header.css')) }}">
-    <script src="{{ asset('js/site-header.js') }}?v={{ filemtime(public_path('js/site-header.js')) }}" defer></script>
+    @include('partials.site-header-assets')
 </head>
 <body>
 
@@ -803,8 +761,8 @@ input, select, textarea, .form-input, .form-control {
 
     <main class="container">
         <form class="site-page-search" action="/products" method="GET" role="search">
-            <input type="search" id="search-input" name="search" value="{{ request('search') }}" aria-label="T?m ki?m s?n ph?m" placeholder="T?m ki?m s?n ph?m...">
-            <button type="submit" aria-label="T?m ki?m"><i class="fa-solid fa-search"></i></button>
+            <input type="search" id="search-input" name="search" value="{{ request('search') }}" aria-label="Tìm kiếm sản phẩm" placeholder="Tìm kiếm sản phẩm...">
+            <button type="submit" aria-label="Tìm kiếm"><i class="fa-solid fa-search"></i></button>
         </form>
 
         

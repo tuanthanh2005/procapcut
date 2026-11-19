@@ -282,10 +282,6 @@ ul {
 50% { transform: scale(1.2); opacity: 0.8; }
 100% { transform: scale(1); opacity: 1; }
         }
-.search-wrapper {
-            flex: 0 1 240px;
-            position: relative;
-        }
 .search-input {
             width: 100%;
             height: 2.5rem;
@@ -304,27 +300,6 @@ ul {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 12px rgba(2, 132, 199, 0.15);
-        }
-.search-btn {
-            position: absolute;
-            right: 0.4rem;
-            top: 50%;
-            transform: translateY(-50%);
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-        }
-.search-btn:hover {
-            color: var(--primary);
-            background: var(--bg-glass-hover);
         }
 main {
             padding-top: 2.5rem !important;
@@ -971,14 +946,6 @@ input, select, textarea, .search-input {
                 max-width: 100% !important;
                 width: 100% !important;
             }
-.search-wrapper {
-                grid-column: 1 / span 2 !important;
-                grid-row: 2 !important;
-                width: 100% !important;
-                max-width: 100% !important;
-                margin-top: 0.25rem !important;
-                min-width: 0 !important;
-            }
 .search-input {
                 height: 2.3rem !important;
             }
@@ -1118,12 +1085,6 @@ input, select, textarea, .search-input {
                 border-radius: var(--radius-sm) !important;
             }
         }
-.user-avatar-img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-        }
 
         @keyframes slide-up-dropdown {
 from { transform: translateY(10px); opacity: 0; }
@@ -1163,25 +1124,6 @@ to { transform: translateY(0); opacity: 1; }
         }
         
         @media (max-width: 768px) {
-.search-wrapper {
-                display: none !important;
-                position: absolute !important;
-                top: 100% !important;
-                left: 0.75rem !important;
-                right: 0.75rem !important;
-                width: calc(100% - 1.5rem) !important;
-                background: #ffffff !important;
-                box-shadow: var(--shadow-md) !important;
-                border: 1px solid var(--border-color) !important;
-                border-radius: var(--radius-md) !important;
-                z-index: 9999 !important;
-                margin-top: 0.25rem !important;
-                padding: 0.25rem !important;
-            }
-.search-wrapper.show {
-                display: flex !important;
-                animation: slideSearchDown 0.2s ease-out forwards !important;
-            }
             @keyframes slideSearchDown {
 from {
                     opacity: 0;
@@ -1258,8 +1200,7 @@ to {
             cursor: not-allowed;
         }
 </style>
-    <link rel="stylesheet" href="{{ asset('css/site-header.css') }}?v={{ filemtime(public_path('css/site-header.css')) }}">
-    <script src="{{ asset('js/site-header.js') }}?v={{ filemtime(public_path('js/site-header.js')) }}" defer></script>
+    @include('partials.site-header-assets')
 </head>
 <body>
 
@@ -1272,8 +1213,8 @@ to {
     <!-- Main Content Area -->
     <main class="container">
         <form class="site-page-search" action="/products" method="GET" role="search">
-            <input type="search" id="search-input" name="search" value="{{ request('search') }}" aria-label="T?m ki?m s?n ph?m" placeholder="T?m ki?m s?n ph?m...">
-            <button type="submit" aria-label="T?m ki?m"><i class="fa-solid fa-search"></i></button>
+            <input type="search" id="search-input" name="search" value="{{ request('search') }}" aria-label="Tìm kiếm sản phẩm" placeholder="Tìm kiếm sản phẩm...">
+            <button type="submit" aria-label="Tìm kiếm"><i class="fa-solid fa-search"></i></button>
         </form>
 
 
@@ -1749,6 +1690,7 @@ to {
         // Sync header category pill and sidebar category btn
         function updateCategoryUI(cat) {
             filterState.category = cat;
+            document.dispatchEvent(new CustomEvent('site:catalog-category', { detail: { category: cat } }));
 
             // Update H1 Title
             const h1Element = document.getElementById('page-h1-title');
@@ -1762,13 +1704,7 @@ to {
             }
 
             // Update top bar pills
-            document.querySelectorAll('.cat-pill').forEach(pill => {
-                if (pill.getAttribute('data-category') === cat) {
-                    pill.classList.add('active');
-                } else {
-                    pill.classList.remove('active');
-                }
-            });
+
 
             // Update sidebar buttons
             document.querySelectorAll('.sidebar-cat-btn').forEach(btn => {
@@ -1812,6 +1748,7 @@ to {
         // Reset all filters
         function resetFilters() {
             filterState.category = 'all';
+            document.dispatchEvent(new CustomEvent('site:catalog-category', { detail: { category: 'all' } }));
             filterState.search = '';
             filterState.maxPrice = 600000;
 
@@ -1820,10 +1757,7 @@ to {
             priceRangeSlider.value = 600000;
             priceLimitLabel.innerText = `Tối đa: ${formatVND(600000)}`;
 
-            document.querySelectorAll('.cat-pill').forEach(pill => {
-                if (pill.getAttribute('data-category') === 'all') pill.classList.add('active');
-                else pill.classList.remove('active');
-            });
+
 
             document.querySelectorAll('.sidebar-cat-btn').forEach(btn => {
                 if (btn.getAttribute('data-category') === 'all') btn.classList.add('active');
@@ -1871,16 +1805,6 @@ to {
                 window.location.href = '/checkout';
             });
         }
-
-        // Bind Category Pill clicks (Header)
-        document.querySelectorAll('.cat-pill').forEach(pill => {
-            pill.addEventListener('click', function() {
-                const cat = this.getAttribute('data-category');
-                if (cat) {
-                    updateCategoryUI(cat);
-                }
-            });
-        });
 
         // Bind Sidebar Category Button clicks
         document.querySelectorAll('.sidebar-cat-btn').forEach(btn => {

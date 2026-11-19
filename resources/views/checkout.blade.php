@@ -335,8 +335,7 @@ input, select, textarea, .form-input {
             }
         }
         </style>
-    <link rel="stylesheet" href="{{ asset('css/site-header.css') }}?v={{ filemtime(public_path('css/site-header.css')) }}">
-    <script src="{{ asset('js/site-header.js') }}?v={{ filemtime(public_path('js/site-header.js')) }}" defer></script>
+    @include('partials.site-header-assets')
 </head>
 <body>
 

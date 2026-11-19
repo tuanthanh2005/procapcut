@@ -22,25 +22,6 @@
 .site-page-search button { padding: 10px 14px; border: 0; border-radius: 8px; background: #0284c7; color: #fff; cursor: pointer; }
 body.site-auth-page { display: block; padding: 0; }
 .site-auth-page .auth-container { margin: 40px auto; width: calc(100% - 32px); }
-@media (max-width: 1199px) {
-    .site-header .site-menu-toggle { display: inline-flex; }
-    .site-header .site-links { display: none; position: absolute; left: 0; right: 0; top: 100%; padding: 12px 20px; border-bottom: 1px solid #e2e8f0; background: #fff; box-shadow: 0 10px 20px #0f172a14; flex-direction: column; align-items: stretch; }
-    .site-header.is-menu-open .site-links { display: flex; }
-}
-@media (max-width: 540px) {
-    .site-header .site-navbar { min-height: 64px; gap: 8px; padding: 10px 12px; }
-    .site-header .site-logo { font-size: 17px; gap: 7px; }
-    .site-logo-symbol { width: 32px; height: 32px; }
-    .site-header .site-actions { gap: 8px; }
-    .site-header .site-icon-button { width: 34px; height: 34px; font-size: 14px; }
-    .site-header .user-pill-info, .site-header .user-pill-arrow { display: none; }
-    .site-header .user-pill-btn { padding: 0; border: 0; }
-    .site-header .btn-login-header { font-size: 11px; padding: 9px; gap: 4px; }
-    .site-header .user-dropdown-menu { width: min(270px, calc(100vw - 24px)); }
-}
-@media (prefers-reduced-motion: reduce) { .site-ticker-track { animation: none; } }
-
-
     /* User Profile Pill */
     .site-header .user-menu-wrapper {
         position: relative;
@@ -261,3 +242,21 @@ body.site-auth-page { display: block; padding: 0; }
         background: #0369a1;
         box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
     }
+
+@media (max-width: 1199px) {
+    .site-header .site-menu-toggle { display: inline-flex; }
+    .site-header .site-links { display: none; position: absolute; left: 0; right: 0; top: 100%; padding: 12px 20px; border-bottom: 1px solid #e2e8f0; background: #fff; box-shadow: 0 10px 20px #0f172a14; flex-direction: column; align-items: stretch; }
+    .site-header.is-menu-open .site-links { display: flex; }
+}
+@media (max-width: 540px) {
+    .site-header .site-navbar { min-height: 64px; gap: 8px; padding: 10px 12px; }
+    .site-header .site-logo { font-size: 17px; gap: 7px; }
+    .site-logo-symbol { width: 32px; height: 32px; }
+    .site-header .site-actions { gap: 8px; }
+    .site-header .site-icon-button { width: 34px; height: 34px; font-size: 14px; }
+    .site-header .user-pill-info, .site-header .user-pill-arrow { display: none; }
+    .site-header .user-pill-btn { padding: 0; border: 0; }
+    .site-header .btn-login-header { font-size: 11px; padding: 9px; gap: 4px; }
+    .site-header .user-dropdown-menu { width: min(270px, calc(100vw - 24px)); }
+}
+@media (prefers-reduced-motion: reduce) { .site-ticker-track { animation: none; } }

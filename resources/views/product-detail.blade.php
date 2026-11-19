@@ -1063,14 +1063,6 @@ input, select, textarea, .search-input {
                 max-width: 100% !important;
                 width: 100% !important;
             }
-.search-wrapper {
-                grid-column: 1 / span 2 !important;
-                grid-row: 2 !important;
-                width: 100% !important;
-                max-width: 100% !important;
-                margin-top: 0.25rem !important;
-                min-width: 0 !important;
-            }
 .search-input {
                 height: 2.3rem !important;
             }
@@ -1202,12 +1194,6 @@ body {
                 font-size: 0.82rem !important;
             }
         }
-.user-avatar-img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-        }
 
         @keyframes slide-up-dropdown {
 from { transform: translateY(10px); opacity: 0; }
@@ -1247,25 +1233,6 @@ to { transform: translateY(0); opacity: 1; }
         }
         
         @media (max-width: 768px) {
-.search-wrapper {
-                display: none !important;
-                position: absolute !important;
-                top: 100% !important;
-                left: 0.75rem !important;
-                right: 0.75rem !important;
-                width: calc(100% - 1.5rem) !important;
-                background: #ffffff !important;
-                box-shadow: var(--shadow-md) !important;
-                border: 1px solid var(--border-color) !important;
-                border-radius: var(--radius-md) !important;
-                z-index: 9999 !important;
-                margin-top: 0.25rem !important;
-                padding: 0.25rem !important;
-            }
-.search-wrapper.show {
-                display: flex !important;
-                animation: slideSearchDown 0.2s ease-out forwards !important;
-            }
             @keyframes slideSearchDown {
 from {
                     opacity: 0;
@@ -1301,8 +1268,7 @@ to {
             }
         }
 </style>
-    <link rel="stylesheet" href="{{ asset('css/site-header.css') }}?v={{ filemtime(public_path('css/site-header.css')) }}">
-    <script src="{{ asset('js/site-header.js') }}?v={{ filemtime(public_path('js/site-header.js')) }}" defer></script>
+    @include('partials.site-header-assets')
 </head>
 <body>
 
@@ -1314,8 +1280,8 @@ to {
 
     <main class="container">
         <form class="site-page-search" action="/products" method="GET" role="search">
-            <input type="search" id="search-input" name="search" value="{{ request('search') }}" aria-label="T?m ki?m s?n ph?m" placeholder="T?m ki?m s?n ph?m...">
-            <button type="submit" aria-label="T?m ki?m"><i class="fa-solid fa-search"></i></button>
+            <input type="search" id="search-input" name="search" value="{{ request('search') }}" aria-label="Tìm kiếm sản phẩm" placeholder="Tìm kiếm sản phẩm...">
+            <button type="submit" aria-label="Tìm kiếm"><i class="fa-solid fa-search"></i></button>
         </form>
 
         <!-- Breadcrumb navigation -->

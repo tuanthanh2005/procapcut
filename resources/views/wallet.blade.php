@@ -59,13 +59,6 @@ body {
             padding: 0.45rem 1rem;
             text-align: center;
         }
-.search-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-            max-width: 280px;
-            width: 100%;
-        }
 .search-input {
             width: 100%;
             padding: 0.48rem 2.2rem 0.48rem 2.2rem;
@@ -656,8 +649,7 @@ footer {
             }
         }
     </style>
-    <link rel="stylesheet" href="{{ asset('css/site-header.css') }}?v={{ filemtime(public_path('css/site-header.css')) }}">
-    <script src="{{ asset('js/site-header.js') }}?v={{ filemtime(public_path('js/site-header.js')) }}" defer></script>
+    @include('partials.site-header-assets')
 </head>
 <body>
 

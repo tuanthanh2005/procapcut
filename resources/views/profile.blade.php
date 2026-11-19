@@ -44,12 +44,6 @@ body {
             margin: 0 auto;
             padding: 0 1.75rem;
         }
-.user-avatar-img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-        }
 
         @keyframes slide-up-dropdown {
 from { transform: translateY(10px); opacity: 0; }
@@ -226,13 +220,6 @@ input, select, textarea, .form-input, .form-control {
 .container {
                 padding: 0 0.75rem !important;
             }
-.search-wrapper {
-                grid-column: 1 / span 2 !important;
-                grid-row: 2 !important;
-                width: 100% !important;
-                max-width: 100% !important;
-                margin-top: 0.25rem !important;
-            }
 .search-input {
                 height: 2.3rem !important;
             }
@@ -245,8 +232,7 @@ input, select, textarea, .form-input, .form-control {
             }
         }
 </style>
-    <link rel="stylesheet" href="{{ asset('css/site-header.css') }}?v={{ filemtime(public_path('css/site-header.css')) }}">
-    <script src="{{ asset('js/site-header.js') }}?v={{ filemtime(public_path('js/site-header.js')) }}" defer></script>
+    @include('partials.site-header-assets')
 </head>
 <body>
 

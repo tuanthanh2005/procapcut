@@ -16,6 +16,16 @@ document.addEventListener('DOMContentLoaded', function () {
     header.querySelectorAll('.site-link').forEach(function (link) {
         link.addEventListener('click', function () { setMenuOpen(false); });
     });
+    document.addEventListener('site:catalog-category', function (event) {
+        const api = event.detail.category === 'api-token';
+        header.querySelectorAll('.site-link').forEach(function (link) {
+            const href = link.getAttribute('href');
+            const active = (href === '/products' && !api) || (href === '/products?category=api-token' && api);
+            link.classList.toggle('is-active', active);
+            if (active) link.setAttribute('aria-current', 'page');
+            else link.removeAttribute('aria-current');
+        });
+    });
     header.addEventListener('keydown', function (event) {
         if (event.key === 'Escape' && header.classList.contains('is-menu-open')) {
             setMenuOpen(false);

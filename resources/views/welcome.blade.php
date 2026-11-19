@@ -160,25 +160,6 @@ ul {
 .font-mono {
             font-family: 'JetBrains Mono', monospace;
         }
-.logo-tag {
-            font-size: 0.6rem;
-            padding: 0.1rem 0.35rem;
-            border-radius: 4px;
-            background: #e0f2fe;
-            color: var(--primary);
-            border: 1px solid #bae6fd;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            vertical-align: middle;
-            margin-left: 0.3rem;
-        }
-.search-wrapper {
-            position: relative;
-            flex: 1;
-            max-width: 280px;
-            display: flex;
-            align-items: center;
-        }
 .search-icon-left {
             position: absolute;
             left: 0.85rem;
@@ -219,23 +200,6 @@ ul {
         }
 .search-input::placeholder {
             color: var(--text-dark);
-        }
-.search-btn {
-            position: absolute;
-            right: 0.6rem;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: 0.25rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-.search-btn:hover {
-            color: var(--primary);
         }
 .hero-banner {
             margin-top: 1.25rem;
@@ -1188,12 +1152,6 @@ ul {
             transform: translateY(0);
             opacity: 1;
         }
-.user-avatar-img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-        }
 
         @keyframes slideDown {
 from { opacity: 0; transform: translateY(-8px); }
@@ -1332,9 +1290,6 @@ footer {
 .warranty-grid {
                 grid-template-columns: 1fr;
             }
-.search-wrapper {
-                display: none;
-            }
         }
 
         @media (max-width: 580px) {
@@ -1350,8 +1305,7 @@ footer {
             }
         }
     </style>
-    <link rel="stylesheet" href="{{ asset('css/site-header.css') }}?v={{ filemtime(public_path('css/site-header.css')) }}">
-    <script src="{{ asset('js/site-header.js') }}?v={{ filemtime(public_path('js/site-header.js')) }}" defer></script>
+    @include('partials.site-header-assets')
 </head>
 <body>
 
